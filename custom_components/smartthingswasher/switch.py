@@ -43,6 +43,13 @@ async def async_setup_entry(
         and not any(capability in device.status[MAIN] for capability in CAPABILITIES)
         and not all(capability in device.status[MAIN] for capability in AC_CAPABILITIES)
     )
+    async_add_entities(
+        SmartThingsBubbleSoak(entry_data.client, device, {Capability.SAMSUNG_CE_WASHER_BUBBLE_SOAK})
+        for device in entry_data.devices.values()
+        if Capability.SAMSUNG_CE_WASHER_BUBBLE_SOAK in device.status[MAIN]
+        and not any(capability in device.status[MAIN] for capability in CAPABILITIES)
+        and not all(capability in device.status[MAIN] for capability in AC_CAPABILITIES)
+    )
 
 
 class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
@@ -68,3 +75,28 @@ class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
     def is_on(self) -> bool:
         """Return true if light is on."""
         return self.get_attribute_value(Capability.SWITCH, Attribute.SWITCH) == "on"
+
+
+class SmartThingsBubbleSoak(SmartThingsEntity, SwitchEntity):
+    """Define a SmartThings BubbleSoak switch."""
+
+    _attr_name = None
+
+    async def async_turn_off(self, **kwargs: Any) -> None:
+        """Turn the switch off."""
+        await self.execute_device_command(
+            Capability.SAMSUNG_CE_WASHER_BUBBLE_SOAK,
+            Command.OFF,
+        )
+
+    async def async_turn_on(self, **kwargs: Any) -> None:
+        """Turn the switch on."""
+        await self.execute_device_command(
+            Capability.SAMSUNG_CE_WASHER_BUBBLE_SOAK,
+            Command.ON,
+        )
+
+    @property
+    def is_on(self) -> bool:
+        """Return true if light is on."""
+        return self.get_attribute_value(Capability.SAMSUNG_CE_WASHER_BUBBLE_SOAK, Attribute.STATUS) == "on"
