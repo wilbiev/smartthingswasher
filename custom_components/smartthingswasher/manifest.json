@@ -1,6 +1,6 @@
 {
-    "domain": "smartthings",
-    "name": "SmartThings",
+    "domain": "smartthingswasher",
+    "name": "SmartThingsWasher",
     "codeowners": ["@joostlek"],
     "config_flow": true,
     "dependencies": ["application_credentials"],
