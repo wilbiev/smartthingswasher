@@ -43,13 +43,6 @@ async def async_setup_entry(
         and not any(capability in device.status[MAIN] for capability in CAPABILITIES)
         and not all(capability in device.status[MAIN] for capability in AC_CAPABILITIES)
     )
-    async_add_entities(
-        SmartThingsBubbleSoak(entry_data.client, device, {Capability.SAMSUNG_CE_WASHER_BUBBLE_SOAK})
-        for device in entry_data.devices.values()
-        if Capability.SAMSUNG_CE_WASHER_BUBBLE_SOAK in device.status[MAIN]
-        and not any(capability in device.status[MAIN] for capability in CAPABILITIES)
-        and not all(capability in device.status[MAIN] for capability in AC_CAPABILITIES)
-    )
 
 
 class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):

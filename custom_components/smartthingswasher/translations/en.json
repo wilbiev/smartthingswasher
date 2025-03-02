@@ -276,7 +276,10 @@
             "refrigeration_setpoint": {
                 "name": "Set point"
             },
-            "robot_cleaner_cleaning_mode": {
+            "remote_control_status": {
+                "name": "Remote Control Status"
+            },
+                "robot_cleaner_cleaning_mode": {
                 "name": "Cleaning mode",
                 "state": {
                     "auto": "Auto",
