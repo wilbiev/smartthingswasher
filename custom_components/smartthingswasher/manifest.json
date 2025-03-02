@@ -1,5 +1,5 @@
 {
-    "domain": "smartthingswasher",
+    "domain": "smartthings",
     "name": "SmartThingsWasher",
     "codeowners": ["@joostlek"],
     "config_flow": true,
