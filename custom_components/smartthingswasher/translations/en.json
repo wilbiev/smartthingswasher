@@ -277,9 +277,13 @@
                 "name": "Set point"
             },
             "remote_control_status": {
-                "name": "Remote Control Status"
+                "name": "Remote Control Status",
+                "state": {
+                    "false": "Off",
+                    "true": "On"
+                }
             },
-                "robot_cleaner_cleaning_mode": {
+            "robot_cleaner_cleaning_mode": {
                 "name": "Cleaning mode",
                 "state": {
                     "auto": "Auto",
