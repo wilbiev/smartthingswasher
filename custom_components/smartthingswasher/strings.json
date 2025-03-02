@@ -274,7 +274,7 @@
           "name": "[%key:component::smartthings::entity::sensor::oven_setpoint::name%]"
         },
         "remote_control_status": {
-            "name": "Remote Control Status"
+          "name": "Remote Control Status"
         },
         "robot_cleaner_cleaning_mode": {
           "name": "Cleaning mode",

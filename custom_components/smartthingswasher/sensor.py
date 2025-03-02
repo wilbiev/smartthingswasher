@@ -660,16 +660,6 @@ CAPABILITY_TO_SENSORS: dict[
             )
         ]
     },
-    # Added - Samsung Washer
-    Capability.REMOTE_CONTROL_STATUS: {
-        Attribute.REMOTE_CONTROL_ENABLED: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.REMOTE_CONTROL_ENABLED,
-                translation_key="remote_control_status",
-                entity_category=EntityCategory.DIAGNOSTIC,
-            )
-        ]
-    },
     Capability.ROBOT_CLEANER_CLEANING_MODE: {
         Attribute.ROBOT_CLEANER_CLEANING_MODE: [
             SmartThingsSensorEntityDescription(
