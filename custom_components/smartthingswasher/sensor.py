@@ -946,7 +946,20 @@ CAPABILITY_TO_SENSORS: dict[
                 device_class=SensorDeviceClass.TIMESTAMP,
                 value_fn=dt_util.parse_datetime,
             )
-        ],
+        ]
+    },
+    # Added - Samsung Washer
+    Capability.SAMSUNG_CE_WATER_CONSUMPTION_REPORT: {
+        Attribute.WATER_CONSUMPTION: [
+            SmartThingsSensorEntityDescription(
+                key="water_consumption",
+                state_class=SensorStateClass.TOTAL_INCREASING,
+                device_class=SensorDeviceClass.WATER,
+                native_unit_of_measurement="L",
+                value_fn=lambda value: value["cumulativeAmount"] / 1000,
+                except_if_state_none=True,
+            )
+        ]
     },
 }
 
