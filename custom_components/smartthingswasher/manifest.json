@@ -1,6 +1,6 @@
 {
-    "domain": "smartwasher",
-    "name": "SmartWasher",
+    "domain": "smartthingswasher",
+    "name": "SmartThingsWasher",
     "codeowners": ["@joostlek"],
     "config_flow": true,
     "dependencies": ["application_credentials"],
@@ -29,6 +29,7 @@
     "documentation": "https://www.home-assistant.io/integrations/smartthings",
     "iot_class": "cloud_push",
     "loggers": ["pysmartthings"],
-    "requirements": ["pysmartthings==2.0.0"]
+    "requirements": ["pysmartthings==2.0.0"],
+    "version": "2025.3.1"
   }
   
