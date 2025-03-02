@@ -73,7 +73,7 @@ class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
 
     @property
     def is_on(self) -> bool:
-        """Return true if light is on."""
+        """Return true if switch is on."""
         return self.get_attribute_value(Capability.SWITCH, Attribute.SWITCH) == "on"
 
 
@@ -98,5 +98,5 @@ class SmartThingsBubbleSoak(SmartThingsEntity, SwitchEntity):
 
     @property
     def is_on(self) -> bool:
-        """Return true if light is on."""
+        """Return true if switch is on."""
         return self.get_attribute_value(Capability.SAMSUNG_CE_WASHER_BUBBLE_SOAK, Attribute.STATUS) == "on"
