@@ -42,8 +42,6 @@ CAPABILITY_TO_SWITCHES: dict[
             SwitchEntityDescription(
                 key=Attribute.SWITCH,
                 translation_key="switch",
-                device_class=SwitchDeviceClass.SWITCH,
-                entity_category=EntityCategory.CONFIG,
             )
         ]
     },
@@ -52,8 +50,6 @@ CAPABILITY_TO_SWITCHES: dict[
             SwitchEntityDescription(
                 key="bubblesoak_switch",
                 translation_key="bubblesoak",
-                device_class=SwitchDeviceClass.SWITCH,
-                entity_category=EntityCategory.CONFIG,
             )
         ]
     },
@@ -72,10 +68,19 @@ async def async_setup_entry(
         for device in entry_data.devices.values()
         for capability, attributes in CAPABILITY_TO_SWITCHES.items()
         if capability in device.status[MAIN]
-        and not any(capability in device.status[MAIN] for capability in CAPABILITIES)
-        and not all(capability in device.status[MAIN] for capability in AC_CAPABILITIES)
         for attribute, descriptions in attributes.items()
         for description in descriptions
+        if (
+            not description.capability_ignore_list
+            or not any(
+                all(capability in device.status[MAIN] for capability in capability_list)
+                for capability_list in description.capability_ignore_list
+            )
+        )
+        and (
+            not description.except_if_state_none
+            or device.status[MAIN][capability][attribute].value is not None
+        )
     )
 
 
