@@ -394,7 +394,15 @@
             "freeze_protection": "Freeze protection"
           }
         }
-      }
-    }
+      },
+      "switch": {
+        "bubblesoak": {
+          "name": "BubbleSoak"
+        },
+        "switch": {
+          "name": "Wasmachine"
+        }
+     }
   }
+}
   
