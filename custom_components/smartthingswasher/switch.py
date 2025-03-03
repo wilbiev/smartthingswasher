@@ -33,39 +33,6 @@ AC_CAPABILITIES = (
     Capability.THERMOSTAT_COOLING_SETPOINT,
 )
 
-class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
-    """Describe a SmartThings switch entity."""
-
-    entity_description: SwitchEntityDescription
-
-    def __init__(
-        self,
-        client: SmartThings,
-        device: FullDevice,
-        entity_description: SwitchEntityDescription,
-        capability: Capability,
-        attribute: Attribute,
-    ) -> None:
-        """Init the class."""
-        super().__init__(client, device, {capability})
-        self._attr_unique_id = f"{super().unique_id}{device.device.device_id}{entity_description.key}"
-        self._attribute = attribute
-        self.capability = capability
-        self.entity_description = entity_description
-
-    @property
-    def is_on(self) -> bool:
-        """Return true if switch is on."""
-        return self.device.status.get(self.entity_description.key, False)
-
-    def turn_on(self, **kwargs: Any) -> None:
-        """Turn the switch on."""
-        self._send_command([{"code": self.entity_description.key, "value": True}])
-
-    def turn_off(self, **kwargs: Any) -> None:
-        """Turn the switch off."""
-        self._send_command([{"code": self.entity_description.key, "value": False}])
-
 
 CAPABILITY_TO_SWITCHES: dict[
     Capability, dict[Attribute, list[SwitchEntityDescription]]
@@ -127,7 +94,7 @@ class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
     ) -> None:
         """Init the class."""
         super().__init__(client, device, {capability})
-        self._attr_unique_id = f"{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
+        self._attr_unique_id = f"{super().unique_id}{device.device.device_id}{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description
