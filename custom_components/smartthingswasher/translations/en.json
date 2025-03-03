@@ -394,6 +394,14 @@
             "z_coordinate": {
                 "name": "Z coordinate"
             }
+        },
+        "switch": {
+            "bubblesoak": {
+              "name": "BubbleSoak"
+            },
+            "switch": {
+              "name": "Wasmachine"
+            }
         }
     }
 }
