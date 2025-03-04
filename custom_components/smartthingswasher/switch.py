@@ -48,7 +48,7 @@ CAPABILITY_TO_SWITCHES: dict[
     Capability.SAMSUNG_CE_WASHER_BUBBLE_SOAK: {
         Attribute.STATUS: [
             SwitchEntityDescription(
-                key="bubblesoak_switch",
+                key=Attribute.STATUS,
                 translation_key="bubblesoak",
             )
         ]
