@@ -66,7 +66,7 @@ async def async_setup_entry(
     async_add_entities(
         SmartThingsSwitch(entry_data.client, device, description, capability, attribute)
         for device in entry_data.devices.values()
-        for capability, attributes in CAPABILITY_TO_SWITCHES.items()
+        for capability, attributes, description in CAPABILITY_TO_SWITCHES.items()
         if capability in device.status[MAIN]
         and not any(capability in device.status[MAIN] for capability in CAPABILITIES)
         and not all(capability in device.status[MAIN] for capability in AC_CAPABILITIES)
@@ -84,16 +84,16 @@ class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
         self,
         client: SmartThings,
         device: FullDevice,
-        entity_description: SwitchEntityDescription,
+        description: SwitchEntityDescription,
         capability: Capability,
         attribute: Attribute,
     ) -> None:
         """Init the class."""
         super().__init__(client, device, {capability})
-        self._attr_unique_id = f"{super().unique_id}{device.device.device_id}{entity_description.key}"
+        self._attr_unique_id = f"{super().unique_id}{device.device.device_id}{description.key}"
         self._attribute = attribute
         self.capability = capability
-        self.entity_description = entity_description
+        self.entity_description = description
 
 
     async def async_turn_off(self, **kwargs: Any) -> None:
