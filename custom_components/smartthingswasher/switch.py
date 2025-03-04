@@ -37,19 +37,19 @@ AC_CAPABILITIES = (
 CAPABILITY_TO_SWITCHES: dict[
     Capability, dict[Attribute, list[SwitchEntityDescription]]
 ] = {
-    Capability.SWITCH: {
-        Attribute.SWITCH: [
-            SwitchEntityDescription(
-                key=Attribute.SWITCH,
-                translation_key="switch",
-            )
-        ]
-    },
     Capability.SAMSUNG_CE_WASHER_BUBBLE_SOAK: {
         Attribute.STATUS: [
             SwitchEntityDescription(
                 key=Attribute.STATUS,
                 translation_key="bubblesoak",
+            )
+        ]
+    },
+    Capability.SWITCH: {
+        Attribute.SWITCH: [
+            SwitchEntityDescription(
+                key=Attribute.SWITCH,
+                translation_key="switch",
             )
         ]
     },
