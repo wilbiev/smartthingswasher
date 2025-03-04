@@ -24,7 +24,6 @@ CAPABILITIES = (
     Capability.COLOR_CONTROL,
     Capability.COLOR_TEMPERATURE,
     Capability.FAN_SPEED,
-    Capability.SAMSUNG_CE_WASHER_BUBBLE_SOAK,
 )
 
 AC_CAPABILITIES = (
