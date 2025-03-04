@@ -78,22 +78,20 @@ async def async_setup_entry(
 class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
     """Define a SmartThings switch."""
 
-    _attr_name = None
-
     def __init__(
         self,
         client: SmartThings,
         device: FullDevice,
-        description: SwitchEntityDescription,
+        entity_description: SwitchEntityDescription,
         capability: Capability,
         attribute: Attribute,
     ) -> None:
         """Init the class."""
         super().__init__(client, device, {capability})
-        self._attr_unique_id = f"{super().unique_id}{device.device.device_id}{description.key}"
+        self._attr_unique_id = f"{super().unique_id}{device.device.device_id}{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
-        self.entity_description = description
+        self.entity_description = entity_description
 
 
     async def async_turn_off(self, **kwargs: Any) -> None:
