@@ -1,4 +1,4 @@
-"""Support for switches through the SmartThings cloud API."""
+"""Support for buttons through the SmartThings cloud API."""
 
 from __future__ import annotations
 

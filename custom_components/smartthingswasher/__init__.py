@@ -55,7 +55,7 @@ class SmartThingsPrograms:
 
     course: str
     type: str
-    bubbleSoak_supported: bool
+    bubblesoak_support: bool
     dry_default: str
     dry_options: dict[str]
     rinse_default: str
