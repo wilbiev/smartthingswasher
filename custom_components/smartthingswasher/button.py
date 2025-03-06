@@ -96,7 +96,7 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
         self.capability = capability
         self.entity_description = description
 
-    async def press(self) -> None:
+    async def async_press(self) -> None:
         """Press the button."""
         await self.execute_device_command(
             self.capability,
