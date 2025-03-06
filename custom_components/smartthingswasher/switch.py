@@ -82,17 +82,20 @@ class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
         self,
         client: SmartThings,
         device: FullDevice,
-        description: SwitchEntityDescription,
+        entity_description: SwitchEntityDescription,
         capability: Capability,
         attribute: Attribute,
     ) -> None:
         """Init the class."""
         super().__init__(client, device, {capability})
-        self._attr_unique_id = f"{super().unique_id}{device.device.device_id}{description.key}"
+        self._attr_unique_id = (
+            f"{super().unique_id}{device.device.device_id}{entity_description.key}"
+        )
         self._attribute = attribute
         self.capability = capability
-        self.entity_description = description
-
+        if self.capability == Capability.SWITCH:
+            self._attr_name = None
+        self.entity_description = entity_description
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Turn the switch off."""

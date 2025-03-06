@@ -38,6 +38,43 @@
                 "name": "Valve"
             }
         },
+        "button": {
+            "estimate_operation_time": {
+              "name": "Estimate operation time"
+            },
+            "state_start": {
+              "name": "State start"
+            },
+            "state_cancel": {
+              "name": "State cancel"
+            },
+            "state_pause": {
+              "name": "State pause"
+            },
+            "state_resume": {
+              "name": "State resume"
+            }
+        },
+        "select": {
+            "dryer_dry_level": {
+              "name": "Dryer dry level"
+            },
+            "washer_rinse_cycles": {
+              "name": "Washer rinse cycles"
+            },
+            "washer_soil_level": {
+              "name": "Washer soil level"
+            },
+            "washer_spin_level": {
+              "name": "Washer spin level"
+            },
+            "washer_water_temperature": {
+              "name": "Washer water temperature"
+            },
+            "machine_state": {
+              "name": "Machine state"
+            }
+        },
         "sensor": {
             "air_conditioner_mode": {
                 "name": "Air conditioner mode"
@@ -400,7 +437,7 @@
               "name": "BubbleSoak"
             },
             "switch": {
-              "name": "Wasmachine"
+              "name": "Washer"
             }
         }
     }

@@ -23,37 +23,40 @@ CAPABILITY_TO_BUTTONS: dict[
         Command.START: [
             ButtonEntityDescription(
                 key=Command.START,
-                translation_key="washer_state_start",
+                translation_key="state_start",
                 icon="mdi:play-circle",
-                entity_category=EntityCategory.CONFIG,
             )
         ],
         Command.CANCEL: [
             ButtonEntityDescription(
                 key=Command.CANCEL,
-                translation_key="washer_state_cancel",
+                translation_key="state_cancel",
                 icon="mdi:stop-circle",
-                entity_category=EntityCategory.CONFIG,
             )
         ],
         Command.PAUSE: [
             ButtonEntityDescription(
                 key=Command.PAUSE,
-                translation_key="washer_state_pause",
+                translation_key="state_pause",
                 icon="mdi:pause-circle",
-                entity_category=EntityCategory.CONFIG,
             )
         ],
         Command.RESUME: [
             ButtonEntityDescription(
                 key=Command.RESUME,
-                translation_key="washer_state_resume",
+                translation_key="state_resume",
                 icon="mdi:play-pause",
-                entity_category=EntityCategory.CONFIG,
             )
-        ]
+        ],
+        Command.ESTIMATE_OPERATION_TIME: [
+            ButtonEntityDescription(
+                key=Command.ESTIMATE_OPERATION_TIME,
+                translation_key="estimate_operation_time",
+                icon="mdi:clock-end",
+            )
+        ],
     },
- }
+}
 
 
 async def async_setup_entry(
@@ -86,11 +89,12 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
     ) -> None:
         """Init the class."""
         super().__init__(client, device, {capability})
-        self._attr_unique_id = f"{super().unique_id}{device.device.device_id}{description.key}"
+        self._attr_unique_id = (
+            f"{super().unique_id}{device.device.device_id}{description.key}"
+        )
         self.command = command
         self.capability = capability
         self.entity_description = description
-
 
     async def press(self) -> None:
         """Press the button."""
