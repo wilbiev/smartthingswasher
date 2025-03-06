@@ -5,13 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
 
-from pysmartthings import (
-    CAPABILITY_COMMANDS,
-    Attribute,
-    Capability,
-    Command,
-    SmartThings,
-)
+from pysmartthings import Attribute, Capability, Command, SmartThings
 
 from homeassistant.components.select import SelectEntity, SelectEntityDescription
 from homeassistant.core import HomeAssistant
@@ -28,6 +22,7 @@ class SmartThingsSelectEntityDescription(SelectEntityDescription):
 
     unique_id_separator: str = "."
     options_attribute: Attribute | None = None
+    set_command: Command | None = None
     except_if_state_none: bool = False
 
 
@@ -41,6 +36,18 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="dryer_dry_level",
                 icon="mdi:waves-arrow-up",
                 options_attribute=Attribute.SUPPORTED_DRYER_DRY_LEVEL,
+                set_command=Command.SET_DRYER_DRY_LEVEL,
+            )
+        ]
+    },
+    Capability.CUSTOM_SUPPORTED_OPTIONS: {
+        Attribute.COURSE: [
+            SmartThingsSelectEntityDescription(
+                key=Attribute.COURSE,
+                translation_key="course",
+                icon="mdi:list-box-outline",
+                options_attribute=Attribute.SUPPORTED_COURSES,
+                set_command=Command.SET_COURSE,
             )
         ]
     },
@@ -51,6 +58,7 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="washer_rinse_cycles",
                 icon="mdi:water-sync",
                 options_attribute=Attribute.SUPPORTED_WASHER_RINSE_CYCLES,
+                set_command=Command.SET_WASHER_RINSE_CYCLES,
             )
         ]
     },
@@ -61,6 +69,7 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="washer_soil_level",
                 icon="mdi:brightness-7",
                 options_attribute=Attribute.SUPPORTED_WASHER_SOIL_LEVEL,
+                set_command=Command.SET_WASHER_SOIL_LEVEL,
             )
         ]
     },
@@ -71,6 +80,7 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="washer_spin_level",
                 icon="mdi:autorenew",
                 options_attribute=Attribute.SUPPORTED_WASHER_SPIN_LEVEL,
+                set_command=Command.SET_WASHER_SPIN_LEVEL,
             )
         ]
     },
@@ -81,6 +91,7 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="washer_water_temperature",
                 icon="mdi:water-thermometer",
                 options_attribute=Attribute.SUPPORTED_WASHER_WATER_TEMPERATURE,
+                set_command=Command.SET_WASHER_WATER_TEMPERATURE,
             )
         ]
     },
@@ -91,6 +102,7 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="machine_state",
                 icon="mdi:play-speed",
                 options_attribute=Attribute.SUPPORTED_MACHINE_STATES,
+                set_command=Command.SET_MACHINE_STATE,
             )
         ]
     },
@@ -134,8 +146,8 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         )
         self._attribute = attribute
         self.capability = capability
-        self.command = Command in CAPABILITY_COMMANDS.items()
         self.entity_description = entity_description
+        self.command = self.entity_description.set_command
         options: list[str] = []
         if self.entity_description.options_attribute:
             options = self.get_attribute_value(
@@ -159,8 +171,9 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
 
         return value
 
-    async def select_option(self, option: str) -> None:
+    async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
+
         await self.execute_device_command(
             self.capability,
             self.command,

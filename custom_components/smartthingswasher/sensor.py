@@ -26,6 +26,7 @@ from homeassistant.const import (
     UnitOfMass,
     UnitOfPower,
     UnitOfTemperature,
+    UnitOfTime,
     UnitOfVolume,
 )
 from homeassistant.core import HomeAssistant
@@ -666,6 +667,7 @@ CAPABILITY_TO_SENSORS: dict[
             SmartThingsSensorEntityDescription(
                 key=Attribute.REMOTE_CONTROL_ENABLED,
                 translation_key="remote_control_status",
+                icon="mdi:remote",
                 entity_category=EntityCategory.DIAGNOSTIC,
             )
         ]
@@ -909,8 +911,8 @@ CAPABILITY_TO_SENSORS: dict[
             SmartThingsSensorEntityDescription(
                 key=Attribute.MACHINE_STATE,
                 translation_key="washer_machine_state",
-                options=WASHER_OPTIONS,
                 device_class=SensorDeviceClass.ENUM,
+                options_attribute=Attribute.SUPPORTED_MACHINE_STATES,
             )
         ],
         Attribute.WASHER_JOB_STATE: [
@@ -946,7 +948,43 @@ CAPABILITY_TO_SENSORS: dict[
                 device_class=SensorDeviceClass.TIMESTAMP,
                 value_fn=dt_util.parse_datetime,
             )
-        ]
+        ],
+    },
+    # Added - Samsung Washer
+    Capability.SAMSUNG_CE_WASHER_OPERATING_STATE: {
+        Attribute.OPERATING_STATE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.OPERATING_STATE,
+                translation_key="washer_operating_state",
+                icon="mdi:state-machine",
+                device_class=SensorDeviceClass.ENUM,
+                options_attribute=Attribute.SUPPORTED_OPERATING_STATES,
+            )
+        ],
+        Attribute.OPERATION_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.OPERATION_TIME,
+                translation_key="washer_operation_time",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+                icon="mdi:clock",
+            )
+        ],
+        Attribute.PROGRESS: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.PROGRESS,
+                translation_key="washer_operating_state_progress",
+                native_unit_of_measurement=PERCENTAGE,
+                icon="mdi:progress-clock",
+            )
+        ],
+        Attribute.REMAINING_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.REMAINING_TIME,
+                translation_key="washer_remaining_time",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+                icon="mdi:timelapse",
+            )
+        ],
     },
     # Added - Samsung Washer
     Capability.SAMSUNG_CE_WATER_CONSUMPTION_REPORT: {

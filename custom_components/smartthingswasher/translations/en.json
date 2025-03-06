@@ -56,23 +56,53 @@
             }
         },
         "select": {
+            "course": {
+                "name": "Course",
+                "state": {
+                    "1B": "Katoen",
+                    "1C": "Eco 40-60",
+                    "1D": "Superspeed",
+                    "1E": "15m kort programma",
+                    "20": "Hygienisch stomen",
+                    "21": "Gekleurde was",
+                    "22": "Wol",
+                    "23": "Outdoor",
+                    "24": "Beddengoed",
+                    "25": "Synthetisch",
+                    "26": "Fijne was",
+                    "27": "Spoelen en centrifugeren",
+                    "28": "Afvoeren en centrifugeren",
+                    "29": "Trommelreiniging",
+                    "2B": "AI Wash",
+                    "2D": "Stille was",
+                    "30": "Bewolkte dag",
+                    "32": "Overhemden",
+                    "33": "Handdoeken",
+                    "36": "Wassen en drogen",
+                    "37": "Air Wash",
+                    "38": "Katoen drogen",
+                    "39": "Synthetisch drogen",
+                    "8F": "Intens koud",
+                    "96": "Microfiber"
+                }
+            },
             "dryer_dry_level": {
-              "name": "Dryer dry level"
+                "name": "Dryer dry level"
             },
             "washer_rinse_cycles": {
-              "name": "Washer rinse cycles"
+                "name": "Washer rinse cycles"
             },
             "washer_soil_level": {
-              "name": "Washer soil level"
+                "name": "Washer soil level"
             },
             "washer_spin_level": {
-              "name": "Washer spin level"
+                "name": "Washer spin level"
             },
             "washer_water_temperature": {
-              "name": "Washer water temperature"
+                "name": "Washer water temperature"
             },
             "machine_state": {
-              "name": "Machine state"
+                "name": "Machine state"
             }
         },
         "sensor": {
@@ -421,6 +451,23 @@
             },
             "washer_mode": {
                 "name": "Washer mode"
+            },
+            "washer_operating_state": {
+                "name": "Operating state",
+                "state": {
+                    "ready": "Ready",
+                    "running": "Running",
+                    "paused": "Paused"
+                }
+            },
+            "washer_operating_state_progress": {
+                "name": "Progress"
+            },
+            "washer_operating_time": {
+                "name": "Operating time"
+            },
+            "washer_remaining_time": {
+                "name": "Remaining time"
             },
             "x_coordinate": {
                 "name": "X coordinate"

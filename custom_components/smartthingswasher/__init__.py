@@ -49,6 +49,25 @@ class FullDevice:
     status: dict[str, dict[Capability | str, dict[Attribute | str, Status]]]
 
 
+@dataclass
+class SmartThingsPrograms:
+    """Define an object to hold SmartThings programs."""
+
+    course: str
+    type: str
+    bubbleSoak_supported: bool
+    dry_default: str
+    dry_options: dict[str]
+    rinse_default: str
+    rinse_options: dict[str]
+    soil_default: str
+    soil_options: dict[str]
+    spin_default: str
+    spin_options: dict[str]
+    temp_default: str
+    temp_options: dict[str]
+
+
 type SmartThingsConfigEntry = ConfigEntry[SmartThingsData]
 
 PLATFORMS = [
