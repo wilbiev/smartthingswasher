@@ -1,491 +1,517 @@
 {
-    "config": {
-      "step": {
-        "pick_implementation": {
-          "title": "[%key:common::config_flow::title::oauth2_pick_implementation%]"
-        },
-        "reauth_confirm": {
-          "title": "[%key:common::config_flow::title::reauth%]",
-          "description": "The SmartThings integration needs to re-authenticate your account"
-        }
+  "config": {
+    "step": {
+      "pick_implementation": {
+        "title": "[%key:common::config_flow::title::oauth2_pick_implementation%]"
       },
-      "error": {
-        "already_configured": "[%key:common::config_flow::abort::already_configured_account%]"
-      },
-      "abort": {
-        "authorize_url_timeout": "[%key:common::config_flow::abort::oauth2_authorize_url_timeout%]",
-        "missing_configuration": "[%key:common::config_flow::abort::oauth2_missing_configuration%]",
-        "already_configured": "[%key:common::config_flow::abort::already_configured_account%]",
-        "no_url_available": "[%key:common::config_flow::abort::oauth2_no_url_available%]",
-        "oauth_error": "[%key:common::config_flow::abort::oauth2_error%]",
-        "oauth_timeout": "[%key:common::config_flow::abort::oauth2_timeout%]",
-        "oauth_unauthorized": "[%key:common::config_flow::abort::oauth2_unauthorized%]",
-        "oauth_failed": "[%key:common::config_flow::abort::oauth2_failed%]",
-        "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]",
-        "reauth_account_mismatch": "Authenticated account does not match the account to be reauthenticated. Please log in with the correct account and pick the right location.",
-        "reauth_location_mismatch": "Authenticated location does not match the location to be reauthenticated. Please log in with the correct account and pick the right location."
+      "reauth_confirm": {
+        "title": "[%key:common::config_flow::title::reauth%]",
+        "description": "The SmartThings integration needs to re-authenticate your account"
       }
     },
-    "entity": {
-      "binary_sensor": {
-        "acceleration": {
-          "name": "Acceleration"
-        },
-        "filter_status": {
-          "name": "Filter status"
-        },
-        "valve": {
-          "name": "Valve"
+    "error": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_account%]"
+    },
+    "abort": {
+      "authorize_url_timeout": "[%key:common::config_flow::abort::oauth2_authorize_url_timeout%]",
+      "missing_configuration": "[%key:common::config_flow::abort::oauth2_missing_configuration%]",
+      "already_configured": "[%key:common::config_flow::abort::already_configured_account%]",
+      "no_url_available": "[%key:common::config_flow::abort::oauth2_no_url_available%]",
+      "oauth_error": "[%key:common::config_flow::abort::oauth2_error%]",
+      "oauth_timeout": "[%key:common::config_flow::abort::oauth2_timeout%]",
+      "oauth_unauthorized": "[%key:common::config_flow::abort::oauth2_unauthorized%]",
+      "oauth_failed": "[%key:common::config_flow::abort::oauth2_failed%]",
+      "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]",
+      "reauth_account_mismatch": "Authenticated account does not match the account to be reauthenticated. Please log in with the correct account and pick the right location.",
+      "reauth_location_mismatch": "Authenticated location does not match the location to be reauthenticated. Please log in with the correct account and pick the right location."
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "acceleration": {
+        "name": "Acceleration"
+      },
+      "filter_status": {
+        "name": "Filter status"
+      },
+      "valve": {
+        "name": "Valve"
+      }
+    },
+    "button": {
+      "estimate_operation_time": {
+        "name": "Estimate operation time"
+      },
+      "state_start": {
+        "name": "State start"
+      },
+      "state_cancel": {
+        "name": "State cancel"
+      },
+      "state_pause": {
+        "name": "State pause"
+      },
+      "state_resume": {
+        "name": "State resume"
+      }
+    },
+    "select": {
+      "auto_dispense_detergent_amount": {
+        "name": "Auto detergent amount"
+      },
+      "auto_dispense_softener_amount": {
+        "name": "Auto softener amount"
+      },
+      "course": {
+        "name": "Course",
+        "state": {
+          "1B": "Katoen",
+          "1C": "Eco 40-60",
+          "1D": "Superspeed",
+          "1E": "15m kort programma",
+          "20": "Hygienisch stomen",
+          "21": "Gekleurde was",
+          "22": "Wol",
+          "23": "Outdoor",
+          "24": "Beddengoed",
+          "25": "Synthetisch",
+          "26": "Fijne was",
+          "27": "Spoelen en centrifugeren",
+          "28": "Afvoeren en centrifugeren",
+          "29": "Trommelreiniging",
+          "2B": "AI Wash",
+          "2D": "Stille was",
+          "30": "Bewolkte dag",
+          "32": "Overhemden",
+          "33": "Handdoeken",
+          "36": "Wassen en drogen",
+          "37": "Air Wash",
+          "38": "Katoen drogen",
+          "39": "Synthetisch drogen",
+          "8F": "Intens koud",
+          "96": "Microfiber"
         }
       },
-      "button": {
-        "estimate_operation_time": {
-          "name": "Estimate operation time"
-        },
-        "state_start": {
-          "name": "State start"
-        },
-        "state_cancel": {
-          "name": "State cancel"
-        },
-        "state_pause": {
-          "name": "State pause"
-        },
-        "state_resume": {
-          "name": "State resume"
+      "dryer_dry_level": {
+        "name": "Dryer dry level"
+      },
+      "washer_rinse_cycles": {
+        "name": "Washer rinse cycles"
+      },
+      "washer_soil_level": {
+        "name": "Washer soil level"
+      },
+      "washer_spin_level": {
+        "name": "Washer spin level"
+      },
+      "washer_water_temperature": {
+        "name": "Washer water temperature"
+      },
+      "machine_state": {
+        "name": "Machine state"
+      }
+    },
+    "sensor": {
+      "lighting_mode": {
+        "name": "Activity lighting mode"
+      },
+      "air_conditioner_mode": {
+        "name": "Air conditioner mode"
+      },
+      "air_quality": {
+        "name": "Air quality"
+      },
+      "alarm": {
+        "name": "Alarm",
+        "state": {
+          "both": "Strobe and siren",
+          "strobe": "Strobe",
+          "siren": "Siren",
+          "off": "[%key:common::state::off%]"
         }
       },
-      "select": {
-        "course": {
-          "name": "Course",
-          "state": {
-            "1B": "Katoen",
-            "1C": "Eco 40-60",
-            "1D": "Superspeed",
-            "1E": "15m kort programma",
-            "20": "Hygienisch stomen",
-            "21": "Gekleurde was",
-            "22": "Wol",
-            "23": "Outdoor",
-            "24": "Beddengoed",
-            "25": "Synthetisch",
-            "26": "Fijne was",
-            "27": "Spoelen en centrifugeren",
-            "28": "Afvoeren en centrifugeren",
-            "29": "Trommelreiniging",
-            "2B": "AI Wash",
-            "2D": "Stille was",
-            "30": "Bewolkte dag",
-            "32": "Overhemden",
-            "33": "Handdoeken",
-            "36": "Wassen en drogen",
-            "37": "Air Wash",
-            "38": "Katoen drogen",
-            "39": "Synthetisch drogen",
-            "8F": "Intens koud",
-            "96": "Microfiber"
-          }
-        },
-        "dryer_dry_level": {
-          "name": "Dryer dry level"
-        },
-        "washer_rinse_cycles": {
-          "name": "Washer rinse cycles"
-        },
-        "washer_soil_level": {
-          "name": "Washer soil level"
-        },
-        "washer_spin_level": {
-          "name": "Washer spin level"
-        },
-        "washer_water_temperature": {
-          "name": "Washer water temperature"
-        },
-        "machine_state": {
-          "name": "Machine state"
+      "audio_volume": {
+        "name": "Volume"
+      },
+      "body_mass_index": {
+        "name": "Body mass index"
+      },
+      "body_weight": {
+        "name": "Body weight"
+      },
+      "carbon_monoxide_detector": {
+        "name": "Carbon monoxide detector",
+        "state": {
+          "detected": "Detected",
+          "clear": "Clear",
+          "tested": "Tested"
         }
       },
-      "sensor": {
-        "lighting_mode": {
-          "name": "Activity lighting mode"
-        },
-        "air_conditioner_mode": {
-          "name": "Air conditioner mode"
-        },
-        "air_quality": {
-          "name": "Air quality"
-        },
-        "alarm": {
-          "name": "Alarm",
-          "state": {
-            "both": "Strobe and siren",
-            "strobe": "Strobe",
-            "siren": "Siren",
-            "off": "[%key:common::state::off%]"
-          }
-        },
-        "audio_volume": {
-          "name": "Volume"
-        },
-        "body_mass_index": {
-          "name": "Body mass index"
-        },
-        "body_weight": {
-          "name": "Body weight"
-        },
-        "carbon_monoxide_detector": {
-          "name": "Carbon monoxide detector",
-          "state": {
-            "detected": "Detected",
-            "clear": "Clear",
-            "tested": "Tested"
-          }
-        },
-        "dishwasher_machine_state": {
-          "name": "Machine state",
-          "state": {
-            "pause": "[%key:common::state::paused%]",
-            "run": "Running",
-            "stop": "Stopped"
-          }
-        },
-        "dishwasher_job_state": {
-          "name": "Job state",
-          "state": {
-            "air_wash": "Air wash",
-            "cooling": "Cooling",
-            "drying": "Drying",
-            "finish": "Finish",
-            "pre_drain": "Pre-drain",
-            "pre_wash": "Pre-wash",
-            "rinse": "Rinse",
-            "spin": "Spin",
-            "wash": "Wash",
-            "wrinkle_prevent": "Wrinkle prevention"
-          }
-        },
-        "completion_time": {
-          "name": "Completion time"
-        },
-        "dryer_mode": {
-          "name": "Dryer mode"
-        },
-        "dryer_machine_state": {
-          "name": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::name%]",
-          "state": {
-            "pause": "[%key:common::state::paused%]",
-            "run": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::run%]",
-            "stop": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::stop%]"
-          }
-        },
-        "dryer_job_state": {
-          "name": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::name%]",
-          "state": {
-            "cooling": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::cooling%]",
-            "delay_wash": "[%key:component::smartthings::entity::sensor::washer_job_state::state::delay_wash%]",
-            "drying": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::drying%]",
-            "finished": "[%key:component::smartthings::entity::sensor::oven_job_state::state::finished%]",
-            "none": "[%key:component::smartthings::entity::sensor::washer_job_state::state::none%]",
-            "refreshing": "Refreshing",
-            "weight_sensing": "[%key:component::smartthings::entity::sensor::washer_job_state::state::weight_sensing%]",
-            "wrinkle_prevent": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::wrinkle_prevent%]",
-            "dehumidifying": "Dehumidifying",
-            "ai_drying": "AI drying",
-            "sanitizing": "Sanitizing",
-            "internal_care": "Internal care",
-            "freeze_protection": "Freeze protection",
-            "continuous_dehumidifying": "Continuous dehumidifying",
-            "thawing_frozen_inside": "Thawing frozen inside"
-          }
-        },
-        "equivalent_carbon_dioxide": {
-          "name": "Equivalent carbon dioxide"
-        },
-        "formaldehyde": {
-          "name": "Formaldehyde"
-        },
-        "gas_meter": {
-          "name": "Gas meter"
-        },
-        "gas_meter_calorific": {
-          "name": "Gas meter calorific"
-        },
-        "gas_meter_time": {
-          "name": "Gas meter time"
-        },
-        "infrared_level": {
-          "name": "Infrared level"
-        },
-        "media_input_source": {
-          "name": "Media input source",
-          "state": {
-            "am": "AM",
-            "fm": "FM",
-            "cd": "CD",
-            "hdmi": "HDMI",
-            "hdmi1": "HDMI 1",
-            "hdmi2": "HDMI 2",
-            "hdmi3": "HDMI 3",
-            "hdmi4": "HDMI 4",
-            "hdmi5": "HDMI 5",
-            "hdmi6": "HDMI 6",
-            "digitaltv": "Digital TV",
-            "usb": "USB",
-            "youtube": "YouTube",
-            "aux": "AUX",
-            "bluetooth": "Bluetooth",
-            "digital": "Digital",
-            "melon": "Melon",
-            "wifi": "Wi-Fi",
-            "network": "Network",
-            "optical": "Optical",
-            "coaxial": "Coaxial",
-            "analog1": "Analog 1",
-            "analog2": "Analog 2",
-            "analog3": "Analog 3",
-            "phono": "Phono"
-          }
-        },
-        "media_playback_repeat": {
-          "name": "Media playback repeat"
-        },
-        "media_playback_shuffle": {
-          "name": "Media playback shuffle"
-        },
-        "media_playback_status": {
-          "name": "Media playback status"
-        },
-        "odor_sensor": {
-          "name": "Odor sensor"
-        },
-        "oven_mode": {
-          "name": "Oven mode",
-          "state": {
-            "heating": "Heating",
-            "grill": "Grill",
-            "warming": "Warming",
-            "defrosting": "Defrosting",
-            "conventional": "Conventional",
-            "bake": "Bake",
-            "bottom_heat": "Bottom heat",
-            "convection_bake": "Convection bake",
-            "convection_roast": "Convection roast",
-            "broil": "Broil",
-            "convection_broil": "Convection broil",
-            "steam_cook": "Steam cook",
-            "steam_bake": "Steam bake",
-            "steam_roast": "Steam roast",
-            "steam_bottom_heat_plus_convection": "Steam bottom heat plus convection",
-            "microwave": "Microwave",
-            "microwave_plus_grill": "Microwave plus grill",
-            "microwave_plus_convection": "Microwave plus convection",
-            "microwave_plus_hot_blast": "Microwave plus hot blast",
-            "microwave_plus_hot_blast_2": "Microwave plus hot blast 2",
-            "slim_middle": "Slim middle",
-            "slim_strong": "Slim strong",
-            "slow_cook": "Slow cook",
-            "proof": "Proof",
-            "dehydrate": "Dehydrate",
-            "others": "Others",
-            "strong_steam": "Strong steam",
-            "descale": "Descale",
-            "rinse": "Rinse"
-          }
-        },
-        "oven_machine_state": {
-          "name": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::name%]",
-          "state": {
-            "ready": "Ready",
-            "running": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::run%]",
-            "paused": "[%key:common::state::paused%]"
-          }
-        },
-        "oven_job_state": {
-          "name": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::name%]",
-          "state": {
-            "cleaning": "Cleaning",
-            "cooking": "Cooking",
-            "cooling": "Cooling",
-            "draining": "Draining",
-            "preheat": "Preheat",
-            "ready": "Ready",
-            "rinsing": "Rinsing",
-            "finished": "Finished",
-            "scheduled_start": "Scheduled start",
-            "warming": "Warming",
-            "defrosting": "Defrosting",
-            "sensing": "Sensing",
-            "searing": "Searing",
-            "fast_preheat": "Fast preheat",
-            "scheduled_end": "Scheduled end",
-            "stone_heating": "Stone heating",
-            "time_hold_preheat": "Time hold preheat"
-          }
-        },
-        "oven_setpoint": {
-          "name": "Set point"
-        },
-        "energy_difference": {
-          "name": "Energy difference"
-        },
-        "power_energy": {
-          "name": "Power energy"
-        },
-        "energy_saved": {
-          "name": "Energy saved"
-        },
-        "power_source": {
-          "name": "Power source"
-        },
-        "refrigeration_setpoint": {
-          "name": "[%key:component::smartthings::entity::sensor::oven_setpoint::name%]"
-        },
-        "remote_control_status": {
-          "name": "Remote Control Status",
-          "state": {
-            "false": "[%key:common::state::off%]",
-            "true": "[%key:common::state::on%]"
-          }
-        },
-        "robot_cleaner_cleaning_mode": {
-          "name": "Cleaning mode",
-          "state": {
-            "auto": "Auto",
-            "part": "Partial",
-            "repeat": "Repeat",
-            "manual": "Manual",
-            "stop": "[%key:common::action::stop%]",
-            "map": "Map"
-          }
-        },
-        "robot_cleaner_movement": {
-          "name": "Movement",
-          "state": {
-            "homing": "Homing",
-            "idle": "[%key:common::state::idle%]",
-            "charging": "[%key:common::state::charging%]",
-            "alarm": "Alarm",
-            "off": "[%key:common::state::off%]",
-            "reserve": "Reserve",
-            "point": "Point",
-            "after": "After",
-            "cleaning": "Cleaning",
-            "pause": "[%key:common::state::paused%]"
-          }
-        },
-        "robot_cleaner_turbo_mode": {
-          "name": "Turbo mode",
-          "state": {
-            "on": "[%key:common::state::on%]",
-            "off": "[%key:common::state::off%]",
-            "silence": "Silent",
-            "extra_silence": "Extra silent"
-          }
-        },
-        "link_quality": {
-          "name": "Link quality"
-        },
-        "smoke_detector": {
-          "name": "Smoke detector",
-          "state": {
-            "detected": "[%key:component::smartthings::entity::sensor::carbon_monoxide_detector::state::detected%]",
-            "clear": "[%key:component::smartthings::entity::sensor::carbon_monoxide_detector::state::clear%]",
-            "tested": "[%key:component::smartthings::entity::sensor::carbon_monoxide_detector::state::tested%]"
-          }
-        },
-        "thermostat_cooling_setpoint": {
-          "name": "Cooling set point"
-        },
-        "thermostat_fan_mode": {
-          "name": "Fan mode"
-        },
-        "thermostat_heating_setpoint": {
-          "name": "Heating set point"
-        },
-        "thermostat_mode": {
-          "name": "Mode"
-        },
-        "thermostat_operating_state": {
-          "name": "Operating state"
-        },
-        "thermostat_setpoint": {
-          "name": "[%key:component::smartthings::entity::sensor::oven_setpoint::name%]"
-        },
-        "x_coordinate": {
-          "name": "X coordinate"
-        },
-        "y_coordinate": {
-          "name": "Y coordinate"
-        },
-        "z_coordinate": {
-          "name": "Z coordinate"
-        },
-        "tv_channel": {
-          "name": "TV channel"
-        },
-        "tv_channel_name": {
-          "name": "TV channel name"
-        },
-        "uv_index": {
-          "name": "UV index"
-        },
-        "washer_mode": {
-          "name": "Washer mode"
-        },
-        "washer_machine_state": {
-          "name": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::name%]",
-          "state": {
-            "pause": "[%key:common::state::paused%]",
-            "run": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::run%]",
-            "stop": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::stop%]"
-          }
-        },
-        "washer_operating_state": {
-          "name": "Operating state",
-          "state": {
-            "ready": "[%key:component::smartthings::entity::sensor::oven_machine_state::ready%]",
-            "running": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::run%]",
-            "paused": "[%key:common::state::paused%]"
+      "completion_time": {
+        "name": "Completion time"
+      },
+      "dishwasher_machine_state": {
+        "name": "Machine state",
+        "state": {
+          "pause": "[%key:common::state::paused%]",
+          "run": "Running",
+          "stop": "Stopped"
         }
       },
-        "washer_operating_state_progress": {
-          "name": "Progress"
-        },
-        "washer_operating_time": {
-          "name": "Operating time"
-        },
-        "washer_remaining_time": {
-          "name": "Remaining time"
-        },
-        "washer_job_state": {
-          "name": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::name%]",
-          "state": {
-            "air_wash": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::air_wash%]",
-            "ai_rinse": "AI rinse",
-            "ai_spin": "AI spin",
-            "ai_wash": "AI wash",
-            "cooling": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::cooling%]",
-            "delay_wash": "Delay wash",
-            "drying": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::drying%]",
-            "finish": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::finish%]",
-            "none": "None",
-            "pre_wash": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::pre_wash%]",
-            "rinse": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::rinse%]",
-            "spin": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::spin%]",
-            "wash": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::wash%]",
-            "weight_sensing": "Weight sensing",
-            "wrinkle_prevent": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::wrinkle_prevent%]",
-            "freeze_protection": "Freeze protection"
-          }
+      "dishwasher_job_state": {
+        "name": "Job state",
+        "state": {
+          "air_wash": "Air wash",
+          "cooling": "Cooling",
+          "drying": "Drying",
+          "finish": "Finish",
+          "pre_drain": "Pre-drain",
+          "pre_wash": "Pre-wash",
+          "rinse": "Rinse",
+          "spin": "Spin",
+          "wash": "Wash",
+          "wrinkle_prevent": "Wrinkle prevention"
         }
+      },
+      "dryer_mode": {
+        "name": "Dryer mode"
+      },
+      "dryer_machine_state": {
+        "name": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::name%]",
+        "state": {
+          "pause": "[%key:common::state::paused%]",
+          "run": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::run%]",
+          "stop": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::stop%]"
+        }
+      },
+      "dryer_job_state": {
+        "name": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::name%]",
+        "state": {
+          "cooling": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::cooling%]",
+          "delay_wash": "[%key:component::smartthings::entity::sensor::washer_job_state::state::delay_wash%]",
+          "drying": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::drying%]",
+          "finished": "[%key:component::smartthings::entity::sensor::oven_job_state::state::finished%]",
+          "none": "[%key:component::smartthings::entity::sensor::washer_job_state::state::none%]",
+          "refreshing": "Refreshing",
+          "weight_sensing": "[%key:component::smartthings::entity::sensor::washer_job_state::state::weight_sensing%]",
+          "wrinkle_prevent": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::wrinkle_prevent%]",
+          "dehumidifying": "Dehumidifying",
+          "ai_drying": "AI drying",
+          "sanitizing": "Sanitizing",
+          "internal_care": "Internal care",
+          "freeze_protection": "Freeze protection",
+          "continuous_dehumidifying": "Continuous dehumidifying",
+          "thawing_frozen_inside": "Thawing frozen inside"
+        }
+      },
+      "equivalent_carbon_dioxide": {
+        "name": "Equivalent carbon dioxide"
+      },
+      "formaldehyde": {
+        "name": "Formaldehyde"
+      },
+      "gas_meter": {
+        "name": "Gas meter"
+      },
+      "gas_meter_calorific": {
+        "name": "Gas meter calorific"
+      },
+      "gas_meter_time": {
+        "name": "Gas meter time"
+      },
+      "infrared_level": {
+        "name": "Infrared level"
+      },
+      "media_input_source": {
+        "name": "Media input source",
+        "state": {
+          "am": "AM",
+          "fm": "FM",
+          "cd": "CD",
+          "hdmi": "HDMI",
+          "hdmi1": "HDMI 1",
+          "hdmi2": "HDMI 2",
+          "hdmi3": "HDMI 3",
+          "hdmi4": "HDMI 4",
+          "hdmi5": "HDMI 5",
+          "hdmi6": "HDMI 6",
+          "digitaltv": "Digital TV",
+          "usb": "USB",
+          "youtube": "YouTube",
+          "aux": "AUX",
+          "bluetooth": "Bluetooth",
+          "digital": "Digital",
+          "melon": "Melon",
+          "wifi": "Wi-Fi",
+          "network": "Network",
+          "optical": "Optical",
+          "coaxial": "Coaxial",
+          "analog1": "Analog 1",
+          "analog2": "Analog 2",
+          "analog3": "Analog 3",
+          "phono": "Phono"
+        }
+      },
+      "media_playback_repeat": {
+        "name": "Media playback repeat"
+      },
+      "media_playback_shuffle": {
+        "name": "Media playback shuffle"
+      },
+      "media_playback_status": {
+        "name": "Media playback status"
+      },
+      "odor_sensor": {
+        "name": "Odor sensor"
+      },
+      "oven_mode": {
+        "name": "Oven mode",
+        "state": {
+          "heating": "Heating",
+          "grill": "Grill",
+          "warming": "Warming",
+          "defrosting": "Defrosting",
+          "conventional": "Conventional",
+          "bake": "Bake",
+          "bottom_heat": "Bottom heat",
+          "convection_bake": "Convection bake",
+          "convection_roast": "Convection roast",
+          "broil": "Broil",
+          "convection_broil": "Convection broil",
+          "steam_cook": "Steam cook",
+          "steam_bake": "Steam bake",
+          "steam_roast": "Steam roast",
+          "steam_bottom_heat_plus_convection": "Steam bottom heat plus convection",
+          "microwave": "Microwave",
+          "microwave_plus_grill": "Microwave plus grill",
+          "microwave_plus_convection": "Microwave plus convection",
+          "microwave_plus_hot_blast": "Microwave plus hot blast",
+          "microwave_plus_hot_blast_2": "Microwave plus hot blast 2",
+          "slim_middle": "Slim middle",
+          "slim_strong": "Slim strong",
+          "slow_cook": "Slow cook",
+          "proof": "Proof",
+          "dehydrate": "Dehydrate",
+          "others": "Others",
+          "strong_steam": "Strong steam",
+          "descale": "Descale",
+          "rinse": "Rinse"
+        }
+      },
+      "oven_machine_state": {
+        "name": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::name%]",
+        "state": {
+          "ready": "Ready",
+          "running": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::run%]",
+          "paused": "[%key:common::state::paused%]"
+        }
+      },
+      "oven_job_state": {
+        "name": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::name%]",
+        "state": {
+          "cleaning": "Cleaning",
+          "cooking": "Cooking",
+          "cooling": "Cooling",
+          "draining": "Draining",
+          "preheat": "Preheat",
+          "ready": "Ready",
+          "rinsing": "Rinsing",
+          "finished": "Finished",
+          "scheduled_start": "Scheduled start",
+          "warming": "Warming",
+          "defrosting": "Defrosting",
+          "sensing": "Sensing",
+          "searing": "Searing",
+          "fast_preheat": "Fast preheat",
+          "scheduled_end": "Scheduled end",
+          "stone_heating": "Stone heating",
+          "time_hold_preheat": "Time hold preheat"
+        }
+      },
+      "oven_setpoint": {
+        "name": "Set point"
+      },
+      "energy_difference": {
+        "name": "Energy difference"
+      },
+      "power_energy": {
+        "name": "Power energy"
+      },
+      "energy_saved": {
+        "name": "Energy saved"
+      },
+      "power_source": {
+        "name": "Power source"
+      },
+      "refrigeration_setpoint": {
+        "name": "[%key:component::smartthings::entity::sensor::oven_setpoint::name%]"
+      },
+      "remaining_amount_dispense_detergent": {
+        "name": "Remaining detergent",
+        "state": {
+          "extra": "Extra",
+          "less": "Less",
+          "none": "None",
+          "normal": "Normal",
+          "unknown": "Unknown"
+        }
+      },
+      "remaining_amount_dispense_softener": {
+        "name": "Remaining softener",
+        "state": {
+          "extra": "[%key:component::smartthings::entity::sensor::remaining_amount_dispense_detergent::extra%]",
+          "less": "[%key:component::smartthings::entity::sensor::remaining_amount_dispense_detergent::less%]",
+          "none": "[%key:component::smartthings::entity::sensor::remaining_amount_dispense_detergent::none%]",
+          "normal": "[%key:component::smartthings::entity::sensor::remaining_amount_dispense_detergent::normal%]",
+          "unknown": "[%key:component::smartthings::entity::sensor::remaining_amount_dispense_detergent::unknown%]"
+        }
+      },
+      "remote_control_status": {
+        "name": "Remote Control Status",
+        "state": {
+          "false": "[%key:common::state::off%]",
+          "true": "[%key:common::state::on%]"
+        }
+      },
+      "robot_cleaner_cleaning_mode": {
+        "name": "Cleaning mode",
+        "state": {
+          "auto": "Auto",
+          "part": "Partial",
+          "repeat": "Repeat",
+          "manual": "Manual",
+          "stop": "[%key:common::action::stop%]",
+          "map": "Map"
+        }
+      },
+      "robot_cleaner_movement": {
+        "name": "Movement",
+        "state": {
+          "homing": "Homing",
+          "idle": "[%key:common::state::idle%]",
+          "charging": "[%key:common::state::charging%]",
+          "alarm": "Alarm",
+          "off": "[%key:common::state::off%]",
+          "reserve": "Reserve",
+          "point": "Point",
+          "after": "After",
+          "cleaning": "Cleaning",
+          "pause": "[%key:common::state::paused%]"
+        }
+      },
+      "robot_cleaner_turbo_mode": {
+        "name": "Turbo mode",
+        "state": {
+          "on": "[%key:common::state::on%]",
+          "off": "[%key:common::state::off%]",
+          "silence": "Silent",
+          "extra_silence": "Extra silent"
+        }
+      },
+      "link_quality": {
+        "name": "Link quality"
+      },
+      "smoke_detector": {
+        "name": "Smoke detector",
+        "state": {
+          "detected": "[%key:component::smartthings::entity::sensor::carbon_monoxide_detector::state::detected%]",
+          "clear": "[%key:component::smartthings::entity::sensor::carbon_monoxide_detector::state::clear%]",
+          "tested": "[%key:component::smartthings::entity::sensor::carbon_monoxide_detector::state::tested%]"
+        }
+      },
+      "thermostat_cooling_setpoint": {
+        "name": "Cooling set point"
+      },
+      "thermostat_fan_mode": {
+        "name": "Fan mode"
+      },
+      "thermostat_heating_setpoint": {
+        "name": "Heating set point"
+      },
+      "thermostat_mode": {
+        "name": "Mode"
+      },
+      "thermostat_operating_state": {
+        "name": "Operating state"
+      },
+      "thermostat_setpoint": {
+        "name": "[%key:component::smartthings::entity::sensor::oven_setpoint::name%]"
+      },
+      "x_coordinate": {
+        "name": "X coordinate"
+      },
+      "y_coordinate": {
+        "name": "Y coordinate"
+      },
+      "z_coordinate": {
+        "name": "Z coordinate"
+      },
+      "tv_channel": {
+        "name": "TV channel"
+      },
+      "tv_channel_name": {
+        "name": "TV channel name"
+      },
+      "uv_index": {
+        "name": "UV index"
+      },
+      "washer_mode": {
+        "name": "Washer mode"
+      },
+      "washer_machine_state": {
+        "name": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::name%]",
+        "state": {
+          "pause": "[%key:common::state::paused%]",
+          "run": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::run%]",
+          "stop": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::stop%]"
+        }
+      },
+      "washer_operating_state": {
+        "name": "Operating state",
+        "state": {
+          "ready": "[%key:component::smartthings::entity::sensor::oven_machine_state::ready%]",
+          "running": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::run%]",
+          "paused": "[%key:common::state::paused%]"
+        }
+      },
+      "washer_operating_progress": {
+        "name": "Progress"
+      },
+      "washer_operation_time": {
+        "name": "Operation time"
+      },
+      "washer_remaining_time": {
+        "name": "Remaining time"
+      },
+      "washer_job_state": {
+        "name": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::name%]",
+        "state": {
+          "air_wash": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::air_wash%]",
+          "ai_rinse": "AI rinse",
+          "ai_spin": "AI spin",
+          "ai_wash": "AI wash",
+          "cooling": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::cooling%]",
+          "delay_wash": "Delay wash",
+          "drying": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::drying%]",
+          "finish": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::finish%]",
+          "none": "None",
+          "pre_wash": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::pre_wash%]",
+          "rinse": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::rinse%]",
+          "spin": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::spin%]",
+          "wash": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::wash%]",
+          "weight_sensing": "Weight sensing",
+          "wrinkle_prevent": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::wrinkle_prevent%]",
+          "freeze_protection": "Freeze protection"
+        }
+      }
+    },
+    "switch": {
+      "bubblesoak": {
+        "name": "BubbleSoak"
       },
       "switch": {
-        "bubblesoak": {
-          "name": "BubbleSoak"
-        },
-        "switch": {
-          "name": "Washer"
-        }
-     }
+        "name": "Washer"
+      }
+    }
   }
 }

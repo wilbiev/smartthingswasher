@@ -951,6 +951,42 @@ CAPABILITY_TO_SENSORS: dict[
         ],
     },
     # Added - Samsung Washer
+    Capability.SAMSUNG_CE_AUTO_DISPENSE_DETERGENT: {
+        Attribute.REMAINING_AMOUNT: [
+            SmartThingsSensorEntityDescription(
+                key="remaining_detergent",
+                translation_key="remaining_amount_dispense_detergent",
+                icon="mdi:bottle-tonic-outline",
+                options=[
+                    "extra",
+                    "less",
+                    "none",
+                    "normal",
+                    "unknown",
+                ],
+                device_class=SensorDeviceClass.ENUM,
+            )
+        ]
+    },
+    # Added - Samsung Washer
+    Capability.SAMSUNG_CE_AUTO_DISPENSE_SOFTENER: {
+        Attribute.REMAINING_AMOUNT: [
+            SmartThingsSensorEntityDescription(
+                key="remaining_softener",
+                translation_key="remaining_amount_dispense_softener",
+                icon="mdi:bottle-tonic-outline",
+                options=[
+                    "extra",
+                    "less",
+                    "none",
+                    "normal",
+                    "unknown",
+                ],
+                device_class=SensorDeviceClass.ENUM,
+            )
+        ]
+    },
+    # Added - Samsung Washer
     Capability.SAMSUNG_CE_WASHER_OPERATING_STATE: {
         Attribute.OPERATING_STATE: [
             SmartThingsSensorEntityDescription(
@@ -972,7 +1008,7 @@ CAPABILITY_TO_SENSORS: dict[
         Attribute.PROGRESS: [
             SmartThingsSensorEntityDescription(
                 key=Attribute.PROGRESS,
-                translation_key="washer_operating_state_progress",
+                translation_key="washer_operating_progress",
                 native_unit_of_measurement=PERCENTAGE,
                 icon="mdi:progress-clock",
             )
@@ -1053,7 +1089,7 @@ class SmartThingsSensor(SmartThingsEntity, SensorEntity):
     ) -> None:
         """Init the class."""
         super().__init__(client, device, {capability})
-        self._attr_unique_id = f"{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
+        self._attr_unique_id = f"{super().unique_id}{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description

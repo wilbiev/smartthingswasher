@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime
+from enum import StrEnum
 
 from pysmartthings import Attribute, Capability, Command, SmartThings
 
@@ -26,9 +27,37 @@ class SmartThingsSelectEntityDescription(SelectEntityDescription):
     except_if_state_none: bool = False
 
 
+class Unsupported_Command(StrEnum):
+    """Updated Command model in progress."""
+
+    SET_AMOUNT = "setAmount"
+
+
 CAPABILITY_TO_SELECTS: dict[
     Capability, dict[Attribute, list[SelectEntityDescription]]
 ] = {
+    Capability.SAMSUNG_CE_AUTO_DISPENSE_DETERGENT: {
+        Attribute.AMOUNT: [
+            SmartThingsSelectEntityDescription(
+                key="auto_detergent",
+                translation_key="auto_dispense_detergent_amount",
+                icon="mdi:bottle-tonic",
+                options_attribute=Attribute.SUPPORTED_AMOUNT,
+                set_command=Unsupported_Command.SET_AMOUNT,
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_AUTO_DISPENSE_SOFTENER: {
+        Attribute.AMOUNT: [
+            SmartThingsSelectEntityDescription(
+                key="auto_softener",
+                translation_key="auto_dispense_softener_amount",
+                icon="mdi:bottle-tonic",
+                options_attribute=Attribute.SUPPORTED_AMOUNT,
+                set_command=Unsupported_Command.SET_AMOUNT,
+            )
+        ]
+    },
     Capability.CUSTOM_DRYER_DRY_LEVEL: {
         Attribute.DRYER_DRY_LEVEL: [
             SmartThingsSelectEntityDescription(
@@ -141,9 +170,7 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
     ) -> None:
         """Init the class."""
         super().__init__(client, device, {capability})
-        self._attr_unique_id = (
-            f"{super().unique_id}{device.device.device_id}{entity_description.key}"
-        )
+        self._attr_unique_id = f"{super().unique_id}{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description
