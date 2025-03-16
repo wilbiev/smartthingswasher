@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, cast
+from typing import Any
 
 from pysmartthings import (
     Attribute,
@@ -16,7 +16,7 @@ from pysmartthings import (
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity
 
-from . import FullDevice
+from . import FullDevice, Program
 from .const import DOMAIN, MAIN
 
 
@@ -27,11 +27,17 @@ class SmartThingsEntity(Entity):
     _attr_has_entity_name = True
 
     def __init__(
-        self, client: SmartThings, device: FullDevice, capabilities: set[Capability]
+        self,
+        client: SmartThings,
+        device: FullDevice,
+        rooms: dict[str, str],
+        capabilities: set[Capability],
+        program: Program | None = None,
     ) -> None:
         """Initialize the instance."""
         self.client = client
         self.capabilities = capabilities
+        self.program = program
         self._internal_state: dict[Capability | str, dict[Attribute | str, Status]] = {
             capability: device.status[MAIN][capability]
             for capability in capabilities
@@ -43,20 +49,33 @@ class SmartThingsEntity(Entity):
             configuration_url="https://account.smartthings.com",
             identifiers={(DOMAIN, device.device.device_id)},
             name=device.device.label,
+            suggested_area=(
+                rooms.get(device.device.room_id) if device.device.room_id else None
+            ),
         )
-        if (ocf := device.status[MAIN].get(Capability.OCF)) is not None:
+        if device.device.parent_device_id:
+            self._attr_device_info["via_device"] = (
+                DOMAIN,
+                device.device.parent_device_id,
+            )
+        if (ocf := device.device.ocf) is not None:
             self._attr_device_info.update(
                 {
-                    "manufacturer": cast(
-                        str | None, ocf[Attribute.MANUFACTURER_NAME].value
+                    "manufacturer": ocf.manufacturer_name,
+                    "model": (
+                        (ocf.model_number.split("|")[0]) if ocf.model_number else None
                     ),
-                    "model": cast(str | None, ocf[Attribute.MODEL_NUMBER].value),
-                    "hw_version": cast(
-                        str | None, ocf[Attribute.HARDWARE_VERSION].value
-                    ),
-                    "sw_version": cast(
-                        str | None, ocf[Attribute.OCF_FIRMWARE_VERSION].value
-                    ),
+                    "hw_version": ocf.hardware_version,
+                    "sw_version": ocf.firmware_version,
+                }
+            )
+        if (viper := device.device.viper) is not None:
+            self._attr_device_info.update(
+                {
+                    "manufacturer": viper.manufacturer_name,
+                    "model": viper.model_name,
+                    "hw_version": viper.hardware_version,
+                    "sw_version": viper.software_version,
                 }
             )
 

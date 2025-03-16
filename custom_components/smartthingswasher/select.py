@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime
-from enum import StrEnum
 
 from pysmartthings import Attribute, Capability, Command, SmartThings
 
@@ -15,6 +14,8 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from . import FullDevice, SmartThingsConfigEntry
 from .const import MAIN
 from .entity import SmartThingsEntity
+from .models import SupportedOption
+from .utils import translate_program_course
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -25,12 +26,7 @@ class SmartThingsSelectEntityDescription(SelectEntityDescription):
     options_attribute: Attribute | None = None
     set_command: Command | None = None
     except_if_state_none: bool = False
-
-
-class Unsupported_Command(StrEnum):
-    """Updated Command model in progress."""
-
-    SET_AMOUNT = "setAmount"
+    supported_option: SupportedOption | None = None
 
 
 CAPABILITY_TO_SELECTS: dict[
@@ -43,7 +39,7 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="auto_dispense_detergent_amount",
                 icon="mdi:bottle-tonic",
                 options_attribute=Attribute.SUPPORTED_AMOUNT,
-                set_command=Unsupported_Command.SET_AMOUNT,
+                set_command=Command.SET_AMOUNT,
             )
         ]
     },
@@ -54,7 +50,7 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="auto_dispense_softener_amount",
                 icon="mdi:bottle-tonic",
                 options_attribute=Attribute.SUPPORTED_AMOUNT,
-                set_command=Unsupported_Command.SET_AMOUNT,
+                set_command=Command.SET_AMOUNT,
             )
         ]
     },
@@ -66,6 +62,7 @@ CAPABILITY_TO_SELECTS: dict[
                 icon="mdi:waves-arrow-up",
                 options_attribute=Attribute.SUPPORTED_DRYER_DRY_LEVEL,
                 set_command=Command.SET_DRYER_DRY_LEVEL,
+                supported_option=SupportedOption.DRYING_LEVEL,
             )
         ]
     },
@@ -88,6 +85,7 @@ CAPABILITY_TO_SELECTS: dict[
                 icon="mdi:water-sync",
                 options_attribute=Attribute.SUPPORTED_WASHER_RINSE_CYCLES,
                 set_command=Command.SET_WASHER_RINSE_CYCLES,
+                supported_option=SupportedOption.RINSE_CYCLE,
             )
         ]
     },
@@ -99,6 +97,7 @@ CAPABILITY_TO_SELECTS: dict[
                 icon="mdi:brightness-7",
                 options_attribute=Attribute.SUPPORTED_WASHER_SOIL_LEVEL,
                 set_command=Command.SET_WASHER_SOIL_LEVEL,
+                supported_option=SupportedOption.SOIL_LEVEL,
             )
         ]
     },
@@ -110,6 +109,7 @@ CAPABILITY_TO_SELECTS: dict[
                 icon="mdi:autorenew",
                 options_attribute=Attribute.SUPPORTED_WASHER_SPIN_LEVEL,
                 set_command=Command.SET_WASHER_SPIN_LEVEL,
+                supported_option=SupportedOption.SPIN_LEVEL,
             )
         ]
     },
@@ -121,6 +121,7 @@ CAPABILITY_TO_SELECTS: dict[
                 icon="mdi:water-thermometer",
                 options_attribute=Attribute.SUPPORTED_WASHER_WATER_TEMPERATURE,
                 set_command=Command.SET_WASHER_WATER_TEMPERATURE,
+                supported_option=SupportedOption.WATER_TEMPERATURE,
             )
         ]
     },
@@ -143,15 +144,34 @@ async def async_setup_entry(
     entry: SmartThingsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Add switches for a config entry."""
+    """Add selects for a config entry."""
     entry_data = entry.runtime_data
     async_add_entities(
-        SmartThingsSelect(entry_data.client, device, description, capability, attribute)
+        SmartThingsSelect(
+            entry_data.client,
+            device,
+            description,
+            entry_data.rooms,
+            capability,
+            attribute,
+        )
         for device in entry_data.devices.values()
         for capability, attributes in CAPABILITY_TO_SELECTS.items()
         if capability in device.status[MAIN]
         for attribute, descriptions in attributes.items()
         for description in descriptions
+    )
+    async_add_entities(
+        SmartThingsProgramSelect(
+            entry_data.client,
+            device,
+            entry_data.rooms,
+            Capability.SAMSUNG_CE_WASHER_CYCLE,
+            Attribute.WASHER_CYCLE,
+        )
+        for device in entry_data.devices.values()
+        if device.programs is not None
+        if Capability.SAMSUNG_CE_WASHER_CYCLE in device.status[MAIN]
     )
 
 
@@ -165,11 +185,12 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         client: SmartThings,
         device: FullDevice,
         entity_description: SmartThingsSelectEntityDescription,
+        rooms: dict[str, str],
         capability: Capability,
         attribute: Attribute,
     ) -> None:
         """Init the class."""
-        super().__init__(client, device, {capability})
+        super().__init__(client, device, rooms, {capability})
         self._attr_unique_id = f"{super().unique_id}{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
@@ -205,4 +226,68 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
             self.capability,
             self.command,
             option,
+        )
+
+
+class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
+    """Define a SmartThings select."""
+
+    entity_description: SmartThingsSelectEntityDescription
+
+    def __init__(
+        self,
+        client: SmartThings,
+        device: FullDevice,
+        rooms: dict[str, str],
+        capability: Capability,
+        attribute: Attribute,
+    ) -> None:
+        """Init the class."""
+        super().__init__(client, device, rooms, {capability})
+        entity_description = SelectEntityDescription(
+            key=Attribute.WASHER_CYCLE,
+            translation_key="washer_cycle",
+            icon="mdi:list-box-outline",
+        )
+        self._attr_unique_id = (
+            f"{super().unique_id}{device.device.device_id}{Attribute.WASHER_CYCLE}"
+        )
+        self._attribute = attribute
+        self.capability = capability
+        self.entity_description = entity_description
+        self._attr_options = []
+        for program in self.device.programs:
+            self._attr_options.append(program.lower())
+        self.command = Command.SET_WASHER_CYCLE
+
+    @property
+    def native_value(self) -> str | float | datetime | int | None:
+        """Return the state of the select."""
+        return translate_program_course(
+            self.get_attribute_value(self.capability, self._attribute)
+        ).lower()
+
+    def update_native_value(self) -> str | float | datetime | int | None:
+        """Return the state of the select."""
+
+    @property
+    def current_option(self) -> str | None:
+        """Return the selected entity option to represent the entity state."""
+        # Raw value
+        value = translate_program_course(
+            self.get_attribute_value(self.capability, self._attribute)
+        ).lower()
+        if value is None or value not in self._attr_options:
+            return None
+
+        return value
+
+    async def async_select_option(self, option: str) -> None:
+        """Change the selected option."""
+
+        value = translate_program_course(option)
+        await self.execute_device_command(
+            self.capability,
+            self.command,
+            value,
         )

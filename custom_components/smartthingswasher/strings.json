@@ -55,6 +55,11 @@
         "name": "State resume"
       }
     },
+    "number": {
+      "washer_delay_time": {
+        "name": "Delay time"
+      }
+    },
     "select": {
       "auto_dispense_detergent_amount": {
         "name": "Auto detergent amount"
@@ -94,6 +99,36 @@
       },
       "dryer_dry_level": {
         "name": "Dryer dry level"
+      },
+      "washer_cycle": {
+        "name": "Washer cycle",
+        "state": {
+          "course_1b": "Katoen",
+          "course_1c": "Eco 40-60",
+          "course_1d": "Superspeed",
+          "course_1e": "15m kort programma",
+          "course_20": "Hygienisch stomen",
+          "course_21": "Gekleurde was",
+          "course_22": "Wol",
+          "course_23": "Outdoor",
+          "course_24": "Beddengoed",
+          "course_25": "Synthetisch",
+          "course_26": "Fijne was",
+          "course_27": "Spoelen en centrifugeren",
+          "course_28": "Afvoeren en centrifugeren",
+          "course_29": "Trommelreiniging",
+          "course_2b": "AI Wash",
+          "course_2d": "Stille was",
+          "course_30": "Bewolkte dag",
+          "course_32": "Overhemden",
+          "course_33": "Handdoeken",
+          "course_36": "Wassen en drogen",
+          "course_37": "Air Wash",
+          "course_38": "Katoen drogen",
+          "course_39": "Synthetisch drogen",
+          "course_8f": "Intens koud",
+          "course_96": "Microfiber"
+        }
       },
       "washer_rinse_cycles": {
         "name": "Washer rinse cycles"
@@ -367,7 +402,7 @@
         }
       },
       "remote_control_status": {
-        "name": "Remote Control Status",
+        "name": "Remote control status",
         "state": {
           "false": "[%key:common::state::off%]",
           "true": "[%key:common::state::on%]"
@@ -469,7 +504,7 @@
       "washer_operating_state": {
         "name": "Operating state",
         "state": {
-          "ready": "[%key:component::smartthings::entity::sensor::oven_machine_state::ready%]",
+          "ready": "[%key:component::smartthings::entity::sensor::oven_machine_state::state::ready%]",
           "running": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::run%]",
           "paused": "[%key:common::state::paused%]"
         }
@@ -503,6 +538,9 @@
           "wrinkle_prevent": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::wrinkle_prevent%]",
           "freeze_protection": "Freeze protection"
         }
+      },
+      "water_consumption": {
+        "name": "Water consumption"
       }
     },
     "switch": {
@@ -510,7 +548,82 @@
         "name": "BubbleSoak"
       },
       "switch": {
-        "name": "Washer"
+        "name": "Switch"
+      },
+      "course_1b": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_1b%]"
+      },
+      "course_1c": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_1c%]"
+      },
+      "course_1d": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_1d%]"
+      },
+      "course_1e": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_1e%]"
+      },
+      "course_20": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_20%]"
+      },
+      "course_21": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_21%]"
+      },
+      "course_22": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_22%]"
+      },
+      "course_23": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_23%]"
+      },
+      "course_24": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_24%]"
+      },
+      "course_25": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_25%]"
+      },
+      "course_26": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_26%]"
+      },
+      "course_27": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_27%]"
+      },
+      "course_28": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_28%]"
+      },
+      "course_29": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_29%]"
+      },
+      "course_2b": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_2b%]"
+      },
+      "course_2d": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_2d%]"
+      },
+      "course_30": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_30%]"
+      },
+      "course_32": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_32%]"
+      },
+      "course_33": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_33%]"
+      },
+      "course_36": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_36%]"
+      },
+      "course_37": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_37%]"
+      },
+      "course_38": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_38%]"
+      },
+      "course_39": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_39%]"
+      },
+      "course_8f": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_8f%]"
+      },
+      "course_96": {
+        "name": "[%key:component::smartthings::entity::select::washer_cycle::state::course_96%]"
       }
     }
   }

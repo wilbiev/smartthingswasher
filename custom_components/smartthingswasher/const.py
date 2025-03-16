@@ -14,9 +14,13 @@ SCOPES = [
     "x:scenes:*",
     "r:rules:*",
     "w:rules:*",
+    "sse",
+]
+
+REQUESTED_SCOPES = [
+    *SCOPES,
     "r:installedapps",
     "w:installedapps",
-    "sse",
 ]
 
 CONF_APP_ID = "app_id"
@@ -28,3 +32,13 @@ CONF_REFRESH_TOKEN = "refresh_token"
 
 MAIN = "main"
 OLD_DATA = "old_data"
+
+CONF_SUBSCRIPTION_ID = "subscription_id"
+EVENT_BUTTON = "smartthings.button"
+
+PROGRAM_CYCLE = "cycle"
+PROGRAM_CYCLE_TYPE = "cycleType"
+PROGRAM_OPTION_RAW = "raw"
+PROGRAM_OPTION_DEFAULT = "default"
+PROGRAM_OPTION_OPTIONS = "options"
+PROGRAM_SUPPORTED_OPTIONS = "supportedOptions"
