@@ -3,7 +3,9 @@
     "abort": {
       "already_configured": "Account is already configured",
       "authorize_url_timeout": "Timeout generating authorize URL.",
+      "cloud_not_enabled": "Please make sure you run Home Assistant with `{default_config}` enabled in your configuration.yaml.",
       "missing_configuration": "The component is not configured. Please follow the documentation.",
+      "missing_scopes": "Authentication failed. Please make sure you have granted all required permissions.",
       "no_url_available": "No URL available. For information about this error, [check the help section]({docs_url})",
       "oauth_error": "Received invalid token data.",
       "oauth_failed": "Error while obtaining access token.",
@@ -31,8 +33,14 @@
       "acceleration": {
         "name": "Acceleration"
       },
+      "child_lock": {
+        "name": "Child lock"
+      },
       "filter_status": {
         "name": "Filter status"
+      },
+      "remote_control": {
+        "name": "Remote control"
       },
       "valve": {
         "name": "Valve"
@@ -402,13 +410,6 @@
           "none": "None",
           "normal": "Normal",
           "unknown": "Unknown"
-        }
-      },
-      "remote_control_status": {
-        "name": "Remote control status",
-        "state": {
-          "false": "Off",
-          "true": "On"
         }
       },
       "robot_cleaner_cleaning_mode": {
