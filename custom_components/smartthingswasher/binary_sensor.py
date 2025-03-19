@@ -26,68 +26,90 @@ from homeassistant.helpers.issue_registry import (
 from . import FullDevice, SmartThingsConfigEntry
 from .const import DOMAIN, MAIN
 from .entity import SmartThingsEntity
+from .utils import translate_program_course
 
 
 @dataclass(frozen=True, kw_only=True)
 class SmartThingsBinarySensorEntityDescription(BinarySensorEntityDescription):
     """Describe a SmartThings binary sensor entity."""
 
+    unique_id_separator: str = "."
     is_on_key: str
+    icon_default: str = None
+    icon_on: str = None
 
 
 CAPABILITY_TO_SENSORS: dict[
-    Capability, dict[Attribute, SmartThingsBinarySensorEntityDescription]
+    Capability, dict[Attribute, list[SmartThingsBinarySensorEntityDescription]]
 ] = {
     Capability.ACCELERATION_SENSOR: {
-        Attribute.ACCELERATION: SmartThingsBinarySensorEntityDescription(
-            key=Attribute.ACCELERATION,
-            translation_key="acceleration",
-            device_class=BinarySensorDeviceClass.MOVING,
-            is_on_key="active",
-        )
+        Attribute.ACCELERATION: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.ACCELERATION,
+                translation_key="acceleration",
+                device_class=BinarySensorDeviceClass.MOVING,
+                is_on_key="active",
+            )
+        ]
     },
     Capability.CONTACT_SENSOR: {
-        Attribute.CONTACT: SmartThingsBinarySensorEntityDescription(
-            key=Attribute.CONTACT,
-            device_class=BinarySensorDeviceClass.DOOR,
-            is_on_key="open",
-        )
+        Attribute.CONTACT: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.CONTACT,
+                device_class=BinarySensorDeviceClass.DOOR,
+                is_on_key="open",
+            )
+        ]
     },
     Capability.FILTER_STATUS: {
-        Attribute.FILTER_STATUS: SmartThingsBinarySensorEntityDescription(
-            key=Attribute.FILTER_STATUS,
-            translation_key="filter_status",
-            device_class=BinarySensorDeviceClass.PROBLEM,
-            is_on_key="replace",
-        )
+        Attribute.FILTER_STATUS: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.FILTER_STATUS,
+                translation_key="filter_status",
+                device_class=BinarySensorDeviceClass.PROBLEM,
+                is_on_key="replace",
+            )
+        ]
     },
     Capability.REMOTE_CONTROL_STATUS: {
-        Attribute.REMOTE_CONTROL_ENABLED: SmartThingsBinarySensorEntityDescription(
-            key=Attribute.REMOTE_CONTROL_ENABLED,
-            translation_key="remote_control",
-            is_on_key="true",
-        )
+        Attribute.REMOTE_CONTROL_ENABLED: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.REMOTE_CONTROL_ENABLED,
+                translation_key="remote_control",
+                is_on_key="true",
+                icon_default="mdi:remote-off",
+                icon_on="mdi:remote",
+            )
+        ]
     },
     Capability.SAMSUNG_CE_KIDS_LOCK: {
-        Attribute.LOCK_STATE: SmartThingsBinarySensorEntityDescription(
-            key=Attribute.LOCK_STATE,
-            translation_key="child_lock",
-            is_on_key="locked",
-        )
+        Attribute.LOCK_STATE: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.LOCK_STATE,
+                translation_key="child_lock",
+                is_on_key="locked",
+                icon_default="mdi:lock-open",
+                icon_on="mdi:lock",
+            )
+        ]
     },
     Capability.MOTION_SENSOR: {
-        Attribute.MOTION: SmartThingsBinarySensorEntityDescription(
-            key=Attribute.MOTION,
-            device_class=BinarySensorDeviceClass.MOTION,
-            is_on_key="active",
-        )
+        Attribute.MOTION: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.MOTION,
+                device_class=BinarySensorDeviceClass.MOTION,
+                is_on_key="active",
+            )
+        ]
     },
     Capability.PRESENCE_SENSOR: {
-        Attribute.PRESENCE: SmartThingsBinarySensorEntityDescription(
-            key=Attribute.PRESENCE,
-            device_class=BinarySensorDeviceClass.PRESENCE,
-            is_on_key="present",
-        )
+        Attribute.PRESENCE: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.PRESENCE,
+                device_class=BinarySensorDeviceClass.PRESENCE,
+                is_on_key="present",
+            )
+        ]
     },
     Capability.SOUND_SENSOR: {
         Attribute.SOUND: SmartThingsBinarySensorEntityDescription(
@@ -97,27 +119,48 @@ CAPABILITY_TO_SENSORS: dict[
         )
     },
     Capability.TAMPER_ALERT: {
-        Attribute.TAMPER: SmartThingsBinarySensorEntityDescription(
-            key=Attribute.TAMPER,
-            device_class=BinarySensorDeviceClass.TAMPER,
-            is_on_key="detected",
-            entity_category=EntityCategory.DIAGNOSTIC,
-        )
+        Attribute.TAMPER: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.TAMPER,
+                device_class=BinarySensorDeviceClass.TAMPER,
+                is_on_key="detected",
+                entity_category=EntityCategory.DIAGNOSTIC,
+            )
+        ]
     },
     Capability.VALVE: {
-        Attribute.VALVE: SmartThingsBinarySensorEntityDescription(
-            key=Attribute.VALVE,
-            translation_key="valve",
-            device_class=BinarySensorDeviceClass.OPENING,
-            is_on_key="open",
-        )
+        Attribute.VALVE: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.VALVE,
+                translation_key="valve",
+                device_class=BinarySensorDeviceClass.OPENING,
+                is_on_key="open",
+            )
+        ]
     },
     Capability.WATER_SENSOR: {
-        Attribute.WATER: SmartThingsBinarySensorEntityDescription(
-            key=Attribute.WATER,
-            device_class=BinarySensorDeviceClass.MOISTURE,
-            is_on_key="wet",
-        )
+        Attribute.WATER: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.WATER,
+                device_class=BinarySensorDeviceClass.MOISTURE,
+                is_on_key="wet",
+            )
+        ]
+    },
+}
+
+
+PROGRAMS_TO_SENSORS: dict[
+    Capability, dict[Attribute, list[SmartThingsBinarySensorEntityDescription]]
+] = {
+    Capability.SAMSUNG_CE_WASHER_CYCLE: {
+        Attribute.WASHER_CYCLE: [
+            SmartThingsBinarySensorEntityDescription(
+                key="bubblesoak_support",
+                translation_key="bubblesoak_support",
+                is_on_key="True",
+            )
+        ]
     },
 }
 
@@ -139,9 +182,25 @@ async def async_setup_entry(
             attribute,
         )
         for device in entry_data.devices.values()
-        for capability, attribute_map in CAPABILITY_TO_SENSORS.items()
+        for capability, attributes in CAPABILITY_TO_SENSORS.items()
         if capability in device.status[MAIN]
-        for attribute, description in attribute_map.items()
+        for attribute, descriptions in attributes.items()
+        for description in descriptions
+    )
+    async_add_entities(
+        SmartThingsProgramBinarySensor(
+            entry_data.client,
+            device,
+            description,
+            entry_data.rooms,
+            capability,
+            attribute,
+        )
+        for device in entry_data.devices.values()
+        for capability, attributes in PROGRAMS_TO_SENSORS.items()
+        if capability in device.status[MAIN]
+        for attribute, descriptions in attributes.items()
+        for description in descriptions
     )
 
 
@@ -164,7 +223,7 @@ class SmartThingsBinarySensor(SmartThingsEntity, BinarySensorEntity):
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description
-        self._attr_unique_id = f"{device.device.device_id}.{attribute}"
+        self._attr_unique_id = f"{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
 
     @property
     def is_on(self) -> bool:
@@ -225,3 +284,54 @@ class SmartThingsBinarySensor(SmartThingsEntity, BinarySensorEntity):
         async_delete_issue(
             self.hass, DOMAIN, f"deprecated_binary_valve_{self.entity_id}"
         )
+
+    @property
+    def icon(self) -> str | None:
+        """Return icon based on current state."""
+        if self.state == "on" and self.entity_description.icon_on:
+            return self.entity_description.icon_on
+        if self.entity_description.icon_default:
+            return self.entity_description.icon_default
+        return None
+
+
+class SmartThingsProgramBinarySensor(SmartThingsEntity, BinarySensorEntity):
+    """Define a SmartThings Program Binary Sensor."""
+
+    entity_description: SmartThingsBinarySensorEntityDescription
+
+    def __init__(
+        self,
+        client: SmartThings,
+        device: FullDevice,
+        entity_description: SmartThingsBinarySensorEntityDescription,
+        rooms: dict[str, str],
+        capability: Capability,
+        attribute: Attribute,
+    ) -> None:
+        """Init the class."""
+        super().__init__(client, device, rooms, {capability})
+        self._attribute = attribute
+        self.capability = capability
+        self.entity_description = entity_description
+        self._attr_unique_id = f"{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
+
+    @property
+    def is_on(self) -> bool:
+        """Return true if the binary sensor is on."""
+        washer_cycle = translate_program_course(
+            self.get_attribute_value(self.capability, self._attribute)
+        )
+        return (
+            str(self.device.programs[washer_cycle].bubblesoak)
+            == self.entity_description.is_on_key
+        )
+
+    @property
+    def icon(self) -> str | None:
+        """Return icon based on current state."""
+        if self.state == "on" and self.entity_description.icon_on:
+            return self.entity_description.icon_on
+        if self.entity_description.icon_default:
+            return self.entity_description.icon_default
+        return None
