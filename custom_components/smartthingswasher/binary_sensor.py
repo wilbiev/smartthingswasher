@@ -177,7 +177,6 @@ async def async_setup_entry(
             entry_data.client,
             device,
             description,
-            entry_data.rooms,
             capability,
             attribute,
         )
@@ -192,11 +191,11 @@ async def async_setup_entry(
             entry_data.client,
             device,
             description,
-            entry_data.rooms,
             capability,
             attribute,
         )
         for device in entry_data.devices.values()
+        if device.programs is not None
         for capability, attributes in PROGRAMS_TO_SENSORS.items()
         if capability in device.status[MAIN]
         for attribute, descriptions in attributes.items()
@@ -214,12 +213,11 @@ class SmartThingsBinarySensor(SmartThingsEntity, BinarySensorEntity):
         client: SmartThings,
         device: FullDevice,
         entity_description: SmartThingsBinarySensorEntityDescription,
-        rooms: dict[str, str],
         capability: Capability,
         attribute: Attribute,
     ) -> None:
         """Init the class."""
-        super().__init__(client, device, rooms, {capability})
+        super().__init__(client, device, {capability})
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description
@@ -305,12 +303,11 @@ class SmartThingsProgramBinarySensor(SmartThingsEntity, BinarySensorEntity):
         client: SmartThings,
         device: FullDevice,
         entity_description: SmartThingsBinarySensorEntityDescription,
-        rooms: dict[str, str],
         capability: Capability,
         attribute: Attribute,
     ) -> None:
         """Init the class."""
-        super().__init__(client, device, rooms, {capability})
+        super().__init__(client, device, {capability})
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description

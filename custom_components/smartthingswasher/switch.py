@@ -69,7 +69,6 @@ async def async_setup_entry(
             entry_data.client,
             device,
             description,
-            entry_data.rooms,
             capability,
             attribute,
         )
@@ -86,7 +85,6 @@ async def async_setup_entry(
             entry_data.client,
             device,
             program,
-            entry_data.rooms,
             Capability.SAMSUNG_CE_WASHER_CYCLE,
             Attribute.WASHER_CYCLE,
         )
@@ -103,12 +101,11 @@ class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
         client: SmartThings,
         device: FullDevice,
         entity_description: SwitchEntityDescription,
-        rooms: dict[str, str],
         capability: Capability,
         attribute: Attribute,
     ) -> None:
         """Init the class."""
-        super().__init__(client, device, rooms, {capability})
+        super().__init__(client, device, {capability})
         self._attr_unique_id = (
             f"{super().unique_id}{device.device.device_id}{entity_description.key}"
         )
@@ -146,7 +143,6 @@ class SmartThingsProgramSwitch(SmartThingsEntity, SwitchEntity):
         client: SmartThings,
         device: FullDevice,
         program: Program,
-        rooms: dict[str, str],
         capability: Capability,
         attribute: Attribute,
     ) -> None:
@@ -155,7 +151,7 @@ class SmartThingsProgramSwitch(SmartThingsEntity, SwitchEntity):
         entity_description = SwitchEntityDescription(
             key=program.program_id, translation_key=program_course
         )
-        super().__init__(client, device, rooms, {capability}, program)
+        super().__init__(client, device, {capability}, program)
         self._attr_unique_id = (
             f"{super().unique_id}{device.device.device_id}{program_course}"
         )

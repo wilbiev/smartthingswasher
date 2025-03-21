@@ -72,7 +72,6 @@ async def async_setup_entry(
             entry_data.client,
             device,
             description,
-            entry_data.rooms,
             capability,
             command,
         )
@@ -94,12 +93,11 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
         client: SmartThings,
         device: FullDevice,
         entity_description: SmartThingsButtonEntityDescription,
-        rooms: dict[str, str],
         capability: Capability,
         command: Command,
     ) -> None:
         """Init the class."""
-        super().__init__(client, device, rooms, {capability})
+        super().__init__(client, device, {capability})
         self._attr_unique_id = f"{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
         self.command = command
         self.capability = capability

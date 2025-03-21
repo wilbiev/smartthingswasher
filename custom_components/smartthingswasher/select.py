@@ -167,7 +167,6 @@ async def async_setup_entry(
             entry_data.client,
             device,
             description,
-            entry_data.rooms,
             capability,
             attribute,
         )
@@ -182,7 +181,6 @@ async def async_setup_entry(
             entry_data.client,
             device,
             description,
-            entry_data.rooms,
             capability,
             attribute,
         )
@@ -204,65 +202,28 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         client: SmartThings,
         device: FullDevice,
         entity_description: SmartThingsSelectEntityDescription,
-        rooms: dict[str, str],
         capability: Capability,
         attribute: Attribute,
     ) -> None:
         """Init the class."""
-        super().__init__(client, device, rooms, {capability})
+        super().__init__(client, device, {capability})
         self._attr_unique_id = f"{super().unique_id}{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description
         self.command = self.entity_description.set_command
-        options: list[str] = []
-        if self.entity_description.options_attribute:
-            options = self.get_attribute_value(
-                self.capability, self.entity_description.options_attribute
-            )
-            [option.lower() for option in options]
-        self._attr_options = options
 
     @property
     def native_value(self) -> str | float | datetime | int | None:
         """Return the state of the select."""
         return self.get_attribute_value(self.capability, self._attribute)
 
-    def update_native_value(self) -> None:
-        """Return the state of the select."""
-        if self.entity_description.supported_option:
-            if (Capability.SAMSUNG_CE_WASHER_CYCLE in self.device.status[MAIN]) and (
-                Capability.REMOTE_CONTROL_STATUS in self.device.status[MAIN]
-            ):
-                options: list[str] = self._attr_options
-                if (
-                    self.get_attribute_value(
-                        Capability.REMOTE_CONTROL_STATUS,
-                        Attribute.REMOTE_CONTROL_ENABLED,
-                    )
-                    == "True"
-                ):
-                    washer_cycle = translate_program_course(
-                        self.get_attribute_value(
-                            Capability.SAMSUNG_CE_WASHER_CYCLE, Attribute.WASHER_CYCLE
-                        )
-                    )
-                    options = self.device.programs[washer_cycle].supportedoptions[
-                        self.entity_description.supported_option
-                    ][ProgramOptions.options]
-                elif self.entity_description.options_attribute:
-                    options = self.get_attribute_value(
-                        self.capability, self.entity_description.options_attribute
-                    )
-                    [option.lower() for option in options]
-                self._attr_options = options
-
     @property
     def current_option(self) -> str | None:
         """Return the selected entity option to represent the entity state."""
         # Raw value
         value = self.get_attribute_value(self.capability, self._attribute)
-        if value is None or value not in self._attr_options:
+        if value is None or value not in self.options:
             return None
 
         return value
@@ -276,6 +237,19 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
             option,
         )
 
+    @property
+    def options(self) -> list[str] | None:
+        """Return the options for this sensor."""
+        if self.entity_description.options_attribute:
+            if (
+                options := self.get_attribute_value(
+                    self.capability, self.entity_description.options_attribute
+                )
+            ) is None:
+                return []
+            return [option.lower() for option in options]
+        return super().options
+
 
 class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
     """Define a SmartThings select."""
@@ -287,27 +261,16 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
         client: SmartThings,
         device: FullDevice,
         entity_description: SmartThingsSelectEntityDescription,
-        rooms: dict[str, str],
         capability: Capability,
         attribute: Attribute,
     ) -> None:
         """Init the class."""
-        super().__init__(client, device, rooms, {capability})
+        super().__init__(client, device, {capability})
         self._attr_unique_id = f"{super().unique_id}{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description
         self.command = self.entity_description.set_command
-        options: list[str] = []
-        if self.entity_description.options_attribute:
-            options = self.get_attribute_value(
-                self.capability, self.entity_description.options_attribute
-            )
-            [option.lower() for option in options]
-        else:
-            for program in self.device.programs:
-                options.append(program.lower())
-        self._attr_options = options
 
     @property
     def native_value(self) -> str | float | datetime | int | None:
@@ -316,9 +279,6 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
             self.get_attribute_value(self.capability, self._attribute)
         ).lower()
 
-    def update_native_value(self) -> None:
-        """Return the state of the select."""
-
     @property
     def current_option(self) -> str | None:
         """Return the selected entity option to represent the entity state."""
@@ -326,7 +286,7 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
         value = translate_program_course(
             self.get_attribute_value(self.capability, self._attribute)
         ).lower()
-        if value is None or value not in self._attr_options:
+        if value is None or value not in self.options:
             return None
 
         return value
@@ -340,3 +300,21 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
             self.command,
             value,
         )
+
+    @property
+    def options(self) -> list[str] | None:
+        """Return the options for this sensor."""
+        if self.entity_description.options_attribute:
+            if (
+                options := self.get_attribute_value(
+                    self.capability, self.entity_description.options_attribute
+                )
+            ) is None:
+                return []
+            return [option.lower() for option in options]
+        if self.device.programs is not None:
+            options: list[str] = []
+            for program in self.device.programs:
+                options.append(program.lower())
+            return options
+        return super().options
