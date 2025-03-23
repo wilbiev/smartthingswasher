@@ -88,7 +88,7 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
     ) -> None:
         """Init the class."""
         super().__init__(client, device, {capability})
-        self._attr_unique_id = f"{super().unique_id}{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
+        self._attr_unique_id = f"{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description

@@ -106,9 +106,7 @@ class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
     ) -> None:
         """Init the class."""
         super().__init__(client, device, {capability})
-        self._attr_unique_id = (
-            f"{super().unique_id}{device.device.device_id}{entity_description.key}"
-        )
+        self._attr_unique_id = f"{device.device.device_id}{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
         if self.capability == Capability.SWITCH:
@@ -152,9 +150,7 @@ class SmartThingsProgramSwitch(SmartThingsEntity, SwitchEntity):
             key=program.program_id, translation_key=program_course
         )
         super().__init__(client, device, {capability}, program)
-        self._attr_unique_id = (
-            f"{super().unique_id}{device.device.device_id}{program_course}"
-        )
+        self._attr_unique_id = f"{device.device.device_id}{program_course}"
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description

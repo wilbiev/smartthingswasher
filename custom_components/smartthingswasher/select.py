@@ -8,14 +8,15 @@ from datetime import datetime
 from pysmartthings import Attribute, Capability, Command, SmartThings
 
 from homeassistant.components.select import SelectEntity, SelectEntityDescription
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
+from homeassistant.helpers.event import async_track_state_change
 
 from . import FullDevice, SmartThingsConfigEntry
 from .const import MAIN
 from .entity import SmartThingsEntity
-from .models import ProgramOptions, SupportedOption
-from .utils import translate_program_course
+from .models import SupportedOption
+from .utils import get_program_options, translate_program_course
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -162,7 +163,7 @@ async def async_setup_entry(
 ) -> None:
     """Add selects for a config entry."""
     entry_data = entry.runtime_data
-    async_add_entities(
+    select_entities = [
         SmartThingsSelect(
             entry_data.client,
             device,
@@ -175,8 +176,10 @@ async def async_setup_entry(
         if capability in device.status[MAIN]
         for attribute, descriptions in attributes.items()
         for description in descriptions
-    )
-    async_add_entities(
+    ]
+    async_add_entities(select_entities)
+
+    program_select_entities = [
         SmartThingsProgramSelect(
             entry_data.client,
             device,
@@ -189,6 +192,32 @@ async def async_setup_entry(
         if capability in device.status[MAIN]
         for attribute, descriptions in attributes.items()
         for description in descriptions
+    ]
+    async_add_entities(program_select_entities)
+
+    @callback
+    def select_state_listener(entity_id, old_state, new_state):
+        """Handle state changes of the sensor entity."""
+        if new_state is None:
+            return
+
+        device_name: str = entity_id.split(".")[1]
+        for select_entity in select_entities:
+            if (
+                device_name.startswith(select_entity.device.device.label.lower())
+                and select_entity.entity_description.supported_option
+            ):
+                if (
+                    options := get_program_options(
+                        select_entity.device.programs,
+                        translate_program_course(new_state.state),
+                        select_entity.entity_description.supported_option,
+                    )
+                ) is not None:
+                    select_entity.update_select_options(options)
+
+    async_track_state_change(
+        hass, "select.wasmachine_washer_cycle", select_state_listener
     )
 
 
@@ -207,11 +236,20 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
     ) -> None:
         """Init the class."""
         super().__init__(client, device, {capability})
-        self._attr_unique_id = f"{super().unique_id}{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
+        self._attr_unique_id = f"{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description
         self.command = self.entity_description.set_command
+        options: list[str] = []
+        if self.entity_description.options_attribute:
+            if (
+                options := self.get_attribute_value(
+                    self.capability, self.entity_description.options_attribute
+                )
+            ) is not None:
+                [option.lower() for option in options]
+        self._attr_options = options
 
     @property
     def native_value(self) -> str | float | datetime | int | None:
@@ -221,34 +259,24 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
     @property
     def current_option(self) -> str | None:
         """Return the selected entity option to represent the entity state."""
-        # Raw value
         value = self.get_attribute_value(self.capability, self._attribute)
-        if value is None or value not in self.options:
+        if value is None or value not in self._attr_options:
             return None
-
         return value
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
-
         await self.execute_device_command(
             self.capability,
             self.command,
             option,
         )
 
-    @property
-    def options(self) -> list[str] | None:
-        """Return the options for this sensor."""
-        if self.entity_description.options_attribute:
-            if (
-                options := self.get_attribute_value(
-                    self.capability, self.entity_description.options_attribute
-                )
-            ) is None:
-                return []
-            return [option.lower() for option in options]
-        return super().options
+    def update_select_options(self, options: list[str]) -> None:
+        """Update the options for this select entity."""
+        self._attr_options = options
+        self.async_write_ha_state()
+        self.get_attribute_value(self.capability, self._attribute)
 
 
 class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
@@ -266,11 +294,23 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
     ) -> None:
         """Init the class."""
         super().__init__(client, device, {capability})
-        self._attr_unique_id = f"{super().unique_id}{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
+        self._attr_unique_id = f"{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description
         self.command = self.entity_description.set_command
+        options: list[str] = []
+        if self.entity_description.options_attribute:
+            if (
+                options := self.get_attribute_value(
+                    self.capability, self.entity_description.options_attribute
+                )
+            ) is not None:
+                [option.lower() for option in options]
+        else:
+            for program in self.device.programs:
+                options.append(program.lower())
+        self._attr_options = options
 
     @property
     def native_value(self) -> str | float | datetime | int | None:
@@ -282,39 +322,18 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
     @property
     def current_option(self) -> str | None:
         """Return the selected entity option to represent the entity state."""
-        # Raw value
         value = translate_program_course(
             self.get_attribute_value(self.capability, self._attribute)
         ).lower()
-        if value is None or value not in self.options:
+        if value is None or value not in self._attr_options:
             return None
-
         return value
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
-
         value = translate_program_course(option)
         await self.execute_device_command(
             self.capability,
             self.command,
             value,
         )
-
-    @property
-    def options(self) -> list[str] | None:
-        """Return the options for this sensor."""
-        if self.entity_description.options_attribute:
-            if (
-                options := self.get_attribute_value(
-                    self.capability, self.entity_description.options_attribute
-                )
-            ) is None:
-                return []
-            return [option.lower() for option in options]
-        if self.device.programs is not None:
-            options: list[str] = []
-            for program in self.device.programs:
-                options.append(program.lower())
-            return options
-        return super().options

@@ -48,7 +48,7 @@ class ProgramOptions(DataClassORJSONMixin):
     supportedoption: SupportedOption | str
     raw: str = field(metadata=field_options(alias="raw"))
     default: str = field(metadata=field_options(alias="default"))
-    options: str = field(metadata=field_options(alias="options"))
+    options: list[str] = field(metadata=field_options(alias="options"))
 
 
 SUPPORTEDOPTIONS_LIST = (

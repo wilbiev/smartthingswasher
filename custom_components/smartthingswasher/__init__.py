@@ -406,7 +406,7 @@ def process_programs(
                     supportedoption=supportedoption,
                     raw=raw,
                     default=default,
-                    options=str(options),
+                    options=options,
                 )
         programs[program_id] = Program(
             program_id=program_id,
