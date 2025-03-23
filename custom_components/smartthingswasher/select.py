@@ -195,6 +195,10 @@ async def async_setup_entry(
     ]
     async_add_entities(program_select_entities)
 
+    program_entities: list[str] = [
+        select_entity.entity_id for select_entity in program_select_entities
+    ]
+
     @callback
     def select_state_listener(entity_id, old_state, new_state):
         """Handle state changes of the sensor entity."""
@@ -216,9 +220,7 @@ async def async_setup_entry(
                 ) is not None:
                     select_entity.update_select_options(options)
 
-    async_track_state_change(
-        hass, "select.wasmachine_washer_cycle", select_state_listener
-    )
+    async_track_state_change(hass, program_entities, select_state_listener)
 
 
 class SmartThingsSelect(SmartThingsEntity, SelectEntity):
