@@ -2,16 +2,12 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import Any
 
 from pysmartthings import Attribute, Capability, Command, SmartThings
 
-from homeassistant.components.switch import (
-    SwitchDeviceClass,
-    SwitchEntity,
-    SwitchEntityDescription,
-)
-from homeassistant.const import EntityCategory
+from homeassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -35,12 +31,28 @@ AC_CAPABILITIES = (
 )
 
 
+@dataclass(frozen=True, kw_only=True)
+class SmartThingsSwitchEntityDescription(SwitchEntityDescription):
+    """Describe a SmartThings switch entity."""
+
+    command: Command = None
+
+
 CAPABILITY_TO_SWITCHES: dict[
-    Capability, dict[Attribute, list[SwitchEntityDescription]]
+    Capability, dict[Attribute, list[SmartThingsSwitchEntityDescription]]
 ] = {
+    Capability.CUSTOM_DRYER_WRINKLE_PREVENT: {
+        Attribute.DRYER_WRINKLE_PREVENT: [
+            SmartThingsSwitchEntityDescription(
+                key=Capability.CUSTOM_DRYER_WRINKLE_PREVENT,
+                translation_key="wrinkle_prevent",
+                command=Command.SET_DRYER_WRINKLE_PREVENT,
+            )
+        ]
+    },
     Capability.SAMSUNG_CE_WASHER_BUBBLE_SOAK: {
         Attribute.STATUS: [
-            SwitchEntityDescription(
+            SmartThingsSwitchEntityDescription(
                 key=Attribute.STATUS,
                 translation_key="bubblesoak",
             )
@@ -48,7 +60,7 @@ CAPABILITY_TO_SWITCHES: dict[
     },
     Capability.SWITCH: {
         Attribute.SWITCH: [
-            SwitchEntityDescription(
+            SmartThingsSwitchEntityDescription(
                 key=Attribute.SWITCH,
                 translation_key="switch",
             )
@@ -96,17 +108,20 @@ async def async_setup_entry(
 class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
     """Define a SmartThings switch."""
 
+    entity_description: SmartThingsSwitchEntityDescription
+
     def __init__(
         self,
         client: SmartThings,
         device: FullDevice,
-        entity_description: SwitchEntityDescription,
+        entity_description: SmartThingsSwitchEntityDescription,
         capability: Capability,
         attribute: Attribute,
+        component: str = MAIN,
     ) -> None:
         """Init the class."""
-        super().__init__(client, device, {capability})
-        self._attr_unique_id = f"{device.device.device_id}{entity_description.key}"
+        super().__init__(client, device, {capability}, component=component)
+        self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
         if self.capability == Capability.SWITCH:
@@ -115,17 +130,31 @@ class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Turn the switch off."""
-        await self.execute_device_command(
-            self.capability,
-            Command.OFF,
-        )
+        if self.entity_description.command:
+            await self.execute_device_command(
+                self.capability,
+                self.entity_description.command,
+                "off",
+            )
+        else:
+            await self.execute_device_command(
+                self.capability,
+                Command.OFF,
+            )
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn the switch on."""
-        await self.execute_device_command(
-            self.capability,
-            Command.ON,
-        )
+        if self.entity_description.command:
+            await self.execute_device_command(
+                self.capability,
+                self.entity_description.command,
+                "on",
+            )
+        else:
+            await self.execute_device_command(
+                self.capability,
+                Command.ON,
+            )
 
     @property
     def is_on(self) -> bool:
@@ -143,14 +172,17 @@ class SmartThingsProgramSwitch(SmartThingsEntity, SwitchEntity):
         program: Program,
         capability: Capability,
         attribute: Attribute,
+        component: str = MAIN,
     ) -> None:
         """Init the class."""
         program_course = program.program_id.lower()
         entity_description = SwitchEntityDescription(
             key=program.program_id, translation_key=program_course
         )
-        super().__init__(client, device, {capability}, program)
-        self._attr_unique_id = f"{device.device.device_id}{program_course}"
+        super().__init__(
+            client, device, {capability}, component=component, program=program
+        )
+        self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{program_course}"
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description

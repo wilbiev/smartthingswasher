@@ -23,16 +23,40 @@ from .utils import get_program_options, translate_program_course
 class SmartThingsSelectEntityDescription(SelectEntityDescription):
     """Describe a SmartThings select entity."""
 
-    unique_id_separator: str = "."
     options_attribute: Attribute | None = None
-    set_command: Command | None = None
+    command: Command | None = None
     except_if_state_none: bool = False
+    requires_remote_control_status: bool
     supported_option: SupportedOption | None = None
 
 
 CAPABILITY_TO_SELECTS: dict[
     Capability, dict[Attribute, list[SelectEntityDescription]]
 ] = {
+    Capability.DISHWASHER_OPERATING_STATE: {
+        Attribute.MACHINE_STATE: [
+            SmartThingsSelectEntityDescription(
+                key=Attribute.MACHINE_STATE,
+                translation_key="machine_state",
+                icon="mdi:play-speed",
+                options_attribute=Attribute.SUPPORTED_MACHINE_STATES,
+                command=Command.SET_MACHINE_STATE,
+                requires_remote_control_status=True,
+            )
+        ]
+    },
+    Capability.DRYER_OPERATING_STATE: {
+        Attribute.MACHINE_STATE: [
+            SmartThingsSelectEntityDescription(
+                key=Attribute.MACHINE_STATE,
+                translation_key="machine_state",
+                icon="mdi:play-speed",
+                options_attribute=Attribute.SUPPORTED_MACHINE_STATES,
+                command=Command.SET_MACHINE_STATE,
+                requires_remote_control_status=True,
+            )
+        ]
+    },
     Capability.SAMSUNG_CE_AUTO_DISPENSE_DETERGENT: {
         Attribute.AMOUNT: [
             SmartThingsSelectEntityDescription(
@@ -64,6 +88,7 @@ CAPABILITY_TO_SELECTS: dict[
                 options_attribute=Attribute.SUPPORTED_DRYER_DRY_LEVEL,
                 set_command=Command.SET_DRYER_DRY_LEVEL,
                 supported_option=SupportedOption.DRYING_LEVEL,
+                requires_remote_control_status=True,
             )
         ]
     },
@@ -75,6 +100,7 @@ CAPABILITY_TO_SELECTS: dict[
                 icon="mdi:list-box-outline",
                 options_attribute=Attribute.SUPPORTED_COURSES,
                 set_command=Command.SET_COURSE,
+                requires_remote_control_status=True,
             )
         ]
     },
@@ -87,6 +113,7 @@ CAPABILITY_TO_SELECTS: dict[
                 options_attribute=Attribute.SUPPORTED_WASHER_RINSE_CYCLES,
                 set_command=Command.SET_WASHER_RINSE_CYCLES,
                 supported_option=SupportedOption.RINSE_CYCLE,
+                requires_remote_control_status=True,
             )
         ]
     },
@@ -99,6 +126,7 @@ CAPABILITY_TO_SELECTS: dict[
                 options_attribute=Attribute.SUPPORTED_WASHER_SOIL_LEVEL,
                 set_command=Command.SET_WASHER_SOIL_LEVEL,
                 supported_option=SupportedOption.SOIL_LEVEL,
+                requires_remote_control_status=True,
             )
         ]
     },
@@ -111,6 +139,7 @@ CAPABILITY_TO_SELECTS: dict[
                 options_attribute=Attribute.SUPPORTED_WASHER_SPIN_LEVEL,
                 set_command=Command.SET_WASHER_SPIN_LEVEL,
                 supported_option=SupportedOption.SPIN_LEVEL,
+                requires_remote_control_status=True,
             )
         ]
     },
@@ -123,6 +152,7 @@ CAPABILITY_TO_SELECTS: dict[
                 options_attribute=Attribute.SUPPORTED_WASHER_WATER_TEMPERATURE,
                 set_command=Command.SET_WASHER_WATER_TEMPERATURE,
                 supported_option=SupportedOption.WATER_TEMPERATURE,
+                requires_remote_control_status=True,
             )
         ]
     },
@@ -134,6 +164,7 @@ CAPABILITY_TO_SELECTS: dict[
                 icon="mdi:play-speed",
                 options_attribute=Attribute.SUPPORTED_MACHINE_STATES,
                 set_command=Command.SET_MACHINE_STATE,
+                requires_remote_control_status=True,
             )
         ]
     },
@@ -149,7 +180,8 @@ PROGRAMS_TO_SELECTS: dict[
                 key=Attribute.WASHER_CYCLE,
                 translation_key="washer_cycle",
                 icon="mdi:list-box-outline",
-                set_command=Command.SET_WASHER_CYCLE,
+                command=Command.SET_WASHER_CYCLE,
+                requires_remote_control_status=True,
             )
         ]
     }
@@ -212,6 +244,22 @@ async def async_setup_entry(
                 and select_entity.entity_description.supported_option
             ):
                 if (
+                    select_entity.get_attribute_value(
+                        Capability.REMOTE_CONTROL_STATUS,
+                        Attribute.REMOTE_CONTROL_ENABLED,
+                    )
+                    == "false"
+                ):
+                    if (
+                        options := select_entity.get_attribute_value(
+                            select_entity.capability,
+                            select_entity.entity_description.options_attribute,
+                        )
+                    ) is not None:
+                        select_entity.update_select_options(
+                            [option.lower() for option in options]
+                        )
+                elif (
                     options := get_program_options(
                         select_entity.device.programs,
                         translate_program_course(new_state.state),
@@ -235,14 +283,18 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         entity_description: SmartThingsSelectEntityDescription,
         capability: Capability,
         attribute: Attribute,
+        component: str = MAIN,
     ) -> None:
         """Init the class."""
-        super().__init__(client, device, {capability})
-        self._attr_unique_id = f"{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
+        capabilities = {capability}
+        if entity_description.requires_remote_control_status:
+            capabilities.add(Capability.REMOTE_CONTROL_STATUS)
+        super().__init__(client, device, capabilities, component=component)
+        self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description
-        self.command = self.entity_description.set_command
+        self.command = self.entity_description.command
         options: list[str] = []
         if self.entity_description.options_attribute:
             if (
@@ -278,7 +330,6 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         """Update the options for this select entity."""
         self._attr_options = options
         self.async_write_ha_state()
-        self.get_attribute_value(self.capability, self._attribute)
 
 
 class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
@@ -293,14 +344,18 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
         entity_description: SmartThingsSelectEntityDescription,
         capability: Capability,
         attribute: Attribute,
+        component: str = MAIN,
     ) -> None:
         """Init the class."""
-        super().__init__(client, device, {capability})
-        self._attr_unique_id = f"{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
+        capabilities = {capability}
+        if entity_description.requires_remote_control_status:
+            capabilities.add(Capability.REMOTE_CONTROL_STATUS)
+        super().__init__(client, device, capabilities, component=component)
+        self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description
-        self.command = self.entity_description.set_command
+        self.command = self.entity_description.command
         options: list[str] = []
         if self.entity_description.options_attribute:
             if (

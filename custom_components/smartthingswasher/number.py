@@ -1,4 +1,4 @@
-"""Support for selects through the SmartThings cloud API."""
+"""Support for numbers through the SmartThings cloud API."""
 
 from __future__ import annotations
 
@@ -24,7 +24,7 @@ class SmartThingsNumberEntityDescription(NumberEntityDescription):
 
     unique_id_separator: str = "."
     options_attribute: Attribute | None = None
-    set_command: Command | None = None
+    command: Command | None = None
     except_if_state_none: bool = False
     int_type: STType | None = None
 
@@ -39,7 +39,7 @@ CAPABILITY_TO_NUMBERS: dict[
                 translation_key="washer_delay_time",
                 icon="mdi:timer",
                 native_unit_of_measurement=UnitOfTime.MINUTES,
-                set_command=Command.SET_DELAY_TIME,
+                command=Command.SET_DELAY_TIME,
                 native_min_value=0,
                 native_max_value=240,
                 native_step=5,
@@ -85,14 +85,15 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
         entity_description: SmartThingsNumberEntityDescription,
         capability: Capability,
         attribute: Attribute,
+        component: str = MAIN,
     ) -> None:
         """Init the class."""
-        super().__init__(client, device, {capability})
-        self._attr_unique_id = f"{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
+        super().__init__(client, device, {capability}, component=component)
+        self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description
-        self.command = self.entity_description.set_command
+        self.command = self.entity_description.command
         self._number = self.entity_description.int_type
 
     @property
@@ -113,4 +114,10 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
                 self.capability,
                 self.command,
                 int(value),
+            )
+        else:
+            await self.execute_device_command(
+                self.capability,
+                self.command,
+                str(int(value)),
             )

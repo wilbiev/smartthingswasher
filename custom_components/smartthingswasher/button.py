@@ -19,7 +19,6 @@ from .entity import SmartThingsEntity
 class SmartThingsButtonEntityDescription(ButtonEntityDescription):
     """Describe a SmartThings binary sensor entity."""
 
-    unique_id_separator: str = "."
     command_list: list[Command] = None
 
 
@@ -57,6 +56,15 @@ CAPABILITY_TO_BUTTONS: dict[
             )
         ],
     },
+    Capability.OVEN_OPERATING_STATE: {
+        Command.STOP: [
+            SmartThingsButtonEntityDescription(
+                key=Capability.OVEN_OPERATING_STATE,
+                translation_key="stop",
+                icon="mdi:stop",
+            ),
+        ],
+    },
 }
 
 
@@ -74,10 +82,12 @@ async def async_setup_entry(
             description,
             capability,
             command,
+            component,
         )
         for device in entry_data.devices.values()
         for capability, commands in CAPABILITY_TO_BUTTONS.items()
-        if capability in device.status[MAIN]
+        for component in device.status
+        if capability in device.status[component]
         for command, descriptions in commands.items()
         for description in descriptions
     )
@@ -95,10 +105,11 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
         entity_description: SmartThingsButtonEntityDescription,
         capability: Capability,
         command: Command,
+        component: str = MAIN,
     ) -> None:
         """Init the class."""
-        super().__init__(client, device, {capability})
-        self._attr_unique_id = f"{device.device.device_id}{entity_description.unique_id_separator}{entity_description.key}"
+        super().__init__(client, device, {capability}, component=component)
+        self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{entity_description.key}"
         self.command = command
         self.capability = capability
         self.entity_description = entity_description

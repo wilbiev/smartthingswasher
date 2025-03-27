@@ -8,9 +8,9 @@ from pysmartthings import (
     Attribute,
     Capability,
     Command,
+    ComponentStatus,
     DeviceEvent,
     SmartThings,
-    Status,
 )
 
 from homeassistant.helpers.device_registry import DeviceInfo
@@ -31,22 +31,22 @@ class SmartThingsEntity(Entity):
         client: SmartThings,
         device: FullDevice,
         capabilities: set[Capability],
-        program: Program | None = None,
         *,
         component: str = MAIN,
+        program: Program | None = None,
     ) -> None:
         """Initialize the instance."""
         self.client = client
         self.capabilities = capabilities
         self.component = component
         self.program = program
-        self._internal_state: dict[Capability | str, dict[Attribute | str, Status]] = {
+        self._internal_state: ComponentStatus = {
             capability: device.status[component][capability]
             for capability in capabilities
             if capability in device.status[component]
         }
         self.device = device
-        self._attr_unique_id = device.device.device_id
+        self._attr_unique_id = f"{device.device.device_id}_{component}"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, device.device.device_id)},
         )
