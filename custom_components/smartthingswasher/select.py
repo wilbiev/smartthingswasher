@@ -26,7 +26,6 @@ class SmartThingsSelectEntityDescription(SelectEntityDescription):
     options_attribute: Attribute | None = None
     command: Command | None = None
     except_if_state_none: bool = False
-    requires_remote_control_status: bool
     supported_option: SupportedOption | None = None
 
 
@@ -41,7 +40,6 @@ CAPABILITY_TO_SELECTS: dict[
                 icon="mdi:play-speed",
                 options_attribute=Attribute.SUPPORTED_MACHINE_STATES,
                 command=Command.SET_MACHINE_STATE,
-                requires_remote_control_status=True,
             )
         ]
     },
@@ -53,7 +51,6 @@ CAPABILITY_TO_SELECTS: dict[
                 icon="mdi:play-speed",
                 options_attribute=Attribute.SUPPORTED_MACHINE_STATES,
                 command=Command.SET_MACHINE_STATE,
-                requires_remote_control_status=True,
             )
         ]
     },
@@ -64,7 +61,7 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="auto_dispense_detergent_amount",
                 icon="mdi:bottle-tonic",
                 options_attribute=Attribute.SUPPORTED_AMOUNT,
-                set_command=Command.SET_AMOUNT,
+                command=Command.SET_AMOUNT,
             )
         ]
     },
@@ -75,7 +72,7 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="auto_dispense_softener_amount",
                 icon="mdi:bottle-tonic",
                 options_attribute=Attribute.SUPPORTED_AMOUNT,
-                set_command=Command.SET_AMOUNT,
+                command=Command.SET_AMOUNT,
             )
         ]
     },
@@ -86,9 +83,8 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="dryer_dry_level",
                 icon="mdi:waves-arrow-up",
                 options_attribute=Attribute.SUPPORTED_DRYER_DRY_LEVEL,
-                set_command=Command.SET_DRYER_DRY_LEVEL,
+                command=Command.SET_DRYER_DRY_LEVEL,
                 supported_option=SupportedOption.DRYING_LEVEL,
-                requires_remote_control_status=True,
             )
         ]
     },
@@ -99,8 +95,7 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="course",
                 icon="mdi:list-box-outline",
                 options_attribute=Attribute.SUPPORTED_COURSES,
-                set_command=Command.SET_COURSE,
-                requires_remote_control_status=True,
+                command=Command.SET_COURSE,
             )
         ]
     },
@@ -111,9 +106,8 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="washer_rinse_cycles",
                 icon="mdi:water-sync",
                 options_attribute=Attribute.SUPPORTED_WASHER_RINSE_CYCLES,
-                set_command=Command.SET_WASHER_RINSE_CYCLES,
+                command=Command.SET_WASHER_RINSE_CYCLES,
                 supported_option=SupportedOption.RINSE_CYCLE,
-                requires_remote_control_status=True,
             )
         ]
     },
@@ -124,9 +118,8 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="washer_soil_level",
                 icon="mdi:brightness-7",
                 options_attribute=Attribute.SUPPORTED_WASHER_SOIL_LEVEL,
-                set_command=Command.SET_WASHER_SOIL_LEVEL,
+                command=Command.SET_WASHER_SOIL_LEVEL,
                 supported_option=SupportedOption.SOIL_LEVEL,
-                requires_remote_control_status=True,
             )
         ]
     },
@@ -137,9 +130,8 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="washer_spin_level",
                 icon="mdi:autorenew",
                 options_attribute=Attribute.SUPPORTED_WASHER_SPIN_LEVEL,
-                set_command=Command.SET_WASHER_SPIN_LEVEL,
+                command=Command.SET_WASHER_SPIN_LEVEL,
                 supported_option=SupportedOption.SPIN_LEVEL,
-                requires_remote_control_status=True,
             )
         ]
     },
@@ -150,9 +142,8 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="washer_water_temperature",
                 icon="mdi:water-thermometer",
                 options_attribute=Attribute.SUPPORTED_WASHER_WATER_TEMPERATURE,
-                set_command=Command.SET_WASHER_WATER_TEMPERATURE,
+                command=Command.SET_WASHER_WATER_TEMPERATURE,
                 supported_option=SupportedOption.WATER_TEMPERATURE,
-                requires_remote_control_status=True,
             )
         ]
     },
@@ -163,8 +154,7 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="machine_state",
                 icon="mdi:play-speed",
                 options_attribute=Attribute.SUPPORTED_MACHINE_STATES,
-                set_command=Command.SET_MACHINE_STATE,
-                requires_remote_control_status=True,
+                command=Command.SET_MACHINE_STATE,
             )
         ]
     },
@@ -181,7 +171,6 @@ PROGRAMS_TO_SELECTS: dict[
                 translation_key="washer_cycle",
                 icon="mdi:list-box-outline",
                 command=Command.SET_WASHER_CYCLE,
-                requires_remote_control_status=True,
             )
         ]
     }
@@ -287,7 +276,7 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
     ) -> None:
         """Init the class."""
         capabilities = {capability}
-        if entity_description.requires_remote_control_status:
+        if entity_description.supported_option:
             capabilities.add(Capability.REMOTE_CONTROL_STATUS)
         super().__init__(client, device, capabilities, component=component)
         self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
@@ -347,10 +336,7 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
         component: str = MAIN,
     ) -> None:
         """Init the class."""
-        capabilities = {capability}
-        if entity_description.requires_remote_control_status:
-            capabilities.add(Capability.REMOTE_CONTROL_STATUS)
-        super().__init__(client, device, capabilities, component=component)
+        super().__init__(client, device, {capability}, component=component)
         self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
