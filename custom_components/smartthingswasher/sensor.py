@@ -703,7 +703,7 @@ CAPABILITY_TO_SENSORS: dict[
                 device_class=SensorDeviceClass.ENUM,
                 entity_category=EntityCategory.DIAGNOSTIC,
             )
-        ],
+        ]
     },
     Capability.ROBOT_CLEANER_MOVEMENT: {
         Attribute.ROBOT_CLEANER_MOVEMENT: [
@@ -936,14 +936,6 @@ CAPABILITY_TO_SENSORS: dict[
         ]
     },
     Capability.WASHER_OPERATING_STATE: {
-        Attribute.MACHINE_STATE: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.MACHINE_STATE,
-                translation_key="washer_machine_state",
-                device_class=SensorDeviceClass.ENUM,
-                options_attribute=Attribute.SUPPORTED_MACHINE_STATES,
-            )
-        ],
         Attribute.WASHER_JOB_STATE: [
             SmartThingsSensorEntityDescription(
                 key=Attribute.WASHER_JOB_STATE,

@@ -173,7 +173,17 @@ PROGRAMS_TO_SELECTS: dict[
                 command=Command.SET_WASHER_CYCLE,
             )
         ]
-    }
+    },
+    Capability.SAMSUNG_CE_DRYER_CYCLE: {
+        Attribute.DRYER_CYCLE: [
+            SmartThingsSelectEntityDescription(
+                key=Attribute.DRYER_CYCLE,
+                translation_key="dryer_cycle",
+                icon="mdi:list-box-outline",
+                command=Command.SET_DRYER_CYCLE,
+            )
+        ]
+    },
 }
 
 
@@ -319,7 +329,6 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         """Update the options for this select entity."""
         self._attr_options = options
         self.async_write_ha_state()
-
 
 class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
     """Define a SmartThings select."""

@@ -182,6 +182,36 @@
           "course_96": "Microfiber"
         }
       },
+      "dryer_cycle": {
+        "name": "Dryer cycle",
+        "state": {
+          "course_1b": "[%key:component::smartthings::entity::select::washer_cycle::state::course_1b%]",
+          "course_1c": "[%key:component::smartthings::entity::select::washer_cycle::state::course_1c%]",
+          "course_1d": "[%key:component::smartthings::entity::select::washer_cycle::state::course_1d%]",
+          "course_1e": "[%key:component::smartthings::entity::select::washer_cycle::state::course_1e%]",
+          "course_20": "[%key:component::smartthings::entity::select::washer_cycle::state::course_20%]",
+          "course_21": "[%key:component::smartthings::entity::select::washer_cycle::state::course_21%]",
+          "course_22": "[%key:component::smartthings::entity::select::washer_cycle::state::course_22%]",
+          "course_23": "[%key:component::smartthings::entity::select::washer_cycle::state::course_23%]",
+          "course_24": "[%key:component::smartthings::entity::select::washer_cycle::state::course_24%]",
+          "course_25": "[%key:component::smartthings::entity::select::washer_cycle::state::course_25%]",
+          "course_26": "[%key:component::smartthings::entity::select::washer_cycle::state::course_26%]",
+          "course_27": "[%key:component::smartthings::entity::select::washer_cycle::state::course_27%]",
+          "course_28": "[%key:component::smartthings::entity::select::washer_cycle::state::course_28%]",
+          "course_29": "[%key:component::smartthings::entity::select::washer_cycle::state::course_29%]",
+          "course_2b": "[%key:component::smartthings::entity::select::washer_cycle::state::course_2b%]",
+          "course_2d": "[%key:component::smartthings::entity::select::washer_cycle::state::course_2d%]",
+          "course_30": "[%key:component::smartthings::entity::select::washer_cycle::state::course_30%]",
+          "course_32": "[%key:component::smartthings::entity::select::washer_cycle::state::course_32%]",
+          "course_33": "[%key:component::smartthings::entity::select::washer_cycle::state::course_33%]",
+          "course_36": "[%key:component::smartthings::entity::select::washer_cycle::state::course_36%]",
+          "course_37": "[%key:component::smartthings::entity::select::washer_cycle::state::course_37%]",
+          "course_38": "[%key:component::smartthings::entity::select::washer_cycle::state::course_38%]",
+          "course_39": "[%key:component::smartthings::entity::select::washer_cycle::state::course_39%]",
+          "course_8f": "[%key:component::smartthings::entity::select::washer_cycle::state::course_8f%]",
+          "course_96": "[%key:component::smartthings::entity::select::washer_cycle::state::course_96%]"
+        }
+      },
       "washer_rinse_cycles": {
         "name": "Washer rinse cycles"
       },
@@ -540,14 +570,6 @@
       },
       "washer_mode": {
         "name": "Washer mode"
-      },
-      "washer_machine_state": {
-        "name": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::name%]",
-        "state": {
-          "pause": "[%key:common::state::paused%]",
-          "run": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::run%]",
-          "stop": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::stop%]"
-        }
       },
       "washer_operating_state": {
         "name": "Operating state",

@@ -123,11 +123,13 @@ CAPABILITY_TO_SENSORS: dict[
         ]
     },
     Capability.SOUND_SENSOR: {
-        Attribute.SOUND: SmartThingsBinarySensorEntityDescription(
-            key=Attribute.SOUND,
-            device_class=BinarySensorDeviceClass.SOUND,
-            is_on_key="detected",
-        )
+        Attribute.SOUND: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.SOUND,
+                device_class=BinarySensorDeviceClass.SOUND,
+                is_on_key="detected",
+            )
+        ]
     },
     Capability.TAMPER_ALERT: {
         Attribute.TAMPER: [
@@ -160,12 +162,14 @@ CAPABILITY_TO_SENSORS: dict[
         ]
     },
     Capability.SAMSUNG_CE_DOOR_STATE: {
-        Attribute.DOOR_STATE: SmartThingsBinarySensorEntityDescription(
-            key=Attribute.DOOR_STATE,
-            translation_key="door",
-            device_class=BinarySensorDeviceClass.OPENING,
-            is_on_key="open",
-        )
+        Attribute.DOOR_STATE: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.DOOR_STATE,
+                translation_key="door",
+                device_class=BinarySensorDeviceClass.OPENING,
+                is_on_key="open",
+            )
+        ]
     },
 }
 

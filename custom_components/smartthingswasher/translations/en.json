@@ -149,6 +149,36 @@
           "96": "Microfiber"
         }
       },
+      "dryer_cycle": {
+        "name": "Dryer cycle",
+        "state": {
+          "course_1b": "Katoen",
+          "course_1c": "Eco 40-60",
+          "course_1d": "Superspeed",
+          "course_1e": "15m kort programma",
+          "course_20": "Hygienisch stomen",
+          "course_21": "Gekleurde was",
+          "course_22": "Wol",
+          "course_23": "Outdoor",
+          "course_24": "Beddengoed",
+          "course_25": "Synthetisch",
+          "course_26": "Fijne was",
+          "course_27": "Spoelen en centrifugeren",
+          "course_28": "Afvoeren en centrifugeren",
+          "course_29": "Trommelreiniging",
+          "course_2b": "AI Wash",
+          "course_2d": "Stille was",
+          "course_30": "Bewolkte dag",
+          "course_32": "Overhemden",
+          "course_33": "Handdoeken",
+          "course_36": "Wassen en drogen",
+          "course_37": "Air Wash",
+          "course_38": "Katoen drogen",
+          "course_39": "Synthetisch drogen",
+          "course_8f": "Intens koud",
+          "course_96": "Microfiber"
+        }
+      },
       "dryer_dry_level": {
         "name": "Dryer dry level"
       },
@@ -548,14 +578,6 @@
           "wash": "Wash",
           "weight_sensing": "Weight sensing",
           "wrinkle_prevent": "Wrinkle prevention"
-        }
-      },
-      "washer_machine_state": {
-        "name": "Machine state",
-        "state": {
-          "pause": "Paused",
-          "run": "Running",
-          "stop": "Stopped"
         }
       },
       "washer_mode": {

@@ -63,7 +63,16 @@ CAPABILITY_TO_BUTTONS: dict[
                 translation_key="stop",
                 icon="mdi:stop",
             ),
-        ],
+        ]
+    },
+    Capability.CUSTOM_WATER_FILTER: {
+        Command.RESET_WATER_FILTER: [
+            SmartThingsButtonEntityDescription(
+                key=Capability.CUSTOM_WATER_FILTER,
+                translation_key="reset_water_filter",
+                icon="mdi:reload",
+            ),
+        ]
     },
 }
 

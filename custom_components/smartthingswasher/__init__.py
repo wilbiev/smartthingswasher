@@ -48,6 +48,7 @@ from homeassistant.helpers.config_entry_oauth2_flow import (
 )
 
 from .const import (
+    CAPABILITIES_WITH_PROGRAMS,
     CONF_INSTALLED_APP_ID,
     CONF_LOCATION_ID,
     CONF_SUBSCRIPTION_ID,
@@ -369,7 +370,27 @@ def process_status(status: dict[str, ComponentStatus]) -> dict[str, ComponentSta
     if (main_component := status.get(MAIN)) is None:
         return status
     if (
-        disabled_capabilities_capability := main_component.get(
+        disabled_components_capability := main_component.get(
+            Capability.CUSTOM_DISABLED_COMPONENTS
+        )
+    ) is not None:
+        disabled_components = cast(
+            list[str],
+            disabled_components_capability[Attribute.DISABLED_COMPONENTS].value,
+        )
+        if disabled_components is not None:
+            for component in disabled_components:
+                if component in status:
+                    del status[component]
+    for component_status in status.values():
+        process_component_status(component_status)
+    return status
+
+
+def process_component_status(status: ComponentStatus) -> None:
+    """Remove disabled capabilities from component status."""
+    if (
+        disabled_capabilities_capability := status.get(
             Capability.CUSTOM_DISABLED_CAPABILITIES
         )
     ) is not None:
@@ -379,12 +400,11 @@ def process_status(status: dict[str, ComponentStatus]) -> dict[str, ComponentSta
         )
         if disabled_capabilities is not None:
             for capability in disabled_capabilities:
-                if capability in main_component and (
+                if capability in status and (
                     capability not in KEEP_CAPABILITY_QUIRK
-                    or not KEEP_CAPABILITY_QUIRK[capability](main_component[capability])
+                    or not KEEP_CAPABILITY_QUIRK[capability](status[capability])
                 ):
-                    del main_component[capability]
-    return status
+                    del status[capability]
 
 
 def process_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
@@ -394,11 +414,14 @@ def process_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
     supported_item: dict[Any] = {}
     supportedoption: SupportedOption
     supportedoption_list: dict[SupportedOption | str, dict[ProgramOptions]] = {}
-    if (main_component := status.get(MAIN)) is None or (
-        program_capabilities_list := main_component.get(
-            Capability.SAMSUNG_CE_WASHER_CYCLE
-        )
-    ) is None:
+    program_capabilities_list: dict[Any] = {}
+    for capability in CAPABILITIES_WITH_PROGRAMS:
+        if (main_component := status.get(MAIN)) is not None:
+            if (
+                program_capabilities_list := main_component.get(capability)
+            ) is not None:
+                break
+    if not program_capabilities_list:
         return programs
     program_list = program_capabilities_list[Attribute.SUPPORTED_CYCLES].value
     for program in program_list:
