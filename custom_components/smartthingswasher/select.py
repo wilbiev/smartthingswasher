@@ -8,9 +8,9 @@ from datetime import datetime
 from pysmartthings import Attribute, Capability, Command, SmartThings
 
 from homeassistant.components.select import SelectEntity, SelectEntityDescription
-from homeassistant.core import HomeAssistant, callback
+from homeassistant.core import Event, EventStateChangedData, HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
-from homeassistant.helpers.event import async_track_state_change
+from homeassistant.helpers.event import async_track_state_change_event
 
 from . import FullDevice, SmartThingsConfigEntry
 from .const import MAIN
@@ -231,8 +231,10 @@ async def async_setup_entry(
     ]
 
     @callback
-    def select_state_listener(entity_id, old_state, new_state):
+    def select_state_listener(event: Event[EventStateChangedData]) -> None:
         """Handle state changes of the sensor entity."""
+        entity_id = event.data["entity_id"]
+        new_state = event.data["new_state"]
         if new_state is None:
             return
 
@@ -267,7 +269,7 @@ async def async_setup_entry(
                 ) is not None:
                     select_entity.update_select_options(options)
 
-    async_track_state_change(hass, program_entities, select_state_listener)
+    async_track_state_change_event(hass, program_entities, select_state_listener)
 
 
 class SmartThingsSelect(SmartThingsEntity, SelectEntity):
@@ -329,6 +331,7 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         """Update the options for this select entity."""
         self._attr_options = options
         self.async_write_ha_state()
+
 
 class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
     """Define a SmartThings select."""
