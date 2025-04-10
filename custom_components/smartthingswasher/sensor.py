@@ -977,7 +977,6 @@ CAPABILITY_TO_SENSORS: dict[
             SmartThingsSensorEntityDescription(
                 key="remaining_detergent",
                 translation_key="remaining_amount_dispense_detergent",
-                icon="mdi:bottle-tonic-outline",
                 options=[
                     "extra",
                     "less",
@@ -995,7 +994,6 @@ CAPABILITY_TO_SENSORS: dict[
             SmartThingsSensorEntityDescription(
                 key="remaining_softener",
                 translation_key="remaining_amount_dispense_softener",
-                icon="mdi:bottle-tonic-outline",
                 options=[
                     "extra",
                     "less",
@@ -1013,7 +1011,6 @@ CAPABILITY_TO_SENSORS: dict[
             SmartThingsSensorEntityDescription(
                 key=Attribute.OPERATING_STATE,
                 translation_key="washer_operating_state",
-                icon="mdi:state-machine",
                 device_class=SensorDeviceClass.ENUM,
                 options_attribute=Attribute.SUPPORTED_OPERATING_STATES,
             )
@@ -1023,7 +1020,6 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.OPERATION_TIME,
                 translation_key="washer_operation_time",
                 native_unit_of_measurement=UnitOfTime.MINUTES,
-                icon="mdi:clock",
             )
         ],
         Attribute.PROGRESS: [
@@ -1031,7 +1027,6 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.PROGRESS,
                 translation_key="washer_operating_progress",
                 native_unit_of_measurement=PERCENTAGE,
-                icon="mdi:progress-clock",
             )
         ],
         Attribute.REMAINING_TIME: [
@@ -1039,7 +1034,6 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.REMAINING_TIME,
                 translation_key="washer_remaining_time",
                 native_unit_of_measurement=UnitOfTime.MINUTES,
-                icon="mdi:timelapse",
             )
         ],
     },

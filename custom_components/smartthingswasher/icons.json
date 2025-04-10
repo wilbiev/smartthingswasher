@@ -1,0 +1,118 @@
+{
+    "entity": {
+      "binary_sensor": {
+        "bubblesoak_support": {
+          "default": "mdi:water-off",
+          "state": {
+            "on": "mdi:water"
+          }
+        },
+        "child_lock": {
+          "default": "mdi:lock-open",
+          "state": {
+            "on": "mdi:lock"
+          }
+        },
+        "dryer_wrinkle_prevent_active": {
+          "default": "mdi:tumble-dryer",
+          "state": {
+            "on": "mdi:tumble-dryer-alert"
+          }
+        },
+        "remote_control": {
+          "default": "mdi:remote-off",
+          "state": {
+            "on": "mdi:remote"
+          }
+        }
+      },
+      "button": {
+        "estimate_operation_time": {
+          "default": "mdi:clock-end"
+        },
+        "reset_water_filter": {
+          "default": "mdi:reload"
+        },
+        "state_cancel": {
+          "default": "mdi:stop-circle"
+        },
+        "state_pause_resume": {
+          "default": "mdi:pause-circle"
+        },
+        "state_start": {
+          "default": "mdi:play-circle"
+        },
+        "stop": {
+          "default": "mdi:stop"
+        }
+      },
+      "number": {
+        "washer_delay_time": {
+          "default": "mdi:timer"
+        }
+      },
+      "select": {
+        "auto_dispense_detergent_amount": {
+          "default": "mdi:bottle-tonic"
+        },
+        "auto_dispense_softener_amount": {
+          "default": "mdi:bottle-tonic"
+        },
+        "dryer_dry_level": {
+          "default": "mdi:waves-arrow-up"
+        },
+        "machine_state": {
+          "default": "mdi:play-speed",
+          "state": {
+            "run": "mdi:play",
+            "pause": "mdi:pause",
+            "stop": "mdi:stop"
+          }
+        },
+        "washer_rinse_cycles": {
+          "default": "mdi:water-sync"
+        },
+        "washer_soil_level": {
+          "default": "mdi:brightness-7"
+        },
+        "washer_spin_level": {
+          "default": "mdi:autorenew"
+        },
+        "washer_water_temperature": {
+          "default": "mdi:water-thermometer"
+        }
+      },
+      "sensor": {
+        "remaining_amount_dispense_detergent": {
+          "default": "mdi:bottle-tonic-outline"
+        },
+        "remaining_amount_dispense_softener": {
+          "default": "mdi:bottle-tonic-outline"
+        },
+        "washer_operating_progress": {
+          "default": "mdi:progress-clock"
+        },
+        "washer_operating_state": {
+          "default": "mdi:state-machine"
+        },
+        "washer_operation_time": {
+          "default": "mdi:clock"
+        },
+        "washer_remaining_time": {
+          "default": "mdi:timelapse"
+        }
+      },
+      "switch": {
+        "wrinkle_prevent": {
+          "default": "mdi:tumble-dryer",
+          "state": {
+            "off": "mdi:tumble-dryer-off"
+          }
+        },
+        "ice_maker": {
+          "default": "mdi:delete-variant"
+        }
+      }
+    }
+  }
+  

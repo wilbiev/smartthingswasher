@@ -30,14 +30,12 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Command.START,
                 translation_key="state_start",
-                icon="mdi:play-circle",
             )
         ],
         Command.CANCEL: [
             SmartThingsButtonEntityDescription(
                 key=Command.CANCEL,
                 translation_key="state_cancel",
-                icon="mdi:stop-circle",
             )
         ],
         Command.RESUME: [
@@ -45,14 +43,12 @@ CAPABILITY_TO_BUTTONS: dict[
                 key="pause_resume",
                 translation_key="state_pause_resume",
                 command_list=[Command.PAUSE, Command.RESUME],
-                icon="mdi:pause-circle",
             )
         ],
         Command.ESTIMATE_OPERATION_TIME: [
             SmartThingsButtonEntityDescription(
                 key=Command.ESTIMATE_OPERATION_TIME,
                 translation_key="estimate_operation_time",
-                icon="mdi:clock-end",
             )
         ],
     },
@@ -61,7 +57,6 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Capability.OVEN_OPERATING_STATE,
                 translation_key="stop",
-                icon="mdi:stop",
             ),
         ]
     },
@@ -70,7 +65,6 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Capability.CUSTOM_WATER_FILTER,
                 translation_key="reset_water_filter",
-                icon="mdi:reload",
             ),
         ]
     },

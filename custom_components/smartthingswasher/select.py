@@ -37,7 +37,6 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Attribute.MACHINE_STATE,
                 translation_key="machine_state",
-                icon="mdi:play-speed",
                 options_attribute=Attribute.SUPPORTED_MACHINE_STATES,
                 command=Command.SET_MACHINE_STATE,
             )
@@ -48,7 +47,6 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Attribute.MACHINE_STATE,
                 translation_key="machine_state",
-                icon="mdi:play-speed",
                 options_attribute=Attribute.SUPPORTED_MACHINE_STATES,
                 command=Command.SET_MACHINE_STATE,
             )
@@ -59,7 +57,6 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key="auto_detergent",
                 translation_key="auto_dispense_detergent_amount",
-                icon="mdi:bottle-tonic",
                 options_attribute=Attribute.SUPPORTED_AMOUNT,
                 command=Command.SET_AMOUNT,
             )
@@ -70,7 +67,6 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key="auto_softener",
                 translation_key="auto_dispense_softener_amount",
-                icon="mdi:bottle-tonic",
                 options_attribute=Attribute.SUPPORTED_AMOUNT,
                 command=Command.SET_AMOUNT,
             )
@@ -81,7 +77,6 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Attribute.DRYER_DRY_LEVEL,
                 translation_key="dryer_dry_level",
-                icon="mdi:waves-arrow-up",
                 options_attribute=Attribute.SUPPORTED_DRYER_DRY_LEVEL,
                 command=Command.SET_DRYER_DRY_LEVEL,
                 supported_option=SupportedOption.DRYING_LEVEL,
@@ -93,7 +88,6 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Attribute.COURSE,
                 translation_key="course",
-                icon="mdi:list-box-outline",
                 options_attribute=Attribute.SUPPORTED_COURSES,
                 command=Command.SET_COURSE,
             )
@@ -104,7 +98,6 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Attribute.WASHER_RINSE_CYCLES,
                 translation_key="washer_rinse_cycles",
-                icon="mdi:water-sync",
                 options_attribute=Attribute.SUPPORTED_WASHER_RINSE_CYCLES,
                 command=Command.SET_WASHER_RINSE_CYCLES,
                 supported_option=SupportedOption.RINSE_CYCLE,
@@ -116,7 +109,6 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Attribute.WASHER_SOIL_LEVEL,
                 translation_key="washer_soil_level",
-                icon="mdi:brightness-7",
                 options_attribute=Attribute.SUPPORTED_WASHER_SOIL_LEVEL,
                 command=Command.SET_WASHER_SOIL_LEVEL,
                 supported_option=SupportedOption.SOIL_LEVEL,
@@ -128,7 +120,6 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Attribute.WASHER_SPIN_LEVEL,
                 translation_key="washer_spin_level",
-                icon="mdi:autorenew",
                 options_attribute=Attribute.SUPPORTED_WASHER_SPIN_LEVEL,
                 command=Command.SET_WASHER_SPIN_LEVEL,
                 supported_option=SupportedOption.SPIN_LEVEL,
@@ -140,7 +131,6 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Attribute.WASHER_WATER_TEMPERATURE,
                 translation_key="washer_water_temperature",
-                icon="mdi:water-thermometer",
                 options_attribute=Attribute.SUPPORTED_WASHER_WATER_TEMPERATURE,
                 command=Command.SET_WASHER_WATER_TEMPERATURE,
                 supported_option=SupportedOption.WATER_TEMPERATURE,
@@ -152,7 +142,6 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Attribute.MACHINE_STATE,
                 translation_key="machine_state",
-                icon="mdi:play-speed",
                 options_attribute=Attribute.SUPPORTED_MACHINE_STATES,
                 command=Command.SET_MACHINE_STATE,
             )
@@ -169,7 +158,6 @@ PROGRAMS_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Attribute.WASHER_CYCLE,
                 translation_key="washer_cycle",
-                icon="mdi:list-box-outline",
                 command=Command.SET_WASHER_CYCLE,
             )
         ]
@@ -179,7 +167,6 @@ PROGRAMS_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Attribute.DRYER_CYCLE,
                 translation_key="dryer_cycle",
-                icon="mdi:list-box-outline",
                 command=Command.SET_DRYER_CYCLE,
             )
         ]

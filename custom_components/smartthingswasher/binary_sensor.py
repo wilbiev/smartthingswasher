@@ -27,8 +27,6 @@ class SmartThingsBinarySensorEntityDescription(BinarySensorEntityDescription):
     """Describe a SmartThings binary sensor entity."""
 
     is_on_key: str
-    icon_default: str = None
-    icon_on: str = None
     category_device_class: dict[Category | str, BinarySensorDeviceClass] | None = None
     category: set[Category] | None = None
     exists_fn: Callable[[str], bool] | None = None
@@ -67,8 +65,6 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="dryer_wrinkle_prevent_active",
                 is_on_key="running",
                 entity_category=EntityCategory.DIAGNOSTIC,
-                icon_default="mdi:tumble-dryer",
-                icon_on="mdi:tumble-dryer-alert",
             )
         ]
     },
@@ -88,8 +84,6 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.REMOTE_CONTROL_ENABLED,
                 translation_key="remote_control",
                 is_on_key="true",
-                icon_default="mdi:remote-off",
-                icon_on="mdi:remote",
             )
         ]
     },
@@ -99,8 +93,6 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.LOCK_STATE,
                 translation_key="child_lock",
                 is_on_key="locked",
-                icon_default="mdi:lock-open",
-                icon_on="mdi:lock",
             )
         ]
     },
@@ -267,15 +259,6 @@ class SmartThingsBinarySensor(SmartThingsEntity, BinarySensorEntity):
             == self.entity_description.is_on_key
         )
 
-    @property
-    def icon(self) -> str | None:
-        """Return icon based on current state."""
-        if self.state == "on" and self.entity_description.icon_on:
-            return self.entity_description.icon_on
-        if self.entity_description.icon_default:
-            return self.entity_description.icon_default
-        return None
-
 
 class SmartThingsProgramBinarySensor(SmartThingsEntity, BinarySensorEntity):
     """Define a SmartThings Program Binary Sensor."""
@@ -308,12 +291,3 @@ class SmartThingsProgramBinarySensor(SmartThingsEntity, BinarySensorEntity):
             str(self.device.programs[washer_cycle].bubblesoak)
             == self.entity_description.is_on_key
         )
-
-    @property
-    def icon(self) -> str | None:
-        """Return icon based on current state."""
-        if self.state == "on" and self.entity_description.icon_on:
-            return self.entity_description.icon_on
-        if self.entity_description.icon_default:
-            return self.entity_description.icon_default
-        return None

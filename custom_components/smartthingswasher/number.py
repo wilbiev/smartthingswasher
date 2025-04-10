@@ -37,7 +37,6 @@ CAPABILITY_TO_NUMBERS: dict[
             SmartThingsNumberEntityDescription(
                 key="washer_delay_time",
                 translation_key="washer_delay_time",
-                icon="mdi:timer",
                 native_unit_of_measurement=UnitOfTime.MINUTES,
                 command=Command.SET_DELAY_TIME,
                 native_min_value=0,
