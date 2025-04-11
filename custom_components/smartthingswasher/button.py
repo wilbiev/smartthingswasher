@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from pysmartthings import Capability, Command, SmartThings
 
@@ -19,7 +19,7 @@ from .entity import SmartThingsEntity
 class SmartThingsButtonEntityDescription(ButtonEntityDescription):
     """Describe a SmartThings binary sensor entity."""
 
-    command_list: list[Command] = None
+    command_list: list[Command] = field(default_factory=list)
 
 
 CAPABILITY_TO_BUTTONS: dict[
@@ -119,7 +119,7 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
 
     async def async_press(self) -> None:
         """Press the button."""
-        if self.entity_description.command_list is not None:
+        if self.entity_description.command_list:
             item = self.entity_description.command_list.index(self.command)
             if item == (len(self.entity_description.command_list) - 1):
                 self.command = self.entity_description.command_list[0]
