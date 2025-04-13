@@ -19,7 +19,7 @@ from .entity import SmartThingsEntity
 class SmartThingsButtonEntityDescription(ButtonEntityDescription):
     """Describe a SmartThings binary sensor entity."""
 
-    command_list: list[Command] = field(default_factory=list)
+    command_list: list[Command]
 
 
 CAPABILITY_TO_BUTTONS: dict[
