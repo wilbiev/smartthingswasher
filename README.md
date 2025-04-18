@@ -73,10 +73,9 @@ A red box is displayed in the integration while it replaces the standard integra
 |	15m Quick Wash	| Course_66	    |	        	| Course_1E	    |		        |
 |	15m Quick Wash	| Course_DC	    |	        	| Course_1E	    |		        |
 |	Activewear	    |		        |	        	| Course_2F	    |		        |
-|	AI Dry	        |		        |	        	|		        | Course_29	   |
+|	AI Dry	        |		        |	        	|		        | Course_29 	|
 |	AI Wash	        |		        |		        | Course_2B	    |	        	|
 |	Air Refresh	    | Course_61	    |		        | Course_37	    |	        	|
-|	Air Wash	    |		        |		        |		        |		        |
 |	Baby Care	    |		        |	        	| Course_2E	    |	        	|
 |	Bedding	        | Course_D6	    |	        	| Course_24	    | Course_1B	    |
 |	Cloudy Day	    |		        |	        	| Course_30	    |	        	|
