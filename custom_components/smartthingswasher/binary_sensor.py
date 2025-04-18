@@ -31,9 +31,6 @@ class SmartThingsBinarySensorEntityDescription(BinarySensorEntityDescription):
     category: set[Category] | None = None
     exists_fn: Callable[[str], bool] | None = None
     component_translation_key: dict[str, str] | None = None
-    deprecated_fn: Callable[
-        [dict[str, dict[Capability | str, dict[Attribute | str, Status]]]], str | None
-    ] = lambda _: None
 
 
 CAPABILITY_TO_SENSORS: dict[
@@ -130,17 +127,6 @@ CAPABILITY_TO_SENSORS: dict[
                 device_class=BinarySensorDeviceClass.TAMPER,
                 is_on_key="detected",
                 entity_category=EntityCategory.DIAGNOSTIC,
-            )
-        ]
-    },
-    Capability.VALVE: {
-        Attribute.VALVE: [
-            SmartThingsBinarySensorEntityDescription(
-                key=Attribute.VALVE,
-                translation_key="valve",
-                device_class=BinarySensorDeviceClass.OPENING,
-                is_on_key="open",
-                deprecated_fn=lambda _: "valve",
             )
         ]
     },
