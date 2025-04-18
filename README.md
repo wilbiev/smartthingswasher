@@ -7,6 +7,8 @@ Test version based on SmartThings integration of @JoostLek
 
 ### Remove the standard SmartThings integration
 
+The standard integration and this test version can not be installed both in one HA instance!
+
 ### Setup custom repository in HACS
 
 Open your Home Assistant instance and add a custom repository [Home Assistant Community Store (HACS)](https://hacs.xyz/docs/faq/custom_repositories/)
