@@ -19,24 +19,23 @@ After installing, you can easily configure your devices using the Integrations c
 ![Add Integration to your Home Assistant instance](https://my.home-assistant.io/badges/config_flow_start.svg)
 A red box is displayed in the integration while it replaces the standard integration
 
-## SmartThings capabilities support
+## Additional SmartThings dryer/washer support
 
-### Button entity support
+### Button entities
 * Cancel
 * Start
 * Pause / Resume
 * Estimate operation time
 
-### Binary sensor entity support
+### Binary sensor entities
 * BubbleSoak support (shows if BubbleSoak is supported by selected program)
 * Child lock (standard)
 * Remote control (standard)
-* 
 
-### Number entity support:
+### Number entities
 * Washer delay time
 
-### Sensor entity support:
+### Sensor entities
 * Completion time (standard)
 * Energy (standard) 
 * Job state (standard)
@@ -49,7 +48,7 @@ A red box is displayed in the integration while it replaces the standard integra
 * Remaining time
 * Water consumption
 
-### Select entity support:
+### Select entities
 * Auto dispense detergent
 * Auto dispense softener
 * Dry level*
@@ -62,7 +61,7 @@ A red box is displayed in the integration while it replaces the standard integra
 
 (* select options based on selected course when remote control is on)
 
-### Switch entity support
+### Switch entities
 * BubbleSoak
 * Switch per dryer/washer course
 
