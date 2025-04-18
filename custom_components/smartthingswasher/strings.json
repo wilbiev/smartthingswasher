@@ -135,11 +135,11 @@
       "cooler_door": {
         "name": "Cooler door"
       },
+      "cool_select_plus_door": {
+        "name": "CoolSelect+ door"
+      },
       "remote_control": {
         "name": "Remote control"
-      },
-      "valve": {
-        "name": "Valve"
       }
     },
     "button": {

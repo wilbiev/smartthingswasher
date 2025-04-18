@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from dataclasses import dataclass
 
-from pysmartthings import Attribute, Capability, Category, SmartThings, Status
+from pysmartthings import Attribute, Capability, Category, SmartThings
 
 from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
@@ -52,6 +52,17 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.CONTACT,
                 device_class=BinarySensorDeviceClass.DOOR,
                 is_on_key="open",
+                category_device_class={
+                    Category.GARAGE_DOOR: BinarySensorDeviceClass.GARAGE_DOOR,
+                    Category.DOOR: BinarySensorDeviceClass.DOOR,
+                    Category.WINDOW: BinarySensorDeviceClass.WINDOW,
+                },
+                exists_fn=lambda key: key in {"freezer", "cooler", "cvroom"},
+                component_translation_key={
+                    "freezer": "freezer_door",
+                    "cooler": "cooler_door",
+                    "cvroom": "cool_select_plus_door",
+                },
             )
         ]
     },
@@ -211,9 +222,22 @@ async def async_setup_entry(
         if device.programs is not None
         for capability, attributes in PROGRAMS_TO_SENSORS.items()
         for component in device.status
-        if capability in device.status[component]
         for attribute, descriptions in attributes.items()
         for description in descriptions
+        if (
+            capability in device.status[component]
+            and (
+                component == MAIN
+                or (
+                    description.exists_fn is not None
+                    and description.exists_fn(component)
+                )
+            )
+            and (
+                not description.category
+                or get_main_component_category(device) in description.category
+            )
+        )
     )
 
 
@@ -237,6 +261,23 @@ class SmartThingsBinarySensor(SmartThingsEntity, BinarySensorEntity):
         self.capability = capability
         self.entity_description = entity_description
         self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
+        if (
+            entity_description.category_device_class
+            and (category := get_main_component_category(device))
+            in entity_description.category_device_class
+        ):
+            self._attr_device_class = entity_description.category_device_class[category]
+            self._attr_name = None
+        if (
+            entity_description.component_translation_key is not None
+            and (
+                translation_key := entity_description.component_translation_key.get(
+                    component
+                )
+            )
+            is not None
+        ):
+            self._attr_translation_key = translation_key
 
     @property
     def is_on(self) -> bool:
