@@ -16,7 +16,7 @@ from . import FullDevice, SmartThingsConfigEntry
 from .const import MAIN
 from .entity import SmartThingsEntity
 from .models import SupportedOption
-from .utils import get_program_options, translate_program_course
+from .utils import get_program_options, get_program_table_id, translate_program_course
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -80,16 +80,6 @@ CAPABILITY_TO_SELECTS: dict[
                 options_attribute=Attribute.SUPPORTED_DRYER_DRY_LEVEL,
                 command=Command.SET_DRYER_DRY_LEVEL,
                 supported_option=SupportedOption.DRYING_LEVEL,
-            )
-        ]
-    },
-    Capability.CUSTOM_SUPPORTED_OPTIONS: {
-        Attribute.COURSE: [
-            SmartThingsSelectEntityDescription(
-                key=Attribute.COURSE,
-                translation_key="course",
-                options_attribute=Attribute.SUPPORTED_COURSES,
-                command=Command.SET_COURSE,
             )
         ]
     },
@@ -341,6 +331,10 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
         self.capability = capability
         self.entity_description = entity_description
         self.command = self.entity_description.command
+        if (table_id := get_program_table_id(device.status)) != "":
+            self._attr_translation_key = (
+                f"{self.entity_description.translation_key}_{table_id}"
+            )
         options: list[str] = []
         if self.entity_description.options_attribute:
             if (

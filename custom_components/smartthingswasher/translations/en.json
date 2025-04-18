@@ -68,30 +68,23 @@
       "reset_water_filter": {
         "name": "Reset water filter"
       },
-      "state_start": {
-        "name": "State start"
-      },
       "state_cancel": {
         "name": "State cancel"
       },
       "state_pause_resume": {
         "name": "State pause-resume"
       },
+      "state_start": {
+        "name": "State start"
+      },
       "stop": {
-        "name": "[%key:common::action::stop%]"
+        "name": "Stop"
       }
     },
     "event": {
       "button": {
         "state": {
-          "pushed": "Pushed",
-          "held": "Held",
           "double": "Double",
-          "pushed_2x": "Pushed 2x",
-          "pushed_3x": "Pushed 3x",
-          "pushed_4x": "Pushed 4x",
-          "pushed_5x": "Pushed 5x",
-          "pushed_6x": "Pushed 6x",
           "down": "Down",
           "down_2x": "Down 2x",
           "down_3x": "Down 3x",
@@ -99,17 +92,24 @@
           "down_5x": "Down 5x",
           "down_6x": "Down 6x",
           "down_hold": "Down hold",
+          "held": "Held",
+          "pushed": "Pushed",
+          "pushed_2x": "Pushed 2x",
+          "pushed_3x": "Pushed 3x",
+          "pushed_4x": "Pushed 4x",
+          "pushed_5x": "Pushed 5x",
+          "pushed_6x": "Pushed 6x",
+          "swipe_down": "Swipe down",
+          "swipe_left": "Swipe left",
+          "swipe_right": "Swipe right",
+          "swipe_up": "Swipe up",
           "up": "Up",
           "up_2x": "Up 2x",
           "up_3x": "Up 3x",
           "up_4x": "Up 4x",
           "up_5x": "Up 5x",
           "up_6x": "Up 6x",
-          "up_hold": "Up hold",
-          "swipe_up": "Swipe up",
-          "swipe_down": "Swipe down",
-          "swipe_left": "Swipe left",
-          "swipe_right": "Swipe right"
+          "up_hold": "Up hold"
         }
       }
     },
@@ -125,97 +125,182 @@
       "auto_dispense_softener_amount": {
         "name": "Auto softener amount"
       },
-      "course": {
-        "name": "Course",
+      "dryer_cycle_table_00": {
+        "name": "Washer cycle",
         "state": {
-          "1B": "Katoen",
-          "1C": "Eco 40-60",
-          "1D": "Superspeed",
-          "1E": "15m kort programma",
-          "20": "Hygienisch stomen",
-          "21": "Gekleurde was",
-          "22": "Wol",
-          "23": "Outdoor",
-          "24": "Beddengoed",
-          "25": "Synthetisch",
-          "26": "Fijne was",
-          "27": "Spoelen en centrifugeren",
-          "28": "Afvoeren en centrifugeren",
-          "29": "Trommelreiniging",
-          "2B": "AI Wash",
-          "2D": "Stille was",
-          "30": "Bewolkte dag",
-          "32": "Overhemden",
-          "33": "Handdoeken",
-          "36": "Wassen en drogen",
-          "37": "Air Wash",
-          "38": "Katoen drogen",
-          "39": "Synthetisch drogen",
-          "8F": "Intens koud",
-          "96": "Microfiber"
+          "course_5b": "Cotton",
+          "course_5c": "Synthetics",
+          "course_5d": "Daily Wash",
+          "course_5e": "Spin",
+          "course_5f": "Rinse-Spin",
+          "course_60": "Eco Drum Clean",
+          "course_61": "Air Refresh",
+          "course_63": "Drying",
+          "course_66": "15m Quick Wash",
+          "course_ba": "Drain-Spin",
+          "course_d0": "Cotton",
+          "course_d1": "eCotton",
+          "course_d2": "Synthetics",
+          "course_d3": "Delicates",
+          "course_d4": "Rinse-Spin",
+          "course_d5": "Eco Drum Clean",
+          "course_d6": "Bedding",
+          "course_d7": "Outdoor",
+          "course_d8": "Wool",
+          "course_d9": "Dark Garment",
+          "course_da": "Super Eco Wash",
+          "course_db": "Super Speed",
+          "course_dc": "15m Quick Wash"
         }
       },
-      "dryer_cycle": {
+      "dryer_cycle_table_02": {
         "name": "Dryer cycle",
         "state": {
-          "course_1b": "Katoen",
+          "course_1b": "Cotton",
           "course_1c": "Eco 40-60",
-          "course_1d": "Superspeed",
-          "course_1e": "15m kort programma",
-          "course_20": "Hygienisch stomen",
-          "course_21": "Gekleurde was",
-          "course_22": "Wol",
+          "course_1d": "Super Speed",
+          "course_1e": "15m Quick Wash",
+          "course_1f": "Intense Cold",
+          "course_20": "Hygiene Steam",
+          "course_21": "Colours",
+          "course_22": "Wool",
           "course_23": "Outdoor",
-          "course_24": "Beddengoed",
-          "course_25": "Synthetisch",
-          "course_26": "Fijne was",
-          "course_27": "Spoelen en centrifugeren",
-          "course_28": "Afvoeren en centrifugeren",
-          "course_29": "Trommelreiniging",
+          "course_24": "Bedding",
+          "course_25": "Synthetics",
+          "course_26": "Delicates",
+          "course_27": "Rinse+Spin",
+          "course_28": "Drain/Spin",
+          "course_29": "Drum Clean",
+          "course_2a": "Denim",
           "course_2b": "AI Wash",
-          "course_2d": "Stille was",
-          "course_30": "Bewolkte dag",
-          "course_32": "Overhemden",
-          "course_33": "Handdoeken",
-          "course_36": "Wassen en drogen",
-          "course_37": "Air Wash",
-          "course_38": "Katoen drogen",
-          "course_39": "Synthetisch drogen",
-          "course_8f": "Intens koud",
-          "course_96": "Microfiber"
+          "course_2d": "Silent Wash",
+          "course_2e": "Baby Care",
+          "course_2f": "Activewear",
+          "course_30": "Cloudy Day",
+          "course_32": "Shirts",
+          "course_33": "Towels",
+          "course_34": "Daily Wash",
+          "course_35": "eCotton",
+          "course_36": "Wash Dry",
+          "course_37": "Air Refresh",
+          "course_38": "Cotton Dry",
+          "course_39": "Synthetics Dry",
+          "course_3a": "Drum Clean",
+          "course_66": "Denim",
+          "course_8f": "Intense Cold",
+          "course_96": "Less Microfiber"
+        }
+      },
+      "dryer_cycle_table_03": {
+        "name": "Dryer cycle",
+        "state": {
+          "course_16": "Cotton",
+          "course_18": "Synthetics",
+          "course_19": "Delicates",
+          "course_1a": "Wool",
+          "course_1b": "Bedding",
+          "course_1c": "Shirts",
+          "course_1d": "Towels",
+          "course_1e": "Outdoor",
+          "course_20": "Iron Dry",
+          "course_23": "Quick Dry 35m",
+          "course_24": "Cool Air",
+          "course_25": "Warm Air",
+          "course_27": "Time Dry",
+          "course_29": "AI Dry",
+          "course_2b": "Self Tub Dry"
         }
       },
       "dryer_dry_level": {
         "name": "Dryer dry level"
       },
-      "washer_cycle": {
+      "machine_state": {
+        "name": "Machine state"
+      },
+      "washer_cycle_table_00": {
         "name": "Washer cycle",
         "state": {
-          "course_1b": "Katoen",
+          "course_5b": "Cotton",
+          "course_5c": "Synthetics",
+          "course_5d": "Daily Wash",
+          "course_5e": "Spin",
+          "course_5f": "Rinse-Spin",
+          "course_60": "Eco Drum Clean",
+          "course_61": "Air Refresh",
+          "course_63": "Drying",
+          "course_66": "15m Quick Wash",
+          "course_ba": "Drain-Spin",
+          "course_d0": "Cotton",
+          "course_d1": "eCotton",
+          "course_d2": "Synthetics",
+          "course_d3": "Delicates",
+          "course_d4": "Rinse-Spin",
+          "course_d5": "Eco Drum Clean",
+          "course_d6": "Bedding",
+          "course_d7": "Outdoor",
+          "course_d8": "Wool",
+          "course_d9": "Dark Garment",
+          "course_da": "Super Eco Wash",
+          "course_db": "Super Speed",
+          "course_dc": "15m Quick Wash"
+        }
+      },
+      "washer_cycle_table_02": {
+        "name": "Washer cycle",
+        "state": {
+          "course_1b": "Cotton",
           "course_1c": "Eco 40-60",
-          "course_1d": "Superspeed",
-          "course_1e": "15m kort programma",
-          "course_20": "Hygienisch stomen",
-          "course_21": "Gekleurde was",
-          "course_22": "Wol",
+          "course_1d": "Super Speed",
+          "course_1e": "15m Quick Wash",
+          "course_1f": "Intense Cold",
+          "course_20": "Hygiene Steam",
+          "course_21": "Colours",
+          "course_22": "Wool",
           "course_23": "Outdoor",
-          "course_24": "Beddengoed",
-          "course_25": "Synthetisch",
-          "course_26": "Fijne was",
-          "course_27": "Spoelen en centrifugeren",
-          "course_28": "Afvoeren en centrifugeren",
-          "course_29": "Trommelreiniging",
+          "course_24": "Bedding",
+          "course_25": "Synthetics",
+          "course_26": "Delicates",
+          "course_27": "Rinse+Spin",
+          "course_28": "Drain/Spin",
+          "course_29": "Drum Clean",
+          "course_2a": "Denim",
           "course_2b": "AI Wash",
-          "course_2d": "Stille was",
-          "course_30": "Bewolkte dag",
-          "course_32": "Overhemden",
-          "course_33": "Handdoeken",
-          "course_36": "Wassen en drogen",
-          "course_37": "Air Wash",
-          "course_38": "Katoen drogen",
-          "course_39": "Synthetisch drogen",
-          "course_8f": "Intens koud",
-          "course_96": "Microfiber"
+          "course_2d": "Silent Wash",
+          "course_2e": "Baby Care",
+          "course_2f": "Activewear",
+          "course_30": "Cloudy Day",
+          "course_32": "Shirts",
+          "course_33": "Towels",
+          "course_34": "Daily Wash",
+          "course_35": "eCotton",
+          "course_36": "Wash Dry",
+          "course_37": "Air Refresh",
+          "course_38": "Cotton Dry",
+          "course_39": "Synthetics Dry",
+          "course_3a": "Drum Clean",
+          "course_66": "Denim",
+          "course_8f": "Intense Cold",
+          "course_96": "Less Microfiber"
+        }
+      },
+      "washer_cycle_table_03": {
+        "name": "Washer cycle",
+        "state": {
+          "course_16": "Cotton",
+          "course_18": "Synthetics",
+          "course_19": "Delicates",
+          "course_1a": "Wool",
+          "course_1b": "Bedding",
+          "course_1c": "Shirts",
+          "course_1d": "Towels",
+          "course_1e": "Outdoor",
+          "course_20": "Iron Dry",
+          "course_23": "Quick Dry 35m",
+          "course_24": "Cool Air",
+          "course_25": "Warm Air",
+          "course_27": "Time Dry",
+          "course_29": "AI Dry",
+          "course_2b": "Self Tub Dry"
         }
       },
       "washer_rinse_cycles": {
@@ -229,9 +314,6 @@
       },
       "washer_water_temperature": {
         "name": "Washer water temperature"
-      },
-      "machine_state": {
-        "name": "Machine state"
       }
     },
     "sensor": {
@@ -589,16 +671,16 @@
       "washer_mode": {
         "name": "Washer mode"
       },
+      "washer_operating_progress": {
+        "name": "Progress"
+      },
       "washer_operating_state": {
         "name": "Operating state",
         "state": {
+          "paused": "Paused",
           "ready": "Ready",
-          "running": "Running",
-          "paused": "Paused"
+          "running": "Running"
         }
-      },
-      "washer_operating_progress": {
-        "name": "Progress"
       },
       "washer_operation_time": {
         "name": "Operation time"
@@ -626,99 +708,318 @@
       "switch": {
         "name": "Switch"
       },
-      "course_1b": {
-        "name": "Katoen"
+      "table_00_course_5b": {
+        "name": "Cotton"
       },
-      "course_1c": {
-        "name": "Eco 40-60"
+      "table_00_course_5c": {
+        "name": "Synthetics"
       },
-      "course_1d": {
-        "name": "Superspeed"
+      "table_00_course_5d": {
+        "name": "Daily Wash"
       },
-      "course_1e": {
-        "name": "15m kort programma"
+      "table_00_course_5e": {
+        "name": "Spin"
       },
-      "course_20": {
-        "name": "Hygienisch stomen"
+      "table_00_course_5f": {
+        "name": "Rinse-Spin"
       },
-      "course_21": {
-        "name": "Gekleurde was"
+      "table_00_course_60": {
+        "name": "Eco Drum Clean"
       },
-      "course_22": {
-        "name": "Wol"
+      "table_00_course_61": {
+        "name": "Air Refresh"
       },
-      "course_23": {
+      "table_00_course_63": {
+        "name": "Drying"
+      },
+      "table_00_course_66": {
+        "name": "15m Quick Wash"
+      },
+      "table_00_course_ba": {
+        "name": "Drain-Spin"
+      },
+      "table_00_course_d1": {
+        "name": "eCotton"
+      },
+      "table_00_course_d2": {
+        "name": "Synthetics"
+      },
+      "table_00_course_d3": {
+        "name": "Delicates"
+      },
+      "table_00_course_d4": {
+        "name": "Rinse-Spin"
+      },
+      "table_00_course_d5": {
+        "name": "Eco Drum Clean"
+      },
+      "table_00_course_d6": {
+        "name": "Bedding"
+      },
+      "table_00_course_d7": {
         "name": "Outdoor"
       },
-      "course_24": {
-        "name": "Beddengoed"
+      "table_00_course_d8": {
+        "name": "Wool"
       },
-      "course_25": {
-        "name": "Synthetisch"
+      "table_00_course_d9": {
+        "name": "Dark Garment"
       },
-      "course_26": {
-        "name": "Fijne was"
+      "table_00_course_da": {
+        "name": "Super Eco Wash"
       },
-      "course_27": {
-        "name": "Spoelen en centrifugeren"
+      "table_00_course_db": {
+        "name": "Super Speed"
       },
-      "course_28": {
-        "name": "Afvoeren en centrifugeren"
+      "table_00_course_dc": {
+        "name": "15m Quick Wash"
       },
-      "course_29": {
-        "name": "Trommelreiniging"
+      "table_02_course_1b": {
+        "name": "Cotton"
       },
-      "course_2b": {
+      "table_02_course_1c": {
+        "name": "Eco 40-60"
+      },
+      "table_02_course_1d": {
+        "name": "Super Speed"
+      },
+      "table_02_course_1e": {
+        "name": "15m Quick Wash"
+      },
+      "table_02_course_1f": {
+        "name": "Intense Cold"
+      },
+      "table_02_course_20": {
+        "name": "Hygiene Steam"
+      },
+      "table_02_course_21": {
+        "name": "Colours"
+      },
+      "table_02_course_22": {
+        "name": "Wool"
+      },
+      "table_02_course_23": {
+        "name": "Outdoor"
+      },
+      "table_02_course_24": {
+        "name": "Bedding"
+      },
+      "table_02_course_25": {
+        "name": "Synthetics"
+      },
+      "table_02_course_26": {
+        "name": "Delicates"
+      },
+      "table_02_course_27": {
+        "name": "Rinse+Spin"
+      },
+      "table_02_course_28": {
+        "name": "Drain/Spin"
+      },
+      "table_02_course_29": {
+        "name": "Drum Clean"
+      },
+      "table_02_course_2a": {
+        "name": "Denim"
+      },
+      "table_02_course_2b": {
         "name": "AI Wash"
       },
-      "course_2d": {
-        "name": "Stille was"
+      "table_02_course_2d": {
+        "name": "Silent Wash"
       },
-      "course_30": {
-        "name": "Bewolkte dag"
+      "table_02_course_2e": {
+        "name": "Baby Care"
       },
-      "course_32": {
-        "name": "Overhemden"
+      "table_02_course_2f": {
+        "name": "Activewear"
       },
-      "course_33": {
-        "name": "Handdoeken"
+      "table_02_course_30": {
+        "name": "Cloudy Day"
       },
-      "course_36": {
-        "name": "Wassen en drogen"
+      "table_02_course_32": {
+        "name": "Shirts"
       },
-      "course_37": {
-        "name": "Air Wash"
+      "table_02_course_33": {
+        "name": "Towels"
       },
-      "course_38": {
-        "name": "Katoen drogen"
+      "table_02_course_34": {
+        "name": "Daily Wash"
       },
-      "course_39": {
-        "name": "Synthetisch drogen"
+      "table_02_course_35": {
+        "name": "eCotton"
       },
-      "course_8f": {
-        "name": "Intens koud"
+      "table_02_course_36": {
+        "name": "Wash Dry"
       },
-      "course_96": {
-        "name": "Microfiber"
+      "table_02_course_37": {
+        "name": "Air Refresh"
+      },
+      "table_02_course_38": {
+        "name": "Cotton Dry"
+      },
+      "table_02_course_39": {
+        "name": "Synthetics Dry"
+      },
+      "table_02_course_3a": {
+        "name": "Drum Clean"
+      },
+      "table_02_course_66": {
+        "name": "Denim"
+      },
+      "table_02_course_8f": {
+        "name": "Intense Cold"
+      },
+      "table_02_course_96": {
+        "name": "Less Microfiber"
+      },
+      "table_03_course_16": {
+        "name": "Cotton"
+      },
+      "table_03_course_18": {
+        "name": "Synthetics"
+      },
+      "table_03_course_19": {
+        "name": "Delicates"
+      },
+      "table_03_course_1a": {
+        "name": "Wool"
+      },
+      "table_03_course_1b": {
+        "name": "Bedding"
+      },
+      "table_03_course_1c": {
+        "name": "Shirts"
+      },
+      "table_03_course_1d": {
+        "name": "Towels"
+      },
+      "table_03_course_1e": {
+        "name": "Outdoor"
+      },
+      "table_03_course_20": {
+        "name": "Iron Dry"
+      },
+      "table_03_course_23": {
+        "name": "Quick Dry 35m"
+      },
+      "table_03_course_24": {
+        "name": "Cool Air"
+      },
+      "table_03_course_25": {
+        "name": "Warm Air"
+      },
+      "table_03_course_27": {
+        "name": "Time Dry"
+      },
+      "table_03_course_29": {
+        "name": "AI Dry"
+      },
+      "table_03_course_2b": {
+        "name": "Self Tub Dry"
+      },
+      "wrinkle_prevent": {
+        "name": "Wrinkle prevent"
       }
     }
   },
   "issues": {
-    "deprecated_binary_valve": {
-      "title": "Deprecated valve binary sensor detected in some automations or scripts",
-      "description": "The valve binary sensor `{entity}` is deprecated and is used in the following automations or scripts:\n{items}\n\nA valve entity with controls is available and should be used going forward. Please use it in the above automations or scripts to fix this issue."
-    },
     "deprecated_binary_fridge_door": {
-      "title": "Deprecated refrigerator door binary sensor detected in some automations or scripts",
-      "description": "The refrigerator door binary sensor `{entity}` is deprecated and is used in the following automations or scripts:\n{items}\n\nSeparate entities for cooler and freezer door are available and should be used going forward. Please use them in the above automations or scripts to fix this issue."
+      "description": "The refrigerator door binary sensor `{entity}` is deprecated and is used in the following automations or scripts:\n{items}\n\nSeparate entities for cooler and freezer door are available and should be used going forward. Please use them in the above automations or scripts to fix this issue.",
+      "title": "Deprecated refrigerator door binary sensor detected in some automations or scripts"
+    },
+    "deprecated_binary_valve": {
+      "description": "The valve binary sensor `{entity}` is deprecated and is used in the following automations or scripts:\n{items}\n\nA valve entity with controls is available and should be used going forward. Please use it in the above automations or scripts to fix this issue.",
+      "title": "Deprecated valve binary sensor detected in some automations or scripts"
     },
     "deprecated_machine_state": {
-      "title": "Deprecated machine state sensor detected in some automations or scripts",
-      "description": "The machine state sensor `{entity}` is deprecated and is used in the following automations or scripts:\n{items}\n\nA select entity is now available for the machine state and should be used going forward. Please use them in the above automations or scripts to fix this issue."
+      "description": "The machine state sensor `{entity}` is deprecated and is used in the following automations or scripts:\n{items}\n\nA select entity is now available for the machine state and should be used going forward. Please use them in the above automations or scripts to fix this issue.",
+      "title": "Deprecated machine state sensor detected in some automations or scripts"
     },
     "deprecated_switch_appliance": {
-      "title": "Deprecated switch detected in some automations or scripts",
-      "description": "The switch `{entity}` is deprecated because the actions did not work, so it has been replaced with a binary sensor instead.\n\nThe switch was used in the following automations or scripts:\n{items}\n\nPlease use them in the above automations or scripts to fix this issue."
+      "description": "The switch `{entity}` is deprecated because the actions did not work, so it has been replaced with a binary sensor instead.\n\nThe switch was used in the following automations or scripts:\n{items}\n\nPlease use them in the above automations or scripts to fix this issue.",
+      "title": "Deprecated switch detected in some automations or scripts"
+    }
+  },
+  "selector": {
+    "programs": {
+      "table_00": {
+        "course_5b": "Cotton",
+        "course_5c": "Synthetics",
+        "course_5d": "Daily Wash",
+        "course_5e": "Spin",
+        "course_5f": "Rinse-Spin",
+        "course_60": "Eco Drum Clean",
+        "course_61": "Air Refresh",
+        "course_63": "Drying",
+        "course_66": "15m Quick Wash",
+        "course_ba": "Drain-Spin",
+        "course_d0": "Cotton",
+        "course_d1": "eCotton",
+        "course_d2": "Synthetics",
+        "course_d3": "Delicates",
+        "course_d4": "Rinse-Spin",
+        "course_d5": "Eco Drum Clean",
+        "course_d6": "Bedding",
+        "course_d7": "Outdoor",
+        "course_d8": "Wool",
+        "course_d9": "Dark Garment",
+        "course_da": "Super Eco Wash",
+        "course_db": "Super Speed",
+        "course_dc": "15m Quick Wash"
+      },
+      "table_02": {
+        "course_1b": "Cotton",
+        "course_1c": "Eco 40-60",
+        "course_1d": "Super Speed",
+        "course_1e": "15m Quick Wash",
+        "course_1f": "Intense Cold",
+        "course_20": "Hygiene Steam",
+        "course_21": "Colours",
+        "course_22": "Wool",
+        "course_23": "Outdoor",
+        "course_24": "Bedding",
+        "course_25": "Synthetics",
+        "course_26": "Delicates",
+        "course_27": "Rinse+Spin",
+        "course_28": "Drain/Spin",
+        "course_29": "Drum Clean",
+        "course_2a": "Denim",
+        "course_2b": "AI Wash",
+        "course_2d": "Silent Wash",
+        "course_2e": "Baby Care",
+        "course_2f": "Activewear",
+        "course_30": "Cloudy Day",
+        "course_32": "Shirts",
+        "course_33": "Towels",
+        "course_34": "Daily Wash",
+        "course_35": "eCotton",
+        "course_36": "Wash Dry",
+        "course_37": "Air Refresh",
+        "course_38": "Cotton Dry",
+        "course_39": "Synthetics Dry",
+        "course_3a": "Drum Clean",
+        "course_66": "Denim",
+        "course_8f": "Intense Cold",
+        "course_96": "Less Microfiber"
+      },
+      "table_03": {
+        "course_16": "Cotton",
+        "course_18": "Synthetics",
+        "course_19": "Delicates",
+        "course_1a": "Wool",
+        "course_1b": "Bedding",
+        "course_1c": "Shirts",
+        "course_1d": "Towels",
+        "course_1e": "Outdoor",
+        "course_20": "Iron Dry",
+        "course_23": "Quick Dry 35m",
+        "course_24": "Cool Air",
+        "course_25": "Warm Air",
+        "course_27": "Time Dry",
+        "course_29": "AI Dry",
+        "course_2b": "Self Tub Dry"
+      }
     }
   }
 }

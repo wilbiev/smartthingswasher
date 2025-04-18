@@ -14,7 +14,7 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from . import FullDevice, Program, SmartThingsConfigEntry
 from .const import MAIN
 from .entity import SmartThingsEntity
-from .utils import translate_program_course
+from .utils import get_program_table_id, translate_program_course
 
 CAPABILITIES = (
     Capability.SWITCH_LEVEL,
@@ -176,8 +176,12 @@ class SmartThingsProgramSwitch(SmartThingsEntity, SwitchEntity):
     ) -> None:
         """Init the class."""
         program_course = program.program_id.lower()
+        if (table_id := get_program_table_id(device.status)) != "":
+            program_translation = f"{table_id}_{program_course}"
+        else:
+            program_translation = program_course
         entity_description = SwitchEntityDescription(
-            key=program.program_id, translation_key=program_course
+            key=program.program_id, translation_key=program_translation
         )
         super().__init__(
             client, device, {capability}, component=component, program=program

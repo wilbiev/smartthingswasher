@@ -1,5 +1,8 @@
 """Utility functions for SmartThings."""
 
+from pysmartthings import Attribute, Capability, ComponentStatus
+
+from .const import MAIN
 from .models import Program, SupportedOption
 
 PROGRAM_COURSE = "Course"
@@ -30,3 +33,16 @@ def get_program_options(
         return None
 
     return options_dict.options
+
+
+def get_program_table_id(status: dict[str, ComponentStatus]) -> str:
+    """Retrieve the value of the reference table ID from the status."""
+    if (main_component := status.get(MAIN)) is None or (
+        main_component.get(Capability.CUSTOM_SUPPORTED_OPTIONS)
+    ) is None:
+        return ""
+    return (
+        status[MAIN][Capability.CUSTOM_SUPPORTED_OPTIONS][Attribute.REFERENCE_TABLE]
+        .value["id"]
+        .lower()
+    )
