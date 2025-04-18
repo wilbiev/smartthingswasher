@@ -61,8 +61,9 @@ from .const import (
     PROGRAM_OPTION_OPTIONS,
     PROGRAM_OPTION_RAW,
     PROGRAM_SUPPORTED_OPTIONS,
+    SUPPORTEDOPTIONS_LIST,
 )
-from .models import SUPPORTEDOPTIONS_LIST, Program, ProgramOptions, SupportedOption
+from .models import Program, ProgramOptions, SupportedOption
 from .utils import translate_program_course
 
 _LOGGER = logging.getLogger(__name__)

@@ -219,6 +219,7 @@ async def async_setup_entry(
             description,
             capability,
             attribute,
+            component,
         )
         for device in entry_data.devices.values()
         if device.programs is not None

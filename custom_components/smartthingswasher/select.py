@@ -178,10 +178,12 @@ async def async_setup_entry(
             description,
             capability,
             attribute,
+            component,
         )
         for device in entry_data.devices.values()
         for capability, attributes in CAPABILITY_TO_SELECTS.items()
-        if capability in device.status[MAIN]
+        for component in device.status
+        if capability in device.status[component]
         for attribute, descriptions in attributes.items()
         for description in descriptions
     ]
@@ -194,10 +196,12 @@ async def async_setup_entry(
             description,
             capability,
             attribute,
+            component,
         )
         for device in entry_data.devices.values()
         for capability, attributes in PROGRAMS_TO_SELECTS.items()
-        if capability in device.status[MAIN]
+        for component in device.status
+        if capability in device.status[component]
         for attribute, descriptions in attributes.items()
         for description in descriptions
     ]

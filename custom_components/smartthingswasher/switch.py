@@ -12,7 +12,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FullDevice, Program, SmartThingsConfigEntry
-from .const import MAIN
+from .const import CAPABILITIES_WITH_PROGRAMS, MAIN
 from .entity import SmartThingsEntity
 from .utils import get_program_table_id, translate_program_course
 
@@ -83,12 +83,18 @@ async def async_setup_entry(
             description,
             capability,
             attribute,
+            component,
         )
         for device in entry_data.devices.values()
         for capability, attributes in CAPABILITY_TO_SWITCHES.items()
-        if capability in device.status[MAIN]
-        and not any(capability in device.status[MAIN] for capability in CAPABILITIES)
-        and not all(capability in device.status[MAIN] for capability in AC_CAPABILITIES)
+        for component in device.status
+        if capability in device.status[component]
+        and not any(
+            capability in device.status[component] for capability in CAPABILITIES
+        )
+        and not all(
+            capability in device.status[component] for capability in AC_CAPABILITIES
+        )
         for attribute, descriptions in attributes.items()
         for description in descriptions
     )
@@ -97,11 +103,15 @@ async def async_setup_entry(
             entry_data.client,
             device,
             program,
-            Capability.SAMSUNG_CE_WASHER_CYCLE,
-            Attribute.WASHER_CYCLE,
+            capability,
+            attribute,
+            component,
         )
         for device in entry_data.devices.values()
         for program in device.programs.values()
+        for capability, attribute in CAPABILITIES_WITH_PROGRAMS.items()
+        for component in device.status
+        if capability in device.status[component]
     )
 
 

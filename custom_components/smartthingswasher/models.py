@@ -49,13 +49,3 @@ class ProgramOptions(DataClassORJSONMixin):
     raw: str = field(metadata=field_options(alias="raw"))
     default: str = field(metadata=field_options(alias="default"))
     options: list[str] = field(metadata=field_options(alias="options"))
-
-
-SUPPORTEDOPTIONS_LIST = (
-    SupportedOption.BUBBLE_SOAK,
-    SupportedOption.DRYING_LEVEL,
-    SupportedOption.RINSE_CYCLE,
-    SupportedOption.SOIL_LEVEL,
-    SupportedOption.SPIN_LEVEL,
-    SupportedOption.WATER_TEMPERATURE,
-)
