@@ -205,23 +205,6 @@ async def async_setup_entry(
         for device in entry_data.devices.values()
         for capability, attributes in CAPABILITY_TO_SENSORS.items()
         for component in device.status
-        if capability in device.status[component]
-        for attribute, descriptions in attributes.items()
-        for description in descriptions
-    )
-    async_add_entities(
-        SmartThingsProgramBinarySensor(
-            entry_data.client,
-            device,
-            description,
-            capability,
-            attribute,
-            component,
-        )
-        for device in entry_data.devices.values()
-        if device.programs is not None
-        for capability, attributes in PROGRAMS_TO_SENSORS.items()
-        for component in device.status
         for attribute, descriptions in attributes.items()
         for description in descriptions
         if (
@@ -238,6 +221,23 @@ async def async_setup_entry(
                 or get_main_component_category(device) in description.category
             )
         )
+    )
+    async_add_entities(
+        SmartThingsProgramBinarySensor(
+            entry_data.client,
+            device,
+            description,
+            capability,
+            attribute,
+            component,
+        )
+        for device in entry_data.devices.values()
+        if device.programs is not None
+        for capability, attributes in PROGRAMS_TO_SENSORS.items()
+        for component in device.status
+        if capability in device.status[component]
+        for attribute, descriptions in attributes.items()
+        for description in descriptions
     )
 
 
