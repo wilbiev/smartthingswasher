@@ -428,7 +428,9 @@ def process_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
                     Capability.CUSTOM_SUPPORTED_OPTIONS
                 )
             ) is not None:
-                program_list = program_capabilities_list[Attribute.COURSE].value
+                program_list = program_capabilities_list[
+                    Attribute.SUPPORTED_COURSES
+                ].value
                 for program in program_list:
                     program_id: str = translate_program_course(program)
                     programs[program_id] = Program(
