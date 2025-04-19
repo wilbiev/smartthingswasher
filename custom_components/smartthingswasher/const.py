@@ -1,6 +1,6 @@
 """Constants used by the SmartThings component and platforms."""
 
-from pysmartthings import Attribute, Capability
+from pysmartthings import Attribute, Capability, Command
 
 from .models import SupportedOption
 
@@ -59,6 +59,11 @@ SUPPORTEDOPTIONS_LIST = (
 
 
 CAPABILITIES_WITH_PROGRAMS: dict[str, str] = {
-    Capability.SAMSUNG_CE_WASHER_CYCLE: Attribute.WASHER_CYCLE,
     Capability.SAMSUNG_CE_DRYER_CYCLE: Attribute.DRYER_CYCLE,
+    Capability.SAMSUNG_CE_WASHER_CYCLE: Attribute.WASHER_CYCLE,
+}
+
+CAPABILITY_COMMANDS: dict[str, str] = {
+    Capability.SAMSUNG_CE_DRYER_CYCLE: Command.SET_DRYER_CYCLE,
+    Capability.SAMSUNG_CE_WASHER_CYCLE: Command.SET_WASHER_CYCLE,
 }

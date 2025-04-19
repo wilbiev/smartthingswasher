@@ -12,7 +12,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FullDevice, Program, SmartThingsConfigEntry
-from .const import CAPABILITIES_WITH_PROGRAMS, MAIN
+from .const import CAPABILITIES_WITH_PROGRAMS, CAPABILITY_COMMANDS, MAIN
 from .entity import SmartThingsEntity
 from .utils import get_program_table_id, translate_program_course
 
@@ -35,7 +35,7 @@ AC_CAPABILITIES = (
 class SmartThingsSwitchEntityDescription(SwitchEntityDescription):
     """Describe a SmartThings switch entity."""
 
-    command: Command = None
+    command: Command | None = None
 
 
 CAPABILITY_TO_SWITCHES: dict[
@@ -199,6 +199,7 @@ class SmartThingsProgramSwitch(SmartThingsEntity, SwitchEntity):
         self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{program_course}"
         self._attribute = attribute
         self.capability = capability
+        self.command = CAPABILITY_COMMANDS.get(capability)
         self.entity_description = entity_description
 
     async def async_turn_off(self, **kwargs: Any) -> None:
@@ -207,7 +208,7 @@ class SmartThingsProgramSwitch(SmartThingsEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn the switch on."""
         await self.execute_device_command(
-            self.capability, Command.SET_WASHER_CYCLE, self.program.program_id
+            self.capability, self.command, self.program.program_id
         )
 
     @property
