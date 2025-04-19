@@ -30,7 +30,7 @@ A red box is displayed in the integration while it replaces the standard integra
 * Estimate operation time
 
 ### Binary sensor entities
-* BubbleSoak support (shows if BubbleSoak is supported by selected program)
+* BubbleSoak support (shows if BubbleSoak is supported by selected course)
 * Child lock (standard)
 * Remote control (standard)
 
@@ -53,13 +53,14 @@ A red box is displayed in the integration while it replaces the standard integra
 ### Select entities
 * Auto dispense detergent
 * Auto dispense softener
+* Course (when dryer/washer cycle not available)
 * Dry level*
+* Dryer cycle courses
 * Rinse cyle*
 * Soil level*
 * Spin level*
-* Water temperature*
-* Dryer cycle courses
 * Washer cycle courses
+* Water temperature*
 
 (* select options based on selected course when remote control is on)
 
