@@ -39,11 +39,11 @@
       "child_lock": {
         "name": "Child lock"
       },
-      "cooler_door": {
-        "name": "Cooler door"
-      },
       "cool_select_plus_door": {
         "name": "CoolSelect+ door"
+      },
+      "cooler_door": {
+        "name": "Cooler door"
       },
       "door": {
         "name": "Door"
@@ -124,6 +124,44 @@
       },
       "auto_dispense_softener_amount": {
         "name": "Auto softener amount"
+      },
+      "course": {
+        "name": "Course",
+        "state": {
+          "1B": "Cotton",
+          "1C": "Eco 40-60",
+          "1D": "Super Speed",
+          "1E": "15m Quick Wash",
+          "1F": "Intense Cold",
+          "20": "Hygiene Steam",
+          "21": "Colours",
+          "22": "Wool",
+          "23": "Outdoor",
+          "24": "Bedding",
+          "25": "Synthetics",
+          "26": "Delicates",
+          "27": "Rinse+Spin",
+          "28": "Drain/Spin",
+          "29": "Drum Clean",
+          "2A": "Denim",
+          "2B": "AI Wash",
+          "2D": "Silent Wash",
+          "2E": "Baby Care",
+          "2F": "Activewear",
+          "30": "Cloudy Day",
+          "32": "Shirts",
+          "33": "Towels",
+          "34": "Daily Wash",
+          "35": "eCotton",
+          "36": "Wash Dry",
+          "37": "Air Refresh",
+          "38": "Cotton Dry",
+          "39": "Synthetics Dry",
+          "3A": "Drum Clean",
+          "66": "Denim",
+          "8F": "Intense Cold",
+          "96": "Less Microfiber"
+        }
       },
       "dryer_cycle_table_00": {
         "name": "Washer cycle",

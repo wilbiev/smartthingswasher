@@ -206,6 +206,44 @@
       "auto_dispense_softener_amount": {
         "name": "Auto softener amount"
       },
+      "course": {
+        "name": "Course",
+        "state": {
+          "1B": "[%key:component::smartthings::selector::programs::table_02::course_1b%]",
+          "1C": "[%key:component::smartthings::selector::programs::table_02::course_1c%]",
+          "1D": "[%key:component::smartthings::selector::programs::table_02::course_1d%]",
+          "1E": "[%key:component::smartthings::selector::programs::table_02::course_1e%]",
+          "1F": "[%key:component::smartthings::selector::programs::table_02::course_1f%]",
+          "20": "[%key:component::smartthings::selector::programs::table_02::course_20%]",
+          "21": "[%key:component::smartthings::selector::programs::table_02::course_21%]",
+          "22": "[%key:component::smartthings::selector::programs::table_02::course_22%]",
+          "23": "[%key:component::smartthings::selector::programs::table_02::course_23%]",
+          "24": "[%key:component::smartthings::selector::programs::table_02::course_24%]",
+          "25": "[%key:component::smartthings::selector::programs::table_02::course_25%]",
+          "26": "[%key:component::smartthings::selector::programs::table_02::course_26%]",
+          "27": "[%key:component::smartthings::selector::programs::table_02::course_27%]",
+          "28": "[%key:component::smartthings::selector::programs::table_02::course_28%]",
+          "29": "[%key:component::smartthings::selector::programs::table_02::course_29%]",
+          "2A": "[%key:component::smartthings::selector::programs::table_02::course_2a%]",
+          "2B": "[%key:component::smartthings::selector::programs::table_02::course_2b%]",
+          "2D": "[%key:component::smartthings::selector::programs::table_02::course_2d%]",
+          "2E": "[%key:component::smartthings::selector::programs::table_02::course_2e%]",
+          "2F": "[%key:component::smartthings::selector::programs::table_02::course_2f%]",
+          "30": "[%key:component::smartthings::selector::programs::table_02::course_30%]",
+          "32": "[%key:component::smartthings::selector::programs::table_02::course_32%]",
+          "33": "[%key:component::smartthings::selector::programs::table_02::course_33%]",
+          "34": "[%key:component::smartthings::selector::programs::table_02::course_34%]",
+          "35": "[%key:component::smartthings::selector::programs::table_02::course_35%]",
+          "36": "[%key:component::smartthings::selector::programs::table_02::course_36%]",
+          "37": "[%key:component::smartthings::selector::programs::table_02::course_37%]",
+          "38": "[%key:component::smartthings::selector::programs::table_02::course_38%]",
+          "39": "[%key:component::smartthings::selector::programs::table_02::course_39%]",
+          "3A": "[%key:component::smartthings::selector::programs::table_02::course_3a%]",
+          "66": "[%key:component::smartthings::selector::programs::table_02::course_66%]",
+          "8F": "[%key:component::smartthings::selector::programs::table_02::course_8f%]",
+          "96": "[%key:component::smartthings::selector::programs::table_02::course_96%]"
+        }
+      },
       "dryer_dry_level": {
         "name": "Dryer dry level"
       },

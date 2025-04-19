@@ -30,7 +30,7 @@ class SmartThingsNumberEntityDescription(NumberEntityDescription):
 
 
 CAPABILITY_TO_NUMBERS: dict[
-    Capability, dict[Attribute, list[NumberEntityDescription]]
+    Capability, dict[Attribute, list[SmartThingsNumberEntityDescription]]
 ] = {
     Capability.SAMSUNG_CE_WASHER_DELAY_END: {
         Attribute.REMAINING_TIME: [

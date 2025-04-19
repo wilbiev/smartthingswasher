@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime
 
-from pysmartthings import Attribute, Capability, Command, SmartThings
+from pysmartthings import Attribute, Capability, Command, ComponentStatus, SmartThings
 
 from homeassistant.components.select import SelectEntity, SelectEntityDescription
 from homeassistant.core import Event, EventStateChangedData, HomeAssistant, callback
@@ -23,14 +24,14 @@ from .utils import get_program_options, get_program_table_id, translate_program_
 class SmartThingsSelectEntityDescription(SelectEntityDescription):
     """Describe a SmartThings select entity."""
 
-    options_attribute: Attribute | None = None
     command: Command | None = None
-    except_if_state_none: bool = False
+    options_attribute: Attribute | None = None
     supported_option: SupportedOption | None = None
+    duplicate_fn: Callable[[dict[str, ComponentStatus]], str | None] = lambda _: None
 
 
 CAPABILITY_TO_SELECTS: dict[
-    Capability, dict[Attribute, list[SelectEntityDescription]]
+    Capability, dict[Attribute, list[SmartThingsSelectEntityDescription]]
 ] = {
     Capability.DISHWASHER_OPERATING_STATE: {
         Attribute.MACHINE_STATE: [
@@ -80,6 +81,22 @@ CAPABILITY_TO_SELECTS: dict[
                 options_attribute=Attribute.SUPPORTED_DRYER_DRY_LEVEL,
                 command=Command.SET_DRYER_DRY_LEVEL,
                 supported_option=SupportedOption.DRYING_LEVEL,
+            )
+        ]
+    },
+    Capability.CUSTOM_SUPPORTED_OPTIONS: {
+        Attribute.COURSE: [
+            SmartThingsSelectEntityDescription(
+                key=Attribute.COURSE,
+                translation_key="course",
+                options_attribute=Attribute.SUPPORTED_COURSES,
+                command=Command.SET_COURSE,
+                duplicate_fn=(
+                    lambda status: "course"
+                    if Capability.SAMSUNG_CE_WASHER_CYCLE in status[MAIN]
+                    or Capability.SAMSUNG_CE_DRYER_CYCLE in status[MAIN]
+                    else None
+                ),
             )
         ]
     },
@@ -141,7 +158,7 @@ CAPABILITY_TO_SELECTS: dict[
 
 
 PROGRAMS_TO_SELECTS: dict[
-    Capability, dict[Attribute, list[SelectEntityDescription]]
+    Capability, dict[Attribute, list[SmartThingsSelectEntityDescription]]
 ] = {
     Capability.SAMSUNG_CE_WASHER_CYCLE: {
         Attribute.WASHER_CYCLE: [
@@ -186,6 +203,7 @@ async def async_setup_entry(
         if capability in device.status[component]
         for attribute, descriptions in attributes.items()
         for description in descriptions
+        if component != MAIN or description.duplicate_fn(device.status) is None
     ]
     async_add_entities(select_entities)
 

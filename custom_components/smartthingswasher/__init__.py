@@ -416,39 +416,53 @@ def process_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
     supportedoption: SupportedOption
     supportedoption_list: dict[SupportedOption | str, dict[ProgramOptions]] = {}
     program_capabilities_list: dict[Any] = {}
-    for capability in CAPABILITIES_WITH_PROGRAMS:
-        if (main_component := status.get(MAIN)) is not None:
+    if (main_component := status.get(MAIN)) is not None:
+        for capability in CAPABILITIES_WITH_PROGRAMS:
             if (
                 program_capabilities_list := main_component.get(capability)
             ) is not None:
                 break
-    if not program_capabilities_list:
-        return programs
-    program_list = program_capabilities_list[Attribute.SUPPORTED_CYCLES].value
-    for program in program_list:
-        program_id: str = translate_program_course(program.get(PROGRAM_CYCLE))
-        bubblesoak: bool = False
-        supportedoption_list = {}
-        for supportedoption in SUPPORTEDOPTIONS_LIST:
-            support: dict[str, dict[Any]] = program.get(PROGRAM_SUPPORTED_OPTIONS)
-            if (supported_item := support.get(supportedoption)) is not None:
-                raw: str = supported_item.get(PROGRAM_OPTION_RAW)
-                default: str = supported_item.get(PROGRAM_OPTION_DEFAULT)
-                options: list[Any] = supported_item.get(PROGRAM_OPTION_OPTIONS)
-                if supportedoption == SupportedOption.BUBBLE_SOAK:
-                    bubblesoak = bool(raw[2] == "F")
-                elif default not in options:
-                    options.append(default)
-                supportedoption_list[supportedoption] = ProgramOptions(
-                    supportedoption=supportedoption,
-                    raw=raw,
-                    default=default,
-                    options=options,
+        if not program_capabilities_list:
+            if (
+                program_capabilities_list := main_component.get(
+                    Capability.CUSTOM_SUPPORTED_OPTIONS
                 )
-        programs[program_id] = Program(
-            program_id=program_id,
-            program_type=program.get(PROGRAM_CYCLE_TYPE),
-            supportedoptions=supportedoption_list,
-            bubblesoak=bubblesoak,
-        )
+            ) is not None:
+                program_list = program_capabilities_list[Attribute.COURSE].value
+                for program in program_list:
+                    program_id: str = translate_program_course(program)
+                    programs[program_id] = Program(
+                        program_id=program_id,
+                        program_type="Course",
+                        supportedoptions=[],
+                        bubblesoak=False,
+                    )
+            return programs
+        program_list = program_capabilities_list[Attribute.SUPPORTED_CYCLES].value
+        for program in program_list:
+            program_id: str = translate_program_course(program.get(PROGRAM_CYCLE))
+            bubblesoak: bool = False
+            supportedoption_list = {}
+            for supportedoption in SUPPORTEDOPTIONS_LIST:
+                support: dict[str, dict[Any]] = program.get(PROGRAM_SUPPORTED_OPTIONS)
+                if (supported_item := support.get(supportedoption)) is not None:
+                    raw: str = supported_item.get(PROGRAM_OPTION_RAW)
+                    default: str = supported_item.get(PROGRAM_OPTION_DEFAULT)
+                    options: list[Any] = supported_item.get(PROGRAM_OPTION_OPTIONS)
+                    if supportedoption == SupportedOption.BUBBLE_SOAK:
+                        bubblesoak = bool(raw[2] == "F")
+                    elif default not in options:
+                        options.append(default)
+                    supportedoption_list[supportedoption] = ProgramOptions(
+                        supportedoption=supportedoption,
+                        raw=raw,
+                        default=default,
+                        options=options,
+                    )
+            programs[program_id] = Program(
+                program_id=program_id,
+                program_type=program.get(PROGRAM_CYCLE_TYPE),
+                supportedoptions=supportedoption_list,
+                bubblesoak=bubblesoak,
+            )
     return programs
