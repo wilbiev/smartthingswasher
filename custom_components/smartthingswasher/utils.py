@@ -14,7 +14,7 @@ def translate_program_course(program_course: str, set_course: bool = True) -> st
     course: str = program_course.upper()
     part: list[str] = course.split("_")
     if (ln := len(part)) == 0:
-        return program_course
+        return course
     if set_course:
         return f"{PROGRAM_COURSE}_{part[ln - 1]}"
     return part[ln - 1]

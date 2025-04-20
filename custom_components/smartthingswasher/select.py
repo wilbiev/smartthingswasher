@@ -14,7 +14,7 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.event import async_track_state_change_event
 
 from . import FullDevice, SmartThingsConfigEntry
-from .const import MAIN
+from .const import CAPABILITIES_WITH_PROGRAMS, MAIN
 from .entity import SmartThingsEntity
 from .models import SupportedOption
 from .utils import get_program_options, get_program_table_id, translate_program_course
@@ -93,8 +93,10 @@ CAPABILITY_TO_SELECTS: dict[
                 command=Command.SET_COURSE,
                 duplicate_fn=(
                     lambda status: "course"
-                    if Capability.SAMSUNG_CE_WASHER_CYCLE in status[MAIN]
-                    or Capability.SAMSUNG_CE_DRYER_CYCLE in status[MAIN]
+                    if any(
+                        capability in status[MAIN]
+                        for capability in CAPABILITIES_WITH_PROGRAMS
+                    )
                     else None
                 ),
             )
