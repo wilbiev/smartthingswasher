@@ -12,14 +12,14 @@ The standard integration and this test version can not be installed both in one 
 ### Setup custom repository in HACS
 
 Open your Home Assistant instance and add https://github.com/wilbiev/smartthingswasher as a custom repository [Home Assistant Community Store (HACS)](https://hacs.xyz/docs/faq/custom_repositories/)
-![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store](https://my.home-assistant.io/badges/hacs_repository.svg)
+![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store](https://my.home-assistant.io/badges/hacs_repository.svg)  <br>
 Download the custom repository and restart Home Assistant.
 
 ### Setup integration in Home Assistant
 
 After installing, you can easily configure your devices using the Integrations configuration UI. Go to Settings / Devices & Services and press the Add Integration button, or click the shortcut button below (requires My Homeassistant configured).
 
-![Add Integration to your Home Assistant instance](https://my.home-assistant.io/badges/config_flow_start.svg)
+![Add Integration to your Home Assistant instance](https://my.home-assistant.io/badges/config_flow_start.svg)  <br>
 A red box is displayed in the integration while it replaces the standard integration
 
 ## Additional SmartThings dryer/washer support
