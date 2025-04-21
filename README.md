@@ -11,8 +11,9 @@ The standard integration and this test version can not be installed both in one 
 
 ### Setup custom repository in HACS
 
-Open your Home Assistant instance and add a custom repository [Home Assistant Community Store (HACS)](https://hacs.xyz/docs/faq/custom_repositories/)
+Open your Home Assistant instance and add https://github.com/wilbiev/smartthingswasher as a custom repository [Home Assistant Community Store (HACS)](https://hacs.xyz/docs/faq/custom_repositories/)
 ![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store](https://my.home-assistant.io/badges/hacs_repository.svg)
+Download the custom repository and restart Home Assistant.
 
 ### Setup integration in Home Assistant
 
@@ -71,7 +72,7 @@ A red box is displayed in the integration while it replaces the standard integra
 * Sanitize mode (steam closet only)
 * Switch per dryer/washer course
 
-### Current Dryer/washer course support
+### Current dryer/steam closet/washer course support
 | Name course       | Table_00      | Table_01      | Table_02      | Table_03      |
 |-------------------|---------------|---------------|---------------|---------------|
 |	15m Quick Wash	| Course_66	    |	        	| Course_1E	    |		        |
@@ -129,4 +130,4 @@ A red box is displayed in the integration while it replaces the standard integra
 |	Wash+Dry	    |		        |		        | Course_36	    |		        |
 |	Wool	        | Course_D8	    |		        | Course_22	    | Course_1A	    |
 
-Please share the information when your dryer/washer courses are not supported! 
+Please share the information when your dryer/steam closet/washer courses are not supported! 
