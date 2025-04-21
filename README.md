@@ -11,7 +11,8 @@ The standard integration and this test version can not be installed both in one 
 
 ### Setup custom repository in HACS
 
-Open your Home Assistant instance and add https://github.com/wilbiev/smartthingswasher as a custom repository [Home Assistant Community Store (HACS)](https://hacs.xyz/docs/faq/custom_repositories/)
+Open your Home Assistant instance and add https://github.com/wilbiev/smartthingswasher as a custom repository  <br>
+[Home Assistant Community Store (HACS)](https://hacs.xyz/docs/faq/custom_repositories/)
 ![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store](https://my.home-assistant.io/badges/hacs_repository.svg)  <br>
 Download the custom repository and restart Home Assistant.
 
