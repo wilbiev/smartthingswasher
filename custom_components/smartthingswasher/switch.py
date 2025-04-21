@@ -50,18 +50,43 @@ CAPABILITY_TO_SWITCHES: dict[
             )
         ]
     },
+    Capability.CUSTOM_STEAM_CLOSET_WRINKLE_PREVENT: {
+        Attribute.STEAM_CLOSET_WRINKLE_PREVENT: [
+            SmartThingsSwitchEntityDescription(
+                key=Capability.CUSTOM_STEAM_CLOSET_WRINKLE_PREVENT,
+                translation_key="wrinkle_prevent",
+                command=Command.SET_STEAM_CLOSET_WRINKLE_PREVENT,
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_STEAM_CLOSET_KEEP_FRESH_MODE: {
+        Attribute.STATUS: [
+            SmartThingsSwitchEntityDescription(
+                key=Capability.SAMSUNG_CE_STEAM_CLOSET_KEEP_FRESH_MODE,
+                translation_key="steam_closet_keep_fresh_mode",
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_STEAM_CLOSET_SANITIZE_MODE: {
+        Attribute.STATUS: [
+            SmartThingsSwitchEntityDescription(
+                key=Capability.SAMSUNG_CE_STEAM_CLOSET_SANITIZE_MODE,
+                translation_key="steam_closet_sanitize_mode",
+            )
+        ]
+    },
     Capability.SAMSUNG_CE_WASHER_BUBBLE_SOAK: {
         Attribute.STATUS: [
             SmartThingsSwitchEntityDescription(
-                key=Attribute.STATUS,
-                translation_key="bubblesoak",
+                key=Capability.SAMSUNG_CE_WASHER_BUBBLE_SOAK,
+                translation_key="bubble_soak",
             )
         ]
     },
     Capability.SWITCH: {
         Attribute.SWITCH: [
             SmartThingsSwitchEntityDescription(
-                key=Attribute.SWITCH,
+                key=Capability.SWITCH,
                 translation_key="switch",
             )
         ]

@@ -257,6 +257,39 @@ CAPABILITY_TO_SENSORS: dict[
             )
         ]
     },
+    Capability.CUSTOM_STEAM_CLOSET_OPERATING_STATE: {
+        Attribute.STEAM_CLOSET_JOB_STATE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.STEAM_CLOSET_JOB_STATE,
+                translation_key="steam_closet_job_state",
+                options_attribute=Attribute.SUPPORTED_STEAM_CLOSET_JOB_STATE,
+                device_class=SensorDeviceClass.ENUM,
+                value_fn=lambda value: JOB_STATE_MAP.get(value, value),
+            )
+        ],
+        Attribute.COMPLETION_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.COMPLETION_TIME,
+                translation_key="completion_time",
+                device_class=SensorDeviceClass.TIMESTAMP,
+                value_fn=dt_util.parse_datetime,
+            )
+        ],
+        Attribute.PROGRESS: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.PROGRESS,
+                translation_key="operating_progress",
+                native_unit_of_measurement=PERCENTAGE,
+            )
+        ],
+        Attribute.REMAINING_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.REMAINING_TIME,
+                translation_key="remaining_time",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+            )
+        ],
+    },
     Capability.DISHWASHER_OPERATING_STATE: {
         Attribute.MACHINE_STATE: [
             SmartThingsSensorEntityDescription(
@@ -741,6 +774,113 @@ CAPABILITY_TO_SENSORS: dict[
             )
         ]
     },
+    Capability.SAMSUNG_CE_AUTO_DISPENSE_DETERGENT: {
+        Attribute.REMAINING_AMOUNT: [
+            SmartThingsSensorEntityDescription(
+                key="remaining_detergent",
+                translation_key="remaining_amount_dispense_detergent",
+                options=[
+                    "extra",
+                    "less",
+                    "none",
+                    "normal",
+                    "unknown",
+                ],
+                device_class=SensorDeviceClass.ENUM,
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_AUTO_DISPENSE_SOFTENER: {
+        Attribute.REMAINING_AMOUNT: [
+            SmartThingsSensorEntityDescription(
+                key="remaining_softener",
+                translation_key="remaining_amount_dispense_softener",
+                options=[
+                    "extra",
+                    "less",
+                    "none",
+                    "normal",
+                    "unknown",
+                ],
+                device_class=SensorDeviceClass.ENUM,
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_DRYER_OPERATING_STATE: {
+        Attribute.OPERATING_STATE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.OPERATING_STATE,
+                translation_key="operating_state",
+                device_class=SensorDeviceClass.ENUM,
+                options_attribute=Attribute.SUPPORTED_OPERATING_STATES,
+            )
+        ],
+        Attribute.OPERATION_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.OPERATION_TIME,
+                translation_key="operation_time",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+            )
+        ],
+        Attribute.PROGRESS: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.PROGRESS,
+                translation_key="operating_progress",
+                native_unit_of_measurement=PERCENTAGE,
+            )
+        ],
+        Attribute.REMAINING_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.REMAINING_TIME,
+                translation_key="remaining_time",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+            )
+        ],
+    },
+    Capability.SAMSUNG_CE_WASHER_OPERATING_STATE: {
+        Attribute.OPERATING_STATE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.OPERATING_STATE,
+                translation_key="operating_state",
+                device_class=SensorDeviceClass.ENUM,
+                options_attribute=Attribute.SUPPORTED_OPERATING_STATES,
+            )
+        ],
+        Attribute.OPERATION_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.OPERATION_TIME,
+                translation_key="operation_time",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+            )
+        ],
+        Attribute.PROGRESS: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.PROGRESS,
+                translation_key="operating_progress",
+                native_unit_of_measurement=PERCENTAGE,
+            )
+        ],
+        Attribute.REMAINING_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.REMAINING_TIME,
+                translation_key="remaining_time",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+            )
+        ],
+    },
+    # Added - Samsung Washer
+    Capability.SAMSUNG_CE_WATER_CONSUMPTION_REPORT: {
+        Attribute.WATER_CONSUMPTION: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.WATER_CONSUMPTION,
+                translation_key="water_consumption",
+                state_class=SensorStateClass.TOTAL_INCREASING,
+                device_class=SensorDeviceClass.WATER,
+                native_unit_of_measurement=UnitOfVolume.LITERS,
+                value_fn=lambda value: value["cumulativeAmount"] / 1000,
+            )
+        ]
+    },
     # Haven't seen at devices yet
     Capability.SIGNAL_STRENGTH: {
         Attribute.LQI: [
@@ -970,85 +1110,6 @@ CAPABILITY_TO_SENSORS: dict[
                 value_fn=dt_util.parse_datetime,
             )
         ],
-    },
-    # Added - Samsung Washer
-    Capability.SAMSUNG_CE_AUTO_DISPENSE_DETERGENT: {
-        Attribute.REMAINING_AMOUNT: [
-            SmartThingsSensorEntityDescription(
-                key="remaining_detergent",
-                translation_key="remaining_amount_dispense_detergent",
-                options=[
-                    "extra",
-                    "less",
-                    "none",
-                    "normal",
-                    "unknown",
-                ],
-                device_class=SensorDeviceClass.ENUM,
-            )
-        ]
-    },
-    # Added - Samsung Washer
-    Capability.SAMSUNG_CE_AUTO_DISPENSE_SOFTENER: {
-        Attribute.REMAINING_AMOUNT: [
-            SmartThingsSensorEntityDescription(
-                key="remaining_softener",
-                translation_key="remaining_amount_dispense_softener",
-                options=[
-                    "extra",
-                    "less",
-                    "none",
-                    "normal",
-                    "unknown",
-                ],
-                device_class=SensorDeviceClass.ENUM,
-            )
-        ]
-    },
-    # Added - Samsung Washer
-    Capability.SAMSUNG_CE_WASHER_OPERATING_STATE: {
-        Attribute.OPERATING_STATE: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.OPERATING_STATE,
-                translation_key="washer_operating_state",
-                device_class=SensorDeviceClass.ENUM,
-                options_attribute=Attribute.SUPPORTED_OPERATING_STATES,
-            )
-        ],
-        Attribute.OPERATION_TIME: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.OPERATION_TIME,
-                translation_key="washer_operation_time",
-                native_unit_of_measurement=UnitOfTime.MINUTES,
-            )
-        ],
-        Attribute.PROGRESS: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.PROGRESS,
-                translation_key="washer_operating_progress",
-                native_unit_of_measurement=PERCENTAGE,
-            )
-        ],
-        Attribute.REMAINING_TIME: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.REMAINING_TIME,
-                translation_key="washer_remaining_time",
-                native_unit_of_measurement=UnitOfTime.MINUTES,
-            )
-        ],
-    },
-    # Added - Samsung Washer
-    Capability.SAMSUNG_CE_WATER_CONSUMPTION_REPORT: {
-        Attribute.WATER_CONSUMPTION: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.WATER_CONSUMPTION,
-                translation_key="water_consumption",
-                state_class=SensorStateClass.TOTAL_INCREASING,
-                device_class=SensorDeviceClass.WATER,
-                native_unit_of_measurement=UnitOfVolume.LITERS,
-                value_fn=lambda value: value["cumulativeAmount"] / 1000,
-            )
-        ]
     },
 }
 

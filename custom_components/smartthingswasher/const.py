@@ -51,7 +51,10 @@ PROGRAM_SUPPORTED_OPTIONS = "supportedOptions"
 SUPPORTEDOPTIONS_LIST = (
     SupportedOption.BUBBLE_SOAK,
     SupportedOption.DRYING_LEVEL,
+    SupportedOption.DRYING_TEMPERATURE,
+    SupportedOption.KEEP_FRESH,
     SupportedOption.RINSE_CYCLE,
+    SupportedOption.SANITIZE,
     SupportedOption.SOIL_LEVEL,
     SupportedOption.SPIN_LEVEL,
     SupportedOption.WATER_TEMPERATURE,
@@ -60,10 +63,13 @@ SUPPORTEDOPTIONS_LIST = (
 
 CAPABILITIES_WITH_PROGRAMS: dict[str, str] = {
     Capability.SAMSUNG_CE_DRYER_CYCLE: Attribute.DRYER_CYCLE,
+    Capability.SAMSUNG_CE_STEAM_CLOSET_CYCLE: Attribute.STEAM_CLOSET_CYCLE,
     Capability.SAMSUNG_CE_WASHER_CYCLE: Attribute.WASHER_CYCLE,
 }
 
+
 CAPABILITY_COMMANDS: dict[str, str] = {
     Capability.SAMSUNG_CE_DRYER_CYCLE: Command.SET_DRYER_CYCLE,
+    Capability.SAMSUNG_CE_STEAM_CLOSET_CYCLE: Command.SET_STEAM_CLOSET_CYCLE,
     Capability.SAMSUNG_CE_WASHER_CYCLE: Command.SET_WASHER_CYCLE,
 }

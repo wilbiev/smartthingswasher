@@ -32,11 +32,39 @@ class SmartThingsNumberEntityDescription(NumberEntityDescription):
 CAPABILITY_TO_NUMBERS: dict[
     Capability, dict[Attribute, list[SmartThingsNumberEntityDescription]]
 ] = {
+    Capability.SAMSUNG_CE_DRYER_DELAY_END: {
+        Attribute.REMAINING_TIME: [
+            SmartThingsNumberEntityDescription(
+                key=Capability.SAMSUNG_CE_DRYER_DELAY_END,
+                translation_key="delay_time",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+                command=Command.SET_DELAY_TIME,
+                native_min_value=0,
+                native_max_value=240,
+                native_step=5,
+                int_type=STType.INTEGER,
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_STEAM_CLOSET_DELAY_END: {
+        Attribute.REMAINING_TIME: [
+            SmartThingsNumberEntityDescription(
+                key=Capability.SAMSUNG_CE_STEAM_CLOSET_DELAY_END,
+                translation_key="delay_time",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+                command=Command.SET_DELAY_TIME,
+                native_min_value=0,
+                native_max_value=240,
+                native_step=5,
+                int_type=STType.INTEGER,
+            )
+        ]
+    },
     Capability.SAMSUNG_CE_WASHER_DELAY_END: {
         Attribute.REMAINING_TIME: [
             SmartThingsNumberEntityDescription(
-                key="washer_delay_time",
-                translation_key="washer_delay_time",
+                key=Capability.SAMSUNG_CE_WASHER_DELAY_END,
+                translation_key="delay_time",
                 native_unit_of_measurement=UnitOfTime.MINUTES,
                 command=Command.SET_DELAY_TIME,
                 native_min_value=0,

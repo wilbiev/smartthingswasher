@@ -25,7 +25,10 @@ class SupportedOption(StrEnum):
 
     BUBBLE_SOAK = "bubbleSoak"
     DRYING_LEVEL = "dryingLevel"
+    DRYING_TEMPERATURE = "dryingTemperature"
+    KEEP_FRESH = "keepFresh"
     RINSE_CYCLE = "rinseCycle"
+    SANITIZE = "sanitize"
     SOIL_LEVEL = "soilLevel"
     SPIN_LEVEL = "spinLevel"
     WATER_TEMPERATURE = "waterTemperature"
