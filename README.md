@@ -1,5 +1,5 @@
 # SmartThings Washer - Dryer
-Custom integration for SmartThings Washers and Dryers
+Custom integration for SmartThings Dryers, Steam Closets and Washers
 
 Test version based on SmartThings integration of @JoostLek
 
@@ -35,7 +35,7 @@ A red box is displayed in the integration while it replaces the standard integra
 * Remote control (standard)
 
 ### Number entities
-* Washer delay time
+* Delay time
 
 ### Sensor entities
 * Completion time (standard)
@@ -53,19 +53,22 @@ A red box is displayed in the integration while it replaces the standard integra
 ### Select entities
 * Auto dispense detergent
 * Auto dispense softener
-* Course (when dryer/washer cycle not available)
+* Course (when dryer/steam closet/washer cycle not available)
+* Cycle courses
 * Dry level*
-* Dryer cycle courses
+* Dring temperature* (dryer only)
+* Drying time (dryer only)
 * Rinse cyle*
 * Soil level*
 * Spin level*
-* Washer cycle courses
 * Water temperature*
 
 (* select options based on selected course when remote control is on)
 
 ### Switch entities
-* BubbleSoak
+* BubbleSoak (washer only)
+* Keep fresh mode (steam closet only)
+* Sanitize mode (steam closet only)
 * Switch per dryer/washer course
 
 ### Current Dryer/washer course support
