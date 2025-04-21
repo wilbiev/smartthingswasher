@@ -1,4 +1,4 @@
-# SmartThings Washer - Dryer
+# SmartThings Dryer - Steam Closet - Washer
 Custom integration for SmartThings Dryers, Steam Closets and Washers
 
 Test version based on SmartThings integration of @JoostLek
