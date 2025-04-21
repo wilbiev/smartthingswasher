@@ -92,7 +92,7 @@ CAPABILITY_TO_SELECTS: dict[
                 options_attribute=Attribute.SUPPORTED_COURSES,
                 command=Command.SET_COURSE,
                 duplicate_fn=(
-                    lambda status: "course"
+                    lambda status: "duplicate_exists"
                     if any(
                         capability in status[MAIN]
                         for capability in CAPABILITIES_WITH_PROGRAMS
