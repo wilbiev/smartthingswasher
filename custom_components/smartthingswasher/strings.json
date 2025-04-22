@@ -203,8 +203,14 @@
       "auto_dispense_detergent_amount": {
         "name": "Auto detergent amount"
       },
+      "auto_dispense_detergent_density": {
+        "name": "Auto detergent density"
+      },
       "auto_dispense_softener_amount": {
         "name": "Auto softener amount"
+      },
+      "auto_dispense_softener_density": {
+        "name": "Auto softener density"
       },
       "course": {
         "name": "Course",

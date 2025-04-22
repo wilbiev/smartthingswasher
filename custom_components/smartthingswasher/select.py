@@ -144,7 +144,15 @@ CAPABILITY_TO_SELECTS: dict[
                 options_attribute=Attribute.SUPPORTED_AMOUNT,
                 command=Command.SET_AMOUNT,
             )
-        ]
+        ],
+        Attribute.DENSITY: [
+            SmartThingsSelectEntityDescription(
+                key=Capability.SAMSUNG_CE_AUTO_DISPENSE_DETERGENT,
+                translation_key="auto_dispense_detergent_density",
+                options_attribute=Attribute.SUPPORTED_DENSITY,
+                command=Command.SET_DENSITY,
+            )
+        ],
     },
     Capability.SAMSUNG_CE_AUTO_DISPENSE_SOFTENER: {
         Attribute.AMOUNT: [
@@ -154,7 +162,15 @@ CAPABILITY_TO_SELECTS: dict[
                 options_attribute=Attribute.SUPPORTED_AMOUNT,
                 command=Command.SET_AMOUNT,
             )
-        ]
+        ],
+        Attribute.DENSITY: [
+            SmartThingsSelectEntityDescription(
+                key=Capability.SAMSUNG_CE_AUTO_DISPENSE_DETERGENT,
+                translation_key="auto_dispense_softener_density",
+                options_attribute=Attribute.SUPPORTED_DENSITY,
+                command=Command.SET_DENSITY,
+            )
+        ],
     },
     Capability.SAMSUNG_CE_DRYER_DRYING_TIME: {
         Attribute.DRYING_TIME: [

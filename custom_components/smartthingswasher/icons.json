@@ -53,10 +53,16 @@
     },
     "select": {
       "auto_dispense_detergent_amount": {
-        "default": "mdi:bottle-tonic"
+        "default": "mdi:beaker"
+      },
+      "auto_dispense_detergent_density": {
+        "default": "mdi:circle-opacity"
       },
       "auto_dispense_softener_amount": {
-        "default": "mdi:bottle-tonic"
+        "default": "mdi:beaker"
+      },
+      "auto_dispense_softener_density": {
+        "default": "mdi:circle-opacity"
       },
       "dryer_dry_level": {
         "default": "mdi:waves-arrow-up"
