@@ -52,8 +52,10 @@ A red box is displayed in the integration while it replaces the standard integra
 * Water consumption
 
 ### Select entities
-* Auto dispense detergent
-* Auto dispense softener
+* Auto dispense detergent amount
+* Auto dispense detergent density
+* Auto dispense softener amount
+* Auto dispense softener density
 * Course (when dryer/steam closet/washer cycle not available)
 * Cycle courses
 * Dry level*
