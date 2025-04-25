@@ -64,7 +64,7 @@ from .const import (
     SUPPORTEDOPTIONS_LIST,
 )
 from .models import Program, ProgramOptions, SupportedOption
-from .utils import translate_program_course
+from .util import translate_program_course
 
 _LOGGER = logging.getLogger(__name__)
 

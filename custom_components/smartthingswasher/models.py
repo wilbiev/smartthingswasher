@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import StrEnum
+from typing import Any
 
 from mashumaro import field_options
 from mashumaro.mixins.orjson import DataClassORJSONMixin
@@ -40,7 +41,7 @@ class Program(DataClassORJSONMixin):
 
     program_id: str = field(metadata=field_options(alias="cycle"))
     program_type: str = field(metadata=field_options(alias="cycleType"))
-    supportedoptions: dict[SupportedOption | str, dict[ProgramOptions]]
+    supportedoptions: dict[SupportedOption | str, dict[ProgramOptions, Any]]
     bubblesoak: bool
 
 

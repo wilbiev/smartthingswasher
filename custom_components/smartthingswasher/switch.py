@@ -14,7 +14,7 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from . import FullDevice, Program, SmartThingsConfigEntry
 from .const import CAPABILITIES_WITH_PROGRAMS, CAPABILITY_COMMANDS, MAIN
 from .entity import SmartThingsEntity
-from .utils import get_program_table_id, translate_program_course
+from .util import get_program_table_id, translate_program_course
 
 CAPABILITIES = (
     Capability.SWITCH_LEVEL,

@@ -17,7 +17,7 @@ from . import FullDevice, SmartThingsConfigEntry
 from .const import CAPABILITIES_WITH_PROGRAMS, MAIN
 from .entity import SmartThingsEntity
 from .models import SupportedOption
-from .utils import get_program_options, get_program_table_id, translate_program_course
+from .util import get_program_options, get_program_table_id, translate_program_course
 
 
 @dataclass(frozen=True, kw_only=True)

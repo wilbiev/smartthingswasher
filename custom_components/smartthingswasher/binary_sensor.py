@@ -19,7 +19,7 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from . import FullDevice, SmartThingsConfigEntry
 from .const import MAIN
 from .entity import SmartThingsEntity
-from .utils import translate_program_course
+from .util import translate_program_course
 
 
 @dataclass(frozen=True, kw_only=True)
