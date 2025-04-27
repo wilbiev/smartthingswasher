@@ -8,7 +8,7 @@ from datetime import datetime
 from pysmartthings import Attribute, Capability, Command, SmartThings
 
 from homeassistant.components.number import NumberEntity, NumberEntityDescription
-from homeassistant.const import UnitOfTime
+from homeassistant.const import EntityCategory, UnitOfTime
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -37,6 +37,7 @@ CAPABILITY_TO_NUMBERS: dict[
             SmartThingsNumberEntityDescription(
                 key=Capability.SAMSUNG_CE_DRYER_DELAY_END,
                 translation_key="delay_time",
+                entity_category=EntityCategory.CONFIG,
                 native_unit_of_measurement=UnitOfTime.MINUTES,
                 command=Command.SET_DELAY_TIME,
                 native_min_value=0,
@@ -51,6 +52,7 @@ CAPABILITY_TO_NUMBERS: dict[
             SmartThingsNumberEntityDescription(
                 key=Capability.SAMSUNG_CE_STEAM_CLOSET_DELAY_END,
                 translation_key="delay_time",
+                entity_category=EntityCategory.CONFIG,
                 native_unit_of_measurement=UnitOfTime.MINUTES,
                 command=Command.SET_DELAY_TIME,
                 native_min_value=0,
@@ -65,6 +67,7 @@ CAPABILITY_TO_NUMBERS: dict[
             SmartThingsNumberEntityDescription(
                 key=Capability.SAMSUNG_CE_WASHER_DELAY_END,
                 translation_key="delay_time",
+                entity_category=EntityCategory.CONFIG,
                 native_unit_of_measurement=UnitOfTime.MINUTES,
                 command=Command.SET_DELAY_TIME,
                 native_min_value=0,

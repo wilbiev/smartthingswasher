@@ -9,6 +9,7 @@ from datetime import datetime
 from pysmartthings import Attribute, Capability, Command, ComponentStatus, SmartThings
 
 from homeassistant.components.select import SelectEntity, SelectEntityDescription
+from homeassistant.const import EntityCategory
 from homeassistant.core import Event, EventStateChangedData, HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.event import async_track_state_change_event
@@ -38,6 +39,7 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Capability.CUSTOM_DRYER_DRY_LEVEL,
                 translation_key="dryer_dry_level",
+                entity_category=EntityCategory.CONFIG,
                 options_attribute=Attribute.SUPPORTED_DRYER_DRY_LEVEL,
                 command=Command.SET_DRYER_DRY_LEVEL,
                 supported_option=SupportedOption.DRYING_LEVEL,
@@ -59,6 +61,7 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Attribute.COURSE,
                 translation_key="course",
+                entity_category=EntityCategory.CONFIG,
                 options_attribute=Attribute.SUPPORTED_COURSES,
                 command=Command.SET_COURSE,
                 duplicate_fn=(
@@ -77,6 +80,7 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Capability.CUSTOM_WASHER_RINSE_CYCLES,
                 translation_key="washer_rinse_cycles",
+                entity_category=EntityCategory.CONFIG,
                 options_attribute=Attribute.SUPPORTED_WASHER_RINSE_CYCLES,
                 command=Command.SET_WASHER_RINSE_CYCLES,
                 supported_option=SupportedOption.RINSE_CYCLE,
@@ -88,6 +92,7 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Capability.CUSTOM_WASHER_SOIL_LEVEL,
                 translation_key="washer_soil_level",
+                entity_category=EntityCategory.CONFIG,
                 options_attribute=Attribute.SUPPORTED_WASHER_SOIL_LEVEL,
                 command=Command.SET_WASHER_SOIL_LEVEL,
                 supported_option=SupportedOption.SOIL_LEVEL,
@@ -99,6 +104,7 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Capability.CUSTOM_WASHER_SPIN_LEVEL,
                 translation_key="washer_spin_level",
+                entity_category=EntityCategory.CONFIG,
                 options_attribute=Attribute.SUPPORTED_WASHER_SPIN_LEVEL,
                 command=Command.SET_WASHER_SPIN_LEVEL,
                 supported_option=SupportedOption.SPIN_LEVEL,
@@ -110,6 +116,7 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Capability.CUSTOM_WASHER_WATER_TEMPERATURE,
                 translation_key="washer_water_temperature",
+                entity_category=EntityCategory.CONFIG,
                 options_attribute=Attribute.SUPPORTED_WASHER_WATER_TEMPERATURE,
                 command=Command.SET_WASHER_WATER_TEMPERATURE,
                 supported_option=SupportedOption.WATER_TEMPERATURE,
@@ -141,6 +148,7 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Capability.SAMSUNG_CE_AUTO_DISPENSE_DETERGENT,
                 translation_key="auto_dispense_detergent_amount",
+                entity_category=EntityCategory.CONFIG,
                 options_attribute=Attribute.SUPPORTED_AMOUNT,
                 command=Command.SET_AMOUNT,
             )
@@ -149,6 +157,7 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Capability.SAMSUNG_CE_AUTO_DISPENSE_DETERGENT,
                 translation_key="auto_dispense_detergent_density",
+                entity_category=EntityCategory.CONFIG,
                 options_attribute=Attribute.SUPPORTED_DENSITY,
                 command=Command.SET_DENSITY,
             )
@@ -159,6 +168,7 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Capability.SAMSUNG_CE_AUTO_DISPENSE_SOFTENER,
                 translation_key="auto_dispense_softener_amount",
+                entity_category=EntityCategory.CONFIG,
                 options_attribute=Attribute.SUPPORTED_AMOUNT,
                 command=Command.SET_AMOUNT,
             )
@@ -167,6 +177,7 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Capability.SAMSUNG_CE_AUTO_DISPENSE_DETERGENT,
                 translation_key="auto_dispense_softener_density",
+                entity_category=EntityCategory.CONFIG,
                 options_attribute=Attribute.SUPPORTED_DENSITY,
                 command=Command.SET_DENSITY,
             )
@@ -177,6 +188,7 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Capability.SAMSUNG_CE_DRYER_DRYING_TIME,
                 translation_key="dryer_drying_time",
+                entity_category=EntityCategory.CONFIG,
                 options_attribute=Attribute.SUPPORTED_DRYING_TIME,
                 command=Command.SET_DRYING_TIME,
             )
@@ -187,6 +199,7 @@ CAPABILITY_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Capability.SAMSUNG_CE_DRYER_DRYING_TEMPERATURE,
                 translation_key="dryer_drying_temperature",
+                entity_category=EntityCategory.CONFIG,
                 options_attribute=Attribute.SUPPORTED_DRYING_TEMPERATURE,
                 command=Command.SET_DRYING_TEMPERATURE,
             )
@@ -213,6 +226,7 @@ PROGRAMS_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Attribute.DRYER_CYCLE,
                 translation_key="cycle",
+                entity_category=EntityCategory.CONFIG,
                 command=Command.SET_DRYER_CYCLE,
             )
         ]
@@ -222,6 +236,7 @@ PROGRAMS_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Attribute.STEAM_CLOSET_CYCLE,
                 translation_key="cycle",
+                entity_category=EntityCategory.CONFIG,
                 command=Command.SET_STEAM_CLOSET_CYCLE,
             )
         ]
@@ -231,6 +246,7 @@ PROGRAMS_TO_SELECTS: dict[
             SmartThingsSelectEntityDescription(
                 key=Attribute.WASHER_CYCLE,
                 translation_key="cycle",
+                entity_category=EntityCategory.CONFIG,
                 command=Command.SET_WASHER_CYCLE,
             )
         ]

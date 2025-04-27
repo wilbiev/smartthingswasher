@@ -8,6 +8,7 @@ from typing import Any
 from pysmartthings import Attribute, Capability, Command, SmartThings
 
 from homeassistant.components.switch import SwitchEntity, SwitchEntityDescription
+from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -47,6 +48,7 @@ CAPABILITY_TO_SWITCHES: dict[
                 key=Capability.CUSTOM_DRYER_WRINKLE_PREVENT,
                 translation_key="wrinkle_prevent",
                 command=Command.SET_DRYER_WRINKLE_PREVENT,
+                entity_category=EntityCategory.CONFIG,
             )
         ]
     },
@@ -56,6 +58,7 @@ CAPABILITY_TO_SWITCHES: dict[
                 key=Capability.CUSTOM_STEAM_CLOSET_WRINKLE_PREVENT,
                 translation_key="wrinkle_prevent",
                 command=Command.SET_STEAM_CLOSET_WRINKLE_PREVENT,
+                entity_category=EntityCategory.CONFIG,
             )
         ]
     },
@@ -64,6 +67,7 @@ CAPABILITY_TO_SWITCHES: dict[
             SmartThingsSwitchEntityDescription(
                 key=Capability.SAMSUNG_CE_STEAM_CLOSET_KEEP_FRESH_MODE,
                 translation_key="steam_closet_keep_fresh_mode",
+                entity_category=EntityCategory.CONFIG,
             )
         ]
     },
@@ -72,6 +76,7 @@ CAPABILITY_TO_SWITCHES: dict[
             SmartThingsSwitchEntityDescription(
                 key=Capability.SAMSUNG_CE_STEAM_CLOSET_SANITIZE_MODE,
                 translation_key="steam_closet_sanitize_mode",
+                entity_category=EntityCategory.CONFIG,
             )
         ]
     },
@@ -80,6 +85,7 @@ CAPABILITY_TO_SWITCHES: dict[
             SmartThingsSwitchEntityDescription(
                 key=Capability.SAMSUNG_CE_WASHER_BUBBLE_SOAK,
                 translation_key="bubble_soak",
+                entity_category=EntityCategory.CONFIG,
             )
         ]
     },
