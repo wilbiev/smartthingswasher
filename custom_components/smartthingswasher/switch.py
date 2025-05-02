@@ -62,6 +62,15 @@ CAPABILITY_TO_SWITCHES: dict[
             )
         ]
     },
+    Capability.SAMSUNG_CE_SABBATH_MODE: {
+        Attribute.STATUS: [
+            SmartThingsSwitchEntityDescription(
+                key=Capability.SAMSUNG_CE_SABBATH_MODE,
+                translation_key="sabbath_mode",
+                entity_category=EntityCategory.CONFIG,
+            )
+        ]
+    },
     Capability.SAMSUNG_CE_STEAM_CLOSET_KEEP_FRESH_MODE: {
         Attribute.STATUS: [
             SmartThingsSwitchEntityDescription(

@@ -205,6 +205,17 @@ CAPABILITY_TO_SELECTS: dict[
             )
         ]
     },
+   Capability.SAMSUNG_CE_FLEXIBLE_AUTO_DISPENSE_DETERGENT: {
+        Attribute.AMOUNT: [
+            SmartThingsSelectEntityDescription(
+                key=Capability.SAMSUNG_CE_FLEXIBLE_AUTO_DISPENSE_DETERGENT,
+                translation_key="flexible_detergent_amount",
+                entity_category=EntityCategory.CONFIG,
+                options_attribute=Attribute.SUPPORTED_AMOUNT,
+                command=Command.SET_AMOUNT,
+            )
+        ],
+    },
     Capability.WASHER_OPERATING_STATE: {
         Attribute.MACHINE_STATE: [
             SmartThingsSelectEntityDescription(

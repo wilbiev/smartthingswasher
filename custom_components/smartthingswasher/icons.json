@@ -73,6 +73,9 @@
       "dryer_drying_time": {
         "default": "mdi:clock-time-four"
       },
+      "flexible_detergent_amount": {
+        "default": "mdi:car-coolant-level"
+      },
       "machine_state": {
         "default": "mdi:play-speed",
         "state": {

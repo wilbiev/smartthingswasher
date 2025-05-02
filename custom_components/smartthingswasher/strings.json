@@ -348,6 +348,9 @@
       "dryer_drying_time": {
         "name": "Drying time"
       },
+      "flexible_detergent_amount": {
+        "name": "Flexible detergent amount"
+      },
       "machine_state": {
         "name": "Machine state"
       },
@@ -755,6 +758,9 @@
     "switch": {
       "bubble_soak": {
         "name": "BubbleSoak"
+      },
+      "sabbath_mode": {
+        "name": "Sabbath mode"
       },
       "steam_closet_keep_fresh_mode": {
         "name": "Keep fresh mode"
