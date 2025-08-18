@@ -37,6 +37,9 @@ class SmartThingsSwitchEntityDescription(SwitchEntityDescription):
     """Describe a SmartThings switch entity."""
 
     command: Command | None = None
+    on_key: str = "on"
+    on_command: Command = Command.ON
+    off_command: Command = Command.OFF
 
 
 CAPABILITY_TO_SWITCHES: dict[
@@ -48,6 +51,16 @@ CAPABILITY_TO_SWITCHES: dict[
                 key=Capability.CUSTOM_DRYER_WRINKLE_PREVENT,
                 translation_key="wrinkle_prevent",
                 command=Command.SET_DRYER_WRINKLE_PREVENT,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_STEAM_CLOSET_AUTO_CYCLE_LINK: {
+        Attribute.STEAM_CLOSET_AUTO_CYCLE_LINK: [
+            SmartThingsSwitchEntityDescription(
+                key=Capability.SAMSUNG_CE_STEAM_CLOSET_AUTO_CYCLE_LINK,
+                translation_key="auto_cycle_link",
+                command=Command.SET_STEAM_CLOSET_AUTO_CYCLE_LINK,
                 entity_category=EntityCategory.CONFIG,
             )
         ]
@@ -98,6 +111,30 @@ CAPABILITY_TO_SWITCHES: dict[
             )
         ]
     },
+    Capability.SAMSUNG_CE_POWER_COOL: {
+        Attribute.ACTIVATED: [
+            SmartThingsSwitchEntityDescription(
+                key=Capability.SAMSUNG_CE_POWER_COOL,
+                translation_key="power_cool",
+                on_key="True",
+                on_command=Command.ACTIVATE,
+                off_command=Command.DEACTIVATE,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_POWER_FREEZE: {
+        Attribute.ACTIVATED: [
+            SmartThingsSwitchEntityDescription(
+                key=Capability.SAMSUNG_CE_POWER_FREEZE,
+                translation_key="power_freeze",
+                on_key="True",
+                on_command=Command.ACTIVATE,
+                off_command=Command.DEACTIVATE,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ]
+    },
     Capability.SWITCH: {
         Attribute.SWITCH: [
             SmartThingsSwitchEntityDescription(
@@ -107,7 +144,6 @@ CAPABILITY_TO_SWITCHES: dict[
         ]
     },
 }
-
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -189,7 +225,7 @@ class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
         else:
             await self.execute_device_command(
                 self.capability,
-                Command.OFF,
+                self.entity_description.off_command,
             )
 
     async def async_turn_on(self, **kwargs: Any) -> None:
@@ -203,13 +239,13 @@ class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
         else:
             await self.execute_device_command(
                 self.capability,
-                Command.ON,
+                self.entity_description.on_command,
             )
 
     @property
     def is_on(self) -> bool:
         """Return true if switch is on."""
-        return self.get_attribute_value(self.capability, self._attribute) == "on"
+        return self.get_attribute_value(self.capability, self._attribute) == self.entity_description.on_key
 
 
 class SmartThingsProgramSwitch(SmartThingsEntity, SwitchEntity):

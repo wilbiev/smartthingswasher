@@ -15,6 +15,7 @@ class STType(StrEnum):
 
     BOOLEAN = "Boolean"
     ENUM = "Enum"
+    FLOAT = "Float"
     INTEGER = "Integer"
     JSON = "Json"
     RAW = "Raw"

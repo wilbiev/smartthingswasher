@@ -132,6 +132,9 @@
       "freezer_door": {
         "name": "Freezer door"
       },
+      "keep_fresh_mode_active": {
+        "name": "Keep fresh mode active"
+      },
       "cooler_door": {
         "name": "Cooler door"
       },
@@ -197,6 +200,18 @@
     "number": {
       "delay_time": {
         "name": "Delay time"
+      },
+      "hood_fan_speed": {
+        "name": "Fan speed"
+      },
+      "freezer_temperature": {
+        "name": "Freezer temperature"
+      },
+      "cooler_temperature": {
+        "name": "Fridge temperature"
+      },
+      "cool_select_plus_temperature": {
+        "name": "CoolSelect+ temperature"
       }
     },
     "select": {
@@ -351,6 +366,17 @@
       "flexible_detergent_amount": {
         "name": "Flexible detergent amount"
       },
+      "lamp": {
+        "name": "Lamp",
+        "state": {
+          "off": "[%key:common::state::off%]",
+          "on": "[%key:common::state::on%]",
+          "low": "Low",
+          "mid": "Mid",
+          "high": "High",
+          "extra_high": "Extra high"
+        }
+      },
       "machine_state": {
         "name": "Machine state"
       },
@@ -406,6 +432,18 @@
       "completion_time": {
         "name": "Completion time"
       },
+      "cooktop_operating_state": {
+        "name": "Operating state",
+        "state": {
+          "ready": "[%key:component::smartthings::entity::sensor::oven_machine_state::state::ready%]",
+          "run": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::run%]",
+          "paused": "[%key:common::state::paused%]",
+          "finished": "[%key:component::smartthings::entity::sensor::oven_job_state::state::finished%]"
+        }
+      },
+      "cooler_temperature": {
+        "name": "Fridge temperature"
+      },
       "dishwasher_machine_state": {
         "name": "Machine state",
         "state": {
@@ -427,6 +465,13 @@
           "spin": "Spin",
           "wash": "Wash",
           "wrinkle_prevent": "Wrinkle prevention"
+        }
+      },
+      "diverter_valve_position": {
+        "name": "Valve position",
+        "state": {
+          "room": "Room",
+          "tank": "Tank"
         }
       },
       "dryer_mode": {
@@ -466,6 +511,9 @@
       "formaldehyde": {
         "name": "Formaldehyde"
       },
+      "freezer_temperature": {
+        "name": "Freezer temperature"
+      },
       "gas_meter": {
         "name": "Gas meter"
       },
@@ -475,8 +523,24 @@
       "gas_meter_time": {
         "name": "Gas meter time"
       },
+      "heating_mode": {
+        "name": "Burner {burner_id} heating mode",
+        "state": {
+          "off": "[%key:common::state::off%]",
+          "manual": "Manual",
+          "boost": "Boost",
+          "keep_warm": "Keep warm",
+          "quick_preheat": "Quick preheat",
+          "defrost": "Defrost",
+          "melt": "Melt",
+          "simmer": "Simmer"
+        }
+      },
       "infrared_level": {
         "name": "Infrared level"
+      },
+      "manual_level": {
+        "name": "Burner {burner_id} level"
       },
       "media_input_source": {
         "name": "Media input source",
@@ -753,9 +817,15 @@
       },
       "water_consumption": {
         "name": "Water consumption"
+      },
+      "water_filter_usage": {
+        "name": "Water filter usage"
       }
     },
     "switch": {
+      "auto_cycle_link": {
+        "name": "Auto cycle link"
+      },
       "bubble_soak": {
         "name": "BubbleSoak"
       },
@@ -770,6 +840,12 @@
       },
       "wrinkle_prevent": {
         "name": "Wrinkle prevent"
+      },
+      "power_cool": {
+        "name": "Power cool"
+      },
+      "power_freeze": {
+        "name": "Power freeze"
       },
       "switch": {
         "name": "Switch"

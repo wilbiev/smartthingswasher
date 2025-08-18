@@ -2,6 +2,8 @@
 
 from pysmartthings import Attribute, Capability, Command
 
+from homeassistant.const import UnitOfTemperature
+
 from .models import SupportedOption
 
 DOMAIN = "smartthings"
@@ -73,3 +75,5 @@ CAPABILITY_COMMANDS: dict[str, str] = {
     Capability.SAMSUNG_CE_STEAM_CLOSET_CYCLE: Command.SET_STEAM_CLOSET_CYCLE,
     Capability.SAMSUNG_CE_WASHER_CYCLE: Command.SET_WASHER_CYCLE,
 }
+
+UNIT_MAP = {"C": UnitOfTemperature.CELSIUS, "F": UnitOfTemperature.FAHRENHEIT}

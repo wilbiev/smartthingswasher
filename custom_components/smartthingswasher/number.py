@@ -2,18 +2,23 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime
 
 from pysmartthings import Attribute, Capability, Command, SmartThings
 
-from homeassistant.components.number import NumberEntity, NumberEntityDescription
+from homeassistant.components.number import (
+    NumberDeviceClass,
+    NumberEntity,
+    NumberEntityDescription,
+)
 from homeassistant.const import EntityCategory, UnitOfTime
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FullDevice, SmartThingsConfigEntry
-from .const import MAIN
+from .const import MAIN, UNIT_MAP
 from .entity import SmartThingsEntity
 from .models import STType
 
@@ -27,6 +32,12 @@ class SmartThingsNumberEntityDescription(NumberEntityDescription):
     command: Command | None = None
     except_if_state_none: bool = False
     int_type: STType | None = None
+    min_attribute: Attribute | None = None
+    max_attribute: Attribute | None = None
+    range_attribute: Attribute | None = None
+    use_temperature_unit: bool = False
+    component_fn: Callable[[str], bool] | None = None
+    component_translation_key: dict[str, str] | None = None
 
 
 CAPABILITY_TO_NUMBERS: dict[
@@ -74,6 +85,38 @@ CAPABILITY_TO_NUMBERS: dict[
                 native_max_value=240,
                 native_step=5,
                 int_type=STType.INTEGER,
+            )
+        ]
+    },
+    Capability.THERMOSTAT_COOLING_SETPOINT: {
+        Attribute.COOLING_SETPOINT: [
+            SmartThingsNumberEntityDescription(
+                key=Capability.THERMOSTAT_COOLING_SETPOINT,
+                entity_category=EntityCategory.CONFIG,
+                device_class = NumberDeviceClass.TEMPERATURE,
+                component_fn=lambda component: component in {"freezer", "cooler"},
+                component_translation_key={
+                    "freezer": "freezer_temperature",
+                    "cooler": "cooler_temperature",
+                },
+                use_temperature_unit=True,
+                command=Command.SET_COOLING_SETPOINT,
+                range_attribute=Attribute.COOLING_SETPOINT_RANGE,
+                int_type=STType.FLOAT,
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_HOOD_FAN_SPEED: {
+        Attribute.HOOD_FAN_SPEED: [
+            SmartThingsNumberEntityDescription(
+                key=Capability.SAMSUNG_CE_HOOD_FAN_SPEED,
+                translation_key="hood_fan_speed",
+                entity_category=EntityCategory.CONFIG,
+                command=Command.SET_HOOD_FAN_SPEED,
+                min_attribute=Attribute.SETTABLE_MIN_FAN_SPEED,
+                max_attribute=Attribute.SETTABLE_MAX_FAN_SPEED,
+                native_step=1.0,
+                int_type=STType.FLOAT,
             )
         ]
     },
@@ -127,6 +170,78 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
         self.entity_description = entity_description
         self.command = self.entity_description.command
         self._number = self.entity_description.int_type
+        if self.entity_description.component_translation_key and component != MAIN:
+            self._attr_translation_key = (
+                self.entity_description.component_translation_key[component]
+            )
+
+
+    @property
+    def options(self) -> list[int] | None:
+        """Return the list of options."""
+        if self.entity_description.min_attribute and self.entity_description.max_attribute:
+            min_value_list = self.get_attribute_value(
+                self.capability, self.entity_description.min_attribute
+            )
+            max_value_list = self.get_attribute_value(
+               self.capability, self.entity_description.max_attribute
+            )
+            return list(range(min_value_list, max_value_list + 1))
+        return None
+
+    @property
+    def range(self) -> dict[str, int] | None:
+        """Return the range."""
+        if self.entity_description.range_attribute:
+            return self.get_attribute_value(
+                self.capability,
+                self.entity_description.range_attribute,
+            )
+        return None
+
+    @property
+    def native_min_value(self) -> float:
+        """Return the minimum value."""
+        if self.entity_description.min_attribute and self.entity_description.max_attribute:
+            return min(self.options)
+        if self.entity_description.range_attribute:
+            return self.range["minimum"]
+        if self.entity_description.min_attribute:
+            return self.get_attribute_value(
+                self.capability, self.entity_description.min_attribute
+            )
+        return self.entity_description.native_min_value
+
+
+    @property
+    def native_max_value(self) -> float:
+        """Return the maximum value."""
+        if self.entity_description.min_attribute and self.entity_description.max_attribute:
+            return max(self.options)
+        if self.entity_description.range_attribute:
+            return self.range["maximum"]
+        if self.entity_description.max_attribute:
+            return self.get_attribute_value(
+                self.capability, self.entity_description.max_attribute
+            )
+        return self.entity_description.native_max_value
+
+    @property
+    def native_step(self) -> float:
+        """Return the step value."""
+        if self.entity_description.range_attribute:
+            return self.range["step"]
+        return self.entity_description.native_step
+
+
+    @property
+    def native_unit_of_measurement(self) -> str | None:
+        """Return the unit this state is expressed in."""
+        if self.entity_description.use_temperature_unit:
+            unit = self._internal_state[self.capability][self._attribute].unit
+            return UNIT_MAP[unit]
+        return self.entity_description.native_unit_of_measurement
+
 
     @property
     def native_value(self) -> str | float | datetime | int | None:
@@ -135,6 +250,7 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
             return None
 
         return self.get_attribute_value(self.capability, self._attribute)
+
 
     async def async_set_native_value(self, value: float) -> None:
         """Set new value."""
@@ -146,6 +262,12 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
                 self.capability,
                 self.command,
                 int(value),
+            )
+        elif self._number is STType.FLOAT:
+            await self.execute_device_command(
+                self.capability,
+                self.command,
+                float(value),
             )
         else:
             await self.execute_device_command(

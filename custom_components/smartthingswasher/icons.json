@@ -24,6 +24,9 @@
         "state": {
           "on": "mdi:remote"
         }
+      },
+      "keep_fresh_mode": {
+        "default": "mdi:creation"
       }
     },
     "button": {
@@ -49,6 +52,9 @@
     "number": {
       "delay_time": {
         "default": "mdi:timer"
+      },
+      "freezer_temperature": {
+        "default": "mdi:snowflake-thermometer"
       }
     },
     "select": {
@@ -76,6 +82,13 @@
       "flexible_detergent_amount": {
         "default": "mdi:car-coolant-level"
       },
+      "lamp": {
+        "default": "mdi:lightbulb",
+        "state": {
+          "on": "mdi:lightbulb-on",
+          "off": "mdi:lightbulb-off"
+        }
+      },
       "machine_state": {
         "default": "mdi:play-speed",
         "state": {
@@ -98,6 +111,21 @@
       }
     },
     "sensor": {
+      "cooktop_operating_state": {
+        "default": "mdi:stove",
+        "state": {
+          "ready": "mdi:play-speed",
+          "run": "mdi:play",
+          "paused": "mdi:pause",
+          "finished": "mdi:food-turkey"
+        }
+      },
+      "diverter_valve_position": {
+        "state": {
+          "room": "mdi:sofa",
+          "tank": "mdi:water-boiler"
+        }
+      },
       "remaining_amount_dispense_detergent": {
         "default": "mdi:bottle-tonic-outline"
       },
@@ -115,6 +143,24 @@
       },
       "remaining_time": {
         "default": "mdi:timelapse"
+      },
+      "manual_level": {
+        "default": "mdi:radiator",
+        "state": {
+          "0": "mdi:radiator-off"
+        }
+      },
+      "heating_mode": {
+        "state": {
+          "off": "mdi:power",
+          "manual": "mdi:cog",
+          "boost": "mdi:flash",
+          "keep_warm": "mdi:fire",
+          "quick_preheat": "mdi:heat-wave",
+          "defrost": "mdi:car-defrost-rear",
+          "melt": "mdi:snowflake-melt",
+          "simmer": "mdi:fire"
+        }
       }
     },
     "switch": {
@@ -126,6 +172,24 @@
       },
       "ice_maker": {
         "default": "mdi:delete-variant"
+      },
+      "keep_fresh_mode": {
+        "default": "mdi:creation"
+      },
+      "power_cool": {
+        "default": "mdi:snowflake-alert"
+      },
+      "power_freeze": {
+        "default": "mdi:snowflake"
+      },
+      "sanitize": {
+        "default": "mdi:lotion"
+      },
+      "auto_cycle_link": {
+        "default": "mdi:link-off",
+        "state": {
+          "on": "mdi:link"
+        }
       }
     }
   }

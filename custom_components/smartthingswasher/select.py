@@ -29,6 +29,8 @@ class SmartThingsSelectEntityDescription(SelectEntityDescription):
     options_attribute: Attribute | None = None
     supported_option: SupportedOption | None = None
     duplicate_fn: Callable[[dict[str, ComponentStatus]], str | None] = lambda _: None
+    extra_components: list[str] | None = None
+    capability_ignore_list: list[Capability] | None = None
 
 
 CAPABILITY_TO_SELECTS: dict[
@@ -226,6 +228,19 @@ CAPABILITY_TO_SELECTS: dict[
             )
         ]
     },
+    Capability.SAMSUNG_CE_LAMP: {
+        Attribute.BRIGHTNESS_LEVEL: [
+            SmartThingsSelectEntityDescription(
+                key=Capability.SAMSUNG_CE_LAMP,
+                translation_key="lamp",
+                options_attribute=Attribute.SUPPORTED_BRIGHTNESS_LEVEL,
+                command=Command.SET_BRIGHTNESS_LEVEL,
+                entity_category=EntityCategory.CONFIG,
+                extra_components=["hood"],
+                capability_ignore_list=[Capability.SAMSUNG_CE_CONNECTION_STATE],
+            )
+        ]
+    },
 }
 
 
@@ -287,7 +302,22 @@ async def async_setup_entry(
         if capability in device.status[component]
         for attribute, descriptions in attributes.items()
         for description in descriptions
-        if component != MAIN or description.duplicate_fn(device.status) is None
+        if  ((
+                component == MAIN
+                or (
+                    description.extra_components is not None
+                    and component in description.extra_components
+                )
+            )
+            and (component != MAIN or description.duplicate_fn(device.status) is None)
+            and (
+                description.capability_ignore_list is None
+                or any(
+                    capability not in device.status[component]
+                    for capability in description.capability_ignore_list
+                )
+            )
+        )
     ]
     async_add_entities(select_entities)
 
