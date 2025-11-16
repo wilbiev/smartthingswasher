@@ -135,6 +135,28 @@ CAPABILITY_TO_SWITCHES: dict[
             )
         ]
     },
+    Capability.SAMSUNG_CE_AIR_CONDITIONER_BEEP: {
+        Attribute.BEEP: [
+            SmartThingsSwitchEntityDescription(
+                key=Capability.SAMSUNG_CE_AIR_CONDITIONER_BEEP,
+                translation_key="sound_effect",
+                on_key="on",
+                on_command=Command.ON,
+                off_command=Command.OFF,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_AIR_CONDITIONER_LIGHTING: {
+        Attribute.LIGHTING: [
+            SmartThingsSwitchEntityDescription(
+                key=Capability.SAMSUNG_CE_AIR_CONDITIONER_LIGHTING,
+                translation_key="display_lighting",
+                command=Command.SET_LIGHTING_LEVEL,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ]
+    },
     Capability.SWITCH: {
         Attribute.SWITCH: [
             SmartThingsSwitchEntityDescription(
@@ -283,13 +305,16 @@ class SmartThingsProgramSwitch(SmartThingsEntity, SwitchEntity):
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn the switch on."""
-        await self.execute_device_command(
-            self.capability, self.command, self.program.program_id
-        )
+        if self.command is not None and self.program is not None:
+            await self.execute_device_command(
+                self.capability, self.command, self.program.program_id
+            )
 
     @property
     def is_on(self) -> bool:
         """Return true if switch is on."""
+        if self.program is None:
+            return False
         return (
             translate_program_course(
                 self.get_attribute_value(self.capability, self._attribute)
@@ -302,4 +327,5 @@ class SmartThingsProgramSwitch(SmartThingsEntity, SwitchEntity):
         res: str = translate_program_course(
             self.get_attribute_value(self.capability, self._attribute)
         )
-        self._attr_is_on = bool(res and res == self.program.program_id)
+        if self.program is not None:
+            self._attr_is_on = bool(res and res == self.program.program_id)

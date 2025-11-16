@@ -46,6 +46,7 @@ from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.config_entry_oauth2_flow import (
+    ImplementationUnavailableError,
     OAuth2Session,
     async_get_config_entry_implementation,
 )
@@ -122,7 +123,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: SmartThingsConfigEntry) 
     # after migration but still require reauthentication
     if CONF_TOKEN not in entry.data:
         raise ConfigEntryAuthFailed("Config entry missing token")
-    implementation = await async_get_config_entry_implementation(hass, entry)
+    try:
+        implementation = await async_get_config_entry_implementation(hass, entry)
+    except ImplementationUnavailableError as err:
+        raise ConfigEntryNotReady(
+            translation_domain=DOMAIN,
+            translation_key="oauth2_implementation_unavailable",
+        ) from err
     session = OAuth2Session(hass, entry, implementation)
 
     try:
@@ -211,6 +218,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: SmartThingsConfigEntry) 
                 device_status[device.device_id] = FullDevice(
                     device=device,
                     status={},
+                    programs={},
                     online=True,
                 )
                 continue
@@ -218,7 +226,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: SmartThingsConfigEntry) 
             programs = process_programs(status)
             online = await client.get_device_health(device.device_id)
             device_status[device.device_id] = FullDevice(
-                device=device, status=status, programs=programs, online=online.state == HealthStatus.ONLINE
+                device=device,
+                status=status,
+                programs=programs,
+                online=online.state == HealthStatus.ONLINE,
             )
     except SmartThingsAuthenticationFailedError as err:
         raise ConfigEntryAuthFailed from err
@@ -447,61 +458,62 @@ def process_component_status(status: ComponentStatus) -> None:
 
 def process_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
     """Build a program list from status."""
-    program_list: list[dict[Any]] = {}
     programs: dict[str, Program] = {}
-    supported_item: dict[Any] = {}
-    supportedoption: SupportedOption
-    supportedoption_list: dict[SupportedOption | str, dict[ProgramOptions]] = {}
-    program_capabilities_list: dict[Any] = {}
-    if (main_component := status.get(MAIN)) is not None:
-        for capability in CAPABILITIES_WITH_PROGRAMS:
-            if (
-                program_capabilities_list := main_component.get(capability)
-            ) is not None:
-                break
-        if not program_capabilities_list:
-            if (
-                program_capabilities_list := main_component.get(
-                    Capability.CUSTOM_SUPPORTED_OPTIONS
-                )
-            ) is not None:
-                program_list = program_capabilities_list[
-                    Attribute.SUPPORTED_COURSES
-                ].value
-                for program in program_list:
-                    program_id: str = translate_program_course(program)
-                    programs[program_id] = Program(
-                        program_id=program_id,
-                        program_type="Course",
-                        supportedoptions=[],
-                        bubblesoak=False,
-                    )
-            return programs
-        program_list = program_capabilities_list[Attribute.SUPPORTED_CYCLES].value
-        for program in program_list:
-            program_id: str = translate_program_course(program.get(PROGRAM_CYCLE))
-            bubblesoak: bool = False
-            supportedoption_list = {}
-            for supportedoption in SUPPORTEDOPTIONS_LIST:
-                support: dict[str, dict[Any]] = program.get(PROGRAM_SUPPORTED_OPTIONS)
-                if (supported_item := support.get(supportedoption)) is not None:
-                    raw: str = supported_item.get(PROGRAM_OPTION_RAW)
-                    default: str = supported_item.get(PROGRAM_OPTION_DEFAULT)
-                    options: list[Any] = supported_item.get(PROGRAM_OPTION_OPTIONS)
-                    if supportedoption == SupportedOption.BUBBLE_SOAK:
-                        bubblesoak = bool(raw[2] == "F")
-                    elif default not in options:
-                        options.append(default)
-                    supportedoption_list[supportedoption] = ProgramOptions(
-                        supportedoption=supportedoption,
-                        raw=raw,
-                        default=default,
-                        options=options,
-                    )
-            programs[program_id] = Program(
-                program_id=program_id,
-                program_type=program.get(PROGRAM_CYCLE_TYPE),
-                supportedoptions=supportedoption_list,
-                bubblesoak=bubblesoak,
+
+    if (main_component := status.get(MAIN)) is None:
+        return programs
+
+    for capability in CAPABILITIES_WITH_PROGRAMS:
+        if (program_capabilities_list := main_component.get(capability)) is not None:
+            break
+
+    if program_capabilities_list is None:
+        if (
+            capability_status := main_component.get(Capability.CUSTOM_SUPPORTED_OPTIONS)
+        ) is not None:
+            program_list = cast(
+                list[str], capability_status[Attribute.SUPPORTED_COURSES].value
             )
+            for program in program_list:
+                program_id: str = translate_program_course(program)
+                programs[program_id] = Program(
+                    program_id=program_id,
+                    program_type="Course",
+                    supportedoptions={},
+                    bubblesoak=False,
+                )
+        return programs
+
+    program_dict = cast(
+        list[dict[str, Any]],
+        program_capabilities_list[Attribute.SUPPORTED_CYCLES].value,
+    )
+    for program in program_dict:
+        program_id: str = translate_program_course(program.get(PROGRAM_CYCLE))
+        bubblesoak: bool = False
+        supportedoption_list = {}
+        for supportedoption in SUPPORTEDOPTIONS_LIST:
+            support = cast(
+                dict[str, dict[str, Any]], program.get(PROGRAM_SUPPORTED_OPTIONS)
+            )
+            if (supported_item := support.get(supportedoption)) is not None:
+                raw = str(supported_item.get(PROGRAM_OPTION_RAW))
+                default = str(supported_item.get(PROGRAM_OPTION_DEFAULT))
+                options = cast(list[str], supported_item.get(PROGRAM_OPTION_OPTIONS))
+                if supportedoption == SupportedOption.BUBBLE_SOAK:
+                    bubblesoak = bool(raw[2] == "F")
+                elif default not in options:
+                    options.append(default)
+                supportedoption_list[supportedoption] = ProgramOptions(
+                    supportedoption=supportedoption,
+                    raw=raw,
+                    default=default,
+                    options=options,
+                )
+        programs[program_id] = Program(
+            program_id=program_id,
+            program_type=str(program.get(PROGRAM_CYCLE_TYPE)),
+            supportedoptions=supportedoption_list,
+            bubblesoak=bubblesoak,
+        )
     return programs

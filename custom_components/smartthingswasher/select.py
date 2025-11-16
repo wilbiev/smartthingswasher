@@ -362,7 +362,7 @@ async def async_setup_entry(
                         Capability.REMOTE_CONTROL_STATUS,
                         Attribute.REMOTE_CONTROL_ENABLED,
                     )
-                    == "false"
+                    == "false" and select_entity.entity_description.options_attribute is not None
                 ):
                     if (
                         options := select_entity.get_attribute_value(
@@ -434,11 +434,12 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
-        await self.execute_device_command(
-            self.capability,
-            self.command,
-            option,
-        )
+        if self.command is not None:
+            await self.execute_device_command(
+                self.capability,
+                self.command,
+                option,
+            )
 
     def update_select_options(self, options: list[str]) -> None:
         """Update the options for this select entity."""
@@ -503,9 +504,10 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
-        value = translate_program_course(option)
-        await self.execute_device_command(
-            self.capability,
-            self.command,
-            value,
-        )
+        if self.command is not None:
+            value = translate_program_course(option)
+            await self.execute_device_command(
+                self.capability,
+                self.command,
+                value,
+            )

@@ -49,6 +49,28 @@
         "default": "mdi:stop"
       }
     },
+    "climate": {
+      "air_conditioner": {
+        "state_attributes": {
+          "fan_mode": {
+            "state": {
+              "turbo": "mdi:wind-power"
+            }
+          },
+          "preset_mode": {
+            "state": {
+              "long_wind": "mdi:weather-windy",
+              "motion_direct": "mdi:account-arrow-left",
+              "motion_indirect": "mdi:account-arrow-right",
+              "quiet": "mdi:volume-off",
+              "smart": "mdi:leaf",
+              "wind_free": "mdi:weather-dust",
+              "wind_free_sleep": "mdi:sleep"
+            }
+          }
+        }
+      }
+    },
     "number": {
       "delay_time": {
         "default": "mdi:timer"
@@ -120,34 +142,13 @@
           "finished": "mdi:food-turkey"
         }
       },
+      "completion_time": {
+        "default": "mdi:clock-end"
+      },
       "diverter_valve_position": {
         "state": {
           "room": "mdi:sofa",
           "tank": "mdi:water-boiler"
-        }
-      },
-      "remaining_amount_dispense_detergent": {
-        "default": "mdi:bottle-tonic-outline"
-      },
-      "remaining_amount_dispense_softener": {
-        "default": "mdi:bottle-tonic-outline"
-      },
-      "operating_progress": {
-        "default": "mdi:progress-clock"
-      },
-      "operating_state": {
-        "default": "mdi:state-machine"
-      },
-      "operation_time": {
-        "default": "mdi:clock"
-      },
-      "remaining_time": {
-        "default": "mdi:timelapse"
-      },
-      "manual_level": {
-        "default": "mdi:radiator",
-        "state": {
-          "0": "mdi:radiator-off"
         }
       },
       "heating_mode": {
@@ -161,13 +162,50 @@
           "melt": "mdi:snowflake-melt",
           "simmer": "mdi:fire"
         }
+      },
+      "manual_level": {
+        "default": "mdi:radiator",
+        "state": {
+          "0": "mdi:radiator-off"
+        }
+      },
+      "operating_progress": {
+        "default": "mdi:progress-clock"
+      },
+      "operating_state": {
+        "default": "mdi:state-machine"
+      },
+      "operation_time": {
+        "default": "mdi:clock"
+      },
+      "remaining_amount_dispense_detergent": {
+        "default": "mdi:bottle-tonic-outline"
+      },
+      "remaining_amount_dispense_softener": {
+        "default": "mdi:bottle-tonic-outline"
+      },
+      "remaining_time": {
+        "default": "mdi:timelapse"
       }
     },
     "switch": {
-      "wrinkle_prevent": {
-        "default": "mdi:tumble-dryer",
+      "auto_cycle_link": {
+        "default": "mdi:link-off",
         "state": {
-          "off": "mdi:tumble-dryer-off"
+          "on": "mdi:link"
+        }
+      },
+      "bubble_soak": {
+        "default": "mdi:water-off",
+        "state": {
+          "on": "mdi:water"
+        }
+      },
+      "display_lighting": {
+        "default": "mdi:lightbulb",
+        "state": {
+          "off": "mdi:lightbulb-off",
+          "on": "mdi:lightbulb-on"
         }
       },
       "ice_maker": {
@@ -185,10 +223,17 @@
       "sanitize": {
         "default": "mdi:lotion"
       },
-      "auto_cycle_link": {
-        "default": "mdi:link-off",
+      "sound_effect": {
+        "default": "mdi:volume-high",
         "state": {
-          "on": "mdi:link"
+          "off": "mdi:volume-off",
+          "on": "mdi:volume-high"
+        }
+      },
+      "wrinkle_prevent": {
+        "default": "mdi:tumble-dryer",
+        "state": {
+          "off": "mdi:tumble-dryer-off"
         }
       }
     }

@@ -203,13 +203,19 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
     def native_min_value(self) -> float:
         """Return the minimum value."""
         if self.entity_description.min_attribute and self.entity_description.max_attribute:
+            if self.options is None:
+                return 0
             return min(self.options)
         if self.entity_description.range_attribute:
+            if self.range is None:
+                return 0
             return self.range["minimum"]
         if self.entity_description.min_attribute:
             return self.get_attribute_value(
                 self.capability, self.entity_description.min_attribute
             )
+        if self.entity_description.native_min_value is None:
+            return 0
         return self.entity_description.native_min_value
 
 
@@ -217,20 +223,30 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
     def native_max_value(self) -> float:
         """Return the maximum value."""
         if self.entity_description.min_attribute and self.entity_description.max_attribute:
+            if self.options is None:
+                return 0
             return max(self.options)
         if self.entity_description.range_attribute:
+            if self.range is None:
+                return 0
             return self.range["maximum"]
         if self.entity_description.max_attribute:
             return self.get_attribute_value(
                 self.capability, self.entity_description.max_attribute
             )
+        if self.entity_description.native_max_value is None:
+            return 0
         return self.entity_description.native_max_value
 
     @property
     def native_step(self) -> float:
         """Return the step value."""
         if self.entity_description.range_attribute:
+            if self.range is None:
+                return 1.0
             return self.range["step"]
+        if self.entity_description.native_step is None:
+            return 1.0
         return self.entity_description.native_step
 
 
@@ -238,8 +254,8 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
     def native_unit_of_measurement(self) -> str | None:
         """Return the unit this state is expressed in."""
         if self.entity_description.use_temperature_unit:
-            unit = self._internal_state[self.capability][self._attribute].unit
-            return UNIT_MAP[unit]
+            if (unit := self._internal_state[self.capability][self._attribute].unit) is not None:
+                return UNIT_MAP[unit]
         return self.entity_description.native_unit_of_measurement
 
 
@@ -252,26 +268,27 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
         return self.get_attribute_value(self.capability, self._attribute)
 
 
-    async def async_set_native_value(self, value: float) -> None:
+    async def async_set_native_value(self, value: float) -> int | float | str | None:
         """Set new value."""
         if self._number is None:
             raise RuntimeError("Cannot set value, device doesn't provide type data")
 
-        if self._number is STType.INTEGER:
-            await self.execute_device_command(
-                self.capability,
-                self.command,
-                int(value),
-            )
-        elif self._number is STType.FLOAT:
-            await self.execute_device_command(
-                self.capability,
-                self.command,
-                float(value),
-            )
-        else:
-            await self.execute_device_command(
-                self.capability,
-                self.command,
-                str(int(value)),
-            )
+        if self.command is not None and value is not None:
+            if self._number is STType.INTEGER:
+                await self.execute_device_command(
+                    self.capability,
+                    self.command,
+                    int(value),
+                )
+            elif self._number is STType.FLOAT:
+                await self.execute_device_command(
+                    self.capability,
+                    self.command,
+                    str(value),
+                )
+            else:
+                await self.execute_device_command(
+                    self.capability,
+                    self.command,
+                    str(int(value)),
+                )

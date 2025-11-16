@@ -13,19 +13,19 @@
       "already_configured": "[%key:common::config_flow::abort::already_configured_account%]"
     },
     "abort": {
-      "authorize_url_timeout": "[%key:common::config_flow::abort::oauth2_authorize_url_timeout%]",
-      "missing_configuration": "[%key:common::config_flow::abort::oauth2_missing_configuration%]",
       "already_configured": "[%key:common::config_flow::abort::already_configured_account%]",
+      "authorize_url_timeout": "[%key:common::config_flow::abort::oauth2_authorize_url_timeout%]",
+      "cloud_not_enabled": "Please make sure you run Home Assistant with `{default_config}` enabled in your configuration.yaml.",
+      "missing_configuration": "[%key:common::config_flow::abort::oauth2_missing_configuration%]",
+      "missing_scopes": "Authentication failed. Please make sure you have granted all required permissions.",
       "no_url_available": "[%key:common::config_flow::abort::oauth2_no_url_available%]",
       "oauth_error": "[%key:common::config_flow::abort::oauth2_error%]",
+      "oauth_failed": "[%key:common::config_flow::abort::oauth2_failed%]",
       "oauth_timeout": "[%key:common::config_flow::abort::oauth2_timeout%]",
       "oauth_unauthorized": "[%key:common::config_flow::abort::oauth2_unauthorized%]",
-      "oauth_failed": "[%key:common::config_flow::abort::oauth2_failed%]",
-      "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]",
       "reauth_account_mismatch": "Authenticated account does not match the account to be reauthenticated. Please log in with the correct account and pick the right location.",
       "reauth_location_mismatch": "Authenticated location does not match the location to be reauthenticated. Please log in with the correct account and pick the right location.",
-      "missing_scopes": "Authentication failed. Please make sure you have granted all required permissions.",
-      "cloud_not_enabled": "Please make sure you run Home Assistant with `{default_config}` enabled in your configuration.yaml."
+      "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]"
     }
   },
   "selector": {
@@ -829,8 +829,14 @@
       "bubble_soak": {
         "name": "BubbleSoak"
       },
+      "display_lighting": {
+        "name": "Display lighting"
+      },
       "sabbath_mode": {
         "name": "Sabbath mode"
+      },
+      "sound_effect": {
+        "name": "Sound effect"
       },
       "steam_closet_keep_fresh_mode": {
         "name": "Keep fresh mode"
@@ -1062,22 +1068,67 @@
       }
     }
   },
+  "exceptions": {
+    "oauth2_implementation_unavailable": {
+      "message": "[%key:common::exceptions::oauth2_implementation_unavailable::message%]"
+    }
+  },
   "issues": {
-    "deprecated_binary_valve": {
-      "title": "Deprecated valve binary sensor detected in some automations or scripts",
-      "description": "The valve binary sensor `{entity}` is deprecated and is used in the following automations or scripts:\n{items}\n\nA valve entity with controls is available and should be used going forward. Please use it in the above automations or scripts to fix this issue."
-    },
     "deprecated_binary_fridge_door": {
-      "title": "Deprecated refrigerator door binary sensor detected in some automations or scripts",
-      "description": "The refrigerator door binary sensor `{entity}` is deprecated and is used in the following automations or scripts:\n{items}\n\nSeparate entities for cooler and freezer door are available and should be used going forward. Please use them in the above automations or scripts to fix this issue."
+      "description": "The refrigerator door binary sensor {entity_name} (`{entity_id}`) is deprecated and will be removed in the future. Separate entities for cooler and freezer door are available and should be used going forward. Please update your dashboards, templates accordingly and disable the entity to fix this issue.",
+      "title": "Refrigerator door binary sensor deprecated"
     },
-    "deprecated_machine_state": {
-      "title": "Deprecated machine state sensor detected in some automations or scripts",
-      "description": "The machine state sensor `{entity}` is deprecated and is used in the following automations or scripts:\n{items}\n\nA select entity is now available for the machine state and should be used going forward. Please use them in the above automations or scripts to fix this issue."
+    "deprecated_binary_fridge_door_scripts": {
+      "description": "The refrigerator door binary sensor {entity_name} (`{entity_id}`) is deprecated and will be removed in the future. The entity is used in the following automations or scripts:\n{items}\n\nSeparate entities for cooler and freezer door are available and should be used going forward. Please use them in the above automations or scripts and disable the entity to fix this issue.",
+      "title": "[%key:component::smartthings::issues::deprecated_binary_fridge_door::title%]"
+    },
+    "deprecated_binary_valve": {
+      "description": "The valve binary sensor {entity_name} (`{entity_id}`) is deprecated and will be removed in the future. A valve entity with controls is available and should be used going forward. Please update your dashboards, templates accordingly and disable the entity to fix this issue.",
+      "title": "Valve binary sensor deprecated"
+    },
+    "deprecated_binary_valve_scripts": {
+      "description": "The valve binary sensor {entity_name} (`{entity_id}`) is deprecated and will be removed in the future. The entity is used in the following automations or scripts:\n{items}\n\nA valve entity with controls is available and should be used going forward. Please use the new valve entity in the above automations or scripts and disable the entity to fix this issue.",
+      "title": "[%key:component::smartthings::issues::deprecated_binary_valve::title%]"
+    },
+    "deprecated_dhw": {
+      "description": "The sensor {entity_name} (`{entity_id}`) is deprecated because it has been replaced with a water heater entity.\n\nPlease update your dashboards and templates to use the new water heater entity and disable the sensor to fix this issue.",
+      "title": "Water heater sensors deprecated"
+    },
+    "deprecated_dhw_scripts": {
+      "description": "The sensor {entity_name} (`{entity_id}`) is deprecated because it has been replaced with a water heater entity.\n\nThe sensor was used in the following automations or scripts:\n{items}\n\nPlease update the above automations or scripts to use the new water heater entity and disable the sensor to fix this issue.",
+      "title": "[%key:component::smartthings::issues::deprecated_dhw::title%]"
+    },
+    "deprecated_media_player": {
+      "description": "The sensor {entity_name} (`{entity_id}`) is deprecated because it has been replaced with a media player entity.\n\nPlease update your dashboards and templates to use the new media player entity and disable the sensor to fix this issue.",
+      "title": "Media player sensors deprecated"
+    },
+    "deprecated_media_player_scripts": {
+      "description": "The sensor {entity_name} (`{entity_id}`) is deprecated because it has been replaced with a media player entity.\n\nThe sensor was used in the following automations or scripts:\n{items}\n\nPlease update the above automations or scripts to use the new media player entity and disable the sensor to fix this issue.",
+      "title": "Deprecated sensor detected in some automations or scripts"
     },
     "deprecated_switch_appliance": {
-      "title": "Deprecated switch detected in some automations or scripts",
-      "description": "The switch `{entity}` is deprecated because the actions did not work, so it has been replaced with a binary sensor instead.\n\nThe switch was used in the following automations or scripts:\n{items}\n\nPlease use them in the above automations or scripts to fix this issue."
+      "description": "The switch `{entity_id}` is deprecated because the actions did not work, so it has been replaced with a binary sensor instead.\n\nPlease update your dashboards, templates accordingly and disable the entity to fix this issue.",
+      "title": "Appliance switch deprecated"
+    },
+    "deprecated_switch_appliance_scripts": {
+      "description": "The switch `{entity_id}` is deprecated because the actions did not work, so it has been replaced with a binary sensor instead.\n\nThe switch was used in the following automations or scripts:\n{items}\n\nPlease use the new binary sensor in the above automations or scripts and disable the switch to fix this issue.",
+      "title": "[%key:component::smartthings::issues::deprecated_switch_appliance::title%]"
+    },
+    "deprecated_switch_dhw": {
+      "description": "The switch `{entity_id}` is deprecated and a water heater entity has been added to replace it.\n\nPlease update your dashboards and templates accordingly and disable the switch to fix this issue.",
+      "title": "Heat pump switch deprecated"
+    },
+    "deprecated_switch_dhw_scripts": {
+      "description": "The switch `{entity_id}` is deprecated and a water heater entity has been added to replace it.\n\nThe switch was used in the following automations or scripts:\n{items}\n\nPlease use the new water heater entity in the above automations or scripts and disable the switch to fix this issue.",
+      "title": "[%key:component::smartthings::issues::deprecated_switch_dhw::title%]"
+    },
+    "deprecated_switch_media_player": {
+      "description": "The switch `{entity_id}` is deprecated and a media player entity has been added to replace it.\n\nPlease update your dashboards and templates accordingly and disable the switch to fix this issue.",
+      "title": "[%key:component::smartthings::issues::deprecated_switch_appliance::title%]"
+    },
+    "deprecated_switch_media_player_scripts": {
+      "description": "The switch `{entity_id}` is deprecated and a media player entity has been added to replace it.\n\nThe switch was used in the following automations or scripts:\n{items}\n\nPlease use the new media player entity in the above automations or scripts and disable the switch to fix this issue.",
+      "title": "[%key:component::smartthings::issues::deprecated_switch_appliance::title%]"
     }
   }
 }
