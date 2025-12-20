@@ -52,7 +52,7 @@ CAPABILITY_TO_NUMBERS: dict[
                 native_unit_of_measurement=UnitOfTime.MINUTES,
                 command=Command.SET_DELAY_TIME,
                 native_min_value=0,
-                native_max_value=240,
+                native_max_value=1440,
                 native_step=5,
                 int_type=STType.INTEGER,
             )
@@ -67,7 +67,7 @@ CAPABILITY_TO_NUMBERS: dict[
                 native_unit_of_measurement=UnitOfTime.MINUTES,
                 command=Command.SET_DELAY_TIME,
                 native_min_value=0,
-                native_max_value=240,
+                native_max_value=1440,
                 native_step=5,
                 int_type=STType.INTEGER,
             )
@@ -82,7 +82,7 @@ CAPABILITY_TO_NUMBERS: dict[
                 native_unit_of_measurement=UnitOfTime.MINUTES,
                 command=Command.SET_DELAY_TIME,
                 native_min_value=0,
-                native_max_value=240,
+                native_max_value=1440,
                 native_step=5,
                 int_type=STType.INTEGER,
             )
@@ -94,10 +94,11 @@ CAPABILITY_TO_NUMBERS: dict[
                 key=Capability.THERMOSTAT_COOLING_SETPOINT,
                 entity_category=EntityCategory.CONFIG,
                 device_class = NumberDeviceClass.TEMPERATURE,
-                component_fn=lambda component: component in {"freezer", "cooler"},
+                component_fn=lambda component: component in {"freezer", "cooler", "onedoor"},
                 component_translation_key={
                     "freezer": "freezer_temperature",
                     "cooler": "cooler_temperature",
+                    "onedoor": "target_temperature",
                 },
                 use_temperature_unit=True,
                 command=Command.SET_COOLING_SETPOINT,

@@ -131,6 +131,9 @@
       },
       "hood_fan_speed": {
         "name": "Fan speed"
+      },
+      "target_temperature": {
+        "name": "Target temperature"
       }
     },
     "select": {
@@ -673,6 +676,9 @@
       },
       "steam_closet_job_state": {
         "name": "Job state"
+      },
+      "target_temperature": {
+        "name": "Target temperature"
       },
       "thermostat_cooling_setpoint": {
         "name": "Cooling set point"

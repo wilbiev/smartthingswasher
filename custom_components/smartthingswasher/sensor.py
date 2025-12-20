@@ -1009,10 +1009,11 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.TEMPERATURE,
                 device_class=SensorDeviceClass.TEMPERATURE,
                 state_class=SensorStateClass.MEASUREMENT,
-                component_fn=lambda component: component in {"freezer", "cooler"},
+                component_fn=lambda component: component in {"freezer", "cooler", "onedoor"},
                 component_translation_key={
                     "freezer": "freezer_temperature",
                     "cooler": "cooler_temperature",
+                    "onedoor": "target_temperature",
                 },
             )
         ]

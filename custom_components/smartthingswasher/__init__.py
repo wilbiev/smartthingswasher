@@ -33,6 +33,8 @@ from homeassistant.const import (
     ATTR_HW_VERSION,
     ATTR_MANUFACTURER,
     ATTR_MODEL,
+    ATTR_MODEL_ID,
+    ATTR_SERIAL_NUMBER,
     ATTR_SUGGESTED_AREA,
     ATTR_SW_VERSION,
     ATTR_VIA_DEVICE,
@@ -351,6 +353,7 @@ def create_devices(
             kwargs.update(
                 {
                     ATTR_MANUFACTURER: ocf.manufacturer_name,
+                    ATTR_MODEL_ID: ocf.model_code,
                     ATTR_MODEL: (
                         (ocf.model_number.split("|")[0]) if ocf.model_number else None
                     ),
@@ -365,6 +368,14 @@ def create_devices(
                     ATTR_MODEL: viper.model_name,
                     ATTR_HW_VERSION: viper.hardware_version,
                     ATTR_SW_VERSION: viper.software_version,
+                }
+            )
+        if (matter := device.device.matter) is not None:
+            kwargs.update(
+                {
+                    ATTR_HW_VERSION: matter.hardware_version,
+                    ATTR_SW_VERSION: matter.software_version,
+                    ATTR_SERIAL_NUMBER: matter.serial_number,
                 }
             )
         if (
@@ -399,6 +410,12 @@ KEEP_CAPABILITY_QUIRK: dict[
         lambda status: status[Attribute.SUPPORTED_MACHINE_STATES].value is not None
     ),
     Capability.DEMAND_RESPONSE_LOAD_CONTROL: lambda _: True,
+    Capability.SAMSUNG_CE_AIR_CONDITIONER_LIGHTING: (
+        lambda status: status[Attribute.LIGHTING].value is not None
+    ),
+    Capability.SAMSUNG_CE_AIR_CONDITIONER_BEEP: (
+        lambda status: status[Attribute.BEEP].value is not None
+    ),
 }
 
 

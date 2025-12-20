@@ -212,6 +212,9 @@
       },
       "cool_select_plus_temperature": {
         "name": "CoolSelect+ temperature"
+      },
+      "target_temperature": {
+        "name": "Target temperature"
       }
     },
     "select": {
@@ -737,6 +740,9 @@
       },
       "steam_closet_job_state": {
         "name": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::name%]"
+      },
+      "target_temperature": {
+        "name": "Target temperature"
       },
       "thermostat_cooling_setpoint": {
         "name": "Cooling set point"
