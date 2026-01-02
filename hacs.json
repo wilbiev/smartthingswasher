@@ -1,4 +1,6 @@
 {
-    "name": "SmartThings Washer",
-    "render_readme": true
+  "name": "SmartThings Washer",
+  "render_readme": true,
+  "homeassistant": "2025.12.3",
+  "hacs": "2.0.5"
 }
