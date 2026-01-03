@@ -1,0 +1,43 @@
+#!/bin/sh
+
+# script/setup: Set up project for first-time use after cloning
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+sudo chmod +x scripts/*
+
+# 1. Setup Home Assistant environment
+scripts/bootstrap
+
+
+# 2. Set environment variables
+# Use absolute path to the workspace
+WORKSPACE_DIR=$(pwd)
+CONFIG_DIR="${WORKSPACE_DIR}/config"
+
+if [ ! -d "$CONFIG_DIR" ]; then
+    echo "Creating config directory..."
+    mkdir -p "$CONFIG_DIR"
+    cd "$CONFIG_DIR"
+    hass --config "$CONFIG_DIR" --script ensure_config
+    cd "$WORKSPACE_DIR"
+fi
+
+# 3. Create symlink to custom_components directory
+
+if test -d "$WORKSPACE_DIR/custom_components"; then
+  echo "Symlink the custom component directory"
+
+  if test -d "$CONFIG_DIR/custom_components"; then
+    rm -rf "$CONFIG_DIR/custom_components"
+  fi
+
+  ln -sf "$WORKSPACE_DIR/custom_components" "$CONFIG_DIR/custom_components" || echo "Could not copy the custom_component" exit 1
+fi
+
+# 4. Set the path to custom_components
+export PYTHONPATH="${PYTHONPATH}:${WORKSPACE_DIR}/custom_components"
+
+echo "==> Project is now ready to go!"
