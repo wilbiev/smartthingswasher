@@ -233,67 +233,67 @@
       "course": {
         "name": "Course",
         "state": {
-          "1B": "[%key:component::smartthings::selector::programs::table_02::course_1b%]",
-          "1C": "[%key:component::smartthings::selector::programs::table_02::course_1c%]",
-          "1D": "[%key:component::smartthings::selector::programs::table_02::course_1d%]",
-          "1E": "[%key:component::smartthings::selector::programs::table_02::course_1e%]",
-          "1F": "[%key:component::smartthings::selector::programs::table_02::course_1f%]",
-          "20": "[%key:component::smartthings::selector::programs::table_02::course_20%]",
-          "21": "[%key:component::smartthings::selector::programs::table_02::course_21%]",
-          "22": "[%key:component::smartthings::selector::programs::table_02::course_22%]",
-          "23": "[%key:component::smartthings::selector::programs::table_02::course_23%]",
-          "24": "[%key:component::smartthings::selector::programs::table_02::course_24%]",
-          "25": "[%key:component::smartthings::selector::programs::table_02::course_25%]",
-          "26": "[%key:component::smartthings::selector::programs::table_02::course_26%]",
-          "27": "[%key:component::smartthings::selector::programs::table_02::course_27%]",
-          "28": "[%key:component::smartthings::selector::programs::table_02::course_28%]",
-          "29": "[%key:component::smartthings::selector::programs::table_02::course_29%]",
-          "2A": "[%key:component::smartthings::selector::programs::table_02::course_2a%]",
-          "2B": "[%key:component::smartthings::selector::programs::table_02::course_2b%]",
-          "2D": "[%key:component::smartthings::selector::programs::table_02::course_2d%]",
-          "2E": "[%key:component::smartthings::selector::programs::table_02::course_2e%]",
-          "2F": "[%key:component::smartthings::selector::programs::table_02::course_2f%]",
-          "30": "[%key:component::smartthings::selector::programs::table_02::course_30%]",
-          "32": "[%key:component::smartthings::selector::programs::table_02::course_32%]",
-          "33": "[%key:component::smartthings::selector::programs::table_02::course_33%]",
-          "34": "[%key:component::smartthings::selector::programs::table_02::course_34%]",
-          "35": "[%key:component::smartthings::selector::programs::table_02::course_35%]",
-          "36": "[%key:component::smartthings::selector::programs::table_02::course_36%]",
-          "37": "[%key:component::smartthings::selector::programs::table_02::course_37%]",
-          "38": "[%key:component::smartthings::selector::programs::table_02::course_38%]",
-          "39": "[%key:component::smartthings::selector::programs::table_02::course_39%]",
-          "3A": "[%key:component::smartthings::selector::programs::table_02::course_3a%]",
-          "66": "[%key:component::smartthings::selector::programs::table_02::course_66%]",
-          "8F": "[%key:component::smartthings::selector::programs::table_02::course_8f%]",
-          "96": "[%key:component::smartthings::selector::programs::table_02::course_96%]"
+          "1B": "[%key:component::smartthingswasher::selector::programs::table_02::course_1b%]",
+          "1C": "[%key:component::smartthingswasher::selector::programs::table_02::course_1c%]",
+          "1D": "[%key:component::smartthingswasher::selector::programs::table_02::course_1d%]",
+          "1E": "[%key:component::smartthingswasher::selector::programs::table_02::course_1e%]",
+          "1F": "[%key:component::smartthingswasher::selector::programs::table_02::course_1f%]",
+          "20": "[%key:component::smartthingswasher::selector::programs::table_02::course_20%]",
+          "21": "[%key:component::smartthingswasher::selector::programs::table_02::course_21%]",
+          "22": "[%key:component::smartthingswasher::selector::programs::table_02::course_22%]",
+          "23": "[%key:component::smartthingswasher::selector::programs::table_02::course_23%]",
+          "24": "[%key:component::smartthingswasher::selector::programs::table_02::course_24%]",
+          "25": "[%key:component::smartthingswasher::selector::programs::table_02::course_25%]",
+          "26": "[%key:component::smartthingswasher::selector::programs::table_02::course_26%]",
+          "27": "[%key:component::smartthingswasher::selector::programs::table_02::course_27%]",
+          "28": "[%key:component::smartthingswasher::selector::programs::table_02::course_28%]",
+          "29": "[%key:component::smartthingswasher::selector::programs::table_02::course_29%]",
+          "2A": "[%key:component::smartthingswasher::selector::programs::table_02::course_2a%]",
+          "2B": "[%key:component::smartthingswasher::selector::programs::table_02::course_2b%]",
+          "2D": "[%key:component::smartthingswasher::selector::programs::table_02::course_2d%]",
+          "2E": "[%key:component::smartthingswasher::selector::programs::table_02::course_2e%]",
+          "2F": "[%key:component::smartthingswasher::selector::programs::table_02::course_2f%]",
+          "30": "[%key:component::smartthingswasher::selector::programs::table_02::course_30%]",
+          "32": "[%key:component::smartthingswasher::selector::programs::table_02::course_32%]",
+          "33": "[%key:component::smartthingswasher::selector::programs::table_02::course_33%]",
+          "34": "[%key:component::smartthingswasher::selector::programs::table_02::course_34%]",
+          "35": "[%key:component::smartthingswasher::selector::programs::table_02::course_35%]",
+          "36": "[%key:component::smartthingswasher::selector::programs::table_02::course_36%]",
+          "37": "[%key:component::smartthingswasher::selector::programs::table_02::course_37%]",
+          "38": "[%key:component::smartthingswasher::selector::programs::table_02::course_38%]",
+          "39": "[%key:component::smartthingswasher::selector::programs::table_02::course_39%]",
+          "3A": "[%key:component::smartthingswasher::selector::programs::table_02::course_3a%]",
+          "66": "[%key:component::smartthingswasher::selector::programs::table_02::course_66%]",
+          "8F": "[%key:component::smartthingswasher::selector::programs::table_02::course_8f%]",
+          "96": "[%key:component::smartthingswasher::selector::programs::table_02::course_96%]"
         }
       },
       "cycle_table_00": {
         "name": "Cycle",
         "state": {
-          "course_5b": "[%key:component::smartthings::selector::programs::table_00::course_5b%]",
-          "course_5c": "[%key:component::smartthings::selector::programs::table_00::course_5c%]",
-          "course_5d": "[%key:component::smartthings::selector::programs::table_00::course_5d%]",
-          "course_5e": "[%key:component::smartthings::selector::programs::table_00::course_5e%]",
-          "course_5f": "[%key:component::smartthings::selector::programs::table_00::course_5f%]",
-          "course_60": "[%key:component::smartthings::selector::programs::table_00::course_60%]",
-          "course_61": "[%key:component::smartthings::selector::programs::table_00::course_61%]",
-          "course_63": "[%key:component::smartthings::selector::programs::table_00::course_63%]",
-          "course_66": "[%key:component::smartthings::selector::programs::table_00::course_66%]",
-          "course_ba": "[%key:component::smartthings::selector::programs::table_00::course_ba%]",
-          "course_d0": "[%key:component::smartthings::selector::programs::table_00::course_d0%]",
-          "course_d1": "[%key:component::smartthings::selector::programs::table_00::course_d1%]",
-          "course_d2": "[%key:component::smartthings::selector::programs::table_00::course_d2%]",
-          "course_d3": "[%key:component::smartthings::selector::programs::table_00::course_d3%]",
-          "course_d4": "[%key:component::smartthings::selector::programs::table_00::course_d4%]",
-          "course_d5": "[%key:component::smartthings::selector::programs::table_00::course_d5%]",
-          "course_d6": "[%key:component::smartthings::selector::programs::table_00::course_d6%]",
-          "course_d7": "[%key:component::smartthings::selector::programs::table_00::course_d7%]",
-          "course_d8": "[%key:component::smartthings::selector::programs::table_00::course_d8%]",
-          "course_d9": "[%key:component::smartthings::selector::programs::table_00::course_d9%]",
-          "course_da": "[%key:component::smartthings::selector::programs::table_00::course_da%]",
-          "course_db": "[%key:component::smartthings::selector::programs::table_00::course_db%]",
-          "course_dc": "[%key:component::smartthings::selector::programs::table_00::course_dc%]"
+          "course_5b": "[%key:component::smartthingswasher::selector::programs::table_00::course_5b%]",
+          "course_5c": "[%key:component::smartthingswasher::selector::programs::table_00::course_5c%]",
+          "course_5d": "[%key:component::smartthingswasher::selector::programs::table_00::course_5d%]",
+          "course_5e": "[%key:component::smartthingswasher::selector::programs::table_00::course_5e%]",
+          "course_5f": "[%key:component::smartthingswasher::selector::programs::table_00::course_5f%]",
+          "course_60": "[%key:component::smartthingswasher::selector::programs::table_00::course_60%]",
+          "course_61": "[%key:component::smartthingswasher::selector::programs::table_00::course_61%]",
+          "course_63": "[%key:component::smartthingswasher::selector::programs::table_00::course_63%]",
+          "course_66": "[%key:component::smartthingswasher::selector::programs::table_00::course_66%]",
+          "course_ba": "[%key:component::smartthingswasher::selector::programs::table_00::course_ba%]",
+          "course_d0": "[%key:component::smartthingswasher::selector::programs::table_00::course_d0%]",
+          "course_d1": "[%key:component::smartthingswasher::selector::programs::table_00::course_d1%]",
+          "course_d2": "[%key:component::smartthingswasher::selector::programs::table_00::course_d2%]",
+          "course_d3": "[%key:component::smartthingswasher::selector::programs::table_00::course_d3%]",
+          "course_d4": "[%key:component::smartthingswasher::selector::programs::table_00::course_d4%]",
+          "course_d5": "[%key:component::smartthingswasher::selector::programs::table_00::course_d5%]",
+          "course_d6": "[%key:component::smartthingswasher::selector::programs::table_00::course_d6%]",
+          "course_d7": "[%key:component::smartthingswasher::selector::programs::table_00::course_d7%]",
+          "course_d8": "[%key:component::smartthingswasher::selector::programs::table_00::course_d8%]",
+          "course_d9": "[%key:component::smartthingswasher::selector::programs::table_00::course_d9%]",
+          "course_da": "[%key:component::smartthingswasher::selector::programs::table_00::course_da%]",
+          "course_db": "[%key:component::smartthingswasher::selector::programs::table_00::course_db%]",
+          "course_dc": "[%key:component::smartthingswasher::selector::programs::table_00::course_dc%]"
         }
       },
       "cycle_table_01": {
@@ -302,59 +302,59 @@
       "cycle_table_02": {
         "name": "Cycle",
         "state": {
-          "course_1b": "[%key:component::smartthings::selector::programs::table_02::course_1b%]",
-          "course_1c": "[%key:component::smartthings::selector::programs::table_02::course_1c%]",
-          "course_1d": "[%key:component::smartthings::selector::programs::table_02::course_1d%]",
-          "course_1e": "[%key:component::smartthings::selector::programs::table_02::course_1e%]",
-          "course_1f": "[%key:component::smartthings::selector::programs::table_02::course_1f%]",
-          "course_20": "[%key:component::smartthings::selector::programs::table_02::course_20%]",
-          "course_21": "[%key:component::smartthings::selector::programs::table_02::course_21%]",
-          "course_22": "[%key:component::smartthings::selector::programs::table_02::course_22%]",
-          "course_23": "[%key:component::smartthings::selector::programs::table_02::course_23%]",
-          "course_24": "[%key:component::smartthings::selector::programs::table_02::course_24%]",
-          "course_25": "[%key:component::smartthings::selector::programs::table_02::course_25%]",
-          "course_26": "[%key:component::smartthings::selector::programs::table_02::course_26%]",
-          "course_27": "[%key:component::smartthings::selector::programs::table_02::course_27%]",
-          "course_28": "[%key:component::smartthings::selector::programs::table_02::course_28%]",
-          "course_29": "[%key:component::smartthings::selector::programs::table_02::course_29%]",
-          "course_2a": "[%key:component::smartthings::selector::programs::table_02::course_2a%]",
-          "course_2b": "[%key:component::smartthings::selector::programs::table_02::course_2b%]",
-          "course_2d": "[%key:component::smartthings::selector::programs::table_02::course_2d%]",
-          "course_2e": "[%key:component::smartthings::selector::programs::table_02::course_2e%]",
-          "course_2f": "[%key:component::smartthings::selector::programs::table_02::course_2f%]",
-          "course_30": "[%key:component::smartthings::selector::programs::table_02::course_30%]",
-          "course_32": "[%key:component::smartthings::selector::programs::table_02::course_32%]",
-          "course_33": "[%key:component::smartthings::selector::programs::table_02::course_33%]",
-          "course_34": "[%key:component::smartthings::selector::programs::table_02::course_34%]",
-          "course_35": "[%key:component::smartthings::selector::programs::table_02::course_35%]",
-          "course_36": "[%key:component::smartthings::selector::programs::table_02::course_36%]",
-          "course_37": "[%key:component::smartthings::selector::programs::table_02::course_37%]",
-          "course_38": "[%key:component::smartthings::selector::programs::table_02::course_38%]",
-          "course_39": "[%key:component::smartthings::selector::programs::table_02::course_39%]",
-          "course_3a": "[%key:component::smartthings::selector::programs::table_02::course_3a%]",
-          "course_66": "[%key:component::smartthings::selector::programs::table_02::course_66%]",
-          "course_8f": "[%key:component::smartthings::selector::programs::table_02::course_8f%]",
-          "course_96": "[%key:component::smartthings::selector::programs::table_02::course_96%]"
+          "course_1b": "[%key:component::smartthingswasher::selector::programs::table_02::course_1b%]",
+          "course_1c": "[%key:component::smartthingswasher::selector::programs::table_02::course_1c%]",
+          "course_1d": "[%key:component::smartthingswasher::selector::programs::table_02::course_1d%]",
+          "course_1e": "[%key:component::smartthingswasher::selector::programs::table_02::course_1e%]",
+          "course_1f": "[%key:component::smartthingswasher::selector::programs::table_02::course_1f%]",
+          "course_20": "[%key:component::smartthingswasher::selector::programs::table_02::course_20%]",
+          "course_21": "[%key:component::smartthingswasher::selector::programs::table_02::course_21%]",
+          "course_22": "[%key:component::smartthingswasher::selector::programs::table_02::course_22%]",
+          "course_23": "[%key:component::smartthingswasher::selector::programs::table_02::course_23%]",
+          "course_24": "[%key:component::smartthingswasher::selector::programs::table_02::course_24%]",
+          "course_25": "[%key:component::smartthingswasher::selector::programs::table_02::course_25%]",
+          "course_26": "[%key:component::smartthingswasher::selector::programs::table_02::course_26%]",
+          "course_27": "[%key:component::smartthingswasher::selector::programs::table_02::course_27%]",
+          "course_28": "[%key:component::smartthingswasher::selector::programs::table_02::course_28%]",
+          "course_29": "[%key:component::smartthingswasher::selector::programs::table_02::course_29%]",
+          "course_2a": "[%key:component::smartthingswasher::selector::programs::table_02::course_2a%]",
+          "course_2b": "[%key:component::smartthingswasher::selector::programs::table_02::course_2b%]",
+          "course_2d": "[%key:component::smartthingswasher::selector::programs::table_02::course_2d%]",
+          "course_2e": "[%key:component::smartthingswasher::selector::programs::table_02::course_2e%]",
+          "course_2f": "[%key:component::smartthingswasher::selector::programs::table_02::course_2f%]",
+          "course_30": "[%key:component::smartthingswasher::selector::programs::table_02::course_30%]",
+          "course_32": "[%key:component::smartthingswasher::selector::programs::table_02::course_32%]",
+          "course_33": "[%key:component::smartthingswasher::selector::programs::table_02::course_33%]",
+          "course_34": "[%key:component::smartthingswasher::selector::programs::table_02::course_34%]",
+          "course_35": "[%key:component::smartthingswasher::selector::programs::table_02::course_35%]",
+          "course_36": "[%key:component::smartthingswasher::selector::programs::table_02::course_36%]",
+          "course_37": "[%key:component::smartthingswasher::selector::programs::table_02::course_37%]",
+          "course_38": "[%key:component::smartthingswasher::selector::programs::table_02::course_38%]",
+          "course_39": "[%key:component::smartthingswasher::selector::programs::table_02::course_39%]",
+          "course_3a": "[%key:component::smartthingswasher::selector::programs::table_02::course_3a%]",
+          "course_66": "[%key:component::smartthingswasher::selector::programs::table_02::course_66%]",
+          "course_8f": "[%key:component::smartthingswasher::selector::programs::table_02::course_8f%]",
+          "course_96": "[%key:component::smartthingswasher::selector::programs::table_02::course_96%]"
         }
       },
       "cycle_table_03": {
         "name": "Cycle",
         "state": {
-          "course_16": "[%key:component::smartthings::selector::programs::table_03::course_16%]",
-          "course_18": "[%key:component::smartthings::selector::programs::table_03::course_18%]",
-          "course_19": "[%key:component::smartthings::selector::programs::table_03::course_19%]",
-          "course_1a": "[%key:component::smartthings::selector::programs::table_03::course_1a%]",
-          "course_1b": "[%key:component::smartthings::selector::programs::table_03::course_1b%]",
-          "course_1c": "[%key:component::smartthings::selector::programs::table_03::course_1c%]",
-          "course_1d": "[%key:component::smartthings::selector::programs::table_03::course_1d%]",
-          "course_1e": "[%key:component::smartthings::selector::programs::table_03::course_1e%]",
-          "course_20": "[%key:component::smartthings::selector::programs::table_03::course_20%]",
-          "course_23": "[%key:component::smartthings::selector::programs::table_03::course_23%]",
-          "course_24": "[%key:component::smartthings::selector::programs::table_03::course_24%]",
-          "course_25": "[%key:component::smartthings::selector::programs::table_03::course_25%]",
-          "course_27": "[%key:component::smartthings::selector::programs::table_03::course_27%]",
-          "course_29": "[%key:component::smartthings::selector::programs::table_03::course_29%]",
-          "course_2b": "[%key:component::smartthings::selector::programs::table_03::course_2b%]"
+          "course_16": "[%key:component::smartthingswasher::selector::programs::table_03::course_16%]",
+          "course_18": "[%key:component::smartthingswasher::selector::programs::table_03::course_18%]",
+          "course_19": "[%key:component::smartthingswasher::selector::programs::table_03::course_19%]",
+          "course_1a": "[%key:component::smartthingswasher::selector::programs::table_03::course_1a%]",
+          "course_1b": "[%key:component::smartthingswasher::selector::programs::table_03::course_1b%]",
+          "course_1c": "[%key:component::smartthingswasher::selector::programs::table_03::course_1c%]",
+          "course_1d": "[%key:component::smartthingswasher::selector::programs::table_03::course_1d%]",
+          "course_1e": "[%key:component::smartthingswasher::selector::programs::table_03::course_1e%]",
+          "course_20": "[%key:component::smartthingswasher::selector::programs::table_03::course_20%]",
+          "course_23": "[%key:component::smartthingswasher::selector::programs::table_03::course_23%]",
+          "course_24": "[%key:component::smartthingswasher::selector::programs::table_03::course_24%]",
+          "course_25": "[%key:component::smartthingswasher::selector::programs::table_03::course_25%]",
+          "course_27": "[%key:component::smartthingswasher::selector::programs::table_03::course_27%]",
+          "course_29": "[%key:component::smartthingswasher::selector::programs::table_03::course_29%]",
+          "course_2b": "[%key:component::smartthingswasher::selector::programs::table_03::course_2b%]"
         }
       },
       "dryer_dry_level": {
@@ -438,10 +438,10 @@
       "cooktop_operating_state": {
         "name": "Operating state",
         "state": {
-          "ready": "[%key:component::smartthings::entity::sensor::oven_machine_state::state::ready%]",
-          "run": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::run%]",
+          "ready": "[%key:component::smartthingswasher::entity::sensor::oven_machine_state::state::ready%]",
+          "run": "[%key:component::smartthingswasher::entity::sensor::dishwasher_machine_state::state::run%]",
           "paused": "[%key:common::state::paused%]",
-          "finished": "[%key:component::smartthings::entity::sensor::oven_job_state::state::finished%]"
+          "finished": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::finished%]"
         }
       },
       "cooler_temperature": {
@@ -481,24 +481,24 @@
         "name": "Dryer mode"
       },
       "dryer_machine_state": {
-        "name": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::name%]",
+        "name": "[%key:component::smartthingswasher::entity::sensor::dishwasher_machine_state::name%]",
         "state": {
           "pause": "[%key:common::state::paused%]",
-          "run": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::run%]",
-          "stop": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::stop%]"
+          "run": "[%key:component::smartthingswasher::entity::sensor::dishwasher_machine_state::state::run%]",
+          "stop": "[%key:component::smartthingswasher::entity::sensor::dishwasher_machine_state::state::stop%]"
         }
       },
       "dryer_job_state": {
-        "name": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::name%]",
+        "name": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::name%]",
         "state": {
-          "cooling": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::cooling%]",
-          "delay_wash": "[%key:component::smartthings::entity::sensor::washer_job_state::state::delay_wash%]",
-          "drying": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::drying%]",
-          "finished": "[%key:component::smartthings::entity::sensor::oven_job_state::state::finished%]",
-          "none": "[%key:component::smartthings::entity::sensor::washer_job_state::state::none%]",
+          "cooling": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::cooling%]",
+          "delay_wash": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::delay_wash%]",
+          "drying": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::drying%]",
+          "finished": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::finished%]",
+          "none": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::none%]",
           "refreshing": "Refreshing",
-          "weight_sensing": "[%key:component::smartthings::entity::sensor::washer_job_state::state::weight_sensing%]",
-          "wrinkle_prevent": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::wrinkle_prevent%]",
+          "weight_sensing": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::weight_sensing%]",
+          "wrinkle_prevent": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::wrinkle_prevent%]",
           "dehumidifying": "Dehumidifying",
           "ai_drying": "AI drying",
           "sanitizing": "Sanitizing",
@@ -622,15 +622,15 @@
         }
       },
       "oven_machine_state": {
-        "name": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::name%]",
+        "name": "[%key:component::smartthingswasher::entity::sensor::dishwasher_machine_state::name%]",
         "state": {
           "ready": "Ready",
-          "running": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::run%]",
+          "running": "[%key:component::smartthingswasher::entity::sensor::dishwasher_machine_state::state::run%]",
           "paused": "[%key:common::state::paused%]"
         }
       },
       "oven_job_state": {
-        "name": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::name%]",
+        "name": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::name%]",
         "state": {
           "cleaning": "Cleaning",
           "cooking": "Cooking",
@@ -667,7 +667,7 @@
         "name": "Power source"
       },
       "refrigeration_setpoint": {
-        "name": "[%key:component::smartthings::entity::sensor::oven_setpoint::name%]"
+        "name": "[%key:component::smartthingswasher::entity::sensor::oven_setpoint::name%]"
       },
       "brightness_intensity": {
         "name": "Brightness intensity"
@@ -685,11 +685,11 @@
       "remaining_amount_dispense_softener": {
         "name": "Remaining softener",
         "state": {
-          "extra": "[%key:component::smartthings::entity::sensor::remaining_amount_dispense_detergent::state::extra%]",
-          "less": "[%key:component::smartthings::entity::sensor::remaining_amount_dispense_detergent::state::less%]",
-          "none": "[%key:component::smartthings::entity::sensor::remaining_amount_dispense_detergent::state::none%]",
-          "normal": "[%key:component::smartthings::entity::sensor::remaining_amount_dispense_detergent::state::normal%]",
-          "unknown": "[%key:component::smartthings::entity::sensor::remaining_amount_dispense_detergent::state::unknown%]"
+          "extra": "[%key:component::smartthingswasher::entity::sensor::remaining_amount_dispense_detergent::state::extra%]",
+          "less": "[%key:component::smartthingswasher::entity::sensor::remaining_amount_dispense_detergent::state::less%]",
+          "none": "[%key:component::smartthingswasher::entity::sensor::remaining_amount_dispense_detergent::state::none%]",
+          "normal": "[%key:component::smartthingswasher::entity::sensor::remaining_amount_dispense_detergent::state::normal%]",
+          "unknown": "[%key:component::smartthingswasher::entity::sensor::remaining_amount_dispense_detergent::state::unknown%]"
         }
       },
       "robot_cleaner_cleaning_mode": {
@@ -733,13 +733,13 @@
       "smoke_detector": {
         "name": "Smoke detector",
         "state": {
-          "detected": "[%key:component::smartthings::entity::sensor::carbon_monoxide_detector::state::detected%]",
-          "clear": "[%key:component::smartthings::entity::sensor::carbon_monoxide_detector::state::clear%]",
-          "tested": "[%key:component::smartthings::entity::sensor::carbon_monoxide_detector::state::tested%]"
+          "detected": "[%key:component::smartthingswasher::entity::sensor::carbon_monoxide_detector::state::detected%]",
+          "clear": "[%key:component::smartthingswasher::entity::sensor::carbon_monoxide_detector::state::clear%]",
+          "tested": "[%key:component::smartthingswasher::entity::sensor::carbon_monoxide_detector::state::tested%]"
         }
       },
       "steam_closet_job_state": {
-        "name": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::name%]"
+        "name": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::name%]"
       },
       "target_temperature": {
         "name": "Target temperature"
@@ -760,7 +760,7 @@
         "name": "Operating state"
       },
       "thermostat_setpoint": {
-        "name": "[%key:component::smartthings::entity::sensor::oven_setpoint::name%]"
+        "name": "[%key:component::smartthingswasher::entity::sensor::oven_setpoint::name%]"
       },
       "x_coordinate": {
         "name": "X coordinate"
@@ -786,8 +786,8 @@
       "operating_state": {
         "name": "Operating state",
         "state": {
-          "ready": "[%key:component::smartthings::entity::sensor::oven_machine_state::state::ready%]",
-          "running": "[%key:component::smartthings::entity::sensor::dishwasher_machine_state::state::run%]",
+          "ready": "[%key:component::smartthingswasher::entity::sensor::oven_machine_state::state::ready%]",
+          "running": "[%key:component::smartthingswasher::entity::sensor::dishwasher_machine_state::state::run%]",
           "paused": "[%key:common::state::paused%]"
         }
       },
@@ -801,23 +801,23 @@
         "name": "Remaining time"
       },
       "washer_job_state": {
-        "name": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::name%]",
+        "name": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::name%]",
         "state": {
-          "air_wash": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::air_wash%]",
+          "air_wash": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::air_wash%]",
           "ai_rinse": "AI rinse",
           "ai_spin": "AI spin",
           "ai_wash": "AI wash",
-          "cooling": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::cooling%]",
+          "cooling": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::cooling%]",
           "delay_wash": "Delay wash",
-          "drying": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::drying%]",
-          "finish": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::finish%]",
+          "drying": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::drying%]",
+          "finish": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::finish%]",
           "none": "None",
-          "pre_wash": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::pre_wash%]",
-          "rinse": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::rinse%]",
-          "spin": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::spin%]",
-          "wash": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::wash%]",
+          "pre_wash": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::pre_wash%]",
+          "rinse": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::rinse%]",
+          "spin": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::spin%]",
+          "wash": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::wash%]",
           "weight_sensing": "Weight sensing",
-          "wrinkle_prevent": "[%key:component::smartthings::entity::sensor::dishwasher_job_state::state::wrinkle_prevent%]",
+          "wrinkle_prevent": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::wrinkle_prevent%]",
           "freeze_protection": "Freeze protection"
         }
       },
@@ -863,214 +863,214 @@
         "name": "Switch"
       },
       "table_00_course_5b": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_5b%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_5b%]"
       },
       "table_00_course_5c": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_5c%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_5c%]"
       },
       "table_00_course_5d": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_5d%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_5d%]"
       },
       "table_00_course_5e": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_5e%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_5e%]"
       },
       "table_00_course_5f": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_5f%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_5f%]"
       },
       "table_00_course_60": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_60%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_60%]"
       },
       "table_00_course_61": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_61%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_61%]"
       },
       "table_00_course_63": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_63%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_63%]"
       },
       "table_00_course_66": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_66%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_66%]"
       },
       "table_00_course_ba": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_ba%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_ba%]"
       },
       "table_00_course_d1": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_d1%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_d1%]"
       },
       "table_00_course_d2": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_d2%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_d2%]"
       },
       "table_00_course_d3": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_d3%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_d3%]"
       },
       "table_00_course_d4": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_d4%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_d4%]"
       },
       "table_00_course_d5": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_d5%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_d5%]"
       },
       "table_00_course_d6": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_d6%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_d6%]"
       },
       "table_00_course_d7": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_d7%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_d7%]"
       },
       "table_00_course_d8": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_d8%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_d8%]"
       },
       "table_00_course_d9": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_d9%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_d9%]"
       },
       "table_00_course_da": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_da%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_da%]"
       },
       "table_00_course_db": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_db%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_db%]"
       },
       "table_00_course_dc": {
-        "name": "[%key:component::smartthings::selector::programs::table_00::course_dc%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_00::course_dc%]"
       },
       "table_02_course_1b": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_1b%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_1b%]"
       },
       "table_02_course_1c": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_1c%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_1c%]"
       },
       "table_02_course_1d": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_1d%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_1d%]"
       },
       "table_02_course_1e": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_1e%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_1e%]"
       },
       "table_02_course_1f": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_1f%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_1f%]"
       },
       "table_02_course_20": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_20%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_20%]"
       },
       "table_02_course_21": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_21%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_21%]"
       },
       "table_02_course_22": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_22%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_22%]"
       },
       "table_02_course_23": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_23%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_23%]"
       },
       "table_02_course_24": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_24%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_24%]"
       },
       "table_02_course_25": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_25%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_25%]"
       },
       "table_02_course_26": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_26%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_26%]"
       },
       "table_02_course_27": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_27%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_27%]"
       },
       "table_02_course_28": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_28%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_28%]"
       },
       "table_02_course_29": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_29%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_29%]"
       },
       "table_02_course_2a": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_2a%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_2a%]"
       },
       "table_02_course_2b": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_2b%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_2b%]"
       },
       "table_02_course_2d": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_2d%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_2d%]"
       },
       "table_02_course_2e": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_2e%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_2e%]"
       },
       "table_02_course_2f": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_2f%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_2f%]"
       },
       "table_02_course_30": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_30%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_30%]"
       },
       "table_02_course_32": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_32%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_32%]"
       },
       "table_02_course_33": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_33%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_33%]"
       },
       "table_02_course_34": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_34%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_34%]"
       },
       "table_02_course_35": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_35%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_35%]"
       },
       "table_02_course_36": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_36%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_36%]"
       },
       "table_02_course_37": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_37%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_37%]"
       },
       "table_02_course_38": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_38%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_38%]"
       },
       "table_02_course_39": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_39%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_39%]"
       },
       "table_02_course_3a": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_3a%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_3a%]"
       },
       "table_02_course_66": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_66%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_66%]"
       },
       "table_02_course_8f": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_8f%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_8f%]"
       },
       "table_02_course_96": {
-        "name": "[%key:component::smartthings::selector::programs::table_02::course_96%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_02::course_96%]"
       },
       "table_03_course_16": {
-        "name": "[%key:component::smartthings::selector::programs::table_03::course_16%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_03::course_16%]"
       },
       "table_03_course_18": {
-        "name": "[%key:component::smartthings::selector::programs::table_03::course_18%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_03::course_18%]"
       },
       "table_03_course_19": {
-        "name": "[%key:component::smartthings::selector::programs::table_03::course_19%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_03::course_19%]"
       },
       "table_03_course_1a": {
-        "name": "[%key:component::smartthings::selector::programs::table_03::course_1a%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_03::course_1a%]"
       },
       "table_03_course_1b": {
-        "name": "[%key:component::smartthings::selector::programs::table_03::course_1b%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_03::course_1b%]"
       },
       "table_03_course_1c": {
-        "name": "[%key:component::smartthings::selector::programs::table_03::course_1c%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_03::course_1c%]"
       },
       "table_03_course_1d": {
-        "name": "[%key:component::smartthings::selector::programs::table_03::course_1d%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_03::course_1d%]"
       },
       "table_03_course_1e": {
-        "name": "[%key:component::smartthings::selector::programs::table_03::course_1e%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_03::course_1e%]"
       },
       "table_03_course_20": {
-        "name": "[%key:component::smartthings::selector::programs::table_03::course_20%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_03::course_20%]"
       },
       "table_03_course_23": {
-        "name": "[%key:component::smartthings::selector::programs::table_03::course_23%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_03::course_23%]"
       },
       "table_03_course_24": {
-        "name": "[%key:component::smartthings::selector::programs::table_03::course_24%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_03::course_24%]"
       },
       "table_03_course_25": {
-        "name": "[%key:component::smartthings::selector::programs::table_03::course_25%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_03::course_25%]"
       },
       "table_03_course_27": {
-        "name": "[%key:component::smartthings::selector::programs::table_03::course_27%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_03::course_27%]"
       },
       "table_03_course_29": {
-        "name": "[%key:component::smartthings::selector::programs::table_03::course_29%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_03::course_29%]"
       },
       "table_03_course_2b": {
-        "name": "[%key:component::smartthings::selector::programs::table_03::course_2b%]"
+        "name": "[%key:component::smartthingswasher::selector::programs::table_03::course_2b%]"
       }
     }
   },
@@ -1086,7 +1086,7 @@
     },
     "deprecated_binary_fridge_door_scripts": {
       "description": "The refrigerator door binary sensor {entity_name} (`{entity_id}`) is deprecated and will be removed in the future. The entity is used in the following automations or scripts:\n{items}\n\nSeparate entities for cooler and freezer door are available and should be used going forward. Please use them in the above automations or scripts and disable the entity to fix this issue.",
-      "title": "[%key:component::smartthings::issues::deprecated_binary_fridge_door::title%]"
+      "title": "[%key:component::smartthingswasher::issues::deprecated_binary_fridge_door::title%]"
     },
     "deprecated_binary_valve": {
       "description": "The valve binary sensor {entity_name} (`{entity_id}`) is deprecated and will be removed in the future. A valve entity with controls is available and should be used going forward. Please update your dashboards, templates accordingly and disable the entity to fix this issue.",
@@ -1094,7 +1094,7 @@
     },
     "deprecated_binary_valve_scripts": {
       "description": "The valve binary sensor {entity_name} (`{entity_id}`) is deprecated and will be removed in the future. The entity is used in the following automations or scripts:\n{items}\n\nA valve entity with controls is available and should be used going forward. Please use the new valve entity in the above automations or scripts and disable the entity to fix this issue.",
-      "title": "[%key:component::smartthings::issues::deprecated_binary_valve::title%]"
+      "title": "[%key:component::smartthingswasher::issues::deprecated_binary_valve::title%]"
     },
     "deprecated_dhw": {
       "description": "The sensor {entity_name} (`{entity_id}`) is deprecated because it has been replaced with a water heater entity.\n\nPlease update your dashboards and templates to use the new water heater entity and disable the sensor to fix this issue.",
@@ -1102,7 +1102,7 @@
     },
     "deprecated_dhw_scripts": {
       "description": "The sensor {entity_name} (`{entity_id}`) is deprecated because it has been replaced with a water heater entity.\n\nThe sensor was used in the following automations or scripts:\n{items}\n\nPlease update the above automations or scripts to use the new water heater entity and disable the sensor to fix this issue.",
-      "title": "[%key:component::smartthings::issues::deprecated_dhw::title%]"
+      "title": "[%key:component::smartthingswasher::issues::deprecated_dhw::title%]"
     },
     "deprecated_media_player": {
       "description": "The sensor {entity_name} (`{entity_id}`) is deprecated because it has been replaced with a media player entity.\n\nPlease update your dashboards and templates to use the new media player entity and disable the sensor to fix this issue.",
@@ -1118,7 +1118,7 @@
     },
     "deprecated_switch_appliance_scripts": {
       "description": "The switch `{entity_id}` is deprecated because the actions did not work, so it has been replaced with a binary sensor instead.\n\nThe switch was used in the following automations or scripts:\n{items}\n\nPlease use the new binary sensor in the above automations or scripts and disable the switch to fix this issue.",
-      "title": "[%key:component::smartthings::issues::deprecated_switch_appliance::title%]"
+      "title": "[%key:component::smartthingswasher::issues::deprecated_switch_appliance::title%]"
     },
     "deprecated_switch_dhw": {
       "description": "The switch `{entity_id}` is deprecated and a water heater entity has been added to replace it.\n\nPlease update your dashboards and templates accordingly and disable the switch to fix this issue.",
@@ -1126,15 +1126,15 @@
     },
     "deprecated_switch_dhw_scripts": {
       "description": "The switch `{entity_id}` is deprecated and a water heater entity has been added to replace it.\n\nThe switch was used in the following automations or scripts:\n{items}\n\nPlease use the new water heater entity in the above automations or scripts and disable the switch to fix this issue.",
-      "title": "[%key:component::smartthings::issues::deprecated_switch_dhw::title%]"
+      "title": "[%key:component::smartthingswasher::issues::deprecated_switch_dhw::title%]"
     },
     "deprecated_switch_media_player": {
       "description": "The switch `{entity_id}` is deprecated and a media player entity has been added to replace it.\n\nPlease update your dashboards and templates accordingly and disable the switch to fix this issue.",
-      "title": "[%key:component::smartthings::issues::deprecated_switch_appliance::title%]"
+      "title": "[%key:component::smartthingswasher::issues::deprecated_switch_appliance::title%]"
     },
     "deprecated_switch_media_player_scripts": {
       "description": "The switch `{entity_id}` is deprecated and a media player entity has been added to replace it.\n\nThe switch was used in the following automations or scripts:\n{items}\n\nPlease use the new media player entity in the above automations or scripts and disable the switch to fix this issue.",
-      "title": "[%key:component::smartthings::issues::deprecated_switch_appliance::title%]"
+      "title": "[%key:component::smartthingswasher::issues::deprecated_switch_appliance::title%]"
     }
   }
 }
