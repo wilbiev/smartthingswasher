@@ -1,8 +1,8 @@
 {
   "name": "Home Assistant Custom Integration Development",
   "image": "mcr.microsoft.com/devcontainers/python:3.13",
-  "postCreateCommand": "scripts/setup",
-  "postStartCommand": "scripts/motd",
+  "postCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder} && sudo chmod +x scripts/setup && scripts/setup",
+  "postStartCommand": "sudo chmod +x scripts/* && scripts/motd",
   "containerEnv": {
     "PYTHONASYNCIODEBUG": "1",
     "PYTHONUNBUFFERED": "1",
@@ -43,7 +43,7 @@
           "reportUnusedCoroutine": "none",
           "reportMissingTypeStubs": "none"
         },
-        "python.analysis.include": ["custom_components/integration_blueprint"],
+        "python.analysis.include": ["custom_components/smartthingswasher"],
         "python.analysis.exclude": [
           "**/.venv/**",
           "**/venv/**",
