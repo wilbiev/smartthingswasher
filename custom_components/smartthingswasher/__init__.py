@@ -48,6 +48,7 @@ from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.config_entry_oauth2_flow import (
+    ImplementationUnavailableError,
     OAuth2Session,
     async_get_config_entry_implementation,
 )
@@ -124,7 +125,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: SmartThingsConfigEntry) 
     # after migration but still require reauthentication
     if CONF_TOKEN not in entry.data:
         raise ConfigEntryAuthFailed("Config entry missing token")
-    implementation = await async_get_config_entry_implementation(hass, entry)
+    try:
+        implementation = await async_get_config_entry_implementation(hass, entry)
+    except ImplementationUnavailableError as err:
+        raise ConfigEntryNotReady(
+            translation_domain=DOMAIN,
+            translation_key="oauth2_implementation_unavailable",
+        ) from err
     session = OAuth2Session(hass, entry, implementation)
 
     try:
@@ -378,6 +385,19 @@ def create_devices(
                     ATTR_SERIAL_NUMBER: matter.serial_number,
                 }
             )
+        if (main_component := device.status.get(MAIN)) is not None and (
+            device_identification := main_component.get(
+                Capability.SAMSUNG_CE_DEVICE_IDENTIFICATION
+            )
+        ) is not None:
+            new_kwargs = {
+                ATTR_SERIAL_NUMBER: device_identification[Attribute.SERIAL_NUMBER].value
+            }
+            if ATTR_MODEL_ID not in kwargs:
+                new_kwargs[ATTR_MODEL_ID] = device_identification[
+                    Attribute.MODEL_NAME
+                ].value
+            kwargs.update(new_kwargs)
         if (
             device_registry.async_get_device({(DOMAIN, device.device.device_id)})
             is None
