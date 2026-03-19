@@ -103,7 +103,7 @@ CAPABILITY_TO_NUMBERS: dict[
                 use_temperature_unit=True,
                 command=Command.SET_COOLING_SETPOINT,
                 range_attribute=Attribute.COOLING_SETPOINT_RANGE,
-                int_type=STType.FLOAT,
+                int_type=STType.INTEGER,
             )
         ]
     },
