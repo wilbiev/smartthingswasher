@@ -195,10 +195,10 @@
           "on": "mdi:link"
         }
       },
-      "bubble_soak": {
-        "default": "mdi:water-off",
+      "auto_open_door": {
+        "default": "mdi:door-closed",
         "state": {
-          "on": "mdi:water"
+          "on": "mdi:door-open"
         }
       },
       "display_lighting": {

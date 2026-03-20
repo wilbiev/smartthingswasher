@@ -764,6 +764,9 @@
       "auto_cycle_link": {
         "name": "Auto cycle link"
       },
+      "auto_open_door": {
+        "name": "Auto open door"
+      },
       "bubble_soak": {
         "name": "BubbleSoak"
       },

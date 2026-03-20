@@ -157,6 +157,18 @@ CAPABILITY_TO_SWITCHES: dict[
             )
         ]
     },
+    Capability.SAMSUNG_CE_AUTO_OPEN_DOOR: {
+        Attribute.AUTO_OPEN_DOOR: [
+            SmartThingsSwitchEntityDescription(
+                key=Capability.SAMSUNG_CE_AUTO_OPEN_DOOR,
+                translation_key="auto_open_door",
+                on_key="on",
+                on_command=Command.ON,
+                off_command=Command.OFF,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ]
+    },
     Capability.SWITCH: {
         Attribute.SWITCH: [
             SmartThingsSwitchEntityDescription(
