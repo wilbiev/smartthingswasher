@@ -135,6 +135,16 @@ CAPABILITY_TO_SELECTS: dict[
             )
         ]
     },
+    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: {
+        Attribute.WASHING_COURSE: [
+            SmartThingsSelectEntityDescription(
+                key=Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
+                translation_key="washing_course",
+                options_attribute=Attribute.SUPPORTED_COURSES,
+                command=Command.SET_COURSE,
+            )
+        ]
+    },
     Capability.DRYER_OPERATING_STATE: {
         Attribute.MACHINE_STATE: [
             SmartThingsSelectEntityDescription(

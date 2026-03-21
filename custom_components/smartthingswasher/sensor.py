@@ -123,8 +123,6 @@ OVEN_MODE = {
     "Rinse": "rinse",
 }
 
-WASHER_OPTIONS = ["pause", "run", "stop"]
-
 
 def power_attributes(status: dict[str, Any]) -> dict[str, Any]:
     """Return the power attributes."""
@@ -281,6 +279,7 @@ CAPABILITY_TO_SENSORS: dict[
             )
         ]
     },
+    # Steam Closet capabilities
     Capability.CUSTOM_STEAM_CLOSET_OPERATING_STATE: {
         Attribute.STEAM_CLOSET_JOB_STATE: [
             SmartThingsSensorEntityDescription(
@@ -314,6 +313,261 @@ CAPABILITY_TO_SENSORS: dict[
             )
         ],
     },
+    # Dishwasher capabilities
+    Capability.DISHWASHER_OPERATING_STATE: {
+        Attribute.DISHWASHER_JOB_STATE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.DISHWASHER_JOB_STATE,
+                translation_key="dishwasher_job_state",
+                options=[
+                    "air_wash",
+                    "cooling",
+                    "drying",
+                    "finish",
+                    "pre_drain",
+                    "pre_wash",
+                    "rinse",
+                    "spin",
+                    "wash",
+                    "wrinkle_prevent",
+                ],
+                device_class=SensorDeviceClass.ENUM,
+                value_fn=lambda value: JOB_STATE_MAP.get(value, value),
+            )
+        ],
+        Attribute.COMPLETION_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.COMPLETION_TIME,
+                translation_key="completion_time",
+                device_class=SensorDeviceClass.TIMESTAMP,
+                value_fn=dt_util.parse_datetime,
+            )
+        ],
+    },
+    Capability.SAMSUNG_CE_DISHWASHER_OPERATION: {
+        Attribute.OPERATING_STATE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.OPERATING_STATE,
+                translation_key="operating_state",
+                device_class=SensorDeviceClass.ENUM,
+                options_attribute=Attribute.SUPPORTED_OPERATING_STATE,
+            )
+        ],
+        Attribute.OPERATION_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.OPERATION_TIME,
+                translation_key="operation_time",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+            )
+        ],
+        Attribute.PROGRESS_PERCENTAGE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.PROGRESS_PERCENTAGE,
+                translation_key="operating_progress",
+                native_unit_of_measurement=PERCENTAGE,
+            )
+        ],
+        Attribute.REMAINING_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.REMAINING_TIME,
+                translation_key="remaining_time",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+            )
+        ],
+        Attribute.TIME_LEFT_TO_START: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.TIME_LEFT_TO_START,
+                translation_key="time_left_to_start",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+            )
+        ],
+    },
+    # Dryer capabilities
+    Capability.DRYER_MODE: {
+        Attribute.DRYER_MODE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.DRYER_MODE,
+                translation_key="dryer_mode",
+                entity_category=EntityCategory.DIAGNOSTIC,
+            )
+        ]
+    },
+    Capability.DRYER_OPERATING_STATE: {
+        Attribute.DRYER_JOB_STATE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.DRYER_JOB_STATE,
+                translation_key="dryer_job_state",
+                options=[
+                    "cooling",
+                    "delay_wash",
+                    "drying",
+                    "finished",
+                    "none",
+                    "refreshing",
+                    "weight_sensing",
+                    "wrinkle_prevent",
+                    "dehumidifying",
+                    "ai_drying",
+                    "sanitizing",
+                    "internal_care",
+                    "freeze_protection",
+                    "continuous_dehumidifying",
+                    "thawing_frozen_inside",
+                ],
+                device_class=SensorDeviceClass.ENUM,
+                value_fn=lambda value: JOB_STATE_MAP.get(value, value),
+            )
+        ],
+        Attribute.COMPLETION_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.COMPLETION_TIME,
+                translation_key="completion_time",
+                device_class=SensorDeviceClass.TIMESTAMP,
+                value_fn=dt_util.parse_datetime,
+            )
+        ],
+    },
+    Capability.SAMSUNG_CE_DRYER_OPERATING_STATE: {
+        Attribute.OPERATING_STATE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.OPERATING_STATE,
+                translation_key="operating_state",
+                device_class=SensorDeviceClass.ENUM,
+                options_attribute=Attribute.SUPPORTED_OPERATING_STATES,
+            )
+        ],
+        Attribute.OPERATION_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.OPERATION_TIME,
+                translation_key="operation_time",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+            )
+        ],
+        Attribute.PROGRESS: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.PROGRESS,
+                translation_key="operating_progress",
+                native_unit_of_measurement=PERCENTAGE,
+            )
+        ],
+        Attribute.REMAINING_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.REMAINING_TIME,
+                translation_key="remaining_time",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+            )
+        ],
+    },
+    # Washer capabilities
+    Capability.WASHER_MODE: {
+        Attribute.WASHER_MODE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.WASHER_MODE,
+                translation_key="washer_mode",
+                entity_category=EntityCategory.DIAGNOSTIC,
+            )
+        ]
+    },
+    Capability.WASHER_OPERATING_STATE: {
+        Attribute.WASHER_JOB_STATE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.WASHER_JOB_STATE,
+                translation_key="washer_job_state",
+                options=[
+                    "air_wash",
+                    "ai_rinse",
+                    "ai_spin",
+                    "ai_wash",
+                    "cooling",
+                    "delay_wash",
+                    "drying",
+                    "finish",
+                    "none",
+                    "pre_wash",
+                    "rinse",
+                    "spin",
+                    "wash",
+                    "weight_sensing",
+                    "wrinkle_prevent",
+                    "freeze_protection",
+                ],
+                device_class=SensorDeviceClass.ENUM,
+                value_fn=lambda value: JOB_STATE_MAP.get(value, value),
+            )
+        ],
+        Attribute.COMPLETION_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.COMPLETION_TIME,
+                translation_key="completion_time",
+                device_class=SensorDeviceClass.TIMESTAMP,
+                value_fn=dt_util.parse_datetime,
+            )
+        ],
+    },
+    Capability.SAMSUNG_CE_AUTO_DISPENSE_DETERGENT: {
+        Attribute.REMAINING_AMOUNT: [
+            SmartThingsSensorEntityDescription(
+                key="remaining_detergent",
+                translation_key="remaining_amount_dispense_detergent",
+                options=[
+                    "extra",
+                    "less",
+                    "none",
+                    "normal",
+                    "unknown",
+                ],
+                device_class=SensorDeviceClass.ENUM,
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_AUTO_DISPENSE_SOFTENER: {
+        Attribute.REMAINING_AMOUNT: [
+            SmartThingsSensorEntityDescription(
+                key="remaining_softener",
+                translation_key="remaining_amount_dispense_softener",
+                options=[
+                    "extra",
+                    "less",
+                    "none",
+                    "normal",
+                    "unknown",
+                ],
+                device_class=SensorDeviceClass.ENUM,
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_WASHER_OPERATING_STATE: {
+        Attribute.OPERATING_STATE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.OPERATING_STATE,
+                translation_key="operating_state",
+                device_class=SensorDeviceClass.ENUM,
+                options_attribute=Attribute.SUPPORTED_OPERATING_STATES,
+            )
+        ],
+        Attribute.OPERATION_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.OPERATION_TIME,
+                translation_key="operation_time",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+            )
+        ],
+        Attribute.PROGRESS: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.PROGRESS,
+                translation_key="operating_progress",
+                native_unit_of_measurement=PERCENTAGE,
+            )
+        ],
+        Attribute.REMAINING_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.REMAINING_TIME,
+                translation_key="remaining_time",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+            )
+        ],
+    },
+    # Other capabilities
     Capability.SAMSUNG_CE_COOKTOP_HEATING_POWER: {
         Attribute.MANUAL_LEVEL: [
             SmartThingsSensorEntityDescription(
@@ -357,97 +611,6 @@ CAPABILITY_TO_SENSORS: dict[
                 state_class=SensorStateClass.MEASUREMENT,
             )
         ]
-    },
-    Capability.DISHWASHER_OPERATING_STATE: {
-        Attribute.MACHINE_STATE: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.MACHINE_STATE,
-                translation_key="dishwasher_machine_state",
-                options=WASHER_OPTIONS,
-                device_class=SensorDeviceClass.ENUM,
-            )
-        ],
-        Attribute.DISHWASHER_JOB_STATE: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.DISHWASHER_JOB_STATE,
-                translation_key="dishwasher_job_state",
-                options=[
-                    "air_wash",
-                    "cooling",
-                    "drying",
-                    "finish",
-                    "pre_drain",
-                    "pre_wash",
-                    "rinse",
-                    "spin",
-                    "wash",
-                    "wrinkle_prevent",
-                ],
-                device_class=SensorDeviceClass.ENUM,
-                value_fn=lambda value: JOB_STATE_MAP.get(value, value),
-            )
-        ],
-        Attribute.COMPLETION_TIME: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.COMPLETION_TIME,
-                translation_key="completion_time",
-                device_class=SensorDeviceClass.TIMESTAMP,
-                value_fn=dt_util.parse_datetime,
-            )
-        ],
-    },
-    # part of the proposed spec, Haven't seen at devices yet
-    Capability.DRYER_MODE: {
-        Attribute.DRYER_MODE: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.DRYER_MODE,
-                translation_key="dryer_mode",
-                entity_category=EntityCategory.DIAGNOSTIC,
-            )
-        ]
-    },
-    Capability.DRYER_OPERATING_STATE: {
-        Attribute.MACHINE_STATE: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.MACHINE_STATE,
-                translation_key="dryer_machine_state",
-                options=WASHER_OPTIONS,
-                device_class=SensorDeviceClass.ENUM,
-            )
-        ],
-        Attribute.DRYER_JOB_STATE: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.DRYER_JOB_STATE,
-                translation_key="dryer_job_state",
-                options=[
-                    "cooling",
-                    "delay_wash",
-                    "drying",
-                    "finished",
-                    "none",
-                    "refreshing",
-                    "weight_sensing",
-                    "wrinkle_prevent",
-                    "dehumidifying",
-                    "ai_drying",
-                    "sanitizing",
-                    "internal_care",
-                    "freeze_protection",
-                    "continuous_dehumidifying",
-                    "thawing_frozen_inside",
-                ],
-                device_class=SensorDeviceClass.ENUM,
-                value_fn=lambda value: JOB_STATE_MAP.get(value, value),
-            )
-        ],
-        Attribute.COMPLETION_TIME: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.COMPLETION_TIME,
-                translation_key="completion_time",
-                device_class=SensorDeviceClass.TIMESTAMP,
-                value_fn=dt_util.parse_datetime,
-            )
-        ],
     },
     Capability.DUST_SENSOR: {
         Attribute.DUST_LEVEL: [
@@ -865,101 +1028,6 @@ CAPABILITY_TO_SENSORS: dict[
             )
         ]
     },
-    Capability.SAMSUNG_CE_AUTO_DISPENSE_DETERGENT: {
-        Attribute.REMAINING_AMOUNT: [
-            SmartThingsSensorEntityDescription(
-                key="remaining_detergent",
-                translation_key="remaining_amount_dispense_detergent",
-                options=[
-                    "extra",
-                    "less",
-                    "none",
-                    "normal",
-                    "unknown",
-                ],
-                device_class=SensorDeviceClass.ENUM,
-            )
-        ]
-    },
-    Capability.SAMSUNG_CE_AUTO_DISPENSE_SOFTENER: {
-        Attribute.REMAINING_AMOUNT: [
-            SmartThingsSensorEntityDescription(
-                key="remaining_softener",
-                translation_key="remaining_amount_dispense_softener",
-                options=[
-                    "extra",
-                    "less",
-                    "none",
-                    "normal",
-                    "unknown",
-                ],
-                device_class=SensorDeviceClass.ENUM,
-            )
-        ]
-    },
-    Capability.SAMSUNG_CE_DRYER_OPERATING_STATE: {
-        Attribute.OPERATING_STATE: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.OPERATING_STATE,
-                translation_key="operating_state",
-                device_class=SensorDeviceClass.ENUM,
-                options_attribute=Attribute.SUPPORTED_OPERATING_STATES,
-            )
-        ],
-        Attribute.OPERATION_TIME: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.OPERATION_TIME,
-                translation_key="operation_time",
-                native_unit_of_measurement=UnitOfTime.MINUTES,
-            )
-        ],
-        Attribute.PROGRESS: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.PROGRESS,
-                translation_key="operating_progress",
-                native_unit_of_measurement=PERCENTAGE,
-            )
-        ],
-        Attribute.REMAINING_TIME: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.REMAINING_TIME,
-                translation_key="remaining_time",
-                native_unit_of_measurement=UnitOfTime.MINUTES,
-            )
-        ],
-    },
-    Capability.SAMSUNG_CE_WASHER_OPERATING_STATE: {
-        Attribute.OPERATING_STATE: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.OPERATING_STATE,
-                translation_key="operating_state",
-                device_class=SensorDeviceClass.ENUM,
-                options_attribute=Attribute.SUPPORTED_OPERATING_STATES,
-            )
-        ],
-        Attribute.OPERATION_TIME: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.OPERATION_TIME,
-                translation_key="operation_time",
-                native_unit_of_measurement=UnitOfTime.MINUTES,
-            )
-        ],
-        Attribute.PROGRESS: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.PROGRESS,
-                translation_key="operating_progress",
-                native_unit_of_measurement=PERCENTAGE,
-            )
-        ],
-        Attribute.REMAINING_TIME: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.REMAINING_TIME,
-                translation_key="remaining_time",
-                native_unit_of_measurement=UnitOfTime.MINUTES,
-            )
-        ],
-    },
-    # Added - Samsung Washer
     Capability.SAMSUNG_CE_WATER_CONSUMPTION_REPORT: {
         Attribute.WATER_CONSUMPTION: [
             SmartThingsSensorEntityDescription(
@@ -1161,52 +1229,6 @@ CAPABILITY_TO_SENSORS: dict[
                 state_class=SensorStateClass.MEASUREMENT,
             )
         ]
-    },
-    # part of the proposed spec
-    Capability.WASHER_MODE: {
-        Attribute.WASHER_MODE: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.WASHER_MODE,
-                translation_key="washer_mode",
-                entity_category=EntityCategory.DIAGNOSTIC,
-            )
-        ]
-    },
-    Capability.WASHER_OPERATING_STATE: {
-        Attribute.WASHER_JOB_STATE: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.WASHER_JOB_STATE,
-                translation_key="washer_job_state",
-                options=[
-                    "air_wash",
-                    "ai_rinse",
-                    "ai_spin",
-                    "ai_wash",
-                    "cooling",
-                    "delay_wash",
-                    "drying",
-                    "finish",
-                    "none",
-                    "pre_wash",
-                    "rinse",
-                    "spin",
-                    "wash",
-                    "weight_sensing",
-                    "wrinkle_prevent",
-                    "freeze_protection",
-                ],
-                device_class=SensorDeviceClass.ENUM,
-                value_fn=lambda value: JOB_STATE_MAP.get(value, value),
-            )
-        ],
-        Attribute.COMPLETION_TIME: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.COMPLETION_TIME,
-                translation_key="completion_time",
-                device_class=SensorDeviceClass.TIMESTAMP,
-                value_fn=dt_util.parse_datetime,
-            )
-        ],
     },
 }
 

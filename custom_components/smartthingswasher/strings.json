@@ -396,6 +396,18 @@
       "machine_state": {
         "name": "Machine state"
       },
+      "washing_course": {
+        "name": "Course",
+        "state": {
+          "auto": "Auto",
+          "normal": "Normal",
+          "heavy": "Heavy",
+          "delicate": "Delicate",
+          "express": "Express",
+          "rinseOnly": "Rinse only",
+          "selfClean": "Self clean"
+        }
+      },
       "washer_rinse_cycles": {
         "name": "Washer rinse cycles"
       },
@@ -774,6 +786,9 @@
       },
       "thermostat_setpoint": {
         "name": "[%key:component::smartthingswasher::entity::sensor::oven_setpoint::name%]"
+      },
+      "time_left_to_start": {
+        "name": "Time left to start"
       },
       "x_coordinate": {
         "name": "X coordinate"

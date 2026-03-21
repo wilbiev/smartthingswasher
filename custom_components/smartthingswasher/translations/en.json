@@ -326,6 +326,18 @@
       },
       "washer_water_temperature": {
         "name": "Washer water temperature"
+      },
+      "washing_course": {
+        "name": "Course",
+        "state": {
+          "auto": "Auto",
+          "delicate": "Delicate",
+          "express": "Express",
+          "heavy": "Heavy",
+          "normal": "Normal",
+          "rinseOnly": "Rinse only",
+          "selfClean": "Self clean"
+        }
       }
     },
     "sensor": {
@@ -710,6 +722,9 @@
       },
       "thermostat_setpoint": {
         "name": "Set point"
+      },
+      "time_left_to_start": {
+        "name": "Time left to start"
       },
       "tv_channel": {
         "name": "TV channel"
