@@ -350,7 +350,7 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.OPERATING_STATE,
                 translation_key="operating_state",
                 device_class=SensorDeviceClass.ENUM,
-                options_attribute=Attribute.SUPPORTED_OPERATING_STATES,
+                options_attribute=Attribute.SUPPORTED_OPERATING_STATE,
             )
         ],
         Attribute.OPERATION_TIME: [
@@ -393,14 +393,6 @@ CAPABILITY_TO_SENSORS: dict[
         ]
     },
     Capability.DRYER_OPERATING_STATE: {
-        Attribute.OPERATION_STATE: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.OPERATION_STATE,
-                translation_key="operating_state",
-                device_class=SensorDeviceClass.ENUM,
-                options_attribute=Attribute.SUPPORTED_OPERATING_STATES,
-            )
-        ],
         Attribute.DRYER_JOB_STATE: [
             SmartThingsSensorEntityDescription(
                 key=Attribute.DRYER_JOB_STATE,
