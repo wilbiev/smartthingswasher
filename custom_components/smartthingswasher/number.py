@@ -88,6 +88,21 @@ CAPABILITY_TO_NUMBERS: dict[
             )
         ]
     },
+    Capability.CUSTOM_DISHWASHER_DELAY_START_TIME: {
+        Attribute.DISHWASHER_DELAY_START_TIME: [
+            SmartThingsNumberEntityDescription(
+                key=Capability.CUSTOM_DISHWASHER_DELAY_START_TIME,
+                translation_key="delay_time",
+                entity_category=EntityCategory.CONFIG,
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+                command=Command.SET_DELAY_TIME,
+                native_min_value=0,
+                native_max_value=1440,
+                native_step=5,
+                int_type=STType.INTEGER,
+            )
+        ]
+    },
     Capability.THERMOSTAT_COOLING_SETPOINT: {
         Attribute.COOLING_SETPOINT: [
             SmartThingsNumberEntityDescription(
