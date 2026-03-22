@@ -884,11 +884,11 @@ CAPABILITY_TO_SENSORS: dict[
     },
     Capability.POWER_CONSUMPTION_REPORT: {
         Attribute.POWER_CONSUMPTION: [
+            # SENSOR 1: ENERGIA TOTAL ACUMULADA
             SmartThingsSensorEntityDescription(
                 key="energy_meter",
                 state_class=SensorStateClass.TOTAL_INCREASING,
                 device_class=SensorDeviceClass.ENERGY,
-                #entity_category=EntityCategory.DIAGNOSTIC,
                 native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
                 value_fn=lambda value: value["energy"] / 1000,
                 suggested_display_precision=2,
@@ -897,11 +897,25 @@ CAPABILITY_TO_SENSORS: dict[
                     and "energy" in value
                 ),
             ),
+            # SENSOR 2: ENERGIA DA ÚLTIMA LAVAGEM
+            SmartThingsSensorEntityDescription(
+                key="energy_last_cycle",
+                name="Energia última lavagem",
+                #state_class=SensorStateClass.MEASUREMENT,
+                device_class=SensorDeviceClass.ENERGY,
+                native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+                value_fn=lambda value: (
+                    value.get("deltaEnergy") or 
+                    value.get("lastEnergy") or 
+                    0
+                ) / 1000,
+                suggested_display_precision=2,
+            ),
+            # SENSOR 3: POTÊNCIA (W)
             SmartThingsSensorEntityDescription(
                 key="power_meter",
                 state_class=SensorStateClass.MEASUREMENT,
                 device_class=SensorDeviceClass.POWER,
-                #entity_category=EntityCategory.DIAGNOSTIC,
                 native_unit_of_measurement=UnitOfPower.WATT,
                 value_fn=lambda value: value["power"],
                 extra_state_attributes_fn=power_attributes,
@@ -911,6 +925,7 @@ CAPABILITY_TO_SENSORS: dict[
                     and "power" in value
                 ),
             ),
+            # SENSORES ADICIONAIS DE DIAGNÓSTICO
             SmartThingsSensorEntityDescription(
                 key="deltaEnergy_meter",
                 translation_key="energy_difference",
@@ -1062,15 +1077,19 @@ CAPABILITY_TO_SENSORS: dict[
                 native_unit_of_measurement=UnitOfVolume.LITERS,
                 value_fn=lambda value: value["cumulativeAmount"] / 1000,
             ),
-            # SENSOR DA ÚLTIMA LAVAGEM
+            # SENSOR DA ÚLTIMA LAVAGEM (TENTATIVA MULTI-CHAVE)
             SmartThingsSensorEntityDescription(
                 key="water_last_cycle",
                 name="Consumo última lavagem",
-                state_class=SensorStateClass.MEASUREMENT,
+                #state_class=SensorStateClass.MEASUREMENT,
                 device_class=SensorDeviceClass.WATER,
                 native_unit_of_measurement=UnitOfVolume.LITERS,
-                # O .get("lastAmount", 0) evita o erro se a chave não existir
-                value_fn=lambda value: (value.get("lastAmount") or 0) / 1000,
+                # Tenta 'lastAmount', depois 'lastCycleAmount', depois 'lastCycleWaterConsumption'
+                value_fn=lambda value: (
+                    value.get("lastAmount") or 
+                    value.get("lastCycleAmount") or 
+                    value.get("lastCycleWaterConsumption") or 0
+                ) / 1000,
             )
         ]
     },
