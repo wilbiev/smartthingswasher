@@ -126,6 +126,7 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="machine_state",
                 options_attribute=Attribute.SUPPORTED_MACHINE_STATES,
                 command=Command.SET_MACHINE_STATE,
+                entity_registry_enabled_default=False,
             )
         ]
     },
