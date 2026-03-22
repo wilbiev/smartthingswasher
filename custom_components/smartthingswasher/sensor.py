@@ -1053,14 +1053,23 @@ CAPABILITY_TO_SENSORS: dict[
     },
     Capability.SAMSUNG_CE_WATER_CONSUMPTION_REPORT: {
         Attribute.WATER_CONSUMPTION: [
+            # SENSOR 1: O TOTAL ACUMULADO (Os 1329L que já tens)
             SmartThingsSensorEntityDescription(
                 key=Attribute.WATER_CONSUMPTION,
                 translation_key="water_consumption",
                 state_class=SensorStateClass.TOTAL_INCREASING,
                 device_class=SensorDeviceClass.WATER,
-                #entity_category=EntityCategory.DIAGNOSTIC,
                 native_unit_of_measurement=UnitOfVolume.LITERS,
                 value_fn=lambda value: value["cumulativeAmount"] / 1000,
+            ),
+            # SENSOR 2: O CONSUMO DO ÚLTIMO CICLO (O que queres no Card)
+            SmartThingsSensorEntityDescription(
+                key="water_last_cycle",
+                name="Consumo última lavagem",
+                state_class=SensorStateClass.MEASUREMENT,
+                device_class=SensorDeviceClass.WATER,
+                native_unit_of_measurement=UnitOfVolume.LITERS,
+                value_fn=lambda value: value["lastAmount"] / 1000,
             )
         ]
     },
