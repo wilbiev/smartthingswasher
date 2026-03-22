@@ -901,7 +901,7 @@ CAPABILITY_TO_SENSORS: dict[
                 key="power_meter",
                 state_class=SensorStateClass.MEASUREMENT,
                 device_class=SensorDeviceClass.POWER,
-                entity_category=EntityCategory.DIAGNOSTIC,
+                #entity_category=EntityCategory.DIAGNOSTIC,
                 native_unit_of_measurement=UnitOfPower.WATT,
                 value_fn=lambda value: value["power"],
                 extra_state_attributes_fn=power_attributes,
