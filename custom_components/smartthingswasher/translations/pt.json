@@ -85,13 +85,13 @@
         "name": "Reiniciar filtro de água"
       },
       "state_cancel": {
-        "name": "Cancelar estado"
+        "name": "Cancelar"
       },
       "state_pause_resume": {
-        "name": "Pausar-Retomar estado"
+        "name": "Pausar-Retomar"
       },
       "state_start": {
-        "name": "Iniciar estado"
+        "name": "Iniciar"
       },
       "stop": {
         "name": "Parar"
