@@ -314,6 +314,22 @@ CAPABILITY_TO_SENSORS: dict[
         ],
     },
     # Dishwasher capabilities
+    Capability.SAMSUNG_CE_DISHWASHER_JOB_STATE: {
+        Attribute.DISHWASHER_JOB_STATE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.DISHWASHER_JOB_STATE,
+                translation_key="dishwasher_job_state",
+                options=[
+                    "washing",
+                    "rising",
+                    "drying",
+                    "none",
+                ],
+                device_class=SensorDeviceClass.ENUM,
+                value_fn=lambda value: JOB_STATE_MAP.get(value, value),
+            )
+        ]
+    },
     Capability.DISHWASHER_OPERATING_STATE: {
         Attribute.DISHWASHER_JOB_STATE: [
             SmartThingsSensorEntityDescription(
@@ -341,6 +357,13 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="completion_time",
                 device_class=SensorDeviceClass.TIMESTAMP,
                 value_fn=dt_util.parse_datetime,
+            )
+        ],
+        Attribute.PROGRESS: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.PROGRESS,
+                translation_key="operating_progress",
+                native_unit_of_measurement=PERCENTAGE,
             )
         ],
     },
@@ -1251,33 +1274,45 @@ async def async_setup_entry(
 ) -> None:
     """Add sensors for a config entry."""
     entry_data = entry.runtime_data
-    async_add_entities(
-        SmartThingsSensor(
-            entry_data.client,
-            device,
-            description,
-            capability,
-            attribute,
-            component,
-        )
-        for device in entry_data.devices.values()
-        for capability, attributes in CAPABILITY_TO_SENSORS.items()
-        for component in device.status
-        if capability in device.status[component]
-        for attribute, descriptions in attributes.items()
-        for description in descriptions
-        if (
-            not description.capability_ignore_list
-            or not any(
-                all(capability in device.status[MAIN] for capability in capability_list)
-                for capability_list in description.capability_ignore_list
-            )
-        )
-        and (
-            not description.exists_fn
-            or description.exists_fn(device.status[MAIN][capability][attribute])
-        )
-    )
+    entities = []
+
+    for device in entry_data.devices.values():
+        for component, capabilities in device.status.items():
+            for capability, attributes in CAPABILITY_TO_SENSORS.items():
+                if capability not in capabilities:
+                    continue
+
+                for attribute, descriptions in attributes.items():
+                    attr_status = capabilities[capability].get(attribute)
+                    if attr_status is None:
+                        continue
+
+                    for description in descriptions:
+                        if description.component_fn and not description.component_fn(component):
+                            continue
+
+                        if description.capability_ignore_list:
+                            if any(
+                                all(capability in device.status[MAIN] for capability in capability_list)
+                                for capability_list in description.capability_ignore_list
+                            ):
+                                continue
+
+                        if description.exists_fn and not description.exists_fn(attr_status):
+                            continue
+
+                        entities.append(
+                            SmartThingsSensor(
+                                entry_data.client,
+                                device,
+                                description,
+                                capability,
+                                attribute,
+                                component,
+                            )
+                        )
+
+    async_add_entities(entities)
 
 
 class SmartThingsSensor(SmartThingsEntity, SensorEntity):

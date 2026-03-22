@@ -95,7 +95,7 @@ CAPABILITY_TO_NUMBERS: dict[
                 translation_key="delay_time",
                 entity_category=EntityCategory.CONFIG,
                 native_unit_of_measurement=UnitOfTime.MINUTES,
-                command=Command.SET_DELAY_TIME,
+                command=Command.SET_DISHWASHER_DELAY_START_TIME,
                 native_min_value=0,
                 native_max_value=1440,
                 native_step=5,

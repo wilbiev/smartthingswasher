@@ -45,6 +45,9 @@
       "state_start": {
         "default": "mdi:play-circle"
       },
+      "state_start_later": {
+        "default": "mdi:clock-start"
+      },
       "stop": {
         "default": "mdi:stop"
       }

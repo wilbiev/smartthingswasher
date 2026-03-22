@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime
 
-from pysmartthings import Attribute, Capability, Command, ComponentStatus, SmartThings
+from pysmartthings import Attribute, Capability, Command, SmartThings
 
 from homeassistant.components.select import SelectEntity, SelectEntityDescription
 from homeassistant.const import EntityCategory
@@ -28,7 +27,6 @@ class SmartThingsSelectEntityDescription(SelectEntityDescription):
     command: Command | None = None
     options_attribute: Attribute | None = None
     supported_option: SupportedOption | None = None
-    duplicate_fn: Callable[[dict[str, ComponentStatus]], str | None] = lambda _: None
     extra_components: list[str] | None = None
     capability_ignore_list: list[Capability] | None = None
 
@@ -66,14 +64,10 @@ CAPABILITY_TO_SELECTS: dict[
                 entity_category=EntityCategory.CONFIG,
                 options_attribute=Attribute.SUPPORTED_COURSES,
                 command=Command.SET_COURSE,
-                duplicate_fn=(
-                    lambda status: "duplicate_exists"
-                    if any(
-                        capability in status[MAIN]
-                        for capability in CAPABILITIES_WITH_PROGRAMS
-                    )
-                    else None
-                ),
+                capability_ignore_list=[
+                    *CAPABILITIES_WITH_PROGRAMS,
+                    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE
+                ],
             )
         ]
     },
@@ -141,7 +135,7 @@ CAPABILITY_TO_SELECTS: dict[
                 key=Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
                 translation_key="washing_course",
                 options_attribute=Attribute.SUPPORTED_COURSES,
-                command=Command.SET_COURSE,
+                command=Command.SET_WASHING_COURSE,
             )
         ]
     },
@@ -312,17 +306,14 @@ async def async_setup_entry(
         if capability in device.status[component]
         for attribute, descriptions in attributes.items()
         for description in descriptions
-        if  ((
-                component == MAIN
-                or (
-                    description.extra_components is not None
-                    and component in description.extra_components
-                )
-            )
-            and (component != MAIN or description.duplicate_fn(device.status) is None)
+        if (
+            (component == MAIN or (
+                description.extra_components is not None
+                and component in description.extra_components
+            ))
             and (
                 description.capability_ignore_list is None
-                or any(
+                or all(
                     capability not in device.status[component]
                     for capability in description.capability_ignore_list
                 )

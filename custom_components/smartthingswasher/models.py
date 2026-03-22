@@ -33,6 +33,19 @@ class SupportedOption(StrEnum):
     SOIL_LEVEL = "soilLevel"
     SPIN_LEVEL = "spinLevel"
     WATER_TEMPERATURE = "waterTemperature"
+    SELECTED_ZONE = "selectedZone"
+    SPEED_BOOSTER = "speedBooster"
+    ZONE_BOOSTER = "zoneBooster"
+    ADD_RINSE = "addRinse"
+    DRY_PLUS = "dryPlus"
+    HEATED_DRY = "heatedDry"
+    HIGH_TEMP_WASH = "highTempWash"
+    HOT_AIR_DRY = "hotAirDry"
+    MULTI_TAB = "multiTab"
+    RINSE_PLUS = "rinsePlus"
+    SANITIZING_WASH = "sanitizingWash"
+    STEAM_SOAK = "steamSoak"
+    STORM_WASH = "stormWash"
 
 
 @dataclass
@@ -40,6 +53,7 @@ class Program(DataClassORJSONMixin):
     """Program model."""
 
     program_id: str = field(metadata=field_options(alias="cycle"))
+    program_name: str = field(metadata=field_options(alias="name"))
     program_type: str = field(metadata=field_options(alias="cycleType"))
     supportedoptions: dict[SupportedOption | str, ProgramOptions]
     bubblesoak: bool

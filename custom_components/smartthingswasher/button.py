@@ -52,6 +52,54 @@ CAPABILITY_TO_BUTTONS: dict[
             )
         ],
     },
+    Capability.SAMSUNG_CE_DISHWASHER_OPERATION: {
+        Command.START: [
+            SmartThingsButtonEntityDescription(
+                key=Command.START,
+                translation_key="state_start",
+            )
+        ],
+        Command.CANCEL: [
+            SmartThingsButtonEntityDescription(
+                key=Command.CANCEL,
+                translation_key="state_cancel",
+            )
+        ],
+        Command.RESUME: [
+            SmartThingsButtonEntityDescription(
+                key="pause_resume",
+                translation_key="state_pause_resume",
+                command_list=[Command.PAUSE, Command.RESUME],
+            )
+        ],
+        Command.START_LATER: [
+            SmartThingsButtonEntityDescription(
+                key=Command.START_LATER,
+                translation_key="state_start_later",
+            )
+        ],
+    },
+    Capability.SAMSUNG_CE_DRYER_OPERATING_STATE: {
+        Command.START: [
+            SmartThingsButtonEntityDescription(
+                key=Command.START,
+                translation_key="state_start",
+            )
+        ],
+        Command.CANCEL: [
+            SmartThingsButtonEntityDescription(
+                key=Command.CANCEL,
+                translation_key="state_cancel",
+            )
+        ],
+        Command.RESUME: [
+            SmartThingsButtonEntityDescription(
+                key="pause_resume",
+                translation_key="state_pause_resume",
+                command_list=[Command.PAUSE, Command.RESUME],
+            )
+        ],
+    },
     Capability.OVEN_OPERATING_STATE: {
         Command.STOP: [
             SmartThingsButtonEntityDescription(

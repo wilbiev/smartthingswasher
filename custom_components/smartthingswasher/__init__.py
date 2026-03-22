@@ -499,19 +499,25 @@ def process_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
 
     if program_capabilities_list is None:
         if (
-            capability_status := main_component.get(Capability.CUSTOM_SUPPORTED_OPTIONS)
+            id_status := main_component.get(Capability.CUSTOM_SUPPORTED_OPTIONS)
         ) is not None:
-            program_list = cast(
-                list[str], capability_status[Attribute.SUPPORTED_COURSES].value
-            )
-            for program in program_list:
+            ids = cast(list[str], id_status[Attribute.SUPPORTED_COURSES].value)
+            name_status = main_component.get(Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE)
+            names = []
+            if name_status:
+                names = cast(list[str], name_status[Attribute.SUPPORTED_COURSES].value)
+
+            for index, program in enumerate(ids):
+                program_name = names[index] if index < len(names) else ""
                 program_id: str = translate_program_course(program)
                 programs[program_id] = Program(
                     program_id=program_id,
+                    program_name=program_name,
                     program_type="Course",
                     supportedoptions={},
                     bubblesoak=False,
                 )
+
         return programs
 
     program_dict = cast(
@@ -542,6 +548,7 @@ def process_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
                 )
         programs[program_id] = Program(
             program_id=program_id,
+            program_name="",
             program_type=str(program.get(PROGRAM_CYCLE_TYPE)),
             supportedoptions=supportedoption_list,
             bubblesoak=bubblesoak,
