@@ -93,6 +93,9 @@
       "state_start": {
         "name": "Iniciar"
       },
+      "state_start_later": {
+        "name": "Iniciar mais tarde"
+      },    
       "stop": {
         "name": "Parar"
       }
