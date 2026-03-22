@@ -888,7 +888,7 @@ CAPABILITY_TO_SENSORS: dict[
                 key="energy_meter",
                 state_class=SensorStateClass.TOTAL_INCREASING,
                 device_class=SensorDeviceClass.ENERGY,
-                entity_category=EntityCategory.DIAGNOSTIC,
+                #entity_category=EntityCategory.DIAGNOSTIC,
                 native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
                 value_fn=lambda value: value["energy"] / 1000,
                 suggested_display_precision=2,
@@ -1058,7 +1058,7 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="water_consumption",
                 state_class=SensorStateClass.TOTAL_INCREASING,
                 device_class=SensorDeviceClass.WATER,
-                entity_category=EntityCategory.DIAGNOSTIC,
+                #entity_category=EntityCategory.DIAGNOSTIC,
                 native_unit_of_measurement=UnitOfVolume.LITERS,
                 value_fn=lambda value: value["cumulativeAmount"] / 1000,
             )
