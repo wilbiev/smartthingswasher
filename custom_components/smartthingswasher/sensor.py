@@ -1062,14 +1062,15 @@ CAPABILITY_TO_SENSORS: dict[
                 native_unit_of_measurement=UnitOfVolume.LITERS,
                 value_fn=lambda value: value["cumulativeAmount"] / 1000,
             ),
-            # SENSOR 2: O CONSUMO DO ÚLTIMO CICLO (O que queres no Card)
+            # SENSOR DA ÚLTIMA LAVAGEM
             SmartThingsSensorEntityDescription(
                 key="water_last_cycle",
                 name="Consumo última lavagem",
                 state_class=SensorStateClass.MEASUREMENT,
                 device_class=SensorDeviceClass.WATER,
                 native_unit_of_measurement=UnitOfVolume.LITERS,
-                value_fn=lambda value: value["lastAmount"] / 1000,
+                # O .get("lastAmount", 0) evita o erro se a chave não existir
+                value_fn=lambda value: (value.get("lastAmount") or 0) / 1000,
             )
         ]
     },
