@@ -897,20 +897,6 @@ CAPABILITY_TO_SENSORS: dict[
                     and "energy" in value
                 ),
             ),
-            # SENSOR 2: ENERGIA DA ÚLTIMA LAVAGEM
-            SmartThingsSensorEntityDescription(
-                key="energy_last_cycle",
-                name="Energia última lavagem",
-                #state_class=SensorStateClass.MEASUREMENT,
-                device_class=SensorDeviceClass.ENERGY,
-                native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
-                value_fn=lambda value: (
-                    value.get("deltaEnergy") or 
-                    value.get("lastEnergy") or 
-                    0
-                ) / 1000,
-                suggested_display_precision=2,
-            ),
             # SENSOR 3: POTÊNCIA (W)
             SmartThingsSensorEntityDescription(
                 key="power_meter",
@@ -1077,22 +1063,6 @@ CAPABILITY_TO_SENSORS: dict[
                 native_unit_of_measurement=UnitOfVolume.LITERS,
                 value_fn=lambda value: value["cumulativeAmount"] / 1000,
             ),
-            # SENSOR DA ÚLTIMA LAVAGEM (TENTATIVA MULTI-CHAVE)
-            SmartThingsSensorEntityDescription(
-                key="water_last_cycle",
-                name="Consumo última lavagem",
-                #state_class=SensorStateClass.MEASUREMENT,
-                device_class=SensorDeviceClass.WATER,
-                native_unit_of_measurement=UnitOfVolume.LITERS,
-                # Tenta 'lastAmount', depois 'lastCycleAmount', depois 'lastCycleWaterConsumption'
-                value_fn=lambda value: (
-                    value.get("lastAmount") or 
-                    value.get("lastCycleAmount") or 
-                    value.get("lastCycleWaterConsumption") or 0
-                ) / 1000,
-            )
-        ]
-    },
     # Haven't seen at devices yet
     Capability.SIGNAL_STRENGTH: {
         Attribute.LQI: [
