@@ -35,92 +35,23 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.util import dt as dt_util
 
 from . import FullDevice, SmartThingsConfigEntry
-from .const import MAIN
+from .const import (
+    COOKTOP_HEATING_MODES,
+    HEALTH_CONCERN,
+    JOB_STATE_MAP,
+    MAIN,
+    MEDIA_PLAYBACK_STATE_MAP,
+    OVEN_JOB_STATE_MAP,
+    OVEN_MODE,
+    ROBOT_CLEANER_MOVEMENT_MAP,
+    ROBOT_CLEANER_TURBO_MODE_STATE_MAP,
+)
 from .entity import SmartThingsEntity
 
 THERMOSTAT_CAPABILITIES = {
     Capability.TEMPERATURE_MEASUREMENT,
     Capability.THERMOSTAT_HEATING_SETPOINT,
     Capability.THERMOSTAT_MODE,
-}
-
-COOKTOP_HEATING_MODES = {
-    "off": "off",
-    "manual": "manual",
-    "boost": "boost",
-    "keepWarm": "keep_warm",
-    "quickPreheat": "quick_preheat",
-    "defrost": "defrost",
-    "melt": "melt",
-    "simmer": "simmer",
-}
-
-JOB_STATE_MAP = {
-    "airWash": "air_wash",
-    "airwash": "air_wash",
-    "aIRinse": "ai_rinse",
-    "aISpin": "ai_spin",
-    "aIWash": "ai_wash",
-    "aIDrying": "ai_drying",
-    "internalCare": "internal_care",
-    "continuousDehumidifying": "continuous_dehumidifying",
-    "thawingFrozenInside": "thawing_frozen_inside",
-    "delayWash": "delay_wash",
-    "weightSensing": "weight_sensing",
-    "freezeProtection": "freeze_protection",
-    "preDrain": "pre_drain",
-    "preWash": "pre_wash",
-    "prewash": "pre_wash",
-    "wrinklePrevent": "wrinkle_prevent",
-    "unknown": None,
-}
-
-OVEN_JOB_STATE_MAP = {
-    "scheduledStart": "scheduled_start",
-    "fastPreheat": "fast_preheat",
-    "scheduledEnd": "scheduled_end",
-    "stone_heating": "stone_heating",
-    "timeHoldPreheat": "time_hold_preheat",
-}
-
-MEDIA_PLAYBACK_STATE_MAP = {
-    "fast forwarding": "fast_forwarding",
-}
-
-ROBOT_CLEANER_TURBO_MODE_STATE_MAP = {
-    "extraSilence": "extra_silence",
-}
-
-ROBOT_CLEANER_MOVEMENT_MAP = {
-    "powerOff": "off",
-}
-
-OVEN_MODE = {
-    "Conventional": "conventional",
-    "Bake": "bake",
-    "BottomHeat": "bottom_heat",
-    "ConvectionBake": "convection_bake",
-    "ConvectionRoast": "convection_roast",
-    "Broil": "broil",
-    "ConvectionBroil": "convection_broil",
-    "SteamCook": "steam_cook",
-    "SteamBake": "steam_bake",
-    "SteamRoast": "steam_roast",
-    "SteamBottomHeatplusConvection": "steam_bottom_heat_plus_convection",
-    "Microwave": "microwave",
-    "MWplusGrill": "microwave_plus_grill",
-    "MWplusConvection": "microwave_plus_convection",
-    "MWplusHotBlast": "microwave_plus_hot_blast",
-    "MWplusHotBlast2": "microwave_plus_hot_blast_2",
-    "SlimMiddle": "slim_middle",
-    "SlimStrong": "slim_strong",
-    "SlowCook": "slow_cook",
-    "Proof": "proof",
-    "Dehydrate": "dehydrate",
-    "Others": "others",
-    "StrongSteam": "strong_steam",
-    "Descale": "descale",
-    "Rinse": "rinse",
 }
 
 
@@ -607,6 +538,7 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.HEATING_MODE,
                 translation_key="heating_mode",
                 options_attribute=Attribute.SUPPORTED_HEATING_MODES,
+                options_map=COOKTOP_HEATING_MODES,
                 device_class=SensorDeviceClass.ENUM,
                 translation_placeholders_fn=lambda component: {
                     "burner_id": component.split("-0")[-1]
@@ -632,6 +564,17 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="water_filter_usage",
                 native_unit_of_measurement=PERCENTAGE,
                 state_class=SensorStateClass.MEASUREMENT,
+            )
+        ]
+    },
+    Capability.DUST_HEALTH_CONCERN: {
+        Attribute.DUST_HEALTH_CONCERN: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.DUST_HEALTH_CONCERN,
+                translation_key="pm10_health_concern",
+                device_class=SensorDeviceClass.ENUM,
+                options=list(HEALTH_CONCERN.values()),
+                value_fn=HEALTH_CONCERN.get,
             )
         ]
     },
@@ -682,6 +625,17 @@ CAPABILITY_TO_SENSORS: dict[
                 native_unit_of_measurement=CONCENTRATION_PARTS_PER_MILLION,
                 device_class=SensorDeviceClass.CO2,
                 state_class=SensorStateClass.MEASUREMENT,
+            )
+        ]
+    },
+    Capability.FINE_DUST_HEALTH_CONCERN: {
+        Attribute.FINE_DUST_HEALTH_CONCERN: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.FINE_DUST_HEALTH_CONCERN,
+                translation_key="pm25_health_concern",
+                device_class=SensorDeviceClass.ENUM,
+                options=list(HEALTH_CONCERN.values()),
+                value_fn=HEALTH_CONCERN.get,
             )
         ]
     },
@@ -822,6 +776,10 @@ CAPABILITY_TO_SENSORS: dict[
                 options=list(OVEN_MODE.values()),
                 device_class=SensorDeviceClass.ENUM,
                 value_fn=lambda value: OVEN_MODE.get(value, value),
+                component_fn=lambda component: component == "cavity-01",
+                component_translation_key={
+                    "cavity-01": "oven_mode_cavity_01",
+                },
             )
         ]
     },
@@ -832,6 +790,10 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="oven_machine_state",
                 options=["ready", "running", "paused"],
                 device_class=SensorDeviceClass.ENUM,
+                component_fn=lambda component: component == "cavity-01",
+                component_translation_key={
+                    "cavity-01": "oven_machine_state_cavity_01",
+                },
             )
         ],
         Attribute.OVEN_JOB_STATE: [
@@ -859,6 +821,10 @@ CAPABILITY_TO_SENSORS: dict[
                 ],
                 device_class=SensorDeviceClass.ENUM,
                 value_fn=lambda value: OVEN_JOB_STATE_MAP.get(value, value),
+                component_fn=lambda component: component == "cavity-01",
+                component_translation_key={
+                    "cavity-01": "oven_job_state_cavity_01",
+                },
             )
         ],
         Attribute.COMPLETION_TIME: [
@@ -867,6 +833,10 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="completion_time",
                 device_class=SensorDeviceClass.TIMESTAMP,
                 value_fn=dt_util.parse_datetime,
+                component_fn=lambda component: component == "cavity-01",
+                component_translation_key={
+                    "cavity-01": "oven_completion_time_cavity_01",
+                },
             )
         ],
     },
@@ -878,7 +848,11 @@ CAPABILITY_TO_SENSORS: dict[
                 device_class=SensorDeviceClass.TEMPERATURE,
                 use_temperature_unit=True,
                 # Set the value to None if it is 0 F (-17 C)
-                value_fn=lambda value: None if value in {0, -17} else value,
+                value_fn=lambda value: None if value in {-17, 0, 1} else value,
+                component_fn=lambda component: component == "cavity-01",
+                component_translation_key={
+                    "cavity-01": "oven_setpoint_cavity_01",
+                },
             )
         ]
     },
@@ -888,7 +862,6 @@ CAPABILITY_TO_SENSORS: dict[
                 key="energy_meter",
                 state_class=SensorStateClass.TOTAL_INCREASING,
                 device_class=SensorDeviceClass.ENERGY,
-                entity_category=EntityCategory.DIAGNOSTIC,
                 native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
                 value_fn=lambda value: value["energy"] / 1000,
                 suggested_display_precision=2,
@@ -901,7 +874,6 @@ CAPABILITY_TO_SENSORS: dict[
                 key="power_meter",
                 state_class=SensorStateClass.MEASUREMENT,
                 device_class=SensorDeviceClass.POWER,
-                entity_category=EntityCategory.DIAGNOSTIC,
                 native_unit_of_measurement=UnitOfPower.WATT,
                 value_fn=lambda value: value["power"],
                 extra_state_attributes_fn=power_attributes,
@@ -916,7 +888,6 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="energy_difference",
                 state_class=SensorStateClass.TOTAL,
                 device_class=SensorDeviceClass.ENERGY,
-                entity_category=EntityCategory.DIAGNOSTIC,
                 native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
                 value_fn=lambda value: value["deltaEnergy"] / 1000,
                 suggested_display_precision=2,
@@ -928,9 +899,8 @@ CAPABILITY_TO_SENSORS: dict[
             SmartThingsSensorEntityDescription(
                 key="powerEnergy_meter",
                 translation_key="power_energy",
-                state_class=SensorStateClass.TOTAL_INCREASING,
+                state_class=SensorStateClass.TOTAL,
                 device_class=SensorDeviceClass.ENERGY,
-                entity_category=EntityCategory.DIAGNOSTIC,
                 native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
                 value_fn=lambda value: value["powerEnergy"] / 1000,
                 suggested_display_precision=2,
@@ -944,7 +914,6 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="energy_saved",
                 state_class=SensorStateClass.TOTAL_INCREASING,
                 device_class=SensorDeviceClass.ENERGY,
-                entity_category=EntityCategory.DIAGNOSTIC,
                 native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
                 value_fn=lambda value: value["energySaved"] / 1000,
                 suggested_display_precision=2,
@@ -1031,6 +1000,7 @@ CAPABILITY_TO_SENSORS: dict[
                     "after",
                     "cleaning",
                     "pause",
+                    "washing_mop",
                 ],
                 device_class=SensorDeviceClass.ENUM,
                 value_fn=lambda value: ROBOT_CLEANER_MOVEMENT_MAP.get(value, value),
@@ -1058,7 +1028,6 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="water_consumption",
                 state_class=SensorStateClass.TOTAL_INCREASING,
                 device_class=SensorDeviceClass.WATER,
-                entity_category=EntityCategory.DIAGNOSTIC,
                 native_unit_of_measurement=UnitOfVolume.LITERS,
                 value_fn=lambda value: value["cumulativeAmount"] / 1000,
             )
@@ -1214,7 +1183,6 @@ CAPABILITY_TO_SENSORS: dict[
             )
         ],
     },
-    # Haven't seen at devices yet
     Capability.TVOC_MEASUREMENT: {
         Attribute.TVOC_LEVEL: [
             SmartThingsSensorEntityDescription(
@@ -1231,6 +1199,17 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.ULTRAVIOLET_INDEX,
                 translation_key="uv_index",
                 state_class=SensorStateClass.MEASUREMENT,
+            )
+        ]
+    },
+    Capability.VERY_FINE_DUST_HEALTH_CONCERN: {
+        Attribute.VERY_FINE_DUST_HEALTH_CONCERN: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.VERY_FINE_DUST_HEALTH_CONCERN,
+                translation_key="pm1_health_concern",
+                device_class=SensorDeviceClass.ENUM,
+                options=list(HEALTH_CONCERN.values()),
+                value_fn=HEALTH_CONCERN.get,
             )
         ]
     },
@@ -1252,6 +1231,35 @@ CAPABILITY_TO_SENSORS: dict[
                 state_class=SensorStateClass.MEASUREMENT,
             )
         ]
+    },
+    Capability.SAMSUNG_CE_HOOD_FILTER: {
+        Attribute.HOOD_FILTER_USAGE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.HOOD_FILTER_USAGE,
+                translation_key="hood_filter_usage",
+                state_class=SensorStateClass.MEASUREMENT,
+                native_unit_of_measurement=PERCENTAGE,
+                entity_category=EntityCategory.DIAGNOSTIC,
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_MICROFIBER_FILTER_OPERATING_STATE: {
+        Attribute.MICROFIBER_FILTER_JOB_STATE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.MICROFIBER_FILTER_JOB_STATE,
+                translation_key="microfiber_filter_job_state",
+                device_class=SensorDeviceClass.ENUM,
+                options_attribute=Attribute.SUPPORTED_JOB_STATES,
+            )
+        ],
+        Attribute.OPERATING_STATE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.OPERATING_STATE,
+                translation_key="microfiber_filter_operating_state",
+                device_class=SensorDeviceClass.ENUM,
+                options_attribute=Attribute.SUPPORTED_OPERATING_STATES,
+            )
+        ],
     },
 }
 

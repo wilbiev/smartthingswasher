@@ -81,3 +81,206 @@ CAPABILITY_COMMANDS: dict[Capability, Command] = {
 # Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: Command.SET_WASHING_COURSE,
 
 UNIT_MAP = {"C": UnitOfTemperature.CELSIUS, "F": UnitOfTemperature.FAHRENHEIT}
+
+LAMP_TO_HA = {
+    "extraHigh": "extra_high",
+    "high": "high",
+    "mid": "mid",
+    "low": "low",
+    "on": "on",
+    "off": "off",
+}
+
+SOUND_MODE_TO_HA = {
+    "voice": "voice",
+    "beep": "tone",
+    "mute": "mute",
+}
+
+DRIVING_MODE_TO_HA = {
+    "areaThenWalls": "area_then_walls",
+    "wallFirst": "walls_first",
+    "quickCleaningZigzagPattern": "quick_clean_zigzag_pattern",
+}
+
+CLEANING_TYPE_TO_HA = {
+    "vacuum": "vacuum",
+    "mop": "mop",
+    "vacuumAndMopTogether": "vacuum_and_mop_together",
+    "mopAfterVacuum": "mop_after_vacuum",
+}
+
+DISPENSE_DENSITY_TO_HA = {
+    "normal": "normal",
+    "high": "high",
+    "extraHigh": "extra_high",
+}
+
+WASHER_SOIL_LEVEL_TO_HA = {
+    "none": "none",
+    "heavy": "heavy",
+    "normal": "normal",
+    "light": "light",
+    "extraLight": "extra_light",
+    "extraHeavy": "extra_heavy",
+    "up": "up",
+    "down": "down",
+}
+
+WATER_SPRAY_LEVEL_TO_HA = {
+    "high": "high",
+    "mediumHigh": "moderate_high",
+    "medium": "medium",
+    "mediumLow": "moderate_low",
+    "low": "low",
+}
+
+WASHER_SPIN_LEVEL_TO_HA = {
+    "none": "none",
+    "rinseHold": "rinse_hold",
+    "noSpin": "no_spin",
+    "low": "low",
+    "extraLow": "extra_low",
+    "delicate": "delicate",
+    "medium": "medium",
+    "high": "high",
+    "extraHigh": "extra_high",
+    "200": "200",
+    "400": "400",
+    "600": "600",
+    "800": "800",
+    "1000": "1000",
+    "1200": "1200",
+    "1400": "1400",
+    "1600": "1600",
+}
+
+WASHER_WATER_TEMPERATURE_TO_HA = {
+    "none": "none",
+    "20": "20",
+    "30": "30",
+    "40": "40",
+    "50": "50",
+    "60": "60",
+    "65": "65",
+    "70": "70",
+    "75": "75",
+    "80": "80",
+    "90": "90",
+    "95": "95",
+    "tapCold": "tap_cold",
+    "cold": "cold",
+    "cool": "cool",
+    "ecoWarm": "eco_warm",
+    "warm": "warm",
+    "semiHot": "semi_hot",
+    "hot": "hot",
+    "extraHot": "extra_hot",
+    "extraLow": "extra_low",
+    "low": "low",
+    "mediumLow": "medium_low",
+    "medium": "medium",
+    "high": "high",
+}
+
+WASHING_COURSE_TO_HA = {
+    "auto": "auto",
+    "normal": "normal",
+    "heavy": "heavy",
+    "delicate": "delicate",
+    "express": "express",
+    "rinseOnly": "rinse_only",
+    "selfClean": "self_clean"
+}
+
+COOKTOP_HEATING_MODES = {
+    "off": "off",
+    "manual": "manual",
+    "boost": "boost",
+    "keepWarm": "keep_warm",
+    "quickPreheat": "quick_preheat",
+    "defrost": "defrost",
+    "melt": "melt",
+    "simmer": "simmer",
+}
+
+JOB_STATE_MAP = {
+    "airWash": "air_wash",
+    "airwash": "air_wash",
+    "aIRinse": "ai_rinse",
+    "aISpin": "ai_spin",
+    "aIWash": "ai_wash",
+    "aIDrying": "ai_drying",
+    "internalCare": "internal_care",
+    "continuousDehumidifying": "continuous_dehumidifying",
+    "thawingFrozenInside": "thawing_frozen_inside",
+    "delayWash": "delay_wash",
+    "weightSensing": "weight_sensing",
+    "freezeProtection": "freeze_protection",
+    "preDrain": "pre_drain",
+    "preWash": "pre_wash",
+    "prewash": "pre_wash",
+    "wrinklePrevent": "wrinkle_prevent",
+    "unknown": None,
+}
+
+OVEN_JOB_STATE_MAP = {
+    "scheduledStart": "scheduled_start",
+    "fastPreheat": "fast_preheat",
+    "scheduledEnd": "scheduled_end",
+    "stone_heating": "stone_heating",
+    "timeHoldPreheat": "time_hold_preheat",
+}
+
+MEDIA_PLAYBACK_STATE_MAP = {
+    "fast forwarding": "fast_forwarding",
+}
+
+ROBOT_CLEANER_TURBO_MODE_STATE_MAP = {
+    "extraSilence": "extra_silence",
+}
+
+ROBOT_CLEANER_MOVEMENT_MAP = {
+    "powerOff": "off",
+}
+
+OVEN_MODE = {
+    "Conventional": "conventional",
+    "Bake": "bake",
+    "BottomHeat": "bottom_heat",
+    "ConvectionBake": "convection_bake",
+    "ConvectionRoast": "convection_roast",
+    "Broil": "broil",
+    "ConvectionBroil": "convection_broil",
+    "SteamCook": "steam_cook",
+    "SteamBake": "steam_bake",
+    "SteamRoast": "steam_roast",
+    "SteamBottomHeatplusConvection": "steam_bottom_heat_plus_convection",
+    "Microwave": "microwave",
+    "MWplusGrill": "microwave_plus_grill",
+    "MWplusConvection": "microwave_plus_convection",
+    "MWplusHotBlast": "microwave_plus_hot_blast",
+    "MWplusHotBlast2": "microwave_plus_hot_blast_2",
+    "SlimMiddle": "slim_middle",
+    "SlimStrong": "slim_strong",
+    "SlowCook": "slow_cook",
+    "Proof": "proof",
+    "Dehydrate": "dehydrate",
+    "Others": "others",
+    "StrongSteam": "strong_steam",
+    "Descale": "descale",
+    "Rinse": "rinse",
+    "heating": "heating",
+    "grill": "grill",
+    "defrosting": "defrosting",
+    "warming": "warming"
+}
+
+HEALTH_CONCERN = {
+    "good": "good",
+    "moderate": "moderate",
+    "slightlyUnhealthy": "slightly_unhealthy",
+    "unhealthy": "unhealthy",
+    "veryUnhealthy": "very_unhealthy",
+    "hazardous": "hazardous",
+}
