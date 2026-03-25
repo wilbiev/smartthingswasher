@@ -3,13 +3,14 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, cast
 
 from pysmartthings import Attribute, Capability, Command, SmartThings
 
 from homeassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import ServiceValidationError
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FullDevice, Program, SmartThingsConfigEntry
@@ -40,6 +41,15 @@ class SmartThingsSwitchEntityDescription(SwitchEntityDescription):
     on_key: str = "on"
     on_command: Command = Command.ON
     off_command: Command = Command.OFF
+
+
+@dataclass(frozen=True, kw_only=True)
+class SmartThingsDishwasherOptionSwitchEntityDescription(SwitchEntityDescription):
+    """Describe a SmartThings switch entity for a dishwasher washing option."""
+
+    command: Command | None = None
+    on_key: str | bool = True
+    off_key: str | bool = False
 
 
 CAPABILITY_TO_SWITCHES: dict[
@@ -169,6 +179,41 @@ CAPABILITY_TO_SWITCHES: dict[
             )
         ]
     },
+    Capability.CUSTOM_DO_NOT_DISTURB_MODE: {
+        Attribute.DO_NOT_DISTURB: [
+            SmartThingsSwitchEntityDescription(
+                key=Capability.CUSTOM_DO_NOT_DISTURB_MODE,
+                translation_key="do_not_disturb",
+                entity_category=EntityCategory.CONFIG,
+                on_command=Command.DO_NOT_DISTURB_ON,
+                off_command=Command.DO_NOT_DISTURB_OFF,
+            )
+        ],
+    },
+    Capability.SOUND_DETECTION: {
+        Attribute.SOUND_DETECTION_STATE: [
+            SmartThingsSwitchEntityDescription(
+                key=Capability.SOUND_DETECTION,
+                translation_key="sound_detection",
+                entity_category=EntityCategory.CONFIG,
+                on_key="enabled",
+                on_command=Command.ENABLE_SOUND_DETECTION,
+                off_command=Command.DISABLE_SOUND_DETECTION,
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_MICROFIBER_FILTER_SETTINGS: {
+        Attribute.BYPASS_MODE: [
+            SmartThingsSwitchEntityDescription(
+                key=Capability.SAMSUNG_CE_MICROFIBER_FILTER_SETTINGS,
+                translation_key="bypass_mode",
+                entity_category=EntityCategory.CONFIG,
+                on_key="enabled",
+                off_key="disabled",
+                command=Command.SET_BYPASS_MODE,
+            )
+        ]
+    },
     Capability.SWITCH: {
         Attribute.SWITCH: [
             SmartThingsSwitchEntityDescription(
@@ -178,6 +223,110 @@ CAPABILITY_TO_SWITCHES: dict[
         ]
     },
 }
+
+DISHWASHER_WASHING_OPTIONS_TO_SWITCHES: dict[
+    Capability, dict[Attribute, list[SmartThingsDishwasherOptionSwitchEntityDescription]]
+] = {
+    Capability.SAMSUNG_CE_DISHWASHER_WASHING_OPTIONS: {
+        Attribute.ADD_RINSE: [
+            SmartThingsSwitchEntityDescription(
+                key=Attribute.ADD_RINSE,
+                translation_key="add_rinse",
+                command=Command.SET_ADD_RINSE,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ],
+        Attribute.DRY_PLUS: [
+            SmartThingsDishwasherOptionSwitchEntityDescription(
+            key=Attribute.DRY_PLUS,
+                translation_key="dry_plus",
+                command=Command.SET_DRY_PLUS,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ],
+        Attribute.HEATED_DRY: [
+            SmartThingsDishwasherOptionSwitchEntityDescription(
+                key=Attribute.HEATED_DRY,
+                translation_key="heated_dry",
+                command=Command.SET_HEATED_DRY,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ],
+        Attribute.HIGH_TEMP_WASH: [
+            SmartThingsDishwasherOptionSwitchEntityDescription(
+                key=Attribute.HIGH_TEMP_WASH,
+                translation_key="high_temp_wash",
+                command=Command.SET_HIGH_TEMP_WASH,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ],
+        Attribute.HOT_AIR_DRY: [
+            SmartThingsDishwasherOptionSwitchEntityDescription(
+                key=Attribute.HOT_AIR_DRY,
+                translation_key="hot_air_dry",
+                command=Command.SET_HOT_AIR_DRY,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ],
+        Attribute.MULTI_TAB: [
+            SmartThingsDishwasherOptionSwitchEntityDescription(
+                key=Attribute.MULTI_TAB,
+                translation_key="multi_tab",
+                command=Command.SET_MULTI_TAB,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ],
+        Attribute.RINSE_PLUS: [
+            SmartThingsDishwasherOptionSwitchEntityDescription(
+                key=Attribute.RINSE_PLUS,
+                translation_key="rinse_plus",
+                command=Command.SET_RINSE_PLUS,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ],
+        Attribute.SANITIZE: [
+            SmartThingsDishwasherOptionSwitchEntityDescription(
+                key=Attribute.SANITIZE,
+                translation_key="sanitize",
+                command=Command.SET_SANITIZE,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ],
+        Attribute.SANITIZING_WASH: [
+            SmartThingsDishwasherOptionSwitchEntityDescription(
+                key=Attribute.SANITIZING_WASH,
+                translation_key="sanitizing_wash",
+                command=Command.SET_SANITIZING_WASH,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ],
+        Attribute.SPEED_BOOSTER: [
+            SmartThingsDishwasherOptionSwitchEntityDescription(
+                key=Attribute.SPEED_BOOSTER,
+                translation_key="speed_booster",
+                command=Command.SET_SPEED_BOOSTER,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ],
+        Attribute.STEAM_SOAK: [
+            SmartThingsDishwasherOptionSwitchEntityDescription(
+                key=Attribute.STEAM_SOAK,
+                translation_key="steam_soak",
+                command=Command.SET_STEAM_SOAK,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ],
+        Attribute.STORM_WASH: [
+            SmartThingsDishwasherOptionSwitchEntityDescription(
+                key=Attribute.STORM_WASH,
+                translation_key="storm_wash",
+                command=Command.SET_STORM_WASH,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ],
+    }
+}
+
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -208,6 +357,30 @@ async def async_setup_entry(
         for attribute, descriptions in attributes.items()
         for description in descriptions
     )
+
+    async_add_entities(
+        SmartThingsDishwasherOptionSwitch(
+            entry_data.client,
+            device,
+            description,
+            capability,
+            attribute,
+            component,
+        )
+        for device in entry_data.devices.values()
+        for capability, attributes in DISHWASHER_WASHING_OPTIONS_TO_SWITCHES.items()
+        for component in device.status
+        if capability in device.status[component]
+        for attribute, descriptions in attributes.items()
+        for attribute in cast(
+            list[str],
+            device.status[component][Capability.SAMSUNG_CE_DISHWASHER_WASHING_OPTIONS][
+                Attribute.SUPPORTED_LIST
+            ].value,
+        )
+        for description in descriptions
+    )
+
     async_add_entities(
         SmartThingsProgramSwitch(
             entry_data.client,
@@ -280,6 +453,85 @@ class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
     def is_on(self) -> bool:
         """Return true if switch is on."""
         return self.get_attribute_value(self.capability, self._attribute) == self.entity_description.on_key
+
+
+class SmartThingsDishwasherOptionSwitch(SmartThingsEntity, SwitchEntity):
+    """Define a SmartThings dishwasher washing option switch."""
+
+    entity_description: SmartThingsDishwasherOptionSwitchEntityDescription
+
+    def __init__(
+        self,
+        client: SmartThings,
+        device: FullDevice,
+        entity_description: SmartThingsDishwasherOptionSwitchEntityDescription,
+        capability: Capability,
+        attribute: Attribute,
+        component: str = MAIN,
+    ) -> None:
+        """Initialize the switch."""
+        capabilities = {capability}
+        capabilities.add(Capability.DISHWASHER_OPERATING_STATE)
+        capabilities.add(Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE)
+        capabilities.add(Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE_DETAILS)
+        capabilities.add(Capability.REMOTE_CONTROL_STATUS)
+        super().__init__(client, device, capabilities, component=component)
+        self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
+        self._attribute = attribute
+        self.capability = capability
+        self.entity_description = entity_description
+        self.command = self.entity_description.command
+
+    def _validate_before_execute(self) -> None:
+        """Validate that the switch command can be executed."""
+        if (
+            self.get_attribute_value(
+                Capability.REMOTE_CONTROL_STATUS, Attribute.REMOTE_CONTROL_ENABLED
+            )
+            == "false"
+        ):
+            raise ServiceValidationError(
+                "Can only be updated when remote control is enabled"
+            )
+        if (
+            self.get_attribute_value(
+                Capability.DISHWASHER_OPERATING_STATE, Attribute.MACHINE_STATE
+            )
+            != "stop"
+        ):
+            raise ServiceValidationError(
+                "Can only be updated when dishwasher machine state is stop"
+            )
+        selected_course = self.get_attribute_value(
+            Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE, Attribute.WASHING_COURSE
+        )
+        course_details = self.get_attribute_value(
+            Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE_DETAILS,
+            Attribute.PREDEFINED_COURSES,
+        )
+        course_settable: list[bool] = next(
+            (
+                detail["options"][self.entity_description.status_attribute]["settable"]
+                for detail in course_details
+                if detail["courseName"] == selected_course
+            ),
+            [],
+        )
+        if not course_settable:
+            raise ServiceValidationError("Option is not supported by selected cycle")
+
+    async def async_turn_off(self, **kwargs: Any) -> None:
+        """Turn the switch off."""
+        self._validate_before_execute()
+        await super().async_turn_off(**kwargs)
+
+    async def async_turn_on(self, **kwargs: Any) -> None:
+        """Turn the switch on."""
+        self._validate_before_execute()
+        await super().async_turn_on(**kwargs)
+
+    def _current_state(self) -> Any:
+        return super()._current_state()["value"]
 
 
 class SmartThingsProgramSwitch(SmartThingsEntity, SwitchEntity):
