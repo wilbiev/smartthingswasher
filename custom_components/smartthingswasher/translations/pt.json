@@ -1,0 +1,1465 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "A conta já está configurada",
+      "authorize_url_timeout": "Tempo esgotado ao gerar o URL de autorização.",
+      "cloud_not_enabled": "Certifique-se de que executa o Home Assistant com `{default_config}` ativado no seu configuration.yaml.",
+      "missing_configuration": "O componente não está configurado. Siga a documentação.",
+      "missing_scopes": "Falha na autenticação. Certifique-se de que concedeu todas as permissões necessárias.",
+      "no_url_available": "Nenhum URL disponível. Para informações sobre este erro, [verifique a secção de ajuda]({docs_url})",
+      "oauth_error": "Dados de token inválidos recebidos.",
+      "oauth_failed": "Erro ao obter o token de acesso.",
+      "oauth_implementation_unavailable": "Nenhuma implementação OAuth2 disponível no momento.",
+      "oauth_timeout": "Tempo esgotado ao resolver o token OAuth.",
+      "oauth_unauthorized": "Erro de autorização OAuth ao obter o token de acesso.",
+      "reauth_account_mismatch": "A conta autenticada não corresponde à conta a ser reautenticada. Inicie sessão com a conta correta e escolha o local certo.",
+      "reauth_location_mismatch": "A localização autenticada não corresponde à localização a ser reautenticada. Inicie sessão com a conta correta e escolha o local certo.",
+      "reauth_successful": "A reautenticação foi bem-sucedida"
+    },
+    "error": {
+      "already_configured": "A conta já está configurada"
+    },
+    "initiate_flow": {
+      "user": "Adicionar conta"
+    },
+    "step": {
+      "oauth_discovery": {
+        "description": "O Home Assistant encontrou um dispositivo SmartThings na sua rede. Pressione **Submeter** para continuar a configuração do SmartThings."
+      },
+      "pick_implementation": {
+        "data": {
+          "implementation": "Credenciais da aplicação"
+        },
+        "data_description": {
+          "implementation": "As credenciais que deseja usar para a autenticação."
+        },
+        "title": "Escolha o método de autenticação"
+      },
+      "reauth_confirm": {
+        "description": "A integração SmartThings precisa de reautenticar a sua conta",
+        "title": "Autenticação expirada para {name}"
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "acceleration": {
+        "name": "Aceleração"
+      },
+      "bubblesoak_support": {
+        "name": "Suporte BubbleSoak"
+      },
+      "child_lock": {
+        "name": "Bloqueio infantil"
+      },
+      "cool_select_plus_door": {
+        "name": "Porta CoolSelect+"
+      },
+      "cooler_door": {
+        "name": "Porta do frigorífico"
+      },
+      "door": {
+        "name": "Porta"
+      },
+      "dryer_wrinkle_prevent_active": {
+        "name": "Antivincos ativo"
+      },
+      "filter_status": {
+        "name": "Estado do filtro"
+      },
+      "freezer_door": {
+        "name": "Porta do congelador"
+      },
+      "keep_fresh_mode_active": {
+        "name": "Modo manter fresco ativo"
+      },
+      "remote_control": {
+        "name": "Controlo remoto"
+      }
+    },
+    "button": {
+      "estimate_operation_time": {
+        "name": "Estimar tempo de operação"
+      },
+      "reset_water_filter": {
+        "name": "Reiniciar filtro de água"
+      },
+      "state_cancel": {
+        "name": "Cancelar"
+      },
+      "state_pause_resume": {
+        "name": "Pausar-Retomar"
+      },
+      "state_start": {
+        "name": "Iniciar"
+      },
+      "state_start_later": {
+        "name": "Iniciar mais tarde"
+      },
+      "stop": {
+        "name": "Parar"
+      }
+    },
+    "climate": {
+      "air_conditioner": {
+        "state_attributes": {
+          "fan_mode": {
+            "state": {
+              "turbo": "Turbo"
+            }
+          },
+          "preset_mode": {
+            "state": {
+              "long_wind": "Fluxo longo",
+              "motion_direct": "Movimento direto",
+              "motion_indirect": "Movimento indireto",
+              "quiet": "Silencioso",
+              "smart": "Poupador inteligente",
+              "wind_free": "WindFree",
+              "wind_free_sleep": "WindFree modo sono"
+            }
+          }
+        }
+      }
+    },
+    "event": {
+      "button": {
+        "state": {
+          "double": "Duplo",
+          "down": "Baixo",
+          "down_2x": "Baixo 2x",
+          "down_3x": "Baixo 3x",
+          "down_4x": "Baixo 4x",
+          "down_5x": "Baixo 5x",
+          "down_6x": "Baixo 6x",
+          "down_hold": "Baixo (manter)",
+          "held": "Mantido",
+          "pushed": "Pressionado",
+          "pushed_2x": "Pressionado 2x",
+          "pushed_3x": "Pressionado 3x",
+          "pushed_4x": "Pressionado 4x",
+          "pushed_5x": "Pressionado 5x",
+          "pushed_6x": "Pressionado 6x",
+          "swipe_down": "Deslizar para baixo",
+          "swipe_left": "Deslizar para a esquerda",
+          "swipe_right": "Deslizar para a direita",
+          "swipe_up": "Deslizar para cima",
+          "up": "Cima",
+          "up_2x": "Cima 2x",
+          "up_3x": "Cima 3x",
+          "up_4x": "Cima 4x",
+          "up_5x": "Cima 5x",
+          "up_6x": "Cima 6x",
+          "up_hold": "Cima (manter)"
+        }
+      }
+    },
+    "fan": {
+      "hood": {
+        "state_attributes": {
+          "preset_mode": {
+            "state": {
+              "smart": "Inteligente"
+            }
+          }
+        }
+      }
+    },
+    "light": {
+      "light": {
+        "name": "Iluminação"
+      }
+    },
+    "number": {
+      "cool_select_plus_temperature": {
+        "name": "Temperatura CoolSelect+"
+      },
+      "cooler_temperature": {
+        "name": "Temperatura do frigorífico"
+      },
+      "delay_time": {
+        "name": "Tempo de atraso"
+      },
+      "freezer_temperature": {
+        "name": "Temperatura do congelador"
+      },
+      "hood_fan_speed": {
+        "name": "Velocidade do ventilador"
+      },
+      "target_temperature": {
+        "name": "Temperatura pretendida"
+      }
+    },
+    "select": {
+      "auto_dispense_detergent_amount": {
+        "name": "Quantidade auto de detergente",
+        "state": {
+          "custom": "Personalizado",
+          "extra": "Extra",
+          "less": "Menos",
+          "none": "Desligado",
+          "standard": "Normal"
+        }
+      },
+      "auto_dispense_detergent_density": {
+        "name": "Densidade auto de detergente",
+        "state": {
+          "extra_high": "Muito alta",
+          "high": "Alta",
+          "normal": "Normal"
+        }
+      },
+      "auto_dispense_softener_amount": {
+        "name": "Quantidade auto de amaciador",
+        "state": {
+          "custom": "Personalizado",
+          "extra": "Extra",
+          "less": "Menos",
+          "none": "Desligado",
+          "standard": "Normal"
+        }
+      },
+      "auto_dispense_softener_density": {
+        "name": "Densidade auto de amaciador",
+        "state": {
+          "extra_high": "Muito alta",
+          "high": "Alta",
+          "normal": "Normal"
+        }
+      },
+      "course": {
+        "name": "Programa",
+        "state": {
+          "1B": "Algodão",
+          "1C": "Eco 40-60",
+          "1D": "Super Rápido",
+          "1E": "Lavagem rápida 15m",
+          "1F": "Frio Intenso",
+          "20": "Vapor Higiénico",
+          "21": "Cores",
+          "22": "Lã",
+          "23": "Exterior",
+          "24": "Roupa de Cama",
+          "25": "Sintéticos",
+          "26": "Delicados",
+          "27": "Enxaguar+Centrifugar",
+          "28": "Drenar/Centrifugar",
+          "29": "Limpeza do Tambor",
+          "2A": "Denim",
+          "2B": "Lavagem AI",
+          "2D": "Lavagem Silenciosa",
+          "2E": "Cuidados Bebé",
+          "2F": "Roupa Desportiva",
+          "30": "Dia Nublado",
+          "32": "Camisas",
+          "33": "Toalhas",
+          "34": "Lavagem Diária",
+          "35": "eAlgodão",
+          "36": "Lavar e Secar",
+          "37": "Arejamento",
+          "38": "Secagem Algodão",
+          "39": "Secagem Sintéticos",
+          "3A": "Limpeza do Tambor",
+          "66": "Denim",
+          "8F": "Frio Intenso",
+          "96": "Menos Microfibras"
+        }
+      },
+      "cycle_table_00": {
+        "name": "Ciclo",
+        "state": {
+          "course_5b": "Algodão",
+          "course_5c": "Sintéticos",
+          "course_5d": "Lavagem Diária",
+          "course_5e": "Centrifugar",
+          "course_5f": "Enxaguar+Centrifugar",
+          "course_60": "Limpeza Eco do Tambor",
+          "course_61": "Arejamento",
+          "course_63": "Secagem",
+          "course_66": "Lavagem Rápida 15m",
+          "course_ba": "Drenar+Centrifugar",
+          "course_d0": "Algodão",
+          "course_d1": "eAlgodão",
+          "course_d2": "Sintéticos",
+          "course_d3": "Delicados",
+          "course_d4": "Enxaguar+Centrifugar",
+          "course_d5": "Limpeza Eco do Tambor",
+          "course_d6": "Roupa de Cama",
+          "course_d7": "Exterior",
+          "course_d8": "Lã",
+          "course_d9": "Cores Escuras",
+          "course_da": "Lavagem Super Eco",
+          "course_db": "Super Rápido",
+          "course_dc": "Lavagem Rápida 15m"
+        }
+      },
+      "cycle_table_01": {
+        "name": "Ciclo"
+      },
+      "cycle_table_02": {
+        "name": "Ciclo",
+        "state": {
+          "course_1b": "Algodão",
+          "course_1c": "Eco 40-60",
+          "course_1d": "Super Rápido",
+          "course_1e": "Lavagem Rápida 15m",
+          "course_1f": "Frio Intenso",
+          "course_20": "Vapor Higiénico",
+          "course_21": "Cores",
+          "course_22": "Lã",
+          "course_23": "Exterior",
+          "course_24": "Roupa de Cama",
+          "course_25": "Sintéticos",
+          "course_26": "Delicados",
+          "course_27": "Enxaguar+Centrifugar",
+          "course_28": "Drenar/Centrifugar",
+          "course_29": "Limpeza do Tambor",
+          "course_2a": "Denim",
+          "course_2b": "Lavagem AI",
+          "course_2d": "Lavagem Silenciosa",
+          "course_2e": "Cuidados Bebé",
+          "course_2f": "Roupa Desportiva",
+          "course_30": "Dia Nublado",
+          "course_32": "Camisas",
+          "course_33": "Toalhas",
+          "course_34": "Lavagem Diária",
+          "course_35": "eAlgodão",
+          "course_36": "Lavar e Secar",
+          "course_37": "Arejamento",
+          "course_38": "Secagem Algodão",
+          "course_39": "Secagem Sintéticos",
+          "course_3a": "Limpeza do Tambor",
+          "course_66": "Denim",
+          "course_8f": "Frio Intenso",
+          "course_96": "Menos Microfibras"
+        }
+      },
+      "cycle_table_03": {
+        "name": "Ciclo",
+        "state": {
+          "course_16": "Algodão",
+          "course_18": "Sintéticos",
+          "course_19": "Delicados",
+          "course_1a": "Lã",
+          "course_1b": "Roupa de Cama",
+          "course_1c": "Camisas",
+          "course_1d": "Toalhas",
+          "course_1e": "Exterior",
+          "course_20": "Secagem para Ferro",
+          "course_23": "Secagem Rápida 35m",
+          "course_24": "Ar Frio",
+          "course_25": "Ar Quente",
+          "course_27": "Secagem por Tempo",
+          "course_29": "Secagem AI",
+          "course_2b": "Auto-secagem do Tambor"
+        }
+      },
+      "dryer_dry_level": {
+        "name": "Nível de secagem"
+      },
+      "dryer_drying_temperature": {
+        "name": "Temperatura de secagem"
+      },
+      "dryer_drying_time": {
+        "name": "Tempo de secagem"
+      },
+      "dust_filter_alarm": {
+        "name": "Limite do alarme do filtro de poeira",
+        "unit_of_measurement": "horas"
+      },
+      "flexible_detergent_amount": {
+        "name": "Quantidade flexível de detergente",
+        "state": {
+          "custom": "Personalizado",
+          "extra": "Extra",
+          "less": "Menos",
+          "none": "Desligado",
+          "standard": "Normal"
+        }
+      },
+      "lamp": {
+        "name": "Lâmpada",
+        "state": {
+          "extra_high": "Muito Alta",
+          "high": "Alta",
+          "low": "Baixa",
+          "mid": "Média",
+          "off": "Desligado",
+          "on": "Ligado"
+        }
+      },
+      "machine_state": {
+        "name": "Estado da máquina"
+      },
+      "robot_cleaner_cleaning_type": {
+        "name": "Tipo de limpeza",
+        "state": {
+          "mop": "Mopa",
+          "mop_after_vacuum": "Mopa após aspirar",
+          "vacuum": "Aspirar",
+          "vacuum_and_mop_together": "Aspirar e mopa juntos"
+        }
+      },
+      "robot_cleaner_driving_mode": {
+        "name": "Modo de condução",
+        "state": {
+          "area_then_walls": "Área depois paredes",
+          "quick_clean_zigzag_pattern": "Limpeza rápida em ziguezague",
+          "walls_first": "Paredes primeiro"
+        }
+      },
+      "robot_cleaner_sound_mode": {
+        "name": "Modo de som",
+        "state": {
+          "mute": "Silêncio",
+          "tone": "Toque",
+          "voice": "Voz"
+        }
+      },
+      "robot_cleaner_water_spray_level": {
+        "name": "Nível de água",
+        "state": {
+          "high": "Alto",
+          "low": "Baixo",
+          "medium": "Médio",
+          "moderate_high": "Moderadamente alto",
+          "moderate_low": "Moderadamente baixo"
+        }
+      },
+      "selected_zone": {
+        "name": "Zona selecionada",
+        "state": {
+          "all": "Tudo",
+          "lower": "Inferior",
+          "none": "Nenhuma",
+          "upper": "Superior"
+        }
+      },
+      "sound_detection_sensitivity": {
+        "name": "Sensibilidade de deteção de som",
+        "state": {
+          "high": "Alta",
+          "low": "Baixa",
+          "medium": "Média"
+        }
+      },
+      "washer_rinse_cycles": {
+        "name": "Ciclos de enxaguamento"
+      },
+      "washer_soil_level": {
+        "name": "Nível de sujidade",
+        "state": {
+          "down": "Baixo",
+          "extra_heavy": "Muito pesado",
+          "extra_light": "Muito leve",
+          "heavy": "Pesado",
+          "light": "Leve",
+          "none": "Nenhum",
+          "normal": "Normal",
+          "up": "Cima"
+        }
+      },
+      "washer_spin_level": {
+        "name": "Nível de centrifugação",
+        "state": {
+          "1000": "1000",
+          "1200": "1200",
+          "1400": "1400",
+          "1600": "1600",
+          "200": "200",
+          "400": "400",
+          "600": "600",
+          "800": "800",
+          "delicate": "Delicado",
+          "extra_high": "Muito alto",
+          "extra_low": "Muito baixo",
+          "high": "Alto",
+          "low": "Baixo",
+          "medium": "Médio",
+          "no_spin": "Sem centrifugação",
+          "none": "Nenhum",
+          "rinse_hold": "Paragem com enxaguamento"
+        }
+      },
+      "washer_water_temperature": {
+        "name": "Temperatura da água"
+      },
+      "washing_course": {
+        "name": "Programa",
+        "state": {
+          "auto": "Auto",
+          "eco": "Eco",
+          "intensive": "Intensiva",
+          "delicate": "Delicada",
+          "express_0C": "Express",
+          "preWash": "Pré-lavagem",
+          "extraSilence": "Extra silencioso",
+          "machineCare": "Cuidado da máquina",
+          "plastics": "Plástico",
+          "potsAndPans": "Tachos e panelas",
+          "babycare": "Cuidados para bebés",
+          "drinkware": "Copos"
+        }
+      },
+      "zone_booster": {
+        "name": "Reforço de zona (Zone Booster)"
+      }
+    },
+    "sensor": {
+      "air_conditioner_mode": {
+        "name": "Modo do ar condicionado"
+      },
+      "air_quality": {
+        "name": "Qualidade do ar"
+      },
+      "alarm": {
+        "name": "Alarme",
+        "state": {
+          "both": "Flash e sirene",
+          "off": "Desligado",
+          "siren": "Sirene",
+          "strobe": "Flash"
+        }
+      },
+      "audio_volume": {
+        "name": "Volume"
+      },
+      "body_mass_index": {
+        "name": "Índice de massa corporal"
+      },
+      "body_weight": {
+        "name": "Peso corporal"
+      },
+      "brightness_intensity": {
+        "name": "Intensidade do brilho"
+      },
+      "carbon_monoxide_detector": {
+        "name": "Detetor de monóxido de carbono",
+        "state": {
+          "clear": "Limpo",
+          "detected": "Detetado",
+          "tested": "Testado"
+        }
+      },
+      "completion_time": {
+        "name": "Tempo de conclusão"
+      },
+      "cooktop_operating_state": {
+        "name": "Estado de funcionamento",
+        "state": {
+          "finished": "Concluído",
+          "paused": "Pausado",
+          "ready": "Preparado",
+          "run": "Em execução"
+        }
+      },
+      "cooler_temperature": {
+        "name": "Temperatura do frigorífico"
+      },
+      "dishwasher_job_state": {
+        "name": "Etapa do ciclo",
+        "state": {
+          "air_wash": "Arejamento",
+          "cooling": "Arrefecimento",
+          "drying": "Secagem",
+          "finish": "Concluído",
+          "pre_drain": "Drenagem prévia",
+          "pre_wash": "Pré-lavagem",
+          "rinse": "Enxaguamento",
+          "spin": "Centrifugação",
+          "wash": "Lavagem",
+          "wrinkle_prevent": "Antivincos"
+        }
+      },
+      "dishwasher_machine_state": {
+        "name": "Estado da máquina",
+        "state": {
+          "pause": "Pausar",
+          "run": "Iniciar",
+          "stop": "Parar"
+        }
+      },
+      "diverter_valve_position": {
+        "name": "Posição da válvula",
+        "state": {
+          "room": "Divisão",
+          "tank": "Depósito"
+        }
+      },
+      "dryer_job_state": {
+        "name": "Etapa do ciclo",
+        "state": {
+          "ai_drying": "Secagem AI",
+          "continuous_dehumidifying": "Desumidificação contínua",
+          "cooling": "Arrefecimento",
+          "dehumidifying": "A desumidificar",
+          "delay_wash": "Lavagem retardada",
+          "drying": "A secar",
+          "finished": "Concluído",
+          "freeze_protection": "Proteção contra congelamento",
+          "internal_care": "Cuidado interno",
+          "none": "Nenhum",
+          "refreshing": "A arejar",
+          "sanitizing": "A desinfetar",
+          "thawing_frozen_inside": "A descongelar interior",
+          "weight_sensing": "Deteção de peso",
+          "wrinkle_prevent": "Antivincos"
+        }
+      },
+      "dryer_machine_state": {
+        "name": "Estado da máquina",
+        "state": {
+          "pause": "Pausar",
+          "run": "Iniciar",
+          "stop": "Parar"
+        }
+      },
+      "dryer_mode": {
+        "name": "Modo da secadora"
+      },
+      "power_consumption": {
+        "name": "Consumo de energia"
+      },
+      "energy_difference": {
+        "name": "Diferença de energia"
+      },
+      "energy_saved": {
+        "name": "Energia poupada"
+      },
+      "equivalent_carbon_dioxide": {
+        "name": "Dióxido de carbono equivalente"
+      },
+      "formaldehyde": {
+        "name": "Formaldeído"
+      },
+      "freezer_temperature": {
+        "name": "Temperatura do congelador"
+      },
+      "gas_meter": {
+        "name": "Contador de gás"
+      },
+      "gas_meter_calorific": {
+        "name": "Poder calorífico do gás"
+      },
+      "gas_meter_time": {
+        "name": "Tempo do contador de gás"
+      },
+      "heating_mode": {
+        "name": "Modo de aquecimento do bico {burner_id}",
+        "state": {
+          "boost": "Boost",
+          "defrost": "Descongelar",
+          "keep_warm": "Manter quente",
+          "manual": "Manual",
+          "melt": "Derreter",
+          "off": "Desligado",
+          "quick_preheat": "Pré-aquecimento rápido",
+          "simmer": "Ferver em lume brando"
+        }
+      },
+      "hood_filter_usage": {
+        "name": "Utilização do filtro"
+      },
+      "infrared_level": {
+        "name": "Nível de infravermelhos"
+      },
+      "lighting_mode": {
+        "name": "Modo de iluminação de atividade"
+      },
+      "link_quality": {
+        "name": "Qualidade do sinal (Link)"
+      },
+      "manual_level": {
+        "name": "Nível do bico {burner_id}"
+      },
+      "media_input_source": {
+        "name": "Fonte de entrada de média",
+        "state": {
+          "am": "AM",
+          "analog1": "Analógica 1",
+          "analog2": "Analógica 2",
+          "analog3": "Analógica 3",
+          "aux": "AUX",
+          "bluetooth": "Bluetooth",
+          "cd": "CD",
+          "coaxial": "Coaxial",
+          "digital": "Digital",
+          "digitaltv": "TV Digital",
+          "fm": "FM",
+          "hdmi": "HDMI",
+          "hdmi1": "HDMI 1",
+          "hdmi2": "HDMI 2",
+          "hdmi3": "HDMI 3",
+          "hdmi4": "HDMI 4",
+          "hdmi5": "HDMI 5",
+          "hdmi6": "HDMI 6",
+          "melon": "Melon",
+          "network": "Rede",
+          "optical": "Ótica",
+          "phono": "Phono",
+          "usb": "USB",
+          "wifi": "Wi-Fi",
+          "youtube": "YouTube"
+        }
+      },
+      "media_playback_repeat": {
+        "name": "Repetição de reprodução"
+      },
+      "media_playback_shuffle": {
+        "name": "Reprodução aleatória"
+      },
+      "media_playback_status": {
+        "name": "Estado da reprodução"
+      },
+      "microfiber_filter_job_state": {
+        "name": "Estado do trabalho",
+        "state": {
+          "bypassing": "Em desvio (Bypassing)",
+          "filtering": "A filtrar",
+          "none": "Nenhum",
+          "sensing": "Deteção de peso",
+          "stopping": "A parar",
+          "waiting": "A aguardar"
+        }
+      },
+      "microfiber_filter_operating_state": {
+        "name": "Estado de operação",
+        "state": {
+          "paused": "Pausado",
+          "ready": "Pronto",
+          "running": "Em funcionamento"
+        }
+      },
+      "odor_sensor": {
+        "name": "Sensor de odores"
+      },
+      "operating_progress": {
+        "name": "Progresso"
+      },
+      "operating_state": {
+        "name": "Estado de funcionamento",
+        "state": {
+          "paused": "Pausado",
+          "ready": "Preparado",
+          "running": "Em execução"
+        }
+      },
+      "operation_time": {
+        "name": "Tempo de operação"
+      },
+      "oven_job_state": {
+        "name": "Etapa do ciclo",
+        "state": {
+          "cleaning": "Limpeza",
+          "cooking": "Cozedura",
+          "cooling": "Arrefecimento",
+          "defrosting": "Descongelação",
+          "draining": "Drenagem",
+          "fast_preheat": "Pré-aquecimento rápido",
+          "finished": "Concluído",
+          "preheat": "Pré-aquecimento",
+          "ready": "Pronto",
+          "rinsing": "Enxaguamento",
+          "scheduled_end": "Fim programado",
+          "scheduled_start": "Início programado",
+          "searing": "Selagem (Searing)",
+          "sensing": "Deteção",
+          "stone_heating": "Aquecimento de pedra",
+          "time_hold_preheat": "Manter pré-aquecimento",
+          "warming": "Aquecimento"
+        }
+      },
+      "oven_machine_state": {
+        "name": "Estado da máquina",
+        "state": {
+          "paused": "Pausada",
+          "ready": "Pronta",
+          "running": "Em funcionamento"
+        }
+      },
+      "oven_mode": {
+        "name": "Modo do forno",
+        "state": {
+          "bake": "Assar",
+          "bottom_heat": "Calor inferior",
+          "broil": "Grelhar",
+          "convection_bake": "Assar com convecção",
+          "convection_broil": "Grelhar com convecção",
+          "convection_roast": "Tostar com convecção",
+          "conventional": "Convencional",
+          "defrosting": "Descongelação",
+          "dehydrate": "Desidratar",
+          "descale": "Descalcificar",
+          "grill": "Grelhador",
+          "heating": "Aquecimento",
+          "microwave": "Micro-ondas",
+          "microwave_plus_convection": "Micro-ondas + Convecção",
+          "microwave_plus_grill": "Micro-ondas + Grelhador",
+          "microwave_plus_hot_blast": "Micro-ondas + Hot Blast",
+          "microwave_plus_hot_blast_2": "Micro-ondas + Hot Blast 2",
+          "others": "Outros",
+          "proof": "Levedação (Proof)",
+          "rinse": "Enxaguamento",
+          "slim_middle": "Slim Middle",
+          "slim_strong": "Slim Strong",
+          "slow_cook": "Cozedura lenta",
+          "steam_bake": "Assar a vapor",
+          "steam_bottom_heat_plus_convection": "Calor inf. a vapor + Convecção",
+          "steam_cook": "Cozinhar a vapor",
+          "steam_roast": "Tostar a vapor",
+          "strong_steam": "Vapor forte",
+          "warming": "Manter quente"
+        }
+      },
+      "oven_setpoint": {
+        "name": "Ponto de ajuste (Set point)"
+      },
+      "pm1_health_concern": {
+        "name": "Preocupação de saúde PM1",
+        "state": {
+          "good": "Bom",
+          "hazardous": "Perigoso",
+          "moderate": "Moderado",
+          "slightly_unhealthy": "Ligeiramente prejudicial",
+          "unhealthy": "Prejudicial",
+          "very_unhealthy": "Muito prejudicial"
+        }
+      },
+      "pm25_health_concern": {
+        "name": "Preocupação de saúde PM2.5",
+        "state": {
+          "good": "Bom",
+          "hazardous": "Perigoso",
+          "moderate": "Moderado",
+          "slightly_unhealthy": "Ligeiramente prejudicial",
+          "unhealthy": "Prejudicial",
+          "very_unhealthy": "Muito prejudicial"
+        }
+      },
+      "pm10_health_concern": {
+        "name": "Preocupação de saúde PM10",
+        "state": {
+          "good": "Bom",
+          "hazardous": "Perigoso",
+          "moderate": "Moderado",
+          "slightly_unhealthy": "Ligeiramente prejudicial",
+          "unhealthy": "Prejudicial",
+          "very_unhealthy": "Muito prejudicial"
+        }
+      },
+      "power_energy": {
+        "name": "Energia elétrica"
+      },
+      "power_source": {
+        "name": "Fonte de alimentação"
+      },
+      "refrigeration_setpoint": {
+        "name": "Ponto de ajuste de refrigeração"
+      },
+      "remaining_amount_dispense_detergent": {
+        "name": "Detergente restante",
+        "state": {
+          "extra": "Extra",
+          "less": "Pouco",
+          "none": "Nenhum",
+          "normal": "Normal",
+          "unknown": "Desconhecido"
+        }
+      },
+      "remaining_amount_dispense_softener": {
+        "name": "Amaciador restante",
+        "state": {
+          "extra": "Extra",
+          "less": "Pouco",
+          "none": "Nenhum",
+          "normal": "Normal",
+          "unknown": "Desconhecido"
+        }
+      },
+      "remaining_time": {
+        "name": "Tempo restante"
+      },
+      "robot_cleaner_cleaning_mode": {
+        "name": "Modo de limpeza",
+        "state": {
+          "auto": "Auto",
+          "manual": "Manual",
+          "map": "Mapa",
+          "part": "Parcial",
+          "repeat": "Repetir",
+          "stop": "Parar"
+        }
+      },
+      "robot_cleaner_movement": {
+        "name": "Movimento",
+        "state": {
+          "after": "Depois",
+          "alarm": "Alarme",
+          "charging": "A carregar",
+          "cleaning": "A limpar",
+          "homing": "A voltar à base",
+          "idle": "Inativo",
+          "off": "Desligado",
+          "pause": "Pausado",
+          "point": "Ponto",
+          "reserve": "Reserva",
+          "washing_mop": "A lavar a mopa"
+        }
+      },
+      "robot_cleaner_turbo_mode": {
+        "name": "Modo Turbo",
+        "state": {
+          "extra_silence": "Extra silencioso",
+          "off": "Desligado",
+          "on": "Ligado",
+          "silence": "Silencioso"
+        }
+      },
+      "smoke_detector": {
+        "name": "Detetor de fumo",
+        "state": {
+          "clear": "Limpo",
+          "detected": "Detetado",
+          "tested": "Testado"
+        }
+      },
+      "steam_closet_job_state": {
+        "name": "Etapa do ciclo"
+      },
+      "target_temperature": {
+        "name": "Temperatura pretendida"
+      },
+      "thermostat_cooling_setpoint": {
+        "name": "Ponto de ajuste de arrefecimento"
+      },
+      "thermostat_fan_mode": {
+        "name": "Modo do ventilador"
+      },
+      "thermostat_heating_setpoint": {
+        "name": "Ponto de ajuste de aquecimento"
+      },
+      "thermostat_mode": {
+        "name": "Modo"
+      },
+      "thermostat_operating_state": {
+        "name": "Estado de funcionamento"
+      },
+      "thermostat_setpoint": {
+        "name": "Ponto de ajuste"
+      },
+      "time_left_to_start": {
+        "name": "Tempo para iniciar"
+      },
+      "tv_channel": {
+        "name": "Canal de TV"
+      },
+      "tv_channel_name": {
+        "name": "Nome do canal de TV"
+      },
+      "uv_index": {
+        "name": "Índice UV"
+      },
+      "washer_job_state": {
+        "name": "Etapa do ciclo",
+        "state": {
+          "ai_rinse": "Enxaguamento AI",
+          "ai_spin": "Centrifugação AI",
+          "ai_wash": "Lavagem AI",
+          "air_wash": "Arejamento",
+          "cooling": "Arrefecimento",
+          "delay_wash": "Lavagem retardada",
+          "drying": "Secagem",
+          "finish": "Concluído",
+          "freeze_protection": "Proteção contra congelamento",
+          "none": "Nenhum",
+          "pre_wash": "Pré-lavagem",
+          "rinse": "Enxaguamento",
+          "spin": "Centrifugação",
+          "wash": "Lavagem",
+          "weight_sensing": "Deteção de peso",
+          "wrinkle_prevent": "Antivincos"
+        }
+      },
+      "washer_mode": {
+        "name": "Modo da máquina"
+      },
+      "water_consumption": {
+        "name": "Consumo de água"
+      },
+      "water_filter_usage": {
+        "name": "Utilização do filtro de água"
+      },
+      "x_coordinate": {
+        "name": "Coordenada X"
+      },
+      "y_coordinate": {
+        "name": "Coordenada Y"
+      },
+      "z_coordinate": {
+        "name": "Coordenada Z"
+      }
+    },
+    "switch": {
+      "add_rinse": {
+        "name": "Adicionar enxaguamento"
+      },
+      "auto_cycle_link": {
+        "name": "Ligação de ciclo automático"
+      },
+      "auto_open_door": {
+        "name": "Abertura automática da porta"
+      },
+      "bubble_soak": {
+        "name": "BubbleSoak"
+      },
+      "bypass_mode": {
+        "name": "Modo de desvio (Bypass)"
+      },
+      "display_lighting": {
+        "name": "Iluminação do visor"
+      },
+      "do_not_disturb": {
+        "name": "Não incomodar"
+      },
+      "dry_plus": {
+        "name": "Secagem plus"
+      },
+      "heated_dry": {
+        "name": "Secagem com aquecimento"
+      },
+      "high_temp_wash": {
+        "name": "Lavagem a alta temperatura"
+      },
+      "hot_air_dry": {
+        "name": "Secagem a ar quente"
+      },
+      "keep_fresh_mode": {
+        "name": "Modo manter fresco"
+      },
+      "multi_tab": {
+        "name": "Pastilhas multi-funções (Multi-tab)"
+      },
+      "power_cool": {
+        "name": "Arrefecimento rápido (Power Cool)"
+      },
+      "power_freeze": {
+        "name": "Congelamento rápido (Power Freeze)"
+      },
+      "rinse_plus": {
+        "name": "Enxaguamento plus"
+      },
+      "sabbath_mode": {
+        "name": "Modo Sabbath"
+      },
+      "sanitize": {
+        "name": "Higienizar"
+      },
+      "sanitizing_wash": {
+        "name": "Lavagem higienizante"
+      },
+      "sound_detection": {
+        "name": "Deteção de som"
+      },
+      "sound_effect": {
+        "name": "Efeito sonoro"
+      },
+      "speed_booster": {
+        "name": "Acelerador de velocidade (Speed Booster)"
+      },
+      "steam_closet_keep_fresh_mode": {
+        "name": "Modo manter fresco"
+      },
+      "steam_closet_sanitize_mode": {
+        "name": "Modo desinfetar"
+      },
+      "steam_soak": {
+        "name": "Banho de vapor"
+      },
+      "storm_wash": {
+        "name": "Lavagem intensiva (Storm Wash)"
+      },
+      "switch": {
+        "name": "Interruptor"
+      },
+      "table_00_course_5b": {
+        "name": "Algodão"
+      },
+      "table_00_course_5c": {
+        "name": "Sintéticos"
+      },
+      "table_00_course_5d": {
+        "name": "Lavagem Diária"
+      },
+      "table_00_course_5e": {
+        "name": "Centrifugar"
+      },
+      "table_00_course_5f": {
+        "name": "Enxaguar+Centrifugar"
+      },
+      "table_00_course_60": {
+        "name": "Limpeza Eco do Tambor"
+      },
+      "table_00_course_61": {
+        "name": "Arejamento"
+      },
+      "table_00_course_63": {
+        "name": "Secagem"
+      },
+      "table_00_course_66": {
+        "name": "Lavagem Rápida 15m"
+      },
+      "table_00_course_ba": {
+        "name": "Drenar+Centrifugar"
+      },
+      "table_00_course_d1": {
+        "name": "eAlgodão"
+      },
+      "table_00_course_d2": {
+        "name": "Sintéticos"
+      },
+      "table_00_course_d3": {
+        "name": "Delicados"
+      },
+      "table_00_course_d4": {
+        "name": "Enxaguar+Centrifugar"
+      },
+      "table_00_course_d5": {
+        "name": "Limpeza Eco do Tambor"
+      },
+      "table_00_course_d6": {
+        "name": "Roupa de Cama"
+      },
+      "table_00_course_d7": {
+        "name": "Exterior"
+      },
+      "table_00_course_d8": {
+        "name": "Lã"
+      },
+      "table_00_course_d9": {
+        "name": "Cores Escuras"
+      },
+      "table_00_course_da": {
+        "name": "Lavagem Super Eco"
+      },
+      "table_00_course_db": {
+        "name": "Super Rápido"
+      },
+      "table_00_course_dc": {
+        "name": "Lavagem Rápida 15m"
+      },
+      "table_02_course_1b": {
+        "name": "Algodão"
+      },
+      "table_02_course_1c": {
+        "name": "Eco 40-60"
+      },
+      "table_02_course_1d": {
+        "name": "Super Rápido"
+      },
+      "table_02_course_1e": {
+        "name": "Lavagem Rápida 15m"
+      },
+      "table_02_course_1f": {
+        "name": "Frio Intenso"
+      },
+      "table_02_course_20": {
+        "name": "Vapor Higiénico"
+      },
+      "table_02_course_21": {
+        "name": "Cores"
+      },
+      "table_02_course_22": {
+        "name": "Lã"
+      },
+      "table_02_course_23": {
+        "name": "Exterior"
+      },
+      "table_02_course_24": {
+        "name": "Roupa de Cama"
+      },
+      "table_02_course_25": {
+        "name": "Sintéticos"
+      },
+      "table_02_course_26": {
+        "name": "Delicados"
+      },
+      "table_02_course_27": {
+        "name": "Enxaguar+Centrifugar"
+      },
+      "table_02_course_28": {
+        "name": "Drenar/Centrifugar"
+      },
+      "table_02_course_29": {
+        "name": "Limpeza do Tambor"
+      },
+      "table_02_course_2a": {
+        "name": "Denim"
+      },
+      "table_02_course_2b": {
+        "name": "Lavagem AI"
+      },
+      "table_02_course_2d": {
+        "name": "Lavagem Silenciosa"
+      },
+      "table_02_course_2e": {
+        "name": "Cuidados Bebé"
+      },
+      "table_02_course_2f": {
+        "name": "Roupa Desportiva"
+      },
+      "table_02_course_30": {
+        "name": "Dia Nublado"
+      },
+      "table_02_course_32": {
+        "name": "Camisas"
+      },
+      "table_02_course_33": {
+        "name": "Toalhas"
+      },
+      "table_02_course_34": {
+        "name": "Lavagem Diária"
+      },
+      "table_02_course_35": {
+        "name": "eAlgodão"
+      },
+      "table_02_course_36": {
+        "name": "Lavar e Secar"
+      },
+      "table_02_course_37": {
+        "name": "Arejamento"
+      },
+      "table_02_course_38": {
+        "name": "Secagem Algodão"
+      },
+      "table_02_course_39": {
+        "name": "Secagem Sintéticos"
+      },
+      "table_02_course_3a": {
+        "name": "Limpeza do Tambor"
+      },
+      "table_02_course_66": {
+        "name": "Denim"
+      },
+      "table_02_course_8f": {
+        "name": "Frio Intenso"
+      },
+      "table_02_course_96": {
+        "name": "Menos Microfibras"
+      },
+      "table_03_course_16": {
+        "name": "Algodão"
+      },
+      "table_03_course_18": {
+        "name": "Sintéticos"
+      },
+      "table_03_course_19": {
+        "name": "Delicados"
+      },
+      "table_03_course_1a": {
+        "name": "Lã"
+      },
+      "table_03_course_1b": {
+        "name": "Roupa de Cama"
+      },
+      "table_03_course_1c": {
+        "name": "Camisas"
+      },
+      "table_03_course_1d": {
+        "name": "Toalhas"
+      },
+      "table_03_course_1e": {
+        "name": "Exterior"
+      },
+      "table_03_course_20": {
+        "name": "Secagem para ferro"
+      },
+      "table_03_course_23": {
+        "name": "Secagem rápida 35m"
+      },
+      "table_03_course_24": {
+        "name": "Ar frio"
+      },
+      "table_03_course_25": {
+        "name": "Ar quente"
+      },
+      "table_03_course_27": {
+        "name": "Secagem por tempo"
+      },
+      "table_03_course_29": {
+        "name": "Secagem AI"
+      },
+      "table_03_course_2b": {
+        "name": "Auto-secagem do tambor"
+      },
+      "wrinkle_prevent": {
+        "name": "Antivincos"
+      }
+    },
+    "time": {
+      "do_not_disturb_end_time": {
+        "name": "Hora de fim do modo não incomodar"
+      },
+      "do_not_disturb_start_time": {
+        "name": "Hora de início do modo não incomodar"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "maximum": "Máxima",
+              "normal": "Normal",
+              "quiet": "Silenciosa",
+              "smart": "Inteligente (Smart)"
+            }
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "oauth2_implementation_unavailable": {
+      "message": "Implementação OAuth2 indisponível, a tentar novamente"
+    }
+  },
+  "issues": {
+    "deprecated_binary_fridge_door": {
+      "description": "O sensor binário da porta do frigorífico {entity_name} (`{entity_id}`) é obsoleto e será removido no futuro. Estão disponíveis entidades separadas para as portas do frigorífico e do congelador, que devem ser usadas daqui em diante. Atualize os seus painéis e modelos de acordo e desative esta entidade para corrigir este problema.",
+      "title": "Sensor binário da porta do frigorífico obsoleto"
+    },
+    "deprecated_binary_fridge_door_scripts": {
+      "description": "O sensor binário da porta do frigorífico {entity_name} (`{entity_id}`) é obsoleto e será removido no futuro. A entidade é utilizada nas seguintes automações ou scripts:\n{items}\n\nEstão disponíveis entidades separadas para as portas do frigorífico e do congelador, que devem ser usadas daqui em diante. Utilize-as nas automações ou scripts acima e desative esta entidade para corrigir este problema.",
+      "title": "Sensor binário da porta do frigorífico obsoleto"
+    },
+    "deprecated_binary_valve": {
+      "description": "O sensor binário da válvula {entity_name} (`{entity_id}`) é obsoleto e será removido no futuro. Está disponível uma entidade de válvula com controlos que deve ser usada daqui em diante. Atualize os seus painéis e modelos de acordo e desative a entidade para corrigir este problema.",
+      "title": "Sensor binário da válvula obsoleto"
+    },
+    "deprecated_binary_valve_scripts": {
+      "description": "O sensor binário da válvula {entity_name} (`{entity_id}`) é obsoleto e será removido no futuro. A entidade é utilizada nas seguintes automações ou scripts:\n{items}\n\nEstá disponível uma entidade de válvula com controlos que deve ser usada daqui em diante. Utilize a nova entidade de válvula nas automações ou scripts acima e desative a entidade para corrigir este problema.",
+      "title": "Sensor binário da válvula obsoleto"
+    },
+    "deprecated_dhw": {
+      "description": "O sensor {entity_name} (`{entity_id}`) é obsoleto porque foi substituído por uma entidade de aquecedor de água (water heater).\n\nAtualize os seus painéis e modelos para usar a nova entidade de aquecedor de água e desative o sensor para corrigir este problema.",
+      "title": "Sensores de aquecedor de água obsoletos"
+    },
+    "deprecated_dhw_scripts": {
+      "description": "O sensor {entity_name} (`{entity_id}`) é obsoleto porque foi substituído por uma entidade de aquecedor de água (water heater).\n\nO sensor foi utilizado nas seguintes automações ou scripts:\n{items}\n\nAtualize as automações ou scripts acima para usar a nova entidade de aquecedor de água e desative o sensor para corrigir este problema.",
+      "title": "Sensores de aquecedor de água obsoletos"
+    },
+    "deprecated_media_player": {
+      "description": "O sensor {entity_name} (`{entity_id}`) é obsoleto porque foi substituído por uma entidade de leitor de média (media player).\n\nAtualize os seus painéis e modelos para usar a nova entidade de leitor de média e desative o sensor para corrigir este problema.",
+      "title": "Sensores de leitor de média obsoletos"
+    },
+    "deprecated_media_player_scripts": {
+      "description": "O sensor {entity_name} (`{entity_id}`) é obsoleto porque foi substituído por uma entidade de leitor de média (media player).\n\nO sensor foi utilizado nas seguintes automações ou scripts:\n{items}\n\nAtualize as automações ou scripts acima para usar a nova entidade de leitor de média e desative o sensor para corrigir este problema.",
+      "title": "Sensor obsoleto detetado em algumas automações ou scripts"
+    },
+    "deprecated_switch_appliance": {
+      "description": "O interruptor `{entity_id}` é obsoleto porque as ações não funcionavam, tendo sido substituído por um sensor binário.\n\nAtualize os seus painéis e modelos de acordo e desative a entidade para corrigir este problema.",
+      "title": "Interruptor de eletrodoméstico obsoleto"
+    },
+    "deprecated_switch_appliance_scripts": {
+      "description": "O interruptor `{entity_id}` é obsoleto porque as ações não funcionavam, tendo sido substituído por um sensor binário.\n\nO interruptor foi utilizado nas seguintes automações ou scripts:\n{items}\n\nUtilize o novo sensor binário nas automações ou scripts acima e desative o interruptor para corrigir este problema.",
+      "title": "Interruptor de eletrodoméstico obsoleto"
+    },
+    "deprecated_switch_dhw": {
+      "description": "O interruptor `{entity_id}` é obsoleto e foi adicionada uma entidade de aquecedor de água para o substituir.\n\nAtualize os seus painéis e modelos de acordo e desative o interruptor para corrigir este problema.",
+      "title": "Interruptor de bomba de calor obsoleto"
+    },
+    "deprecated_switch_dhw_scripts": {
+      "description": "O interruptor `{entity_id}` é obsoleto e foi adicionada uma entidade de aquecedor de água para o substituir.\n\nO interruptor foi utilizado nas seguintes automações ou scripts:\n{items}\n\nUtilize a nova entidade de aquecedor de água nas automações ou scripts acima e desative o interruptor para corrigir este problema.",
+      "title": "Interruptor de bomba de calor obsoleto"
+    },
+    "deprecated_switch_media_player": {
+      "description": "O interruptor `{entity_id}` é obsoleto e foi adicionada uma entidade de leitor de média para o substituir.\n\nAtualize os seus painéis e modelos de acordo e desative o interruptor para corrigir este problema.",
+      "title": "Interruptor de eletrodoméstico obsoleto"
+    },
+    "deprecated_switch_media_player_scripts": {
+      "description": "O interruptor `{entity_id}` é obsoleto e foi adicionada uma entidade de leitor de média para o substituir.\n\nO interruptor foi utilizado nas seguintes automações ou scripts:\n{items}\n\nUtilize a nova entidade de leitor de média nas automações ou scripts acima e desative o interruptor para corrigir este problema.",
+      "title": "Interruptor de eletrodoméstico obsoleto"
+    }
+  },
+  "selector": {
+    "programs": {
+      "table_00": {
+        "course_5b": "Algodão",
+        "course_5c": "Sintéticos",
+        "course_5d": "Lavagem Diária",
+        "course_5e": "Centrifugar",
+        "course_5f": "Enxaguar+Centrifugar",
+        "course_60": "Limpeza Eco do Tambor",
+        "course_61": "Arejamento",
+        "course_63": "Secagem",
+        "course_66": "Lavagem Rápida 15m",
+        "course_ba": "Drenar+Centrifugar",
+        "course_d0": "Algodão",
+        "course_d1": "eAlgodão",
+        "course_d2": "Sintéticos",
+        "course_d3": "Delicados",
+        "course_d4": "Enxaguar+Centrifugar",
+        "course_d5": "Limpeza Eco do Tambor",
+        "course_d6": "Roupa de Cama",
+        "course_d7": "Exterior",
+        "course_d8": "Lã",
+        "course_d9": "Cores Escuras",
+        "course_da": "Lavagem Super Eco",
+        "course_db": "Super Rápido",
+        "course_dc": "Lavagem Rápida 15m"
+      },
+      "table_02": {
+        "course_1b": "Algodão",
+        "course_1c": "Eco 40-60",
+        "course_1d": "Super Rápido",
+        "course_1e": "Lavagem Rápida 15m",
+        "course_1f": "Frio Intenso",
+        "course_20": "Vapor Higiénico",
+        "course_21": "Cores",
+        "course_22": "Lã",
+        "course_23": "Exterior",
+        "course_24": "Roupa de Cama",
+        "course_25": "Sintéticos",
+        "course_26": "Delicados",
+        "course_27": "Enxaguar+Centrifugar",
+        "course_28": "Drenar/Centrifugar",
+        "course_29": "Limpeza do Tambor",
+        "course_2a": "Denim",
+        "course_2b": "Lavagem AI",
+        "course_2d": "Lavagem Silenciosa",
+        "course_2e": "Cuidados Bebé",
+        "course_2f": "Roupa Desportiva",
+        "course_30": "Dia Nublado",
+        "course_32": "Camisas",
+        "course_33": "Toalhas",
+        "course_34": "Lavagem Diária",
+        "course_35": "eAlgodão",
+        "course_36": "Lavar e Secar",
+        "course_37": "Arejamento",
+        "course_38": "Secagem Algodão",
+        "course_39": "Secagem Sintéticos",
+        "course_3a": "Limpeza do Tambor",
+        "course_66": "Denim",
+        "course_8f": "Frio Intenso",
+        "course_96": "Menos Microfibras"
+      },
+      "table_03": {
+        "course_16": "Algodão",
+        "course_18": "Sintéticos",
+        "course_19": "Delicados",
+        "course_1a": "Lã",
+        "course_1b": "Roupa de Cama",
+        "course_1c": "Camisas",
+        "course_1d": "Toalhas",
+        "course_1e": "Exterior",
+        "course_20": "Secagem para Ferro",
+        "course_23": "Secagem Rápida 35m",
+        "course_24": "Ar Frio",
+        "course_25": "Ar Quente",
+        "course_27": "Secagem por Tempo",
+        "course_29": "Secagem AI",
+        "course_2b": "Auto-secagem do Tambor"
+      }
+    }
+  }
+}
