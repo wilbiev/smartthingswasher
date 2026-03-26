@@ -77,6 +77,7 @@ class SmartThingsSensorEntityDescription(SensorEntityDescription):
     exists_fn: Callable[[Status], bool] | None = None
     use_temperature_unit: bool = False
     component_translation_key: dict[str, str] | None = None
+    options_map: dict[str, str] | None = None
 
 
 CAPABILITY_TO_SENSORS: dict[
@@ -1359,6 +1360,8 @@ class SmartThingsSensor(SmartThingsEntity, SensorEntity):
     def native_value(self) -> str | float | datetime | int | None:
         """Return the state of the sensor."""
         res = self.get_attribute_value(self.capability, self._attribute)
+        if options_map := self.entity_description.options_map:
+            return options_map.get(res)
         return self.entity_description.value_fn(res)
 
     @property
@@ -1395,5 +1398,7 @@ class SmartThingsSensor(SmartThingsEntity, SensorEntity):
                 )
             ) is None:
                 return []
+            if options_map := self.entity_description.options_map:
+                return [options_map[option] for option in options]
             return [option.lower() for option in options]
         return super().options

@@ -38,7 +38,7 @@ template: |
 
   **Full Changelog**: https://github.com/wilbiev/smartthingswasher/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
 
-  ## ❤️ Thank you so much for helping out to keep this UI awesome
+  ## ❤️ Thank you so much for helping out to keep this integration awesome
   $CONTRIBUTORS
 
 exclude-contributors:
