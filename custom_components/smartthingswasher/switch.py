@@ -38,7 +38,8 @@ class SmartThingsSwitchEntityDescription(SwitchEntityDescription):
     """Describe a SmartThings switch entity."""
 
     command: Command | None = None
-    on_key: str = "on"
+    on_key: str | bool = "on"
+    off_key: str | bool = "off"
     on_command: Command = Command.ON
     off_command: Command = Command.OFF
 
@@ -427,7 +428,7 @@ class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
             await self.execute_device_command(
                 self.capability,
                 self.entity_description.command,
-                "off",
+                self.entity_description.off_key,
             )
         else:
             await self.execute_device_command(
@@ -441,7 +442,7 @@ class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
             await self.execute_device_command(
                 self.capability,
                 self.entity_description.command,
-                "on",
+                self.entity_description.on_key,
             )
         else:
             await self.execute_device_command(
