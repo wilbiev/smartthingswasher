@@ -1,0 +1,36 @@
+---
+name: "Release"
+
+on:
+  release:
+    types: ["published"]
+
+jobs:
+  update_hacs_manifest:
+    name: "Prepare release asset"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Check out repository"
+        uses: "actions/checkout@v6"
+
+      - name: "Get version"
+        id: "version"
+        uses: "home-assistant/actions/helpers/version@master"
+
+      - name: "Set manifest version number"
+        run: |
+          python3 ${{ github.workspace }}/.github/update_hacs_manifest.py --version ${{ steps.version.outputs.version }}
+
+      - name: "Create zip"
+        run: |
+          cd custom_components/smartthingswasher
+          zip smartthingswasher.zip -r ./
+
+      - name: "Upload zip to release"
+        uses: "svenstaro/upload-release-action@2.11.3"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          file: "./custom_components/smartthingswasher/smartthingswasher.zip"
+          asset_name: "smartthingswasher.zip"
+          tag: "${{ github.ref }}"
+          overwrite: true
