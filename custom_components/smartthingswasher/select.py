@@ -45,6 +45,8 @@ class SmartThingsSelectEntityDescription(SelectEntityDescription):
     supported_option: SupportedOption | None = None
     extra_components: list[str] | None = None
     capability_ignore_list: list[Capability] | None = None
+    options_map: dict[str, str] | None = None
+    value_is_integer: bool = False
 
 
 CAPABILITY_TO_SELECTS: dict[
@@ -552,34 +554,64 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
                     self.capability, self.entity_description.options_attribute
                 )
             ) is not None:
-                [option.lower() for option in options]
+                if self.entity_description.options_map:
+                    options = [
+                        self.entity_description.options_map.get(option, option)
+                        for option in options
+                    ]
+                else:
+                    options = [str(option).lower() for option in options]
         self._attr_options = options
 
     @property
     def native_value(self) -> str | float | datetime | int | None:
         """Return the state of the select."""
-        return self.get_attribute_value(self.capability, self._attribute)
+        value = self.get_attribute_value(self.capability, self._attribute)
+        if value is None:
+            return None
+        if self.entity_description.options_map:
+            return self.entity_description.options_map.get(value, value)
+        return str(value)
 
     @property
     def current_option(self) -> str | None:
         """Return the selected entity option to represent the entity state."""
-        value = self.get_attribute_value(self.capability, self._attribute)
+        value = self.native_value
         if value is None or value not in self._attr_options:
             return None
         return value
 
+
     async def async_select_option(self, option: str) -> None:
-        """Change the selected option."""
-        if self.command is not None:
-            await self.execute_device_command(
-                self.capability,
-                self.command,
-                option,
+        """Select an option."""
+        new_option: str | int = option
+        if self.entity_description.options_map:
+            new_option = next(
+                (
+                    key
+                    for key, value in self.entity_description.options_map.items()
+                    if value == option
+                ),
+                new_option,
             )
+        if self.entity_description.value_is_integer:
+            new_option = int(option)
+        await self.execute_device_command(
+            self.capability,
+            self.command,
+            new_option,
+        )
 
     def update_select_options(self, options: list[str]) -> None:
         """Update the options for this select entity."""
-        self._attr_options = options
+        if self.entity_description.options_map:
+            translated_options = [
+                self.entity_description.options_map.get(option, option)
+                for option in options
+            ]
+            self._attr_options = translated_options
+        else:
+            self._attr_options = options
         self.async_write_ha_state()
 
 
