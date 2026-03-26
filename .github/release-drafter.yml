@@ -1,0 +1,53 @@
+---
+name-template: "v$RESOLVED_VERSION 🏳️‍🌈"
+tag-template: "v$RESOLVED_VERSION"
+change-template: "- #$NUMBER $TITLE @$AUTHOR"
+sort-direction: "ascending"
+categories:
+  - title: "⚠️ Breaking changes"
+    label: "breaking change"
+  - title: "💡 Features"
+    label: ":bulb: feature"
+  - title: "✨ Code enhancements"
+    label: ":sparkles: enhancement"
+  - title: "💡 New Custom Cards"
+    label: ":bulb: custom feature"
+  - title: "✨ Custom Card enhancements"
+    label: ":sparkles: custom enhancement"
+  - title: "🐛 Bug Fixes"
+    label: ":bug: bug"
+  - title: "💬 Translations"
+    label: ":speech_balloon: translation"
+  - title: "📝 Documentation"
+    label: ":memo: documentation"
+version-resolver:
+  major:
+    labels:
+      - "major"
+  minor:
+    labels:
+      - "minor"
+  patch:
+    labels:
+      - "patch"
+  default: "patch"
+template: |
+  ## Changes
+
+  $CHANGES
+
+  **Full Changelog**: https://github.com/wilbiev/smartthingswasher/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
+
+  ## ❤️ Thank you so much for helping out to keep this UI awesome
+  $CONTRIBUTORS
+
+exclude-contributors:
+  - "github-actions"
+
+autolabeler:
+  - label: ":bug: bug"
+    branch:
+      - "/fix/.+/"
+  - label: ":bulb: feature"
+    branch:
+      - "/feature/.+/"

@@ -19,6 +19,7 @@ from . import FullDevice, SmartThingsConfigEntry
 from .const import (
     CAPABILITIES_WITH_PROGRAMS,
     CLEANING_TYPE_TO_HA,
+    COURSE_TO_HA,
     DISPENSE_DENSITY_TO_HA,
     DRIVING_MODE_TO_HA,
     LAMP_TO_HA,
@@ -79,6 +80,7 @@ CAPABILITY_TO_SELECTS: dict[
                 entity_category=EntityCategory.CONFIG,
                 options_attribute=Attribute.SUPPORTED_COURSES,
                 command=Command.SET_COURSE,
+                options_map=COURSE_TO_HA,
                 capability_ignore_list=[
                     *CAPABILITIES_WITH_PROGRAMS,
                     Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE

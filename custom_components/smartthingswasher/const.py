@@ -193,6 +193,42 @@ WASHING_COURSE_TO_HA = {
     "selfClean": "self_clean"
 }
 
+COURSE_TO_HA = {
+    "1B": "course_1b",
+    "1C": "course_1c",
+    "1D": "course_1d",
+    "1E": "course_1e",
+    "1F": "course_1f",
+    "20": "course_20",
+    "21": "course_21",
+    "22": "course_22",
+    "23": "course_23",
+    "24": "course_24",
+    "25": "course_25",
+    "26": "course_26",
+    "27": "course_27",
+    "28": "course_28",
+    "29": "course_29",
+    "2A": "course_2a",
+    "2B": "course_2b",
+    "2D": "course_2d",
+    "2E": "course_2e",
+    "2F": "course_2f",
+    "30": "course_30",
+    "32": "course_32",
+    "33": "course_33",
+    "34": "course_34",
+    "35": "course_35",
+    "36": "course_36",
+    "37": "course_37",
+    "38": "course_38",
+    "39": "course_39",
+    "3A": "course_3a",
+    "66": "course_66",
+    "8F": "course_8f",
+    "96": "course_96"
+}
+
 COOKTOP_HEATING_MODES = {
     "off": "off",
     "manual": "manual",
