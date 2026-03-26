@@ -85,7 +85,7 @@ CAPABILITY_TO_SELECTS: dict[
                 options_map=COURSE_TO_HA,
                 capability_ignore_list=[
                     *CAPABILITIES_WITH_PROGRAMS,
-                    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE
+                    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
                 ],
             )
         ]
@@ -238,7 +238,7 @@ CAPABILITY_TO_SELECTS: dict[
             )
         ]
     },
-   Capability.SAMSUNG_CE_FLEXIBLE_AUTO_DISPENSE_DETERGENT: {
+    Capability.SAMSUNG_CE_FLEXIBLE_AUTO_DISPENSE_DETERGENT: {
         Attribute.AMOUNT: [
             SmartThingsSelectEntityDescription(
                 key=Capability.SAMSUNG_CE_FLEXIBLE_AUTO_DISPENSE_DETERGENT,
@@ -420,10 +420,13 @@ async def async_setup_entry(
         for attribute, descriptions in attributes.items()
         for description in descriptions
         if (
-            (component == MAIN or (
-                description.extra_components is not None
-                and component in description.extra_components
-            ))
+            (
+                component == MAIN
+                or (
+                    description.extra_components is not None
+                    and component in description.extra_components
+                )
+            )
             and (
                 description.capability_ignore_list is None
                 or all(
@@ -500,7 +503,8 @@ async def async_setup_entry(
                         Capability.REMOTE_CONTROL_STATUS,
                         Attribute.REMOTE_CONTROL_ENABLED,
                     )
-                    == "false" and select_entity.entity_description.options_attribute is not None
+                    == "false"
+                    and select_entity.entity_description.options_attribute is not None
                 ):
                     if (
                         options := select_entity.get_attribute_value(
@@ -508,9 +512,7 @@ async def async_setup_entry(
                             select_entity.entity_description.options_attribute,
                         )
                     ) is not None:
-                        select_entity.update_select_options(
-                            [option.lower() for option in options]
-                        )
+                        select_entity.update_select_options(options)
                 elif (
                     options := get_program_options(
                         select_entity.device.programs,
@@ -581,7 +583,6 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
             return None
         return value
 
-
     async def async_select_option(self, option: str) -> None:
         """Select an option."""
         new_option: str | int = option
@@ -644,7 +645,6 @@ class SmartThingsDishwasherOptionSelect(SmartThingsEntity, SelectEntity):
         self.entity_description = entity_description
         self.command = self.entity_description.command
 
-
     @property
     def options(self) -> list[str]:
         """Return the list of options."""
@@ -675,9 +675,7 @@ class SmartThingsDishwasherOptionSelect(SmartThingsEntity, SelectEntity):
     @property
     def current_option(self) -> str | None:
         """Return the current option."""
-        return self.get_attribute_value(
-            self.capability, self._attribute
-        )["value"]
+        return self.get_attribute_value(self.capability, self._attribute)["value"]
 
     def _validate_before_select(self) -> None:
         """Validate that the select can be used."""
@@ -699,9 +697,7 @@ class SmartThingsDishwasherOptionSelect(SmartThingsEntity, SelectEntity):
             Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE, Attribute.WASHING_COURSE
         )
         options = {
-            option: self.get_attribute_value(self.capability, option)[
-                "value"
-            ]
+            option: self.get_attribute_value(self.capability, option)["value"]
             for option in self.get_attribute_value(
                 self.capability, Attribute.SUPPORTED_LIST
             )
