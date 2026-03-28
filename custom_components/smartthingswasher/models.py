@@ -53,10 +53,8 @@ class Program(DataClassORJSONMixin):
     """Program model."""
 
     program_id: str = field(metadata=field_options(alias="cycle"))
-    program_name: str = field(metadata=field_options(alias="name"))
     program_type: str = field(metadata=field_options(alias="cycleType"))
     supportedoptions: dict[SupportedOption | str, ProgramOptions]
-    bubblesoak: bool
 
 
 @dataclass

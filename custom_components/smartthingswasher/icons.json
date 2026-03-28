@@ -1,7 +1,10 @@
 {
   "entity": {
     "binary_sensor": {
-      "bubblesoak_support": {
+      "add_rinse_support": {
+        "default": "mdi:water-plus"
+      },
+      "bubble_soak_support": {
         "default": "mdi:water-off",
         "state": {
           "on": "mdi:water"
@@ -13,11 +16,32 @@
           "on": "mdi:lock"
         }
       },
+      "dry_plus_support": {
+        "default": "mdi:heat-wave"
+      },
       "dryer_wrinkle_prevent_active": {
         "default": "mdi:tumble-dryer",
         "state": {
           "on": "mdi:tumble-dryer-alert"
         }
+      },
+      "heated_dry_support": {
+        "default": "mdi:heat-wave"
+      },
+      "high_temp_wash_support": {
+        "default": "mdi:thermometer-plus"
+      },
+      "hot_air_dry_support": {
+        "default": "mdi:heat-wave"
+      },
+      "keep_fresh_mode": {
+        "default": "mdi:creation"
+      },
+      "keep_fresh_support": {
+        "default": "mdi:creation"
+      },
+      "multi_tab_support": {
+        "default": "mdi:pill-multiple"
       },
       "remote_control": {
         "default": "mdi:remote-off",
@@ -25,8 +49,23 @@
           "on": "mdi:remote"
         }
       },
-      "keep_fresh_mode": {
-        "default": "mdi:creation"
+      "rinse_plus_support": {
+        "default": "mdi:water-plus"
+      },
+      "sanitize_support": {
+        "default": "mdi:lotion"
+      },
+      "sanitizing_wash_support": {
+        "default": "mdi:lotion"
+      },
+      "speed_booster_support": {
+        "default": "mdi:fast-forward"
+      },
+      "steam_soak_support": {
+        "default": "mdi:weather-windy"
+      },
+      "storm_wash_support": {
+        "default": "mdi:weather-dust"
       }
     },
     "button": {
@@ -236,6 +275,12 @@
         "default": "mdi:door-closed",
         "state": {
           "on": "mdi:door-open"
+        }
+      },
+      "bubble_soak": {
+        "default": "mdi:water-off",
+        "state": {
+          "on": "mdi:water"
         }
       },
       "display_lighting": {

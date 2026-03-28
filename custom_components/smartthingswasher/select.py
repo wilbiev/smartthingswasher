@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime
 from typing import cast
 
 from pysmartthings import Attribute, Capability, Command, SmartThings
@@ -235,6 +234,7 @@ CAPABILITY_TO_SELECTS: dict[
                 options_attribute=Attribute.SUPPORTED_DRYING_TEMPERATURE,
                 command=Command.SET_DRYING_TEMPERATURE,
                 options_map=WASHER_WATER_TEMPERATURE_TO_HA,
+                supported_option=SupportedOption.DRYING_TEMPERATURE,
             )
         ]
     },
@@ -549,39 +549,37 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         self.capability = capability
         self.entity_description = entity_description
         self.command = self.entity_description.command
-        options: list[str] = []
-        if self.entity_description.options_attribute:
-            if (
-                options := self.get_attribute_value(
-                    self.capability, self.entity_description.options_attribute
-                )
-            ) is not None:
-                if self.entity_description.options_map:
-                    options = [
-                        self.entity_description.options_map.get(option, option)
-                        for option in options
-                    ]
-                else:
-                    options = [str(option).lower() for option in options]
-        self._attr_options = options
 
     @property
-    def native_value(self) -> str | float | datetime | int | None:
-        """Return the state of the select."""
-        value = self.get_attribute_value(self.capability, self._attribute)
-        if value is None:
-            return None
+    def options(self) -> list[str]:
+        """Return the list of options."""
+        options: list[str] = (
+            self.get_attribute_value(
+                self.capability, self.entity_description.options_attribute
+            )
+            or []
+        )
         if self.entity_description.options_map:
-            return self.entity_description.options_map.get(value, value)
-        return str(value)
+            options = [
+                self.entity_description.options_map.get(option, option)
+                for option in options
+            ]
+        if self.entity_description.value_is_integer:
+            options = [str(option) for option in options]
+        return options
 
     @property
     def current_option(self) -> str | None:
-        """Return the selected entity option to represent the entity state."""
-        value = self.native_value
-        if value is None or value not in self._attr_options:
+        """Return the current option."""
+        option = self.get_attribute_value(
+            self.capability, self._attribute
+        )
+        if option is None:
             return None
-        return value
+        if self.entity_description.options_map:
+            option = self.entity_description.options_map.get(option)
+        return str(option)
+
 
     async def async_select_option(self, option: str) -> None:
         """Select an option."""
@@ -745,7 +743,11 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
             self._attr_translation_key = (
                 f"{self.entity_description.translation_key}_{table_id}"
             )
-        options: list[str] = []
+
+    @property
+    def options(self) -> list[str]:
+        """Return the list of options."""
+
         if self.entity_description.options_attribute:
             if (
                 options := self.get_attribute_value(
@@ -754,16 +756,10 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
             ) is not None:
                 [option.lower() for option in options]
         else:
+            options: list[str] = []
             for program in self.device.programs:
                 options.append(program.lower())
-        self._attr_options = options
-
-    @property
-    def native_value(self) -> str | float | datetime | int | None:
-        """Return the state of the select."""
-        return translate_program_course(
-            self.get_attribute_value(self.capability, self._attribute)
-        ).lower()
+        return options
 
     @property
     def current_option(self) -> str | None:

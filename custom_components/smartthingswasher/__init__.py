@@ -61,15 +61,16 @@ from .const import (
     DOMAIN,
     EVENT_BUTTON,
     MAIN,
+    PROGRAM_COURSE_NAME,
     PROGRAM_CYCLE,
     PROGRAM_CYCLE_TYPE,
     PROGRAM_OPTION_DEFAULT,
     PROGRAM_OPTION_OPTIONS,
     PROGRAM_OPTION_RAW,
+    PROGRAM_OPTION_SETTABLE,
     PROGRAM_SUPPORTED_OPTIONS,
-    SUPPORTEDOPTIONS_LIST,
 )
-from .models import Program, ProgramOptions, SupportedOption
+from .models import Program, ProgramOptions
 from .util import translate_program_course
 
 _LOGGER = logging.getLogger(__name__)
@@ -533,58 +534,65 @@ def process_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
 
     if program_capabilities_list is None:
         if (
-            id_status := main_component.get(Capability.CUSTOM_SUPPORTED_OPTIONS)
+            capability_status := main_component.get(Capability.CUSTOM_SUPPORTED_OPTIONS)
         ) is not None:
-            ids = cast(list[str], id_status[Attribute.SUPPORTED_COURSES].value)
-            name_status = main_component.get(Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE)
-            names = []
-            if name_status:
-                names = cast(list[str], name_status[Attribute.SUPPORTED_COURSES].value)
-
-            for index, program in enumerate(ids):
-                program_name = names[index] if index < len(names) else ""
+            program_list = cast(
+                list[str], capability_status[Attribute.SUPPORTED_COURSES].value
+            )
+            for program in program_list:
                 program_id: str = translate_program_course(program)
                 programs[program_id] = Program(
                     program_id=program_id,
-                    program_name=program_name,
                     program_type="Course",
                     supportedoptions={},
-                    bubblesoak=False,
                 )
-
         return programs
 
-    program_dict = cast(
-        list[dict[str, Any]],
-        program_capabilities_list[Attribute.SUPPORTED_CYCLES].value,
-    )
-    for program in program_dict:
-        program_id: str = translate_program_course(program.get(PROGRAM_CYCLE))
-        bubblesoak: bool = False
-        supportedoption_list = {}
-        for supportedoption in SUPPORTEDOPTIONS_LIST:
-            support = cast(
-                dict[str, dict[str, Any]], program.get(PROGRAM_SUPPORTED_OPTIONS)
-            )
-            if (supported_item := support.get(supportedoption)) is not None:
-                raw = str(supported_item.get(PROGRAM_OPTION_RAW))
-                default = str(supported_item.get(PROGRAM_OPTION_DEFAULT))
-                options = cast(list[str], supported_item.get(PROGRAM_OPTION_OPTIONS))
-                if supportedoption == SupportedOption.BUBBLE_SOAK:
-                    bubblesoak = bool(raw[2] == "F")
-                elif default not in options:
+    if (predefined := program_capabilities_list.get(Attribute.PREDEFINED_COURSES)) is not None:
+        course_list = cast(list[dict[str, Any]], predefined.value)
+        for course in course_list:
+            program_id: str = translate_program_course(course.get(PROGRAM_COURSE_NAME))
+            supported_options_list = {}
+            supported_options = course.get(PROGRAM_OPTION_OPTIONS, {})
+            for opt_key, opt_data in supported_options.items():
+                default = str(opt_data.get(PROGRAM_OPTION_DEFAULT))
+                options = opt_data.get(PROGRAM_OPTION_SETTABLE, [default])
+                if default not in options:
                     options.append(default)
-                supportedoption_list[supportedoption] = ProgramOptions(
-                    supportedoption=supportedoption,
+                supported_options_list[opt_key] = ProgramOptions(
+                    supportedoption=opt_key,
+                    raw="N/A",
+                    default=default,
+                    options=options,
+                )
+            programs[program_id] = Program(
+                program_id=program_id,
+                program_type="Course",
+                supportedoptions=supported_options_list,
+            )
+
+    elif (supported := program_capabilities_list.get(Attribute.SUPPORTED_CYCLES)) is not None:
+        cycle_list = cast(list[dict[str, Any]], supported.value)
+        for cycle in cycle_list:
+            program_id: str = translate_program_course(cycle.get(PROGRAM_CYCLE))
+            supportedoption_list = {}
+            supported_options = cycle.get(PROGRAM_SUPPORTED_OPTIONS, {})
+            for opt_key, opt_data in supported_options.items():
+                raw = str(opt_data.get(PROGRAM_OPTION_RAW))
+                default = str(opt_data.get(PROGRAM_OPTION_DEFAULT))
+                options = opt_data.get(PROGRAM_OPTION_OPTIONS, [default])
+                if default not in options:
+                    options.append(default)
+                supportedoption_list[opt_key] = ProgramOptions(
+                    supportedoption=opt_key,
                     raw=raw,
                     default=default,
                     options=options,
                 )
-        programs[program_id] = Program(
-            program_id=program_id,
-            program_name="",
-            program_type=str(program.get(PROGRAM_CYCLE_TYPE)),
-            supportedoptions=supportedoption_list,
-            bubblesoak=bubblesoak,
-        )
+            programs[program_id] = Program(
+                program_id=program_id,
+                program_type=str(cycle.get(PROGRAM_CYCLE_TYPE)),
+                supportedoptions=supportedoption_list,
+            )
+
     return programs

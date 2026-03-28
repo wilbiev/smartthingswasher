@@ -4,8 +4,6 @@ from pysmartthings import Attribute, Capability, Command
 
 from homeassistant.const import UnitOfTemperature
 
-from .models import SupportedOption
-
 DOMAIN = "smartthings"
 
 SCOPES = [
@@ -42,43 +40,35 @@ OLD_DATA = "old_data"
 CONF_SUBSCRIPTION_ID = "subscription_id"
 EVENT_BUTTON = "smartthings.button"
 
+PROGRAM_COURSE_NAME = "courseName"
 PROGRAM_CYCLE = "cycle"
 PROGRAM_CYCLE_TYPE = "cycleType"
 PROGRAM_OPTION_RAW = "raw"
 PROGRAM_OPTION_DEFAULT = "default"
 PROGRAM_OPTION_OPTIONS = "options"
+PROGRAM_OPTION_SETTABLE = "settable"
 PROGRAM_SUPPORTED_OPTIONS = "supportedOptions"
-
-
-SUPPORTEDOPTIONS_LIST = (
-    SupportedOption.BUBBLE_SOAK,
-    SupportedOption.DRYING_LEVEL,
-    SupportedOption.DRYING_TEMPERATURE,
-    SupportedOption.KEEP_FRESH,
-    SupportedOption.RINSE_CYCLE,
-    SupportedOption.SANITIZE,
-    SupportedOption.SOIL_LEVEL,
-    SupportedOption.SPIN_LEVEL,
-    SupportedOption.WATER_TEMPERATURE,
-)
-
 
 CAPABILITIES_WITH_PROGRAMS: dict[Capability, Attribute] = {
     Capability.SAMSUNG_CE_DRYER_CYCLE: Attribute.DRYER_CYCLE,
     Capability.SAMSUNG_CE_STEAM_CLOSET_CYCLE: Attribute.STEAM_CLOSET_CYCLE,
     Capability.SAMSUNG_CE_WASHER_CYCLE: Attribute.WASHER_CYCLE,
+    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE_DETAILS: Attribute.WASHING_COURSE,
 }
 
-CAPABILITIES_WITH_COURSES: dict[Capability, Attribute] = {
-    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE_DETAILS: Attribute.PREDEFINED_COURSES,
+CAPABILITY_COURSES: dict[Capability, Attribute] = {
+    Capability.SAMSUNG_CE_DRYER_CYCLE: Attribute.DRYER_CYCLE,
+    Capability.SAMSUNG_CE_STEAM_CLOSET_CYCLE: Attribute.STEAM_CLOSET_CYCLE,
+    Capability.SAMSUNG_CE_WASHER_CYCLE: Attribute.WASHER_CYCLE,
+    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: Attribute.WASHING_COURSE,
 }
 
 CAPABILITY_COMMANDS: dict[Capability, Command] = {
     Capability.SAMSUNG_CE_DRYER_CYCLE: Command.SET_DRYER_CYCLE,
     Capability.SAMSUNG_CE_STEAM_CLOSET_CYCLE: Command.SET_STEAM_CLOSET_CYCLE,
     Capability.SAMSUNG_CE_WASHER_CYCLE: Command.SET_WASHER_CYCLE,
+    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: Command.SET_WASHING_COURSE,
 }
-# Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: Command.SET_WASHING_COURSE,
 
 UNIT_MAP = {"C": UnitOfTemperature.CELSIUS, "F": UnitOfTemperature.FAHRENHEIT}
 
