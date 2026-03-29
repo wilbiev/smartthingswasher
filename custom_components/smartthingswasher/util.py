@@ -17,11 +17,16 @@ def translate_program_course(program_course: str | None, set_course: bool = True
         return ""
     course: str = program_course.upper()
     part: list[str] = course.split("_")
-    if (ln := len(part)) == 0:
+    ln = len(part)
+    if (ln  == 0):
         return course
-    if set_course:
-        return f"{PROGRAM_COURSE}_{part[ln - 1]}"
-    return part[ln - 1]
+    if (ln == 1 and len(course) > 2):
+        return program_course.capitalize()
+    if part[0] == "TABLE" or part[0] == "COURSE":
+        if set_course:
+            return f"{PROGRAM_COURSE}_{part[ln - 1]}"
+        return part[ln - 1]
+    return course
 
 
 def get_program_options(

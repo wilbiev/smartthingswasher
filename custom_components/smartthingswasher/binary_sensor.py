@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
+from typing import cast
 
 from pysmartthings import Attribute, Capability, Category, SmartThings
 
@@ -17,8 +18,9 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FullDevice, SmartThingsConfigEntry
-from .const import MAIN
+from .const import CAPABILITY_COURSES, MAIN
 from .entity import SmartThingsEntity
+from .models import SupportedOption
 from .util import translate_program_course
 
 
@@ -191,19 +193,115 @@ CAPABILITY_TO_SENSORS: dict[
     },
 }
 
-
-PROGRAMS_TO_SENSORS: dict[
+PROGRAMS_OPTIONS_TO_BINARY_SENSORS: dict[
     Capability, dict[Attribute, list[SmartThingsBinarySensorEntityDescription]]
 ] = {
     Capability.SAMSUNG_CE_WASHER_CYCLE: {
         Attribute.WASHER_CYCLE: [
             SmartThingsBinarySensorEntityDescription(
-                key="bubblesoak_support",
-                translation_key="bubblesoak_support",
-                is_on_key="True",
+                key=SupportedOption.BUBBLE_SOAK,
+                translation_key="bubble_soak_support",
             )
         ]
     },
+    Capability.SAMSUNG_CE_STEAM_CLOSET_CYCLE: {
+        Attribute.STEAM_CLOSET_CYCLE: [
+            SmartThingsBinarySensorEntityDescription(
+                key=SupportedOption.KEEP_FRESH,
+                translation_key="keep_fresh_support",
+           )
+        ],
+        Attribute.SANITIZE: [
+            SmartThingsBinarySensorEntityDescription(
+                key=SupportedOption.SANITIZE,
+                translation_key="sanitize_support",
+            )
+        ]
+    },
+}
+
+DISHWASHER_OPTIONS_TO_BINARY_SENSORS: dict[
+    Capability, dict[Attribute, list[SmartThingsBinarySensorEntityDescription]]
+] = {
+    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: {
+        Attribute.ADD_RINSE: [
+            SmartThingsBinarySensorEntityDescription(
+                key=SupportedOption.ADD_RINSE,
+                translation_key="add_rinse_support",
+                entity_registry_enabled_default=False,
+            )
+        ],
+        Attribute.DRY_PLUS: [
+            SmartThingsBinarySensorEntityDescription(
+                key=SupportedOption.DRY_PLUS,
+                translation_key="dry_plus_support",
+                entity_registry_enabled_default=False,
+            )
+        ],
+        Attribute.SPEED_BOOSTER: [
+            SmartThingsBinarySensorEntityDescription(
+                key=SupportedOption.SPEED_BOOSTER,
+                translation_key="speed_booster_support",
+                entity_registry_enabled_default=False,
+            )
+        ],
+        Attribute.HEATED_DRY: [
+            SmartThingsBinarySensorEntityDescription(
+                key=SupportedOption.HEATED_DRY,
+                translation_key="heated_dry_support",
+                entity_registry_enabled_default=False,
+            )
+        ],
+        Attribute.HIGH_TEMP_WASH: [
+            SmartThingsBinarySensorEntityDescription(
+                key=SupportedOption.HIGH_TEMP_WASH,
+                translation_key="high_temp_wash_support",
+                entity_registry_enabled_default=False,
+            )
+        ],
+        Attribute.HOT_AIR_DRY: [
+            SmartThingsBinarySensorEntityDescription(
+                key=SupportedOption.HOT_AIR_DRY,
+                translation_key="hot_air_dry_support",
+                entity_registry_enabled_default=False,
+            )
+        ],
+        Attribute.MULTI_TAB: [
+            SmartThingsBinarySensorEntityDescription(
+                key=SupportedOption.MULTI_TAB,
+                translation_key="multi_tab_support",
+                entity_registry_enabled_default=False,
+            )
+        ],
+        Attribute.RINSE_PLUS: [
+            SmartThingsBinarySensorEntityDescription(
+                key=SupportedOption.RINSE_PLUS,
+                translation_key="rinse_plus_support",
+                entity_registry_enabled_default=False,
+            )
+        ],
+        Attribute.SANITIZING_WASH: [
+            SmartThingsBinarySensorEntityDescription(
+                key=SupportedOption.SANITIZING_WASH,
+                translation_key="sanitizing_wash_support",
+                entity_registry_enabled_default=False,
+            )
+        ],
+        Attribute.STEAM_SOAK: [
+            SmartThingsBinarySensorEntityDescription(
+                key=SupportedOption.STEAM_SOAK,
+                translation_key="steam_soak_support",
+                entity_registry_enabled_default=False,
+            )
+        ],
+        Attribute.STORM_WASH: [
+            SmartThingsBinarySensorEntityDescription(
+                key=SupportedOption.STORM_WASH,
+                translation_key="storm_wash_support",
+                entity_registry_enabled_default=False,
+            )
+        ],
+    }
 }
 
 
@@ -251,6 +349,7 @@ async def async_setup_entry(
             )
         )
     )
+
     async_add_entities(
         SmartThingsProgramBinarySensor(
             entry_data.client,
@@ -262,13 +361,32 @@ async def async_setup_entry(
         )
         for device in entry_data.devices.values()
         if device.programs is not None
-        for capability, attributes in PROGRAMS_TO_SENSORS.items()
+        for capability, attributes in PROGRAMS_OPTIONS_TO_BINARY_SENSORS.items()
         for component in device.status
         if capability in device.status[component]
         for attribute, descriptions in attributes.items()
         for description in descriptions
     )
 
+    async_add_entities(
+        SmartThingsProgramBinarySensor(
+            entry_data.client,
+            device,
+            description,
+            capability,
+            attribute,
+            component,
+        )
+        for device in entry_data.devices.values()
+        for capability, attributes in DISHWASHER_OPTIONS_TO_BINARY_SENSORS.items()
+        for component in device.status
+        if capability in device.status[component]
+        for supported_attr in [device.status[component][capability].get(Attribute.SUPPORTED_LIST)]
+        if supported_attr and supported_attr.value
+        for attribute, descriptions in attributes.items()
+        if attribute in cast(list[str], supported_attr.value)
+        for description in descriptions
+    )
 
 class SmartThingsBinarySensor(SmartThingsEntity, BinarySensorEntity):
     """Define a SmartThings Binary Sensor."""
@@ -340,11 +458,20 @@ class SmartThingsProgramBinarySensor(SmartThingsEntity, BinarySensorEntity):
 
     @property
     def is_on(self) -> bool:
-        """Return true if the binary sensor is on."""
-        washer_cycle = translate_program_course(
-            self.get_attribute_value(self.capability, self._attribute)
-        )
-        return (
-            str(self.device.programs[washer_cycle].bubblesoak)
-            == self.entity_description.is_on_key
-        )
+        """Return true if the option is supported."""
+        if (attribute_course := CAPABILITY_COURSES.get(self.capability)) is None:
+            return False
+
+        if (current_course_raw := self.get_attribute_value(self.capability, attribute_course)) is None:
+            return False
+
+        current_course = translate_program_course(current_course_raw)
+        if not self.device.programs or current_course not in self.device.programs:
+            return False
+
+        program = self.device.programs[current_course]
+        option_key = self.entity_description.key
+        if (opt := program.supportedoptions.get(option_key)) is not None:
+             return len(opt.options) > 1
+
+        return False

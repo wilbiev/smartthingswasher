@@ -46,8 +46,11 @@
       "acceleration": {
         "name": "Acceleration"
       },
-      "bubblesoak_support": {
-        "name": "BubbleSoak support"
+      "add_rinse_support": {
+        "name": "Add rinse support"
+      },
+      "bubble_soak_support": {
+        "name": "Bubble soak support"
       },
       "child_lock": {
         "name": "Child lock"
@@ -61,6 +64,9 @@
       "door": {
         "name": "Door"
       },
+      "dry_plus_support": {
+        "name": "Dry plus support"
+      },
       "dryer_wrinkle_prevent_active": {
         "name": "Wrinkle prevent active"
       },
@@ -70,11 +76,44 @@
       "freezer_door": {
         "name": "Freezer door"
       },
+      "heated_dry_support": {
+        "name": "Heated dry support"
+      },
+      "high_temp_wash_support": {
+        "name": "High temp wash support"
+      },
+      "hot_air_dry_support": {
+        "name": "Hot air dry support"
+      },
       "keep_fresh_mode_active": {
         "name": "Keep fresh mode active"
       },
+      "keep_fresh_support": {
+        "name": "Keep fresh support"
+      },
+      "multi_tab_support": {
+        "name": "Multi tab support"
+      },
       "remote_control": {
         "name": "Remote control"
+      },
+      "rinse_plus_support": {
+        "name": "Rinse plus support"
+      },
+      "sanitize_support": {
+        "name": "Sanitize support"
+      },
+      "sanitizing_wash_support": {
+        "name": "Sanitizing wash support"
+      },
+      "speed_booster_support": {
+        "name": "Speed booster support"
+      },
+      "steam_soak_support": {
+        "name": "Steam soak support"
+      },
+      "storm_wash_support": {
+        "name": "Storm wash support"
       }
     },
     "button": {
@@ -355,10 +394,52 @@
         }
       },
       "dryer_dry_level": {
-        "name": "Dryer dry level"
+        "name": "Dryer dry level",
+        "state": {
+          "120": "120",
+          "180": "180",
+          "240": "240",
+          "30": "30",
+          "60": "60",
+          "90": "90",
+          "cupboard": "Cupboard",
+          "damp": "Damp",
+          "less": "Less",
+          "more": "More",
+          "none": "None",
+          "normal": "Normal",
+          "very": "Very"
+        }
       },
       "dryer_drying_temperature": {
-        "name": "Drying temperature"
+        "name": "Drying temperature",
+        "state": {
+          "20": "20",
+          "30": "30",
+          "40": "40",
+          "50": "50",
+          "60": "60",
+          "65": "65",
+          "70": "70",
+          "75": "75",
+          "80": "80",
+          "90": "90",
+          "95": "95",
+          "cold": "Cold",
+          "cool": "Cool",
+          "eco_warm": "Eco Warm",
+          "extra_hot": "Extra Hot",
+          "extra_low": "Extra Low",
+          "high": "High",
+          "hot": "Hot",
+          "low": "Low",
+          "medium": "Medium",
+          "medium_low": "Medium Low",
+          "none": "None",
+          "semi_hot": "Semi Hot",
+          "tap_cold": "Tap Cold",
+          "warm": "Warm"
+        }
       },
       "dryer_drying_time": {
         "name": "Drying time"
@@ -587,16 +668,34 @@
       "dishwasher_job_state": {
         "name": "Job state",
         "state": {
+          "ai_drying": "AI drying",
+          "ai_rinse": "AI rinse",
+          "ai_spin": "AI spin",
+          "ai_wash": "AI wash",
           "air_wash": "Air wash",
+          "continuous_dehumidifying": "Continuous dehumidifying",
           "cooling": "Cooling",
+          "dehumidifying": "Dehumidifying",
+          "delay_wash": "Delay wash",
+          "dry": "Dry",
           "drying": "Drying",
           "finish": "Finish",
-          "pre_drain": "Pre-drain",
-          "pre_wash": "Pre-wash",
+          "finished": "Finished",
+          "freeze_protection": "Freeze protection",
+          "internal_care": "Internal care",
+          "none": "None",
+          "pre_drain": "Pre drain",
+          "pre_wash": "Pre wash",
+          "refreshing": "Refreshing",
           "rinse": "Rinse",
+          "rinse_only": "Rinse only",
+          "sanitizing": "Sanitizing",
+          "self_clean": "Self clean",
           "spin": "Spin",
+          "thawing_frozen_inside": "Thawing frozen inside",
           "wash": "Wash",
-          "wrinkle_prevent": "Wrinkle prevention"
+          "weight_sensing": "Weight sensing",
+          "wrinkle_prevent": "Wrinkle prevent"
         }
       },
       "dishwasher_machine_state": {
@@ -618,20 +717,33 @@
         "name": "Job state",
         "state": {
           "ai_drying": "AI drying",
+          "ai_rinse": "AI rinse",
+          "ai_spin": "AI spin",
+          "ai_wash": "AI wash",
+          "air_wash": "Air wash",
           "continuous_dehumidifying": "Continuous dehumidifying",
           "cooling": "Cooling",
           "dehumidifying": "Dehumidifying",
           "delay_wash": "Delay wash",
+          "dry": "Dry",
           "drying": "Drying",
+          "finish": "Finish",
           "finished": "Finished",
           "freeze_protection": "Freeze protection",
           "internal_care": "Internal care",
           "none": "None",
+          "pre_drain": "Pre drain",
+          "pre_wash": "Pre wash",
           "refreshing": "Refreshing",
+          "rinse": "Rinse",
+          "rinse_only": "Rinse only",
           "sanitizing": "Sanitizing",
+          "self_clean": "Self clean",
+          "spin": "Spin",
           "thawing_frozen_inside": "Thawing frozen inside",
+          "wash": "Wash",
           "weight_sensing": "Weight sensing",
-          "wrinkle_prevent": "Wrinkle prevention"
+          "wrinkle_prevent": "Wrinkle prevent"
         }
       },
       "dryer_machine_state": {
@@ -949,7 +1061,37 @@
         }
       },
       "steam_closet_job_state": {
-        "name": "Job state"
+        "name": "Job state",
+        "state": {
+          "ai_drying": "AI drying",
+          "ai_rinse": "AI rinse",
+          "ai_spin": "AI spin",
+          "ai_wash": "AI wash",
+          "air_wash": "Air wash",
+          "continuous_dehumidifying": "Continuous dehumidifying",
+          "cooling": "Cooling",
+          "dehumidifying": "Dehumidifying",
+          "delay_wash": "Delay wash",
+          "dry": "Dry",
+          "drying": "Drying",
+          "finish": "Finish",
+          "finished": "Finished",
+          "freeze_protection": "Freeze protection",
+          "internal_care": "Internal care",
+          "none": "None",
+          "pre_drain": "Pre drain",
+          "pre_wash": "Pre wash",
+          "refreshing": "Refreshing",
+          "rinse": "Rinse",
+          "rinse_only": "Rinse only",
+          "sanitizing": "Sanitizing",
+          "self_clean": "Self clean",
+          "spin": "Spin",
+          "thawing_frozen_inside": "Thawing frozen inside",
+          "wash": "Wash",
+          "weight_sensing": "Weight sensing",
+          "wrinkle_prevent": "Wrinkle prevent"
+        }
       },
       "target_temperature": {
         "name": "Target temperature"
@@ -987,22 +1129,34 @@
       "washer_job_state": {
         "name": "Job state",
         "state": {
+          "ai_drying": "AI drying",
           "ai_rinse": "AI rinse",
           "ai_spin": "AI spin",
           "ai_wash": "AI wash",
           "air_wash": "Air wash",
+          "continuous_dehumidifying": "Continuous dehumidifying",
           "cooling": "Cooling",
+          "dehumidifying": "Dehumidifying",
           "delay_wash": "Delay wash",
+          "dry": "Dry",
           "drying": "Drying",
           "finish": "Finish",
+          "finished": "Finished",
           "freeze_protection": "Freeze protection",
+          "internal_care": "Internal care",
           "none": "None",
-          "pre_wash": "Pre-wash",
+          "pre_drain": "Pre drain",
+          "pre_wash": "Pre wash",
+          "refreshing": "Refreshing",
           "rinse": "Rinse",
+          "rinse_only": "Rinse only",
+          "sanitizing": "Sanitizing",
+          "self_clean": "Self clean",
           "spin": "Spin",
+          "thawing_frozen_inside": "Thawing frozen inside",
           "wash": "Wash",
           "weight_sensing": "Weight sensing",
-          "wrinkle_prevent": "Wrinkle prevention"
+          "wrinkle_prevent": "Wrinkle prevent"
         }
       },
       "washer_mode": {
@@ -1035,7 +1189,7 @@
         "name": "Auto open door"
       },
       "bubble_soak": {
-        "name": "BubbleSoak"
+        "name": "Bubble soak"
       },
       "bypass_mode": {
         "name": "Bypass mode"

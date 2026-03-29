@@ -1361,18 +1361,17 @@ class SmartThingsSensor(SmartThingsEntity, SensorEntity):
         """Return the state of the sensor."""
         res = self.get_attribute_value(self.capability, self._attribute)
         if options_map := self.entity_description.options_map:
-            return options_map.get(res)
+            return options_map.get(res, res)
         return self.entity_description.value_fn(res)
 
     @property
     def native_unit_of_measurement(self) -> str | None:
         """Return the unit this state is expressed in."""
-        if self.entity_description.use_temperature_unit:
-            unit = self._internal_state[Capability.TEMPERATURE_MEASUREMENT][
-                Attribute.TEMPERATURE
-            ].unit
-        else:
-            unit = self._internal_state[self.capability][self._attribute].unit
+        cap = Capability.TEMPERATURE_MEASUREMENT if self.entity_description.use_temperature_unit else self.capability
+        attr = Attribute.TEMPERATURE if self.entity_description.use_temperature_unit else self._attribute
+        cap_state = self._internal_state.get(cap, {})
+        attr_state = cap_state.get(attr)
+        unit = attr_state.unit if attr_state else None
         return (
             UNITS.get(unit, unit)
             if unit
@@ -1399,6 +1398,6 @@ class SmartThingsSensor(SmartThingsEntity, SensorEntity):
             ) is None:
                 return []
             if options_map := self.entity_description.options_map:
-                return [options_map[option] for option in options]
+                return [options_map.get(option, option) for option in options]
             return [option.lower() for option in options]
         return super().options
