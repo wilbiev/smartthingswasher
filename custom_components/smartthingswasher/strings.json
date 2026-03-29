@@ -674,18 +674,36 @@
         }
       },
       "dishwasher_job_state": {
-        "name": "Job state",
+        "name": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::name%]",
         "state": {
-          "air_wash": "Air wash",
-          "cooling": "Cooling",
-          "drying": "Drying",
-          "finish": "Finish",
-          "pre_drain": "Pre-drain",
-          "pre_wash": "Pre-wash",
-          "rinse": "Rinse",
-          "spin": "Spin",
-          "wash": "Wash",
-          "wrinkle_prevent": "Wrinkle prevention"
+          "air_wash": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::air_wash%]",
+          "ai_rinse": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::ai_rinse%]",
+          "ai_spin": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::ai_spin%]",
+          "ai_wash": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::ai_wash%]",
+          "cooling": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::cooling%]",
+          "delay_wash": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::delay_wash%]",
+          "drying": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::drying%]",
+          "finish": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::finish%]",
+          "none": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::none%]",
+          "pre_wash": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::pre_wash%]",
+          "rinse": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::rinse%]",
+          "spin": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::spin%]",
+          "wash": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::wash%]",
+          "weight_sensing": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::weight_sensing%]",
+          "wrinkle_prevent": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::wrinkle_prevent%]",
+          "freeze_protection": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::freeze_protection%]",
+          "ai_drying": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::ai_drying%]",
+          "internal_care": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::internal_care%]",
+          "continuous_dehumidifying": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::continuous_dehumidifying%]",
+          "thawing_frozen_inside": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::thawing_frozen_inside%]",
+          "pre_drain": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::pre_drain%]",
+          "rinse_only": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::rinse_only%]",
+          "dry": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::dry%]",
+          "self_clean": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::self_clean%]",
+          "finished": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::finished%]",
+          "refreshing": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::refreshing%]",
+          "dehumidifying": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::dehumidifying%]",
+          "sanitizing": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::sanitizing%]"
         }
       },
       "diverter_valve_position": {
@@ -707,23 +725,36 @@
         }
       },
       "dryer_job_state": {
-        "name": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::name%]",
+        "name": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::name%]",
         "state": {
-          "cooling": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::cooling%]",
+          "air_wash": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::air_wash%]",
+          "ai_rinse": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::ai_rinse%]",
+          "ai_spin": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::ai_spin%]",
+          "ai_wash": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::ai_wash%]",
+          "cooling": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::cooling%]",
           "delay_wash": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::delay_wash%]",
-          "drying": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::drying%]",
-          "finished": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::finished%]",
+          "drying": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::drying%]",
+          "finish": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::finish%]",
           "none": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::none%]",
-          "refreshing": "Refreshing",
+          "pre_wash": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::pre_wash%]",
+          "rinse": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::rinse%]",
+          "spin": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::spin%]",
+          "wash": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::wash%]",
           "weight_sensing": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::weight_sensing%]",
-          "wrinkle_prevent": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::wrinkle_prevent%]",
-          "dehumidifying": "Dehumidifying",
-          "ai_drying": "AI drying",
-          "sanitizing": "Sanitizing",
-          "internal_care": "Internal care",
-          "freeze_protection": "Freeze protection",
-          "continuous_dehumidifying": "Continuous dehumidifying",
-          "thawing_frozen_inside": "Thawing frozen inside"
+          "wrinkle_prevent": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::wrinkle_prevent%]",
+          "freeze_protection": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::freeze_protection%]",
+          "ai_drying": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::ai_drying%]",
+          "internal_care": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::internal_care%]",
+          "continuous_dehumidifying": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::continuous_dehumidifying%]",
+          "thawing_frozen_inside": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::thawing_frozen_inside%]",
+          "pre_drain": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::pre_drain%]",
+          "rinse_only": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::rinse_only%]",
+          "dry": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::dry%]",
+          "self_clean": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::self_clean%]",
+          "finished": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::finished%]",
+          "refreshing": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::refreshing%]",
+          "dehumidifying": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::dehumidifying%]",
+          "sanitizing": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::sanitizing%]"
         }
       },
       "equivalent_carbon_dioxide": {
@@ -806,7 +837,7 @@
         "name": "Media playback status"
       },
       "microfiber_filter_job_state": {
-        "name": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::name%]",
+        "name": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::name%]",
         "state": {
           "bypassing": "Bypassing",
           "filtering": "Filtering",
@@ -870,7 +901,7 @@
         }
       },
       "oven_job_state": {
-        "name": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::name%]",
+        "name": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::name%]",
         "state": {
           "cleaning": "Cleaning",
           "cooking": "Cooking",
@@ -1013,7 +1044,37 @@
         }
       },
       "steam_closet_job_state": {
-        "name": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::name%]"
+        "name": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::name%]",
+        "state": {
+          "air_wash": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::air_wash%]",
+          "ai_rinse": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::ai_rinse%]",
+          "ai_spin": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::ai_spin%]",
+          "ai_wash": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::ai_wash%]",
+          "cooling": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::cooling%]",
+          "delay_wash": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::delay_wash%]",
+          "drying": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::drying%]",
+          "finish": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::finish%]",
+          "none": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::none%]",
+          "pre_wash": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::pre_wash%]",
+          "rinse": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::rinse%]",
+          "spin": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::spin%]",
+          "wash": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::wash%]",
+          "weight_sensing": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::weight_sensing%]",
+          "wrinkle_prevent": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::wrinkle_prevent%]",
+          "freeze_protection": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::freeze_protection%]",
+          "ai_drying": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::ai_drying%]",
+          "internal_care": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::internal_care%]",
+          "continuous_dehumidifying": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::continuous_dehumidifying%]",
+          "thawing_frozen_inside": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::thawing_frozen_inside%]",
+          "pre_drain": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::pre_drain%]",
+          "rinse_only": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::rinse_only%]",
+          "dry": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::dry%]",
+          "self_clean": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::self_clean%]",
+          "finished": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::finished%]",
+          "refreshing": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::refreshing%]",
+          "dehumidifying": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::dehumidifying%]",
+          "sanitizing": "[%key:component::smartthingswasher::entity::sensor::washer_job_state::state::sanitizing%]"
+        }
       },
       "target_temperature": {
         "name": "Target temperature"
@@ -1078,24 +1139,36 @@
         "name": "Remaining time"
       },
       "washer_job_state": {
-        "name": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::name%]",
+        "name": "Job state",
         "state": {
-          "air_wash": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::air_wash%]",
+          "air_wash": "Air wash",
           "ai_rinse": "AI rinse",
           "ai_spin": "AI spin",
           "ai_wash": "AI wash",
-          "cooling": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::cooling%]",
+          "cooling": "Cooling",
           "delay_wash": "Delay wash",
-          "drying": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::drying%]",
-          "finish": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::finish%]",
+          "drying": "Drying",
+          "finish": "Finish",
           "none": "None",
-          "pre_wash": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::pre_wash%]",
-          "rinse": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::rinse%]",
-          "spin": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::spin%]",
-          "wash": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::wash%]",
+          "pre_wash": "Pre wash",
+          "rinse": "Rinse",
+          "spin": "Spin",
+          "wash": "Wash",
           "weight_sensing": "Weight sensing",
-          "wrinkle_prevent": "[%key:component::smartthingswasher::entity::sensor::dishwasher_job_state::state::wrinkle_prevent%]",
-          "freeze_protection": "Freeze protection"
+          "wrinkle_prevent": "Wrinkle prevent",
+          "freeze_protection": "Freeze protection",
+          "ai_drying": "AI drying",
+          "internal_care": "Internal care",
+          "continuous_dehumidifying": "Continuous dehumidifying",
+          "thawing_frozen_inside": "Thawing frozen inside",
+          "pre_drain": "Pre drain",
+          "rinse_only": "Rinse only",
+          "dry": "Dry",
+          "self_clean": "Self clean",
+          "finished": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::finished%]",
+          "refreshing": "Refreshing",
+          "dehumidifying": "Dehumidifying",
+          "sanitizing": "Sanitizing"
         }
       },
       "water_consumption": {

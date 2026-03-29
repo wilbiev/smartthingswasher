@@ -247,6 +247,12 @@ JOB_STATE_MAP = {
     "preWash": "pre_wash",
     "prewash": "pre_wash",
     "wrinklePrevent": "wrinkle_prevent",
+    "rinseOnly": "rinse_only",
+    "rinsing": "rinse",
+    "washing": "wash",
+    "drying": "dry",
+    "selfClean": "self_clean",
+    "none": "none",
     "unknown": None,
 }
 

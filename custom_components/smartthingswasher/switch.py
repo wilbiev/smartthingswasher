@@ -396,13 +396,10 @@ async def async_setup_entry(
         for capability, attributes in DISHWASHER_WASHING_OPTIONS_TO_SWITCHES.items()
         for component in device.status
         if capability in device.status[component]
+        for supported_attr in [device.status[component][capability].get(Attribute.SUPPORTED_LIST)]
+        if supported_attr and supported_attr.value
         for attribute, descriptions in attributes.items()
-        for attribute in cast(
-            list[str],
-            device.status[component][Capability.SAMSUNG_CE_DISHWASHER_WASHING_OPTIONS][
-                Attribute.SUPPORTED_LIST
-            ].value,
-        )
+        if attribute in cast(list[str], supported_attr.value)
         for description in descriptions
     )
 

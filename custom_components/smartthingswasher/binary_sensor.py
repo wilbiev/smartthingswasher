@@ -210,9 +210,7 @@ PROGRAMS_OPTIONS_TO_BINARY_SENSORS: dict[
                 key=SupportedOption.KEEP_FRESH,
                 translation_key="keep_fresh_support",
            )
-        ]
-    },
-    Capability.SAMSUNG_CE_STEAM_CLOSET_CYCLE: {
+        ],
         Attribute.SANITIZE: [
             SmartThingsBinarySensorEntityDescription(
                 key=SupportedOption.SANITIZE,
@@ -232,97 +230,77 @@ DISHWASHER_OPTIONS_TO_BINARY_SENSORS: dict[
                 translation_key="add_rinse_support",
                 entity_registry_enabled_default=False,
             )
-        ]
-    },
-    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: {
+        ],
         Attribute.DRY_PLUS: [
             SmartThingsBinarySensorEntityDescription(
                 key=SupportedOption.DRY_PLUS,
                 translation_key="dry_plus_support",
                 entity_registry_enabled_default=False,
             )
-        ]
-    },
-    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: {
+        ],
         Attribute.SPEED_BOOSTER: [
             SmartThingsBinarySensorEntityDescription(
                 key=SupportedOption.SPEED_BOOSTER,
                 translation_key="speed_booster_support",
                 entity_registry_enabled_default=False,
             )
-        ]
-    },
-    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: {
+        ],
         Attribute.HEATED_DRY: [
             SmartThingsBinarySensorEntityDescription(
                 key=SupportedOption.HEATED_DRY,
                 translation_key="heated_dry_support",
                 entity_registry_enabled_default=False,
             )
-        ]
-    },
-    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: {
+        ],
         Attribute.HIGH_TEMP_WASH: [
             SmartThingsBinarySensorEntityDescription(
                 key=SupportedOption.HIGH_TEMP_WASH,
                 translation_key="high_temp_wash_support",
                 entity_registry_enabled_default=False,
             )
-        ]
-    },
-    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: {
+        ],
         Attribute.HOT_AIR_DRY: [
             SmartThingsBinarySensorEntityDescription(
                 key=SupportedOption.HOT_AIR_DRY,
                 translation_key="hot_air_dry_support",
                 entity_registry_enabled_default=False,
             )
-        ]
-    },
-    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: {
+        ],
         Attribute.MULTI_TAB: [
             SmartThingsBinarySensorEntityDescription(
                 key=SupportedOption.MULTI_TAB,
                 translation_key="multi_tab_support",
                 entity_registry_enabled_default=False,
             )
-        ]
-    },
-    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: {
+        ],
         Attribute.RINSE_PLUS: [
             SmartThingsBinarySensorEntityDescription(
                 key=SupportedOption.RINSE_PLUS,
                 translation_key="rinse_plus_support",
                 entity_registry_enabled_default=False,
             )
-        ]
-    },
-    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: {
+        ],
         Attribute.SANITIZING_WASH: [
             SmartThingsBinarySensorEntityDescription(
                 key=SupportedOption.SANITIZING_WASH,
                 translation_key="sanitizing_wash_support",
                 entity_registry_enabled_default=False,
             )
-        ]
-    },
-    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: {
+        ],
         Attribute.STEAM_SOAK: [
             SmartThingsBinarySensorEntityDescription(
                 key=SupportedOption.STEAM_SOAK,
                 translation_key="steam_soak_support",
                 entity_registry_enabled_default=False,
             )
-        ]
-    },
-    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: {
+        ],
         Attribute.STORM_WASH: [
             SmartThingsBinarySensorEntityDescription(
                 key=SupportedOption.STORM_WASH,
                 translation_key="storm_wash_support",
                 entity_registry_enabled_default=False,
             )
-        ]
+        ],
     }
 }
 
@@ -403,16 +381,12 @@ async def async_setup_entry(
         for capability, attributes in DISHWASHER_OPTIONS_TO_BINARY_SENSORS.items()
         for component in device.status
         if capability in device.status[component]
+        for supported_attr in [device.status[component][capability].get(Attribute.SUPPORTED_LIST)]
+        if supported_attr and supported_attr.value
         for attribute, descriptions in attributes.items()
-        for attribute in cast(
-            list[str],
-            device.status[component][Capability.SAMSUNG_CE_DISHWASHER_WASHING_OPTIONS][
-                Attribute.SUPPORTED_LIST
-            ].value,
-        )
+        if attribute in cast(list[str], supported_attr.value)
         for description in descriptions
     )
-
 
 class SmartThingsBinarySensor(SmartThingsEntity, BinarySensorEntity):
     """Define a SmartThings Binary Sensor."""
@@ -485,21 +459,19 @@ class SmartThingsProgramBinarySensor(SmartThingsEntity, BinarySensorEntity):
     @property
     def is_on(self) -> bool:
         """Return true if the option is supported."""
-        attribute_course = CAPABILITY_COURSES.get(self.capability)
-        current_course_raw = self.get_attribute_value(self.capability, attribute_course)
-        if current_course_raw is None:
+        if (attribute_course := CAPABILITY_COURSES.get(self.capability)) is None:
+            return False
+
+        if (current_course_raw := self.get_attribute_value(self.capability, attribute_course)) is None:
             return False
 
         current_course = translate_program_course(current_course_raw)
-        if current_course not in self.device.programs:
+        if not self.device.programs or current_course not in self.device.programs:
             return False
 
         program = self.device.programs[current_course]
         option_key = self.entity_description.key
+        if (opt := program.supportedoptions.get(option_key)) is not None:
+             return len(opt.options) > 1
 
-        # Check if the option exists in supportedOptions of course/cycle
-        if (opt := program.supportedoptions.get(option_key)) is None:
-            return False
-
-        # Check of the supportedOptions.option has more than one value
-        return len(opt.options) > 1
+        return False
