@@ -394,17 +394,17 @@
         "name": "Programa",
         "state": {
           "auto": "Auto",
-          "eco": "Eco",
-          "intensive": "Intensiva",
+          "babycare": "Cuidados para bebés",
+          "course_0c": "Express",
           "delicate": "Delicada",
-          "express_0c": "Express",
-          "pre_wash": "Pré-lavagem",
+          "drinkware": "Copos",
+          "eco": "Eco",
           "extra_silence": "Extra silencioso",
+          "intensive": "Intensiva",
           "machine_care": "Cuidado da máquina",
           "plastics": "Plástico",
           "pots_and_pans": "Tachos e panelas",
-          "babycare": "Cuidados para bebés",
-          "drinkware": "Copos"
+          "pre_wash": "Pré-lavagem"
         }
       },
       "dryer_dry_level": {
@@ -1126,6 +1126,9 @@
       "bypass_mode": {
         "name": "Modo de desvio (Bypass)"
       },
+      "course_0c": {
+        "name": "Express"
+      },
       "delicate": {
         "name": "Delicada"
       },
@@ -1143,9 +1146,6 @@
       },
       "eco": {
         "name": "Eco"
-      },
-      "express_0c": {
-        "name": "Express"
       },
       "extra_silence": {
         "name": "Extra silencioso"

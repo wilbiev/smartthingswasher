@@ -400,14 +400,19 @@
           "eco": "Eco",
           "intensive": "Intensive",
           "delicate": "Delicate",
-          "express_0c": "Express",
+          "course_0c": "Express",
           "pre_wash": "Pre Wash",
           "extra_silence": "Extra Silence",
           "machine_care": "Machine Care",
           "plastics": "Plastics",
           "pots_and_pans": "Pots and Pans",
           "babycare": "Babycare",
-          "drinkware": "Drinkware"
+          "drinkware": "Drinkware",
+          "normal": "Normal",
+          "heavy": "Heavy",
+          "express": "Express",
+          "rinse_only": "Rinse only",
+          "self_clean": "Self clean"
         }
       },
       "dryer_dry_level": {
@@ -539,18 +544,6 @@
           "high": "[%key:common::state::high%]",
           "low": "[%key:common::state::low%]",
           "medium": "[%key:common::state::medium%]"
-        }
-      },
-      "washing_course": {
-        "name": "Course",
-        "state": {
-          "auto": "Auto",
-          "normal": "Normal",
-          "heavy": "Heavy",
-          "delicate": "Delicate",
-          "express": "Express",
-          "rinse_only": "Rinse only",
-          "self_clean": "Self clean"
         }
       },
       "washer_rinse_cycles": {
@@ -1197,40 +1190,55 @@
     },
     "switch": {
       "auto": {
-        "name": "Auto"
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::auto%]"
       },
       "babycare": {
-        "name": "Babycare"
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::babycare%]"
       },
       "delicate": {
-        "name": "Delicate"
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::delicate%]"
       },
       "drinkware": {
-        "name": "Drinkware"
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::drinkware%]"
       },
       "eco": {
-        "name": "Eco"
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::eco%]"
       },
-      "express_0c": {
-        "name": "Express"
+      "course_0c": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::course_0c%]"
       },
       "extra_silence": {
-        "name": "Extra Silence"
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::extra_silence%]"
       },
       "intensive": {
-        "name": "Intensive"
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::intensive%]"
       },
       "machine_care": {
-        "name": "Machine Care"
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::machine_care%]"
       },
       "plastics": {
-        "name": "Plastics"
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::plastics%]"
       },
       "pots_and_pans": {
-        "name": "Pots and Pans"
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::pots_and_pans%]"
       },
       "pre_wash": {
-        "name": "Pre Wash"
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::pre_wash%]"
+      },
+      "normal": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::normal%]"
+      },
+      "heavy": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::heavy%]"
+      },
+      "express": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::express%]"
+      },
+      "rinse_only": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::rinse_only%]"
+      },
+      "self_clean": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::self_clean%]"
       },
       "add_rinse": {
         "name": "Add rinse"
