@@ -398,16 +398,21 @@
         "state": {
           "auto": "Auto",
           "babycare": "Babycare",
+          "course_0c": "Express",
           "delicate": "Delicate",
           "drinkware": "Drinkware",
           "eco": "Eco",
-          "express_0c": "Express",
+          "express": "Express",
           "extra_silence": "Extra Silence",
+          "heavy": "Heavy",
           "intensive": "Intensive",
           "machine_care": "Machine Care",
+          "normal": "Normal",
           "plastics": "Plastics",
           "pots_and_pans": "Pots and Pans",
-          "pre_wash": "Pre Wash"
+          "pre_wash": "Pre Wash",
+          "rinse_only": "Rinse only",
+          "self_clean": "Self clean"
         }
       },
       "dryer_dry_level": {
@@ -607,18 +612,6 @@
           "semi_hot": "Semi Hot",
           "tap_cold": "Tap Cold",
           "warm": "Warm"
-        }
-      },
-      "washing_course": {
-        "name": "Course",
-        "state": {
-          "auto": "Auto",
-          "delicate": "Delicate",
-          "express": "Express",
-          "heavy": "Heavy",
-          "normal": "Normal",
-          "rinse_only": "Rinse only",
-          "self_clean": "Self clean"
         }
       },
       "zone_booster": {
@@ -1217,6 +1210,9 @@
       "bypass_mode": {
         "name": "Bypass mode"
       },
+      "course_0c": {
+        "name": "Express"
+      },
       "delicate": {
         "name": "Delicate"
       },
@@ -1235,7 +1231,7 @@
       "eco": {
         "name": "Eco"
       },
-      "express_0c": {
+      "express": {
         "name": "Express"
       },
       "extra_silence": {
@@ -1243,6 +1239,9 @@
       },
       "heated_dry": {
         "name": "Heated dry"
+      },
+      "heavy": {
+        "name": "Heavy"
       },
       "high_temp_wash": {
         "name": "High temp wash"
@@ -1262,6 +1261,9 @@
       "multi_tab": {
         "name": "Multi-tab"
       },
+      "normal": {
+        "name": "Normal"
+      },
       "plastics": {
         "name": "Plastics"
       },
@@ -1277,6 +1279,9 @@
       "pre_wash": {
         "name": "Pre Wash"
       },
+      "rinse_only": {
+        "name": "Rinse only"
+      },
       "rinse_plus": {
         "name": "Rinse plus"
       },
@@ -1288,6 +1293,9 @@
       },
       "sanitizing_wash": {
         "name": "Sanitizing wash"
+      },
+      "self_clean": {
+        "name": "Self clean"
       },
       "sound_detection": {
         "name": "Sound detection"

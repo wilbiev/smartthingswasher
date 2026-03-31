@@ -174,13 +174,6 @@ WASHER_WATER_TEMPERATURE_TO_HA = {
 }
 
 WASHING_COURSE_TO_HA = {
-    "auto": "auto",
-    "normal": "normal",
-    "heavy": "heavy",
-    "delicate": "delicate",
-    "express": "express",
-    "rinseOnly": "rinse_only",
-    "selfClean": "self_clean"
 }
 
 DISHWASHER_COURSE_TO_HA = {
@@ -188,14 +181,19 @@ DISHWASHER_COURSE_TO_HA = {
     "eco": "eco",
     "intensive": "intensive",
     "delicate": "delicate",
-    "express_0C": "express_0c",
+    "express_0C": "course_0c",
     "preWash": "pre_wash",
     "extraSilence": "extra_silence",
     "machineCare": "machine_care",
     "plastics": "plastics",
     "potsAndPans": "pots_and_pans",
     "babycare": "babycare",
-    "drinkware": "drinkware"
+    "drinkware": "drinkware",
+    "normal": "normal",
+    "heavy": "heavy",
+    "express": "express",
+    "rinseOnly": "rinse_only",
+    "selfClean": "self_clean"
 }
 
 COURSE_TO_HA = {
