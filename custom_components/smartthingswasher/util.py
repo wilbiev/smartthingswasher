@@ -1,5 +1,6 @@
 """Utility functions for SmartThings."""
 
+import re
 from typing import Any, cast
 
 from pysmartthings import Attribute, Capability, ComponentStatus
@@ -21,7 +22,8 @@ def translate_program_course(program_course: str | None, set_course: bool = True
     if (ln  == 0):
         return course
     if (ln == 1 and len(course) > 2):
-        return program_course.capitalize()
+        pattern = re.compile(r'(?<!^)(?=[A-Z])')
+        return pattern.sub('_', program_course).lower()
     if set_course:
         return f"{PROGRAM_COURSE}_{part[ln - 1]}"
     return part[ln - 1]
