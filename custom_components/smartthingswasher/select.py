@@ -19,6 +19,7 @@ from .const import (
     CAPABILITIES_WITH_PROGRAMS,
     CLEANING_TYPE_TO_HA,
     COURSE_TO_HA,
+    DISHWASHER_COURSE_TO_HA,
     DISPENSE_DENSITY_TO_HA,
     DRIVING_MODE_TO_HA,
     LAMP_TO_HA,
@@ -27,7 +28,6 @@ from .const import (
     WASHER_SOIL_LEVEL_TO_HA,
     WASHER_SPIN_LEVEL_TO_HA,
     WASHER_WATER_TEMPERATURE_TO_HA,
-    WASHING_COURSE_TO_HA,
     WATER_SPRAY_LEVEL_TO_HA,
 )
 from .entity import SmartThingsEntity
@@ -158,7 +158,7 @@ CAPABILITY_TO_SELECTS: dict[
                 translation_key="washing_course",
                 options_attribute=Attribute.SUPPORTED_COURSES,
                 command=Command.SET_WASHING_COURSE,
-                options_map=WASHING_COURSE_TO_HA,
+                options_map=DISHWASHER_COURSE_TO_HA ,
             )
         ]
     },

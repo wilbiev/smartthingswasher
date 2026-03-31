@@ -58,6 +58,7 @@ from .const import (
     CONF_INSTALLED_APP_ID,
     CONF_LOCATION_ID,
     CONF_SUBSCRIPTION_ID,
+    DISHWASHER_COURSE_TO_HA,
     DOMAIN,
     EVENT_BUTTON,
     MAIN,
@@ -551,7 +552,7 @@ def process_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
     if (predefined := program_capabilities_list.get(Attribute.PREDEFINED_COURSES)) is not None:
         course_list = cast(list[dict[str, Any]], predefined.value)
         for course in course_list:
-            program_id: str = translate_program_course(course.get(PROGRAM_COURSE_NAME))
+            program_id: str = DISHWASHER_COURSE_TO_HA.get(PROGRAM_COURSE_NAME)
             supported_options_list = {}
             supported_options = course.get(PROGRAM_OPTION_OPTIONS, {})
             for opt_key, opt_data in supported_options.items():

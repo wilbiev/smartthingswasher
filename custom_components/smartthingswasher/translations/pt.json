@@ -390,6 +390,23 @@
           "course_2b": "Auto-secagem do Tambor"
         }
       },
+      "dishwasher_course": {
+        "name": "Programa",
+        "state": {
+          "auto": "Auto",
+          "eco": "Eco",
+          "intensive": "Intensiva",
+          "delicate": "Delicada",
+          "express_0c": "Express",
+          "pre_wash": "Pré-lavagem",
+          "extra_silence": "Extra silencioso",
+          "machine_care": "Cuidado da máquina",
+          "plastics": "Plástico",
+          "pots_and_pans": "Tachos e panelas",
+          "babycare": "Cuidados para bebés",
+          "drinkware": "Copos"
+        }
+      },
       "dryer_dry_level": {
         "name": "Nível de secagem",
         "state": {
@@ -587,23 +604,6 @@
           "semi_hot": "Semi quente",
           "tap_cold": "Fria (torneira)",
           "warm": "Morna"
-        }
-      },
-      "washing_course": {
-        "name": "Programa",
-        "state": {
-          "auto": "Auto",
-          "eco": "Eco",
-          "intensive": "Intensiva",
-          "delicate": "Delicada",
-          "express_0C": "Express",
-          "preWash": "Pré-lavagem",
-          "extraSilence": "Extra silencioso",
-          "machineCare": "Cuidado da máquina",
-          "plastics": "Plástico",
-          "potsAndPans": "Tachos e panelas",
-          "babycare": "Cuidados para bebés",
-          "drinkware": "Copos"
         }
       },
       "zone_booster": {
@@ -1108,11 +1108,17 @@
       "add_rinse": {
         "name": "Adicionar enxaguamento"
       },
+      "auto": {
+        "name": "Auto"
+      },
       "auto_cycle_link": {
         "name": "Ligação de ciclo automático"
       },
       "auto_open_door": {
         "name": "Abertura automática da porta"
+      },
+      "babycare": {
+        "name": "Cuidados para bebés"
       },
       "bubble_soak": {
         "name": "BubbleSoak"
@@ -1120,14 +1126,29 @@
       "bypass_mode": {
         "name": "Modo de desvio (Bypass)"
       },
+      "delicate": {
+        "name": "Delicada"
+      },
       "display_lighting": {
         "name": "Iluminação do visor"
       },
       "do_not_disturb": {
         "name": "Não incomodar"
       },
+      "drinkware": {
+        "name": "Copos"
+      },
       "dry_plus": {
         "name": "Secagem plus"
+      },
+      "eco": {
+        "name": "Eco"
+      },
+      "express_0c": {
+        "name": "Express"
+      },
+      "extra_silence": {
+        "name": "Extra silencioso"
       },
       "heated_dry": {
         "name": "Secagem com aquecimento"
@@ -1138,17 +1159,32 @@
       "hot_air_dry": {
         "name": "Secagem a ar quente"
       },
+      "intensive": {
+        "name": "Intensiva"
+      },
       "keep_fresh_mode": {
         "name": "Modo manter fresco"
       },
+      "machine_care": {
+        "name": "Cuidado da máquina"
+      },
       "multi_tab": {
         "name": "Pastilhas multi-funções"
+      },
+      "plastics": {
+        "name": "Plástico"
+      },
+      "pots_and_pans": {
+        "name": "Tachos e panelas"
       },
       "power_cool": {
         "name": "Arrefecimento rápido"
       },
       "power_freeze": {
         "name": "Congelamento rápido"
+      },
+      "pre_wash": {
+        "name": "Pré-lavagem"
       },
       "rinse_plus": {
         "name": "Enxaguamento plus"

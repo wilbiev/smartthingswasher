@@ -393,6 +393,23 @@
           "course_2b": "Self Tub Dry"
         }
       },
+      "dishwasher_course": {
+        "name": "Course",
+        "state": {
+          "auto": "Auto",
+          "babycare": "Babycare",
+          "delicate": "Delicate",
+          "drinkware": "Drinkware",
+          "eco": "Eco",
+          "express_0c": "Express",
+          "extra_silence": "Extra Silence",
+          "intensive": "Intensive",
+          "machine_care": "Machine Care",
+          "plastics": "Plastics",
+          "pots_and_pans": "Pots and Pans",
+          "pre_wash": "Pre Wash"
+        }
+      },
       "dryer_dry_level": {
         "name": "Dryer dry level",
         "state": {
@@ -1182,11 +1199,17 @@
       "add_rinse": {
         "name": "Add rinse"
       },
+      "auto": {
+        "name": "Auto"
+      },
       "auto_cycle_link": {
         "name": "Auto cycle link"
       },
       "auto_open_door": {
         "name": "Auto open door"
+      },
+      "babycare": {
+        "name": "Babycare"
       },
       "bubble_soak": {
         "name": "Bubble soak"
@@ -1194,14 +1217,29 @@
       "bypass_mode": {
         "name": "Bypass mode"
       },
+      "delicate": {
+        "name": "Delicate"
+      },
       "display_lighting": {
         "name": "Display lighting"
       },
       "do_not_disturb": {
         "name": "Do not disturb"
       },
+      "drinkware": {
+        "name": "Drinkware"
+      },
       "dry_plus": {
         "name": "Dry plus"
+      },
+      "eco": {
+        "name": "Eco"
+      },
+      "express_0c": {
+        "name": "Express"
+      },
+      "extra_silence": {
+        "name": "Extra Silence"
       },
       "heated_dry": {
         "name": "Heated dry"
@@ -1212,17 +1250,32 @@
       "hot_air_dry": {
         "name": "Hot air dry"
       },
+      "intensive": {
+        "name": "Intensive"
+      },
       "keep_fresh_mode": {
         "name": "Keep fresh mode"
       },
+      "machine_care": {
+        "name": "Machine Care"
+      },
       "multi_tab": {
         "name": "Multi-tab"
+      },
+      "plastics": {
+        "name": "Plastics"
+      },
+      "pots_and_pans": {
+        "name": "Pots and Pans"
       },
       "power_cool": {
         "name": "Power cool"
       },
       "power_freeze": {
         "name": "Power freeze"
+      },
+      "pre_wash": {
+        "name": "Pre Wash"
       },
       "rinse_plus": {
         "name": "Rinse plus"
