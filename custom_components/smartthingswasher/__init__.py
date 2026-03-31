@@ -552,7 +552,8 @@ def process_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
     if (predefined := program_capabilities_list.get(Attribute.PREDEFINED_COURSES)) is not None:
         course_list = cast(list[dict[str, Any]], predefined.value)
         for course in course_list:
-            program_id: str = DISHWASHER_COURSE_TO_HA.get(PROGRAM_COURSE_NAME)
+            raw_program_id = PROGRAM_COURSE_NAME
+            program_id: str = DISHWASHER_COURSE_TO_HA.get(raw_program_id, str(raw_program_id).lower())
             supported_options_list = {}
             supported_options = course.get(PROGRAM_OPTION_OPTIONS, {})
             for opt_key, opt_data in supported_options.items():
