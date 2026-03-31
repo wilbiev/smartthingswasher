@@ -28,7 +28,7 @@ from .util import translate_program_course
 class SmartThingsBinarySensorEntityDescription(BinarySensorEntityDescription):
     """Describe a SmartThings binary sensor entity."""
 
-    is_on_key: str
+    is_on_key: str | bool | None = None
     category_device_class: dict[Category | str, BinarySensorDeviceClass] | None = None
     category: set[Category] | None = None
     exists_fn: Callable[[str], bool] | None = None

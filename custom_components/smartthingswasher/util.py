@@ -22,11 +22,9 @@ def translate_program_course(program_course: str | None, set_course: bool = True
         return course
     if (ln == 1 and len(course) > 2):
         return program_course.capitalize()
-    if part[0] == "TABLE" or part[0] == "COURSE":
-        if set_course:
-            return f"{PROGRAM_COURSE}_{part[ln - 1]}"
-        return part[ln - 1]
-    return course
+    if set_course:
+        return f"{PROGRAM_COURSE}_{part[ln - 1]}"
+    return part[ln - 1]
 
 
 def get_program_options(
