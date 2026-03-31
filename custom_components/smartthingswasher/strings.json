@@ -393,6 +393,23 @@
           "course_2b": "Self Tub Dry"
         }
       },
+      "dishwasher_course": {
+        "name": "Course",
+        "state": {
+          "auto": "Auto",
+          "eco": "Eco",
+          "intensive": "Intensive",
+          "delicate": "Delicate",
+          "express_0c": "Express",
+          "pre_wash": "Pre Wash",
+          "extra_silence": "Extra Silence",
+          "machine_care": "Machine Care",
+          "plastics": "Plastics",
+          "pots_and_pans": "Pots and Pans",
+          "babycare": "Babycare",
+          "drinkware": "Drinkware"
+        }
+      },
       "dryer_dry_level": {
         "name": "Dryer dry level",
         "state": {
@@ -1179,6 +1196,42 @@
       }
     },
     "switch": {
+      "auto": {
+        "name": "Auto"
+      },
+      "babycare": {
+        "name": "Babycare"
+      },
+      "delicate": {
+        "name": "Delicate"
+      },
+      "drinkware": {
+        "name": "Drinkware"
+      },
+      "eco": {
+        "name": "Eco"
+      },
+      "express_0c": {
+        "name": "Express"
+      },
+      "extra_silence": {
+        "name": "Extra Silence"
+      },
+      "intensive": {
+        "name": "Intensive"
+      },
+      "machine_care": {
+        "name": "Machine Care"
+      },
+      "plastics": {
+        "name": "Plastics"
+      },
+      "pots_and_pans": {
+        "name": "Pots and Pans"
+      },
+      "pre_wash": {
+        "name": "Pre Wash"
+      },
       "add_rinse": {
         "name": "Add rinse"
       },

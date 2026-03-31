@@ -183,6 +183,21 @@ WASHING_COURSE_TO_HA = {
     "selfClean": "self_clean"
 }
 
+DISHWASHER_COURSE_TO_HA = {
+    "auto": "auto",
+    "eco": "eco",
+    "intensive": "intensive",
+    "delicate": "delicate",
+    "express_0C": "express_0c",
+    "preWash": "pre_wash",
+    "extraSilence": "extra_silence",
+    "machineCare": "machine_care",
+    "plastics": "plastics",
+    "potsAndPans": "pots_and_pans",
+    "babycare": "babycare",
+    "drinkware": "drinkware"
+}
+
 COURSE_TO_HA = {
     "1B": "course_1b",
     "1C": "course_1c",
