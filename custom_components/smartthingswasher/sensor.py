@@ -1286,41 +1286,23 @@ async def async_setup_entry(
     entities = []
 
     for device in entry_data.devices.values():
-        for component, capabilities in device.status.items():
-            for capability, attributes in CAPABILITY_TO_SENSORS.items():
-                if capability not in capabilities:
-                    continue
-
-                for attribute, descriptions in attributes.items():
-                    attr_status = capabilities[capability].get(attribute)
-                    if attr_status is None:
-                        continue
-
-                    for description in descriptions:
-                        if description.component_fn and not description.component_fn(component):
-                            continue
-
-                        if description.capability_ignore_list:
-                            if any(
-                                all(capability in device.status[MAIN] for capability in capability_list)
-                                for capability_list in description.capability_ignore_list
-                            ):
-                                continue
-
-                        if description.exists_fn and not description.exists_fn(attr_status):
-                            continue
-
-                        entities.append(
-                            SmartThingsSensor(
-                                entry_data.client,
-                                device,
-                                description,
-                                capability,
-                                attribute,
-                                component,
-                            )
-                        )
-
+        entities.extend(
+            SmartThingsSensor(
+                entry_data.client, device, description, capability, attribute, component
+            )
+            for component, capabilities in device.status.items()
+            for capability, attributes in CAPABILITY_TO_SENSORS.items()
+            if capability in capabilities
+            for attribute, descriptions in attributes.items()
+            if (attr_status := capabilities[capability].get(attribute)) is not None
+            for description in descriptions
+            if (not description.component_fn or description.component_fn(component)) and
+               (not description.exists_fn or description.exists_fn(attr_status)) and
+               not (description.capability_ignore_list and any(
+                   all(c in device.status[MAIN] for c in cl)
+                   for cl in description.capability_ignore_list
+               ))
+        )
     async_add_entities(entities)
 
 
