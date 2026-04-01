@@ -370,15 +370,11 @@ async def async_setup_entry(
             component,
         )
         for device in entry_data.devices.values()
+        for component, capabilities in device.status.items()
+        if not any(c in capabilities for c in CAPABILITIES)
+        if not all(c in capabilities for c in AC_CAPABILITIES)
         for capability, attributes in CAPABILITY_TO_SWITCHES.items()
-        for component in device.status
-        if capability in device.status[component]
-        and not any(
-            capability in device.status[component] for capability in CAPABILITIES
-        )
-        and not all(
-            capability in device.status[component] for capability in AC_CAPABILITIES
-        )
+        if capability in capabilities
         for attribute, descriptions in attributes.items()
         for description in descriptions
     )
@@ -542,6 +538,7 @@ class SmartThingsProgramSwitch(SmartThingsEntity, SwitchEntity):
         self.capability = capability
         self.command = CAPABILITY_COMMANDS.get(capability)
         self.entity_description = entity_description
+        self._attr_is_on = False
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Turn the switch off."""

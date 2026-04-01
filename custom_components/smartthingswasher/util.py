@@ -1,7 +1,6 @@
 """Utility functions for SmartThings."""
 
 import re
-from typing import Any, cast
 
 from pysmartthings import Attribute, Capability, ComponentStatus
 
@@ -41,17 +40,25 @@ def get_program_options(
     if not options_dict:
         return None
 
-    return options_dict.options
+    return [str(opt) for opt in options_dict.options]
 
 
 def get_program_table_id(status: dict[str, ComponentStatus]) -> str:
     """Retrieve the value of the reference table ID from the status."""
-    if (main_component := status.get(MAIN)) is not None and (
-        main_component.get(Capability.CUSTOM_SUPPORTED_OPTIONS)
-    ) is not None:
-        if (capability_status:= main_component.get(Capability.CUSTOM_SUPPORTED_OPTIONS)) is not None:
-            attribute_status = cast(
-            dict[str, Any], capability_status[Attribute.REFERENCE_TABLE].value)
-            value = str(attribute_status.get("id"))
-            return value.lower()
+    main_component = status.get(MAIN)
+    if not main_component:
+        return ""
+
+    capability_status = main_component.get(Capability.CUSTOM_SUPPORTED_OPTIONS)
+    if not capability_status:
+        return ""
+
+    attribute_status = capability_status.get(Attribute.REFERENCE_TABLE)
+    if not attribute_status or not attribute_status.value:
+        return ""
+
+    if isinstance(attribute_status.value, dict):
+        table_id = str(attribute_status.value.get("id", ""))
+        return table_id.lower()
+
     return ""
