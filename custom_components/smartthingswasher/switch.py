@@ -14,12 +14,7 @@ from homeassistant.exceptions import ServiceValidationError
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FullDevice, Program, SmartThingsConfigEntry
-from .const import (
-    CAPABILITIES_WITH_PROGRAMS,
-    CAPABILITY_COMMANDS,
-    CAPABILITY_COURSES,
-    MAIN,
-)
+from .const import CAPABILITY_COMMANDS, CAPABILITY_COURSES, MAIN
 from .entity import SmartThingsEntity
 from .util import get_program_table_id, translate_program_course
 
@@ -410,9 +405,9 @@ async def async_setup_entry(
         )
         for device in entry_data.devices.values()
         for program in device.programs.values()
-        for capability, attribute in CAPABILITIES_WITH_PROGRAMS.items()
-        for component in device.status
-        if capability in device.status[component]
+        for component, capabilities in device.status.items()
+        for capability, attribute in CAPABILITY_COURSES.items()
+        if capability in capabilities and capabilities[capability].get(attribute) is not None
     )
 
 
