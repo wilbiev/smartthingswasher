@@ -412,7 +412,26 @@
           "heavy": "Heavy",
           "express": "Express",
           "rinse_only": "Rinse only",
-          "self_clean": "Self clean"
+          "self_clean": "Self clean",
+          "course_ai": "AI Wash",
+          "baby_bottle": "Baby Bottle",
+          "chef": "Chef",
+          "cold_rinse": "Cold Rinse",
+          "daily": "Daily",
+          "course_09": "Daily 09",
+          "dry_only": "Dry only",
+          "course_08": "Eco 08",
+          "course_10": "Eco 10",
+          "glasses": "Glasses",
+          "night": "Night",
+          "night_silence": "Night Silence",
+          "pre_blast": "Pre Blast",
+          "quick": "Quick",
+          "course_14": "Quick 14",
+          "rinse_dry": "Rinse + Dry",
+          "self_sanitize": "Self Sanitize",
+          "steam_soak": "Steam Soak",
+          "upper_express": "Upper Express"
         }
       },
       "dryer_dry_level": {
@@ -1240,6 +1259,63 @@
       "self_clean": {
         "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::self_clean%]"
       },
+      "course_ai": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::course_ai%]"
+      },
+      "baby_bottle": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::baby_bottle%]"
+      },
+      "chef": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::chef%]"
+      },
+      "cold_rinse": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::cold_rinse%]"
+      },
+      "daily": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::daily%]"
+      },
+      "course_09": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::course_09%]"
+      },
+      "dry_only": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::dry_only%]"
+      },
+      "course_08": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::course_08%]"
+      },
+      "course_10": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::course_10%]"
+      },
+      "glasses": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::glasses%]"
+      },
+      "night": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::night%]"
+      },
+      "night_silence": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::night_silence%]"
+      },
+      "pre_blast": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::pre_blast%]"
+      },
+      "quick": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::quick%]"
+      },
+      "course_14": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::course_14%]"
+      },
+      "rinse_dry": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::rinse_dry%]"
+      },
+      "self_sanitize": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::self_sanitize%]"
+      },
+      "steam_soak": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::steam_soak%]"
+      },
+      "upper_express": {
+        "name": "[%key:component::smartthingswasher::entity::select::dishwasher_course::state::upper_express%]"
+      },
       "add_rinse": {
         "name": "Add rinse"
       },
@@ -1311,9 +1387,6 @@
       },
       "steam_closet_sanitize_mode": {
         "name": "Sanitize mode"
-      },
-      "steam_soak": {
-        "name": "Steam soak"
       },
       "storm_wash": {
         "name": "Storm wash"

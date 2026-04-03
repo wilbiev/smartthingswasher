@@ -14,7 +14,12 @@ from homeassistant.exceptions import ServiceValidationError
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FullDevice, Program, SmartThingsConfigEntry
-from .const import CAPABILITY_COMMANDS, CAPABILITY_COURSES, MAIN
+from .const import (
+    CAPABILITY_COMMANDS,
+    CAPABILITY_COURSES,
+    DISHWASHER_COURSE_TO_HA,
+    MAIN,
+)
 from .entity import SmartThingsEntity
 from .util import get_program_table_id, translate_program_course
 
@@ -32,6 +37,7 @@ AC_CAPABILITIES = (
     Capability.THERMOSTAT_COOLING_SETPOINT,
 )
 
+HA_TO_DISHWASHER_COURSE = {value: key for key, value in DISHWASHER_COURSE_TO_HA.items()}
 
 @dataclass(frozen=True, kw_only=True)
 class SmartThingsSwitchEntityDescription(SwitchEntityDescription):
@@ -541,8 +547,14 @@ class SmartThingsProgramSwitch(SmartThingsEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn the switch on."""
         if self.command is not None and self.program is not None:
+            payload = self.program.program_id
+            if self.capability in {
+                Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
+                Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE_DETAILS,
+            }:
+                payload = HA_TO_DISHWASHER_COURSE.get(self.program.program_id, self.program.program_id)
             await self.execute_device_command(
-                self.capability, self.command, self.program.program_id
+                self.capability, self.command, payload
             )
 
     @property
