@@ -397,22 +397,41 @@
         "name": "Course",
         "state": {
           "auto": "Auto",
+          "baby_bottle": "Baby Bottle",
           "babycare": "Babycare",
+          "chef": "Chef",
+          "cold_rinse": "Cold Rinse",
+          "course_08": "Eco 08",
+          "course_09": "Daily 09",
           "course_0c": "Express",
+          "course_10": "Eco 10",
+          "course_14": "Quick 14",
+          "course_ai": "AI Wash",
+          "daily": "Daily",
           "delicate": "Delicate",
           "drinkware": "Drinkware",
+          "dry_only": "Dry only",
           "eco": "Eco",
           "express": "Express",
           "extra_silence": "Extra Silence",
+          "glasses": "Glasses",
           "heavy": "Heavy",
           "intensive": "Intensive",
           "machine_care": "Machine Care",
+          "night": "Night",
+          "night_silence": "Night Silence",
           "normal": "Normal",
           "plastics": "Plastics",
           "pots_and_pans": "Pots and Pans",
+          "pre_blast": "Pre Blast",
           "pre_wash": "Pre Wash",
+          "quick": "Quick",
+          "rinse_dry": "Rinse + Dry",
           "rinse_only": "Rinse only",
-          "self_clean": "Self clean"
+          "self_clean": "Self clean",
+          "self_sanitize": "Self Sanitize",
+          "steam_soak": "Steam Soak",
+          "upper_express": "Upper Express"
         }
       },
       "dryer_dry_level": {
@@ -1201,6 +1220,9 @@
       "auto_open_door": {
         "name": "Auto open door"
       },
+      "baby_bottle": {
+        "name": "Baby Bottle"
+      },
       "babycare": {
         "name": "Babycare"
       },
@@ -1210,8 +1232,32 @@
       "bypass_mode": {
         "name": "Bypass mode"
       },
+      "chef": {
+        "name": "Chef"
+      },
+      "cold_rinse": {
+        "name": "Cold Rinse"
+      },
+      "course_08": {
+        "name": "Eco 08"
+      },
+      "course_09": {
+        "name": "Daily 09"
+      },
       "course_0c": {
         "name": "Express"
+      },
+      "course_10": {
+        "name": "Eco 10"
+      },
+      "course_14": {
+        "name": "Quick 14"
+      },
+      "course_ai": {
+        "name": "AI Wash"
+      },
+      "daily": {
+        "name": "Daily"
       },
       "delicate": {
         "name": "Delicate"
@@ -1225,6 +1271,9 @@
       "drinkware": {
         "name": "Drinkware"
       },
+      "dry_only": {
+        "name": "Dry only"
+      },
       "dry_plus": {
         "name": "Dry plus"
       },
@@ -1236,6 +1285,9 @@
       },
       "extra_silence": {
         "name": "Extra Silence"
+      },
+      "glasses": {
+        "name": "Glasses"
       },
       "heated_dry": {
         "name": "Heated dry"
@@ -1261,6 +1313,12 @@
       "multi_tab": {
         "name": "Multi-tab"
       },
+      "night": {
+        "name": "Night"
+      },
+      "night_silence": {
+        "name": "Night Silence"
+      },
       "normal": {
         "name": "Normal"
       },
@@ -1276,8 +1334,17 @@
       "power_freeze": {
         "name": "Power freeze"
       },
+      "pre_blast": {
+        "name": "Pre Blast"
+      },
       "pre_wash": {
         "name": "Pre Wash"
+      },
+      "quick": {
+        "name": "Quick"
+      },
+      "rinse_dry": {
+        "name": "Rinse + Dry"
       },
       "rinse_only": {
         "name": "Rinse only"
@@ -1297,6 +1364,9 @@
       "self_clean": {
         "name": "Self clean"
       },
+      "self_sanitize": {
+        "name": "Self Sanitize"
+      },
       "sound_detection": {
         "name": "Sound detection"
       },
@@ -1313,7 +1383,7 @@
         "name": "Sanitize mode"
       },
       "steam_soak": {
-        "name": "Steam soak"
+        "name": "Steam Soak"
       },
       "storm_wash": {
         "name": "Storm wash"
@@ -1530,6 +1600,9 @@
       },
       "table_03_course_2b": {
         "name": "Self Tub Dry"
+      },
+      "upper_express": {
+        "name": "Upper Express"
       },
       "wrinkle_prevent": {
         "name": "Wrinkle prevent"
