@@ -174,26 +174,23 @@ WASHER_WATER_TEMPERATURE_TO_HA = {
     "high": "high",
 }
 
-WASHING_COURSE_TO_HA = {
-}
-
 DISHWASHER_COURSE_TO_HA = {
-    "AI": "course_ai",
+    "AI": "ai_wash",
     "auto": "auto",
     "babyBottle": "baby_bottle",
     "babycare": "babycare",
     "chef": "chef",
     "coldRinse": "cold_rinse",
     "daily": "daily",
-    "daily_09": "course_09",
+    "daily_09": "daily_09",
     "delicate": "delicate",
     "drinkware": "drinkware",
     "dryOnly": "dry_only",
     "eco": "eco",
-    "eco_08": "course_08",
-    "eco_10": "course_10",
+    "eco_08": "eco_08",
+    "eco_10": "eco_10",
     "express": "express",
-    "express_0C": "course_0c",
+    "express_0C": "express_0c",
     "extraSilence": "extra_silence",
     "glasses": "glasses",
     "heavy": "heavy",
@@ -207,7 +204,7 @@ DISHWASHER_COURSE_TO_HA = {
     "preBlast": "pre_blast",
     "preWash": "pre_wash",
     "quick": "quick",
-    "quick_14": "course_14",
+    "quick_14": "quick_14",
     "rinseDry": "rinse_dry",
     "rinseOnly": "rinse_only",
     "selfClean": "self_clean",
@@ -285,7 +282,6 @@ JOB_STATE_MAP = {
     "washing": "wash",
     "drying": "dry",
     "selfClean": "self_clean",
-    "none": "none",
     "unknown": None,
 }
 

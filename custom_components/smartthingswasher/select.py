@@ -170,7 +170,8 @@ CAPABILITY_TO_SELECTS: dict[
                 options_attribute=Attribute.SUPPORTED_COURSES,
                 command=Command.SET_WASHING_COURSE,
                 options_map=DISHWASHER_COURSE_TO_HA,
-                capability_ignore_list=[Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE],            )
+                capability_ignore_list=[Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE],
+            )
         ]
     },
     Capability.DRYER_OPERATING_STATE: {
@@ -490,6 +491,12 @@ async def async_setup_entry(
         if capability in device.status[component]
         for attribute, descriptions in attributes.items()
         for description in descriptions
+        if (description.capability_ignore_list is None
+                or all(
+                    capability not in device.status[component]
+                    for capability in description.capability_ignore_list
+                )
+        )
     ]
     async_add_entities(program_select_entities)
 
