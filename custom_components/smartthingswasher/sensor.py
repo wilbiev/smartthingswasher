@@ -216,7 +216,7 @@ CAPABILITY_TO_SENSORS: dict[
         Attribute.STEAM_CLOSET_JOB_STATE: [
             SmartThingsSensorEntityDescription(
                 key=Attribute.STEAM_CLOSET_JOB_STATE,
-                translation_key="steam_closet_job_state",
+                translation_key="job_state",
                 options_attribute=Attribute.SUPPORTED_STEAM_CLOSET_JOB_STATE,
                 device_class=SensorDeviceClass.ENUM,
                 value_fn=lambda value: JOB_STATE_MAP.get(value, value),
@@ -250,7 +250,7 @@ CAPABILITY_TO_SENSORS: dict[
         Attribute.DISHWASHER_JOB_STATE: [
             SmartThingsSensorEntityDescription(
                 key=Attribute.DISHWASHER_JOB_STATE,
-                translation_key="dishwasher_job_state",
+                translation_key="job_state",
                 options=[
                     "washing",
                     "rising",
@@ -266,7 +266,7 @@ CAPABILITY_TO_SENSORS: dict[
         Attribute.DISHWASHER_JOB_STATE: [
             SmartThingsSensorEntityDescription(
                 key=Attribute.DISHWASHER_JOB_STATE,
-                translation_key="dishwasher_job_state",
+                translation_key="job_state",
                 options=[
                     "air_wash",
                     "cooling",
@@ -351,7 +351,7 @@ CAPABILITY_TO_SENSORS: dict[
         Attribute.DRYER_JOB_STATE: [
             SmartThingsSensorEntityDescription(
                 key=Attribute.DRYER_JOB_STATE,
-                translation_key="dryer_job_state",
+                translation_key="job_state",
                 options=[
                     "cooling",
                     "delay_wash",
@@ -427,7 +427,7 @@ CAPABILITY_TO_SENSORS: dict[
         Attribute.WASHER_JOB_STATE: [
             SmartThingsSensorEntityDescription(
                 key=Attribute.WASHER_JOB_STATE,
-                translation_key="washer_job_state",
+                translation_key="job_state",
                 options=[
                     "air_wash",
                     "ai_rinse",

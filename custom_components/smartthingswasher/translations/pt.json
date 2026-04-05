@@ -395,7 +395,7 @@
         "state": {
           "auto": "Auto",
           "babycare": "Cuidados para bebés",
-          "course_0c": "Express",
+          "express_0c": "Express",
           "delicate": "Delicada",
           "drinkware": "Copos",
           "eco": "Eco",
@@ -484,7 +484,12 @@
         }
       },
       "machine_state": {
-        "name": "Estado da máquina"
+        "name": "Estado da máquina",
+        "state": {
+          "pause": "Pausar",
+          "run": "Iniciar",
+          "stop": "Parar"
+        }
       },
       "robot_cleaner_cleaning_type": {
         "name": "Tipo de limpeza",
@@ -661,62 +666,11 @@
       "cooler_temperature": {
         "name": "Temperatura do frigorífico"
       },
-      "dishwasher_job_state": {
-        "name": "Etapa do ciclo",
-        "state": {
-          "air_wash": "Arejamento",
-          "cooling": "Arrefecimento",
-          "drying": "Secagem",
-          "finish": "Concluído",
-          "pre_drain": "Drenagem prévia",
-          "pre_wash": "Pré-lavagem",
-          "rinse": "Enxaguamento",
-          "spin": "Centrifugação",
-          "wash": "Lavagem",
-          "wrinkle_prevent": "Antivincos"
-        }
-      },
-      "dishwasher_machine_state": {
-        "name": "Estado da máquina",
-        "state": {
-          "pause": "Pausar",
-          "run": "Iniciar",
-          "stop": "Parar"
-        }
-      },
       "diverter_valve_position": {
         "name": "Posição da válvula",
         "state": {
           "room": "Divisão",
           "tank": "Depósito"
-        }
-      },
-      "dryer_job_state": {
-        "name": "Etapa do ciclo",
-        "state": {
-          "ai_drying": "Secagem AI",
-          "continuous_dehumidifying": "Desumidificação contínua",
-          "cooling": "Arrefecimento",
-          "dehumidifying": "A desumidificar",
-          "delay_wash": "Lavagem retardada",
-          "drying": "A secar",
-          "finished": "Concluído",
-          "freeze_protection": "Proteção contra congelamento",
-          "internal_care": "Cuidado interno",
-          "none": "Nenhum",
-          "refreshing": "A arejar",
-          "sanitizing": "A desinfetar",
-          "thawing_frozen_inside": "A descongelar interior",
-          "weight_sensing": "Deteção de peso",
-          "wrinkle_prevent": "Antivincos"
-        }
-      },
-      "dryer_machine_state": {
-        "name": "Estado da máquina",
-        "state": {
-          "pause": "Pausar",
-          "run": "Iniciar",
-          "stop": "Parar"
         }
       },
       "dryer_mode": {
@@ -767,6 +721,38 @@
       },
       "infrared_level": {
         "name": "Nível de infravermelhos"
+      },
+      "job_state": {
+        "name": "Etapa do ciclo",
+        "state": {
+          "ai_drying": "Secagem IA",
+          "ai_rinse": "Enxaguamento AI",
+          "ai_spin": "Centrifugação AI",
+          "ai_wash": "Lavagem AI",
+          "air_wash": "Arejamento",
+          "continuous_dehumidifying": "Desumidificação contínua",
+          "cooling": "Arrefecimento",
+          "dehumidifying": "Desumidificando",
+          "delay_wash": "Lavagem retardada",
+          "dry": "A secar",
+          "finish": "Concluído",
+          "finished": "Finalizado",
+          "freeze_protection": "Proteção contra congelamento",
+          "internal_care": "Cuidado interno",
+          "none": "Nenhum",
+          "pre_drain": "Drenagem prévia",
+          "pre_wash": "Pré-lavagem",
+          "refreshing": "Refrescando",
+          "rinse": "Enxaguamento",
+          "rinse_only": "Apenas enxaguamento",
+          "sanitize": "Higienizar",
+          "self_clean": "Auto-limpeza",
+          "spin": "Centrifugação",
+          "thawing_frozen_inside": "Descongelamento interno",
+          "wash": "Lavagem",
+          "weight_sensing": "Deteção de peso",
+          "wrinkle_prevent": "Antivincos"
+        }
       },
       "lighting_mode": {
         "name": "Modo de iluminação de atividade"
@@ -1028,9 +1014,6 @@
           "tested": "Testado"
         }
       },
-      "steam_closet_job_state": {
-        "name": "Etapa do ciclo"
-      },
       "target_temperature": {
         "name": "Temperatura pretendida"
       },
@@ -1063,27 +1046,6 @@
       },
       "uv_index": {
         "name": "Índice UV"
-      },
-      "washer_job_state": {
-        "name": "Etapa do ciclo",
-        "state": {
-          "ai_rinse": "Enxaguamento AI",
-          "ai_spin": "Centrifugação AI",
-          "ai_wash": "Lavagem AI",
-          "air_wash": "Arejamento",
-          "cooling": "Arrefecimento",
-          "delay_wash": "Lavagem retardada",
-          "drying": "Secagem",
-          "finish": "Concluído",
-          "freeze_protection": "Proteção contra congelamento",
-          "none": "Nenhum",
-          "pre_wash": "Pré-lavagem",
-          "rinse": "Enxaguamento",
-          "spin": "Centrifugação",
-          "wash": "Lavagem",
-          "weight_sensing": "Deteção de peso",
-          "wrinkle_prevent": "Antivincos"
-        }
       },
       "washer_mode": {
         "name": "Modo da máquina"
@@ -1126,7 +1088,7 @@
       "bypass_mode": {
         "name": "Modo de desvio (Bypass)"
       },
-      "course_0c": {
+      "express_0c": {
         "name": "Express"
       },
       "delicate": {

@@ -4,7 +4,7 @@ import re
 
 from pysmartthings import Attribute, Capability, ComponentStatus
 
-from .const import MAIN
+from .const import DISHWASHER_COURSE_TO_HA, MAIN
 from .models import Program, SupportedOption
 
 PROGRAM_COURSE = "Course"
@@ -13,19 +13,17 @@ PROGRAM_COURSE = "Course"
 def translate_program_course(program_course: str | None, set_course: bool = True) -> str:
     """Convert a program key to a translation key format (e.g. course_xx)."""
 
-    if program_course is None:
+    if not program_course:
         return ""
-    course: str = program_course.upper()
-    part: list[str] = course.split("_")
-    ln = len(part)
-    if (ln  == 0):
-        return course
-    if (ln == 1 and len(course) > 2):
-        pattern = re.compile(r'(?<!^)(?=[A-Z])')
-        return pattern.sub('_', program_course).lower()
-    if set_course:
-        return f"{PROGRAM_COURSE}_{part[ln - 1]}"
-    return part[ln - 1]
+
+    if program_course in DISHWASHER_COURSE_TO_HA:
+        return DISHWASHER_COURSE_TO_HA[program_course]
+
+    if "_" not in program_course and len(program_course) > 2:
+        return re.sub(r'(?<!^)(?=[A-Z])', '_', program_course).lower()
+
+    last_part = program_course.split("_")[-1].upper()
+    return f"{PROGRAM_COURSE}_{last_part}" if set_course else last_part
 
 
 def get_program_options(

@@ -1,135 +1,251 @@
-# SmartThings Dryer - Steam Closet - Washer
-Custom integration for SmartThings Dryers, Steam Closets and Washers
+# SmartThings Dishwasher - Dryer - Steam Closet - Washer
 
-Test version based on SmartThings integration of @JoostLek
+Custom integration for SmartThings Dishwashers, Dryers, Steam Closets and Washers
+
+Custom version based on SmartThings integration of @JoostLek
 
 ## Instructions for installation
 
 ### Remove the standard SmartThings integration
 
-The standard integration and this test version can not be installed both in one HA instance!
+The standard integration and this custom version can not be installed both in one HA instance!
 
 ### Setup custom repository in HACS
 
-Open your Home Assistant instance and add https://github.com/wilbiev/smartthingswasher as a custom repository [Home Assistant Community Store (HACS)](https://hacs.xyz/docs/faq/custom_repositories/)  <br>
-![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store](https://my.home-assistant.io/badges/hacs_repository.svg)  <br>
+Open your Home Assistant instance and add https://github.com/wilbiev/smartthingswasher as a custom repository [Home Assistant Community Store (HACS)](https://hacs.xyz/docs/faq/custom_repositories/) <br>
+![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store](https://my.home-assistant.io/badges/hacs_repository.svg) <br>
 Download the custom repository and restart Home Assistant.
 
 ### Setup integration in Home Assistant
 
 After installing, you can easily configure your devices using the Integrations configuration UI. Go to Settings / Devices & Services and press the Add Integration button, or click the shortcut button below (requires My Homeassistant configured).
 
-![Add Integration to your Home Assistant instance](https://my.home-assistant.io/badges/config_flow_start.svg)  <br>
+![Add Integration to your Home Assistant instance](https://my.home-assistant.io/badges/config_flow_start.svg) <br>
 A red box is displayed in the integration while it replaces the standard integration
+
+## SmartThings dishwasher support
+
+### Button entities
+
+- Cancel
+- Start
+- Pause / Resume
+- Start later
+
+### Binary sensor entities (are hidden by default and can be enabled)
+
+- Add Rinse support (shows if Add Rinse is supported by selected course)
+- Dry Plus support (shows if Dry Plus is supported by selected course)
+- Heated Dry support (shows if Heated Dry is supported by selected course)
+- High Temp Wash support (shows if High Temp Wash is supported by selected course)
+- Hot Air Dry support (shows if Hot Air Dry is supported by selected course)
+- Multi Tab support (shows if Multi Tab is supported by selected course)
+- Rinse Plus support (shows if Rinse Plus is supported by selected course)
+- Sanitizing Wash support (shows if Sanitizing Wash is supported by selected course)
+- Speed Booster support (shows if Speed Booster is supported by selected course)
+- Steam Soak support (shows if Steam Soak is supported by selected course)
+- Storm Wash support (shows if Storm Wash is supported by selected course)
+- Child lock (standard)
+- Remote control (standard)
+
+### Number entities
+
+- Delay start time
+
+### Sensor entities
+
+- Completion time (standard)
+- Energy/Power consumption (standard)
+- Job state (standard)
+- Operating state
+- Operation time
+- Progress
+- Remaining time
+- Time left to start
+- Water consumption
+
+### Select entities
+
+- Operating state (hidden by default)
+- Selected Zone\* (if supported by dishwasher)
+- Washing course
+- Zone Booster\* (if supported by dishwasher)
+
+(\* select options based on selected course when remote control is on)
+
+### Switch entities
+
+- Add Rinse support (if supported by dishwasher)
+- Dry Plus support (if supported by dishwasher)
+- Heated Dry support (if supported by dishwasher)
+- High Temp Wash support (if supported by dishwasher)
+- Hot Air Dry (if supported by dishwasher)
+- Multi Tab (if supported by dishwasher)
+- Rinse Plus (if supported by dishwasher)
+- Sanitizing Wash (if supported by dishwasher)
+- Speed Booster (if supported by dishwasher)
+- Steam Soak (if supported by dishwasher)
+- Storm Wash (if supported by dishwasher)
+- Switch per dishwasher course
+
+### Current dishwasher course support
+
+| Name course   |
+| ------------- |
+| AI Wash       |
+| Auto          |
+| Baby Bottle   |
+| Babycare      |
+| Chef          |
+| Cold Rinse    |
+| Daily         |
+| Daily 09      |
+| Delicate      |
+| Drinkware     |
+| Dry Only      |
+| Eco           |
+| Eco 08        |
+| Eco 10        |
+| Express       |
+| Express 0C    |
+| Extra Silence |
+| Glasses       |
+| Heavy         |
+| Intensive     |
+| Machine Care  |
+| Night         |
+| Night Silence |
+| Normal        |
+| Plastics      |
+| Pots and Pans |
+| Pre Blast     |
+| Pre Wash      |
+| Quick         |
+| Quick 14      |
+| Rinse Dry     |
+| Rinse Only    |
+| Self Clean    |
+| Self Sanitize |
+| Steam Soak    |
+| Upper Express |
+
+Please share the information when your dishwasher courses are not supported!
 
 ## Additional SmartThings dryer/washer support
 
 ### Button entities
-* Cancel
-* Start
-* Pause / Resume
-* Estimate operation time
+
+- Cancel
+- Start
+- Pause / Resume
+- Estimate operation time
 
 ### Binary sensor entities
-* BubbleSoak support (shows if BubbleSoak is supported by selected course)
-* Child lock (standard)
-* Remote control (standard)
+
+- Bubble Soak support (shows if Bubble Soak is supported by selected course)
+- Child lock (standard)
+- Remote control (standard)
 
 ### Number entities
-* Delay time
+
+- Delay time
 
 ### Sensor entities
-* Completion time (standard)
-* Energy (standard) 
-* Job state (standard)
-* Machine state (standard)
-* Operation time
-* Operation state
-* Progress
-* Remaining detergent
-* Remaining softener
-* Remaining time
-* Water consumption
+
+- Completion time (standard)
+- Energy (standard)
+- Job state (standard)
+- Machine state (standard)
+- Operation time
+- Operation state
+- Progress
+- Remaining detergent
+- Remaining softener
+- Remaining time
+- Water consumption
 
 ### Select entities
-* Auto dispense detergent amount
-* Auto dispense detergent density
-* Auto dispense softener amount
-* Auto dispense softener density
-* Course (when dryer/steam closet/washer cycle not available)
-* Cycle courses
-* Dry level*
-* Dring temperature* (dryer only)
-* Drying time (dryer only)
-* Rinse cyle*
-* Soil level*
-* Spin level*
-* Water temperature*
 
-(* select options based on selected course when remote control is on)
+- Auto dispense detergent amount
+- Auto dispense detergent density
+- Auto dispense softener amount
+- Auto dispense softener density
+- Course (when dryer/steam closet/washer cycle not available)
+- Cycle courses
+- Dry level\*
+- Dring temperature\* (dryer only)
+- Drying time (dryer only)
+- Rinse cycle\*
+- Soil level\*
+- Spin level\*
+- Water temperature\*
+
+(\* select options based on selected course when remote control is on)
 
 ### Switch entities
-* BubbleSoak (washer only)
-* Keep fresh mode (steam closet only)
-* Sanitize mode (steam closet only)
-* Switch per dryer/washer course
+
+- BubbleSoak (washer only)
+- Keep fresh mode (steam closet only)
+- Sanitize mode (steam closet only)
+- Switch per dryer/washer course
 
 ### Current dryer/steam closet/washer course support
-| Name course       | Table_00      | Table_01      | Table_02      | Table_03      |
-|-------------------|---------------|---------------|---------------|---------------|
-|	15m Quick Wash	| Course_66	    |	        	| Course_1E	    |		        |
-|	15m Quick Wash	| Course_DC	    |	        	| Course_1E	    |		        |
-|	Activewear	    |		        |	        	| Course_2F	    |		        |
-|	AI Dry	        |		        |	        	|		        | Course_29 	|
-|	AI Wash	        |		        |		        | Course_2B	    |	        	|
-|	Air Refresh	    | Course_61	    |		        | Course_37	    |	        	|
-|	Baby Care	    |		        |	        	| Course_2E	    |	        	|
-|	Bedding	        | Course_D6	    |	        	| Course_24	    | Course_1B	    |
-|	Cloudy Day	    |		        |	        	| Course_30	    |	        	|
-|	Colours	        |		        |	            | Course_21	    |		        |
-|	Cool Air	    |		        |	        	|		        | Course_24	    |
-|	Cotton	        | Course_5B	    |	        	| Course_1B	    | Course_16	    |
-|	Cotton	        | Course_D0	    |		        | Course_1B	    | Course_16	    |
-|	Cotton Dry	    |		        |		        | Course_38	    |		        |
-|	Daily Wash	    | Course_5D	    |		        | Course_34	    |		        |
-|	Dark Garment	| Course_D9	    |		        |		        |		        |
-|	Delicates	    | Course_D3	    |		        | Course_26	    | Course_19	    |
-|	Denim	        |		        |	        	| Course_2A	    |		        |
-|	Denim	        |		        |		        | Course_66	    |		        |
-|	Drain/Spin	    | Course_BA	    |		        | Course_28	    |		        |
-|	Drum Clean	    |		        |		        | Course_29	    |		        |
-|	Drum Clean	    |		        |		        | Course_3A	    |		        |
-|	Drum Clean+	    |		        |		        |		        |	        	|
-|	Drying	        | Course_63	    |		        |		        |		        |
-|	Eco 40-60	    |		        |		        | Course_1C	    |		        |
-|	Eco Drum Clean	| Course_60	    |		        |		        |		        |
-|	Eco Drum Clean	| Course_D5	    |		        |		        |		        |
-|	eCotton	        | Course_D1	    |		        | Course_35	    |	        	|
-|	Hygiene Care	|		        |		        |	        	|		        |
-|	Hygiene Steam	|		        |		        | Course_20	    |	        	|
-|	Intense Cold	|		        |		        | Course_1F	    |		        |
-|	Intense Cold	|		        |		        | Course_8F	    |		        |
-|	Iron Dry	    |		        |	        	|		        | Course_20	    |
-|	Less Microfiber	|		        |		        | Course_96	    |		        |
-|	Mixed Load	    |		        |		        |		        |	        	|
-|	Outdoor	        | Course_D7	    |		        | Course_23	    | Course_1E	    |
-|	Quick Dry 35m	|		        |	        	|		        | Course_23 	|
-|	Rinse+Spin	    | Course_5F	    |		        | Course_27	    |		        |
-|	Rinse+Spin	    | Course_D4	    |	        	| Course_27	    |	        	|
-|	Self Tub Dry	|		        |		        |		        | Course_2B	    |
-|	Shirts	        |	        	|		        | Course_32	    | Course_1C	    |
-|	Silent Dry	    |		        |		        |		        |	        	|
-|	Silent Wash	    |		        |	        	| Course_2D	    |		        |
-|	Spin	        | Course_5E	    |	        	|		        |		        |
-|	Super Eco Wash	| Course_DA	    |	        	|		        |		        |
-|	Super Speed	    | Course_DB	    |	            | Course_1D	    |	        	|
-|	Synthetics	    | Course_5C	    |		        | Course_25	    | Course_18	    |
-|	Synthetics	    | Course_D2	    |		        | Course_25	    | Course_18	    |
-|	Synthetics Dry	|		        |		        | Course_39	    |		        |
-|	Time Dry	    |		        |		        |		        | Course_27	    |
-|	Towels	        |		        |		        | Course_33	    | Course_1D	    |
-|	Warm Air	    |		        |		        |		        | Course_25	    |
-|	Wash+Dry	    |		        |		        | Course_36	    |		        |
-|	Wool	        | Course_D8	    |		        | Course_22	    | Course_1A	    |
 
-Please share the information when your dryer/steam closet/washer courses are not supported! 
+| Name course     | Table_00  | Table_01 | Table_02  | Table_03  |
+| --------------- | --------- | -------- | --------- | --------- |
+| 15m Quick Wash  | Course_66 |          | Course_1E |           |
+| 15m Quick Wash  | Course_DC |          | Course_1E |           |
+| Activewear      |           |          | Course_2F |           |
+| AI Dry          |           |          |           | Course_29 |
+| AI Wash         |           |          | Course_2B |           |
+| Air Refresh     | Course_61 |          | Course_37 |           |
+| Baby Care       |           |          | Course_2E |           |
+| Bedding         | Course_D6 |          | Course_24 | Course_1B |
+| Cloudy Day      |           |          | Course_30 |           |
+| Colours         |           |          | Course_21 |           |
+| Cool Air        |           |          |           | Course_24 |
+| Cotton          | Course_5B |          | Course_1B | Course_16 |
+| Cotton          | Course_D0 |          | Course_1B | Course_16 |
+| Cotton Dry      |           |          | Course_38 |           |
+| Daily Wash      | Course_5D |          | Course_34 |           |
+| Dark Garment    | Course_D9 |          |           |           |
+| Delicates       | Course_D3 |          | Course_26 | Course_19 |
+| Denim           |           |          | Course_2A |           |
+| Denim           |           |          | Course_66 |           |
+| Drain/Spin      | Course_BA |          | Course_28 |           |
+| Drum Clean      |           |          | Course_29 |           |
+| Drum Clean      |           |          | Course_3A |           |
+| Drum Clean+     |           |          |           |           |
+| Drying          | Course_63 |          |           |           |
+| Eco 40-60       |           |          | Course_1C |           |
+| Eco Drum Clean  | Course_60 |          |           |           |
+| Eco Drum Clean  | Course_D5 |          |           |           |
+| eCotton         | Course_D1 |          | Course_35 |           |
+| Hygiene Care    |           |          |           |           |
+| Hygiene Steam   |           |          | Course_20 |           |
+| Intense Cold    |           |          | Course_1F |           |
+| Intense Cold    |           |          | Course_8F |           |
+| Iron Dry        |           |          |           | Course_20 |
+| Less Microfiber |           |          | Course_96 |           |
+| Mixed Load      |           |          |           |           |
+| Outdoor         | Course_D7 |          | Course_23 | Course_1E |
+| Quick Dry 35m   |           |          |           | Course_23 |
+| Rinse+Spin      | Course_5F |          | Course_27 |           |
+| Rinse+Spin      | Course_D4 |          | Course_27 |           |
+| Self Tub Dry    |           |          |           | Course_2B |
+| Shirts          |           |          | Course_32 | Course_1C |
+| Silent Dry      |           |          |           |           |
+| Silent Wash     |           |          | Course_2D |           |
+| Spin            | Course_5E |          |           |           |
+| Super Eco Wash  | Course_DA |          |           |           |
+| Super Speed     | Course_DB |          | Course_1D |           |
+| Synthetics      | Course_5C |          | Course_25 | Course_18 |
+| Synthetics      | Course_D2 |          | Course_25 | Course_18 |
+| Synthetics Dry  |           |          | Course_39 |           |
+| Time Dry        |           |          |           | Course_27 |
+| Towels          |           |          | Course_33 | Course_1D |
+| Warm Air        |           |          |           | Course_25 |
+| Wash+Dry        |           |          | Course_36 |           |
+| Wool            | Course_D8 |          | Course_22 | Course_1A |
+
+Please share the information when your dryer/steam closet/washer courses are not supported!
