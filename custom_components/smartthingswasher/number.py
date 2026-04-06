@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
-from datetime import datetime
+from typing import Any
 
 from pysmartthings import Attribute, Capability, Command, SmartThings
 
@@ -38,6 +38,8 @@ class SmartThingsNumberEntityDescription(NumberEntityDescription):
     use_temperature_unit: bool = False
     component_fn: Callable[[str], bool] | None = None
     component_translation_key: dict[str, str] | None = None
+    value_fn: Callable[[Any], float | int | None] | None = None
+    action_fn: Callable[[float], Any] | None = None
 
 
 CAPABILITY_TO_NUMBERS: dict[
@@ -98,7 +100,13 @@ CAPABILITY_TO_NUMBERS: dict[
                 command=Command.SET_DISHWASHER_DELAY_START_TIME,
                 native_min_value=0,
                 native_max_value=1440,
-                native_step=5,
+                native_step=30,
+                value_fn=lambda val: (
+                    int(parts[0]) * 60 + int(parts[1])
+                    if isinstance(val, str) and len(parts := val.split(":")) >= 2
+                    else val
+                ),
+                action_fn=lambda val: f"{int(val) // 60:02d}:{int(val) % 60:02d}:00",
                 int_type=STType.INTEGER,
             )
         ]
@@ -276,35 +284,37 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
 
 
     @property
-    def native_value(self) -> str | float | datetime | int | None:
+    def native_value(self) -> float | int | None:
         """Return the state of the number."""
         if self._number is None:
             return None
 
-        return self.get_attribute_value(self.capability, self._attribute)
+        raw_val = self.get_attribute_value(self.capability, self._attribute)
+        if raw_val is None:
+            return None
+
+        if self.entity_description.value_fn:
+            return self.entity_description.value_fn(raw_val)
+
+        return raw_val
 
 
-    async def async_set_native_value(self, value: float) -> int | float | str | None:
+    async def async_set_native_value(self, value: float) -> None:
         """Set new value."""
-        if self._number is None:
-            raise RuntimeError("Cannot set value, device doesn't provide type data")
+        if self.command is None or value is None:
+            return
 
-        if self.command is not None and value is not None:
-            if self._number is STType.INTEGER:
-                await self.execute_device_command(
-                    self.capability,
-                    self.command,
-                    int(value),
-                )
-            elif self._number is STType.FLOAT:
-                await self.execute_device_command(
-                    self.capability,
-                    self.command,
-                    str(value),
-                )
-            else:
-                await self.execute_device_command(
-                    self.capability,
-                    self.command,
-                    str(int(value)),
-                )
+        if self.entity_description.action_fn:
+            command_value = self.entity_description.action_fn(value)
+        elif self._number is STType.INTEGER:
+            command_value = int(value)
+        elif self._number is STType.FLOAT:
+            command_value = str(value)
+        else:
+            command_value = str(int(value))
+
+        await self.execute_device_command(
+            self.capability,
+            self.command,
+            command_value,
+        )
