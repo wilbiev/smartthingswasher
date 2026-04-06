@@ -8,9 +8,10 @@ from .const import DISHWASHER_COURSE_TO_HA, MAIN
 from .models import Program, SupportedOption
 
 PROGRAM_COURSE = "Course"
+HA_TO_DISHWASHER_COURSE = {value: key for key, value in DISHWASHER_COURSE_TO_HA.items()}
 
 
-def translate_program_course(program_course: str | None, set_course: bool = True) -> str:
+def translate_program_course(program_course: str | None) -> str:
     """Convert a program key to a translation key format (e.g. course_xx)."""
 
     if not program_course:
@@ -22,8 +23,28 @@ def translate_program_course(program_course: str | None, set_course: bool = True
     if "_" not in program_course and len(program_course) > 2:
         return re.sub(r'(?<!^)(?=[A-Z])', '_', program_course).lower()
 
-    last_part = program_course.split("_")[-1].upper()
-    return f"{PROGRAM_COURSE}_{last_part}" if set_course else last_part
+    last_part = program_course.split("_")[-1].lower()
+    return f"{PROGRAM_COURSE}_{last_part}".lower()
+
+
+def command_program_course(program_course: str) -> str:
+    """Convert a translation key back to a SmartThings program ID."""
+    if not program_course:
+        return ""
+
+    if program_course in HA_TO_DISHWASHER_COURSE:
+        return HA_TO_DISHWASHER_COURSE[program_course]
+
+    prefix = f"{PROGRAM_COURSE}_".lower()
+    if program_course.startswith(prefix):
+        last_part = program_course[len(prefix):].upper()
+        return f"{PROGRAM_COURSE}_{last_part}"
+
+    if "_" in program_course:
+        words = program_course.split("_")
+        return words[0] + "".join(word.capitalize() for word in words[1:])
+
+    return program_course
 
 
 def get_program_options(

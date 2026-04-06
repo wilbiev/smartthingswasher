@@ -19,7 +19,6 @@ from .const import (
     CAPABILITIES_WITH_PROGRAMS,
     CLEANING_TYPE_TO_HA,
     COURSE_TO_HA,
-    DISHWASHER_COURSE_TO_HA,
     DISPENSE_DENSITY_TO_HA,
     DRIVING_MODE_TO_HA,
     LAMP_TO_HA,
@@ -32,7 +31,12 @@ from .const import (
 )
 from .entity import SmartThingsEntity
 from .models import SupportedOption
-from .util import get_program_options, get_program_table_id, translate_program_course
+from .util import (
+    command_program_course,
+    get_program_options,
+    get_program_table_id,
+    translate_program_course,
+)
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -148,29 +152,6 @@ CAPABILITY_TO_SELECTS: dict[
                 options_attribute=Attribute.SUPPORTED_MACHINE_STATES,
                 command=Command.SET_MACHINE_STATE,
                 entity_registry_enabled_default=False,
-            )
-        ]
-    },
-    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: {
-        Attribute.WASHING_COURSE: [
-            SmartThingsSelectEntityDescription(
-                key=Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
-                translation_key="dishwasher_course",
-                options_attribute=Attribute.SUPPORTED_COURSES,
-                command=Command.SET_WASHING_COURSE,
-                options_map=DISHWASHER_COURSE_TO_HA,
-            )
-        ]
-    },
-    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE_DETAILS: {
-        Attribute.WASHING_COURSE: [
-            SmartThingsSelectEntityDescription(
-                key=Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE_DETAILS,
-                translation_key="dishwasher_course",
-                options_attribute=Attribute.SUPPORTED_COURSES,
-                command=Command.SET_WASHING_COURSE,
-                options_map=DISHWASHER_COURSE_TO_HA,
-                capability_ignore_list=[Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE],
             )
         ]
     },
@@ -389,7 +370,7 @@ PROGRAMS_TO_SELECTS: dict[
         ]
     },
     Capability.SAMSUNG_CE_STEAM_CLOSET_CYCLE: {
-        Attribute.DRYER_CYCLE: [
+        Attribute.STEAM_CLOSET_CYCLE: [
             SmartThingsSelectEntityDescription(
                 key=Attribute.STEAM_CLOSET_CYCLE,
                 translation_key="cycle",
@@ -408,6 +389,27 @@ PROGRAMS_TO_SELECTS: dict[
             )
         ]
     },
+    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: {
+        Attribute.WASHING_COURSE: [
+            SmartThingsSelectEntityDescription(
+                key=Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
+                translation_key="dishwasher_course",
+                options_attribute=Attribute.SUPPORTED_COURSES,
+                command=Command.SET_WASHING_COURSE,
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE_DETAILS: {
+        Attribute.WASHING_COURSE: [
+            SmartThingsSelectEntityDescription(
+                key=Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE_DETAILS,
+                translation_key="dishwasher_course",
+                options_attribute=Attribute.SUPPORTED_COURSES,
+                command=Command.SET_WASHING_COURSE,
+                capability_ignore_list=[Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE],
+            )
+        ]
+    }
 }
 
 
@@ -418,87 +420,43 @@ async def async_setup_entry(
 ) -> None:
     """Add selects for a config entry."""
     entry_data = entry.runtime_data
-    select_entities = [
-        SmartThingsSelect(
-            entry_data.client,
-            device,
-            description,
-            capability,
-            attribute,
-            component,
-        )
-        for device in entry_data.devices.values()
-        for capability, attributes in CAPABILITY_TO_SELECTS.items()
-        for component in device.status
-        if capability in device.status[component]
-        for attribute, descriptions in attributes.items()
-        for description in descriptions
-        if (
-            (
-                component == MAIN
-                or (
-                    description.extra_components is not None
-                    and component in description.extra_components
-                )
-            )
-            and (
-                description.capability_ignore_list is None
-                or all(
-                    capability not in device.status[component]
-                    for capability in description.capability_ignore_list
-                )
-            )
-        )
-    ]
-    async_add_entities(select_entities)
+    select_entities: list[SmartThingsSelect | SmartThingsDishwasherOptionSelect] = []
 
-    select_dishwasher_entities = [
-        SmartThingsDishwasherOptionSelect(
-            entry_data.client,
-            device,
-            description,
-            capability,
-            attribute,
-            component,
+    for device in entry_data.devices.values():
+        select_entities.extend(
+            SmartThingsSelect(entry_data.client, device, description, capability, attribute, component)
+            for capability, attributes in CAPABILITY_TO_SELECTS.items()
+            for component, capabilities in device.status.items()
+            if capability in capabilities
+            for attribute, descriptions in attributes.items()
+            for description in descriptions
+            if (component == MAIN or (description.extra_components and component in description.extra_components))
+            and (not description.capability_ignore_list or all(c not in capabilities for c in description.capability_ignore_list))
         )
-        for device in entry_data.devices.values()
-        for capability, attributes in DISHWASHER_WASHING_OPTIONS_TO_SELECT.items()
-        for component in device.status
-        if capability in device.status[component]
-        for supported_attr in [
-            device.status[component][capability].get(Attribute.SUPPORTED_LIST)
-        ]
-        if supported_attr and supported_attr.value
-        for attribute, descriptions in attributes.items()
-        if attribute in cast(list[str], supported_attr.value)
-        for description in descriptions
-    ]
-    async_add_entities(select_dishwasher_entities)
-    select_entities.extend(select_dishwasher_entities)
+
+        select_entities.extend(
+            SmartThingsDishwasherOptionSelect(entry_data.client, device, description, capability, attribute, component)
+            for capability, attributes in DISHWASHER_WASHING_OPTIONS_TO_SELECT.items()
+            for component, capabilities in device.status.items()
+            if capability in capabilities
+            if (supp := capabilities[capability].get(Attribute.SUPPORTED_LIST)) and supp.value
+            for attribute, descriptions in attributes.items()
+            if attribute in cast(list[str], supp.value)
+            for description in descriptions
+        )
 
     program_select_entities = [
-        SmartThingsProgramSelect(
-            entry_data.client,
-            device,
-            description,
-            capability,
-            attribute,
-            component,
-        )
+        SmartThingsProgramSelect(entry_data.client, device, description, capability, attribute, component)
         for device in entry_data.devices.values()
         for capability, attributes in PROGRAMS_TO_SELECTS.items()
-        for component in device.status
-        if capability in device.status[component]
+        for component, capabilities in device.status.items()
+        if capability in capabilities
         for attribute, descriptions in attributes.items()
         for description in descriptions
-        if (description.capability_ignore_list is None
-                or all(
-                    capability not in device.status[component]
-                    for capability in description.capability_ignore_list
-                )
-        )
+        if not description.capability_ignore_list or all(c not in capabilities for c in description.capability_ignore_list)
     ]
-    async_add_entities(program_select_entities)
+
+    async_add_entities(select_entities + program_select_entities)
 
     program_entities: list[str] = [
         select_entity.entity_id for select_entity in program_select_entities
@@ -603,15 +561,13 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         """Return the current option."""
         raw_value = self.get_attribute_value(self.capability, self._attribute)
         new_value = str(raw_value) if raw_value else None
-
-        if hasattr(self, "_attr_current_option"):
-            if new_value in self.options:
+        if hasattr(self, "_attr_current_option") and self._attr_current_option is not None:
+            if new_value == self._attr_current_option:
                 self._attr_current_option = None
             else:
                 new_value = self._attr_current_option
-
-        if self.entity_description.options_map:
-            new_value = self.entity_description.options_map.get(new_value)
+        if self.entity_description.options_map and new_value is not None:
+            new_value = self.entity_description.options_map.get(new_value, new_value)
         return str(new_value) if new_value is not None else None
 
     async def async_select_option(self, option: str) -> None:
@@ -683,44 +639,37 @@ class SmartThingsDishwasherOptionSelect(SmartThingsEntity, SelectEntity):
     @property
     def options(self) -> list[str]:
         """Return the list of options."""
-        device_options = self.get_attribute_value(
+        options: list[str] = (
+            self.get_attribute_value(
             self.capability, self.entity_description.options_attribute
         )["settable"]
-        selected_course = self.get_attribute_value(
-            Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE, Attribute.WASHING_COURSE
+            or []
         )
-        course_details = self.get_attribute_value(
-            Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE_DETAILS,
-            Attribute.PREDEFINED_COURSES,
-        )
-        course_options = set(
-            next(
-                (
-                    detail["options"][self.entity_description.options_attribute][
-                        "settable"
-                    ]
-                    for detail in course_details
-                    if detail["courseName"] == selected_course
-                ),
-                [],
-            )
-        )
-        return [option for option in device_options if option in course_options]
+        if self.entity_description.options_map:
+            options = [
+                self.entity_description.options_map.get(option, option)
+                for option in options
+            ]
+        if self.entity_description.value_is_integer:
+            options = [str(option) for option in options]
+        return options
 
     @property
     def current_option(self) -> str | None:
         """Return the current option."""
-        raw_value = self.get_attribute_value(self.capability, self._attribute)
-        new_value = str(raw_value) if raw_value else None
-
-        if hasattr(self, "_attr_current_option"):
-            if new_value in self.options:
+        raw_status = self.get_attribute_value(self.capability, self._attribute)
+        if isinstance(raw_status, dict) and "value" in raw_status:
+            new_value = str(raw_status["value"])
+        else:
+            new_value = str(raw_status) if raw_status else None
+        if hasattr(self, "_attr_current_option") and self._attr_current_option is not None:
+            if new_value == self._attr_current_option:
                 self._attr_current_option = None
-                return new_value
-
-            return self._attr_current_option
-
-        return new_value
+            else:
+                new_value = self._attr_current_option
+        if self.entity_description.options_map and new_value is not None:
+            new_value = self.entity_description.options_map.get(new_value, new_value)
+        return str(new_value) if new_value is not None else None
 
     def _validate_before_select(self) -> None:
         """Validate that the select can be used."""
@@ -774,13 +723,7 @@ class SmartThingsDishwasherOptionSelect(SmartThingsEntity, SelectEntity):
 
     def update_select_options(self, options: list[str]) -> None:
         """Update the options and ensure the current selection remains valid."""
-
-        self._attr_options = options
-        current_val = self.current_option
-        if current_val is not None and current_val not in options:
-            first_item = options[0] if options else None
-            self._attr_current_option = first_item
-        self.async_write_ha_state()
+        super().update_select_options(options)
 
 
 class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
@@ -815,13 +758,14 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
         """Return the list of options."""
 
         if self.entity_description.options_attribute:
-            if (
-                options := self.get_attribute_value(
-                    self.capability, self.entity_description.options_attribute
-                )
-            ) is not None:
-                return [option.lower() for option in options]
-        return [program_id.lower() for program_id in self.device.programs]
+            options: list[str] = (
+                    self.get_attribute_value(
+                        self.capability, self.entity_description.options_attribute
+                    )
+                    or []
+            )
+            return [translate_program_course(option) for option in options]
+        return list(self.device.programs)
 
     @property
     def current_option(self) -> str | None:
@@ -830,7 +774,7 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
         if raw_value is None:
             return None
 
-        value = translate_program_course(raw_value).lower()
+        value = translate_program_course(raw_value)
         if value not in self.options:
             return None
 
@@ -839,9 +783,8 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
         if self.command is not None:
-            value = translate_program_course(option)
             await self.execute_device_command(
                 self.capability,
                 self.command,
-                value,
-            )
+                command_program_course(option),
+        )
