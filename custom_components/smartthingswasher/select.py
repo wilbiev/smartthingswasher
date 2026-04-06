@@ -561,15 +561,13 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         """Return the current option."""
         raw_value = self.get_attribute_value(self.capability, self._attribute)
         new_value = str(raw_value) if raw_value else None
-
-        if hasattr(self, "_attr_current_option"):
-            if new_value in self.options:
+        if hasattr(self, "_attr_current_option") and self._attr_current_option is not None:
+            if new_value == self._attr_current_option:
                 self._attr_current_option = None
             else:
                 new_value = self._attr_current_option
-
-        if self.entity_description.options_map:
-            new_value = self.entity_description.options_map.get(new_value)
+        if self.entity_description.options_map and new_value is not None:
+            new_value = self.entity_description.options_map.get(new_value, new_value)
         return str(new_value) if new_value is not None else None
 
     async def async_select_option(self, option: str) -> None:
@@ -659,17 +657,19 @@ class SmartThingsDishwasherOptionSelect(SmartThingsEntity, SelectEntity):
     @property
     def current_option(self) -> str | None:
         """Return the current option."""
-        raw_value = self.get_attribute_value(self.capability, self._attribute)
-        new_value = str(raw_value) if raw_value else None
-
-        if hasattr(self, "_attr_current_option"):
-            if new_value in self.options:
+        raw_status = self.get_attribute_value(self.capability, self._attribute)
+        if isinstance(raw_status, dict) and "value" in raw_status:
+            new_value = str(raw_status["value"])
+        else:
+            new_value = str(raw_status) if raw_status else None
+        if hasattr(self, "_attr_current_option") and self._attr_current_option is not None:
+            if new_value == self._attr_current_option:
                 self._attr_current_option = None
-                return new_value
-
-            return self._attr_current_option
-
-        return new_value
+            else:
+                new_value = self._attr_current_option
+        if self.entity_description.options_map and new_value is not None:
+            new_value = self.entity_description.options_map.get(new_value, new_value)
+        return str(new_value) if new_value is not None else None
 
     def _validate_before_select(self) -> None:
         """Validate that the select can be used."""
