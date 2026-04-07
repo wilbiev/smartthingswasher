@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
+from typing import Any
 
-from pysmartthings import Capability, Command, SmartThings
+from pysmartthings import Attribute, Capability, Command, SmartThings
 
 from homeassistant.components.button import ButtonEntity, ButtonEntityDescription
 from homeassistant.core import HomeAssistant
@@ -20,7 +22,8 @@ class SmartThingsButtonEntityDescription(ButtonEntityDescription):
     """Describe a SmartThings binary sensor entity."""
 
     command_list: list[Command] | None = None
-
+    argument: int | str | list[Any] | dict[str, Any] | None = None
+    argument_fn: Callable[[SmartThingsEntity], list[Any] | None] | None = None
 
 CAPABILITY_TO_BUTTONS: dict[
     Capability, dict[Command, list[SmartThingsButtonEntityDescription]]
@@ -76,6 +79,12 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Command.START_LATER,
                 translation_key="state_start_later",
+                argument_fn=lambda args: [
+                    args.get_attribute_value(
+                        Capability.CUSTOM_DISHWASHER_DELAY_START_TIME,
+                        Attribute.DISHWASHER_DELAY_START_TIME,
+                    )
+                ],
             )
         ],
     },
@@ -167,6 +176,10 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
 
     async def async_press(self) -> None:
         """Press the button."""
+        if self.entity_description.argument_fn:
+            argument = self.entity_description.argument_fn(self)
+        else:
+            argument = self.entity_description.argument
         if self.entity_description.command_list:
             item = self.entity_description.command_list.index(self.command)
             if item == (len(self.entity_description.command_list) - 1):
@@ -176,4 +189,5 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
         await self.execute_device_command(
             self.capability,
             self.command,
+            argument,
         )
