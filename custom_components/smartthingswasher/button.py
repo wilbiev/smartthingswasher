@@ -81,12 +81,14 @@ CAPABILITY_TO_BUTTONS: dict[
                 key=Command.START_LATER,
                 translation_key="state_start_later",
                 extra_capabilities=[Capability.CUSTOM_DISHWASHER_DELAY_START_TIME],
-                argument_fn=lambda args: [
-                    args.get_attribute_value(
+                argument_fn=lambda ent: (
+                    int(parts[0]) * 60 + int(parts[1])
+                    if isinstance(val := ent.get_attribute_value(
                         Capability.CUSTOM_DISHWASHER_DELAY_START_TIME,
                         Attribute.DISHWASHER_DELAY_START_TIME,
-                    )
-                ],
+                    ), str) and len(parts := val.split(":")) >= 2
+                    else 60
+                ),
             )
         ],
     },
@@ -185,6 +187,11 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
             argument = self.entity_description.argument_fn(self)
         else:
             argument = self.entity_description.argument
+        if self.command == Command.START_LATER and argument is not None:
+            try:
+                argument = int(float(argument))
+            except (ValueError, TypeError):
+                argument = 60
         if self.entity_description.command_list:
             item = self.entity_description.command_list.index(self.command)
             if item == (len(self.entity_description.command_list) - 1):
