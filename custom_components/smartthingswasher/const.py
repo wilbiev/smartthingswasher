@@ -271,6 +271,7 @@ JOB_STATE_MAP = {
     "continuousDehumidifying": "continuous_dehumidifying",
     "thawingFrozenInside": "thawing_frozen_inside",
     "delayWash": "delay_wash",
+    "delayWashing": "delay_washing",
     "weightSensing": "weight_sensing",
     "freezeProtection": "freeze_protection",
     "preDrain": "pre_drain",

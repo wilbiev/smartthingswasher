@@ -24,6 +24,7 @@ class SmartThingsButtonEntityDescription(ButtonEntityDescription):
     command_list: list[Command] | None = None
     argument: int | str | list[Any] | dict[str, Any] | None = None
     argument_fn: Callable[[SmartThingsEntity], list[Any] | None] | None = None
+    extra_capabilities: list[Capability] | None = None
 
 CAPABILITY_TO_BUTTONS: dict[
     Capability, dict[Command, list[SmartThingsButtonEntityDescription]]
@@ -79,6 +80,7 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Command.START_LATER,
                 translation_key="state_start_later",
+                extra_capabilities=[Capability.CUSTOM_DISHWASHER_DELAY_START_TIME],
                 argument_fn=lambda args: [
                     args.get_attribute_value(
                         Capability.CUSTOM_DISHWASHER_DELAY_START_TIME,
@@ -168,7 +170,10 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
         component: str = MAIN,
     ) -> None:
         """Init the class."""
-        super().__init__(client, device, {capability}, component=component)
+        capabilities = {capability}
+        if entity_description.extra_capabilities:
+            capabilities.update(entity_description.extra_capabilities)
+        super().__init__(client, device, capabilities, component=component)
         self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{entity_description.key}"
         self.command = command
         self.capability = capability

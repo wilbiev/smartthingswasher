@@ -252,9 +252,10 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.DISHWASHER_JOB_STATE,
                 translation_key="job_state",
                 options=[
-                    "washing",
-                    "rising",
+                    "delay_washing",
                     "drying",
+                    "rising",
+                    "washing",
                     "none",
                 ],
                 device_class=SensorDeviceClass.ENUM,
@@ -270,7 +271,7 @@ CAPABILITY_TO_SENSORS: dict[
                 options=[
                     "air_wash",
                     "cooling",
-                    "delay_wash",
+                    "delay_washing",
                     "drying",
                     "finish",
                     "pre_drain",
