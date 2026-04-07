@@ -764,6 +764,7 @@
           "cooling": "Arrefecimento",
           "dehumidifying": "Desumidificação",
           "delay_wash": "Lavagem diferida",
+          "delay_washing": "Lavagem retardada",
           "dry": "Secagem",
           "finish": "Terminar",
           "finished": "Concluído",
