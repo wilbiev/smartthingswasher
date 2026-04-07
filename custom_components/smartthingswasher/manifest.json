@@ -29,6 +29,6 @@
   "documentation": "https://github.com/wilbiev/smartthingswasher/blob/main/README.md",
   "iot_class": "cloud_push",
   "loggers": ["pysmartthings"],
-  "requirements": ["pysmartthings==3.7.2"],
+  "requirements": ["pysmartthings==3.7.3"],
   "version": "2026.3.6"
 }
