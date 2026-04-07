@@ -270,6 +270,7 @@ CAPABILITY_TO_SENSORS: dict[
                 options=[
                     "air_wash",
                     "cooling",
+                    "delay_wash",
                     "drying",
                     "finish",
                     "pre_drain",
