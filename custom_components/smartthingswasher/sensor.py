@@ -776,7 +776,13 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.OVEN_MODE,
                 translation_key="oven_mode",
                 entity_category=EntityCategory.DIAGNOSTIC,
-                options=list(OVEN_MODE.values()),
+                options=[
+                    *OVEN_MODE.values(),
+                    "heating",
+                    "grill",
+                    "defrosting",
+                    "warming",
+                ],
                 device_class=SensorDeviceClass.ENUM,
                 value_fn=lambda value: OVEN_MODE.get(value, value),
                 component_fn=lambda component: component == "cavity-01",
@@ -839,6 +845,28 @@ CAPABILITY_TO_SENSORS: dict[
                 component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "oven_completion_time_cavity_01",
+                },
+            )
+        ],
+        Attribute.OPERATION_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.OPERATION_TIME,
+                translation_key="operation_time",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+                component_fn=lambda component: component == "cavity-01",
+                component_translation_key={
+                    "cavity-01": "oven_operation_time_cavity_01",
+                },
+            )
+        ],
+        Attribute.PROGRESS: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.PROGRESS,
+                translation_key="operating_progress",
+                native_unit_of_measurement=PERCENTAGE,
+                component_fn=lambda component: component == "cavity-01",
+                component_translation_key={
+                    "cavity-01": "oven_operation_progress_cavity_01",
                 },
             )
         ],
@@ -1072,11 +1100,16 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.TEMPERATURE,
                 device_class=SensorDeviceClass.TEMPERATURE,
                 state_class=SensorStateClass.MEASUREMENT,
-                component_fn=lambda component: component in {"freezer", "cooler", "onedoor"},
+                component_fn=(
+                    lambda component: (
+                        component in {"freezer", "cooler", "onedoor", "cavity-01"}
+                    )
+                ),
                 component_translation_key={
                     "freezer": "freezer_temperature",
                     "cooler": "cooler_temperature",
                     "onedoor": "target_temperature",
+                    "cavity-01": "oven_temperature_cavity_01",
                 },
             )
         ]

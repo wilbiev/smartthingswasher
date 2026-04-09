@@ -6,7 +6,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import cast
 
-from pysmartthings import Attribute, Capability, Category, SmartThings
+from pysmartthings import Attribute, Capability, Category, SmartThings, Status
 
 from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
@@ -31,8 +31,15 @@ class SmartThingsBinarySensorEntityDescription(BinarySensorEntityDescription):
     is_on_key: str | bool | None = None
     category_device_class: dict[Category | str, BinarySensorDeviceClass] | None = None
     category: set[Category] | None = None
-    exists_fn: Callable[[str], bool] | None = None
+    exists_fn: (
+        Callable[
+            [str, dict[str, dict[Capability | str, dict[Attribute | str, Status]]]],
+            bool,
+        ]
+        | None
+    ) = None
     component_translation_key: dict[str, str] | None = None
+    supported_states_attributes: Attribute | None = None
 
 
 CAPABILITY_TO_SENSORS: dict[
@@ -59,7 +66,11 @@ CAPABILITY_TO_SENSORS: dict[
                     Category.DOOR: BinarySensorDeviceClass.DOOR,
                     Category.WINDOW: BinarySensorDeviceClass.WINDOW,
                 },
-                exists_fn=lambda key: key in {"freezer", "cooler", "cvroom"},
+                exists_fn=lambda component, status: (
+                    not ("freezer" in status and "cooler" in status)
+                    if component == MAIN
+                    else True
+                ),
                 component_translation_key={
                     "freezer": "freezer_door",
                     "cooler": "cooler_door",
@@ -182,12 +193,90 @@ CAPABILITY_TO_SENSORS: dict[
             )
         ]
     },
+    Capability.CUSTOM_OVEN_CAVITY_STATUS: {
+        Attribute.OVEN_CAVITY_STATUS: SmartThingsBinarySensorEntityDescription(
+            key=Attribute.OVEN_CAVITY_STATUS,
+            is_on_key="on",
+            component_translation_key={
+                "cavity-01": "oven_cavity_status",
+            },
+        )
+    },
     Capability.GAS_DETECTOR: {
         Attribute.GAS: [
             SmartThingsBinarySensorEntityDescription(
                 key=Attribute.GAS,
                 device_class=BinarySensorDeviceClass.GAS,
                 is_on_key="detected",
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_ROBOT_CLEANER_DUST_BAG: {
+        Attribute.STATUS: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.STATUS,
+                is_on_key="full",
+                component_translation_key={
+                    "station": "robot_cleaner_dust_bag",
+                },
+                exists_fn=lambda component, _: component == "station",
+                supported_states_attributes=Attribute.SUPPORTED_STATUS,
+            )
+        ]
+    },
+    Capability.CUSTOM_COOKTOP_OPERATING_STATE: {
+        Attribute.COOKTOP_OPERATING_STATE: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.COOKTOP_OPERATING_STATE,
+                translation_key="cooktop_operating_state",
+                is_on_key="run",
+                supported_states_attributes=Attribute.SUPPORTED_COOKTOP_OPERATING_STATE,
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_MICROFIBER_FILTER_STATUS: {
+        Attribute.STATUS: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.STATUS,
+                translation_key="microfiber_filter_blockage",
+                is_on_key="blockage",
+                device_class=BinarySensorDeviceClass.PROBLEM,
+                entity_category=EntityCategory.DIAGNOSTIC,
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_STICK_CLEANER_DUST_BAG: {
+        Attribute.STATUS: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.STATUS,
+                is_on_key="full",
+                component_translation_key={
+                    "station": "stick_cleaner_dust_bag",
+                },
+                device_class=BinarySensorDeviceClass.PROBLEM,
+                exists_fn=lambda component, _: component == "station",
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_CLEAN_STATION_STICK_STATUS: {
+        Attribute.STATUS: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.STATUS,
+                component_translation_key={
+                    "station": "stick_cleaner_status",
+                },
+                exists_fn=lambda component, _: component == "station",
+                is_on_key="attached",
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_STICK_CLEANER_STICK_STATUS: {
+        Attribute.STATUS: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.STATUS,
+                is_on_key="charging",
+                device_class=BinarySensorDeviceClass.BATTERY_CHARGING,
+                entity_category=EntityCategory.DIAGNOSTIC,
             )
         ]
     },
@@ -339,13 +428,29 @@ async def async_setup_entry(
             and (
                 component == MAIN
                 or (
-                    description.exists_fn is not None
-                    and description.exists_fn(component)
+                    description.component_translation_key is not None
+                    and component in description.component_translation_key
                 )
+            )
+            and (
+                description.exists_fn is None
+                or description.exists_fn(component, device.status)
             )
             and (
                 not description.category
                 or get_main_component_category(device) in description.category
+            )
+            and (
+                not description.supported_states_attributes
+                or (
+                    isinstance(
+                        options := device.status[component][capability][
+                            description.supported_states_attributes
+                        ].value,
+                        list,
+                    )
+                    and len(options) == 2
+                )
             )
         )
     )
@@ -381,7 +486,7 @@ async def async_setup_entry(
         for capability, attributes in DISHWASHER_OPTIONS_TO_BINARY_SENSORS.items()
         for component in device.status
         if capability in device.status[component]
-        for supported_attr in [device.status[component][capability].get(Attribute.SUPPORTED_LIST)]
+        for supported_attr in [device.status[component][Capability.SAMSUNG_CE_DISHWASHER_WASHING_OPTIONS].get(Attribute.SUPPORTED_LIST)]
         if supported_attr and supported_attr.value
         for attribute, descriptions in attributes.items()
         if attribute in cast(list[str], supported_attr.value)
@@ -415,24 +520,25 @@ class SmartThingsBinarySensor(SmartThingsEntity, BinarySensorEntity):
         ):
             self._attr_device_class = entity_description.category_device_class[category]
             self._attr_name = None
-        if (
-            entity_description.component_translation_key is not None
-            and (
-                translation_key := entity_description.component_translation_key.get(
-                    component
-                )
+        if self.entity_description.component_translation_key and component != MAIN:
+            self._attr_translation_key = (
+                self.entity_description.component_translation_key[component]
             )
-            is not None
-        ):
-            self._attr_translation_key = translation_key
+
 
     @property
     def is_on(self) -> bool:
         """Return true if the binary sensor is on."""
-        return (
-            self.get_attribute_value(self.capability, self._attribute)
-            == self.entity_description.is_on_key
-        )
+        value = self.get_attribute_value(self.capability, self._attribute)
+        target = self.entity_description.is_on_key
+
+        if value is None:
+            return False
+
+        if isinstance(target, str):
+            return str(value).lower() == target.lower()
+
+        return value == target
 
 
 class SmartThingsProgramBinarySensor(SmartThingsEntity, BinarySensorEntity):
@@ -470,8 +576,7 @@ class SmartThingsProgramBinarySensor(SmartThingsEntity, BinarySensorEntity):
             return False
 
         program = self.device.programs[current_course]
-        option_key = self.entity_description.key
-        if (opt := program.supportedoptions.get(option_key)) is not None:
+        if (opt := program.supportedoptions.get(self.entity_description.key)) is not None:
              return len(opt.options) > 1
 
         return False

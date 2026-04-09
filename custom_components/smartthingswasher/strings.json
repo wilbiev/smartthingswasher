@@ -67,11 +67,20 @@
       "keep_fresh_support": {
         "name": "Keep fresh support"
       },
+      "microfiber_filter_blockage": {
+        "name": "Filter blockage"
+      },
       "multi_tab_support": {
         "name": "Multi tab support"
       },
+      "oven_cavity_status": {
+        "name": "Second cavity status"
+      },
       "rinse_plus_support": {
         "name": "Rinse plus support"
+      },
+      "robot_cleaner_dust_bag": {
+        "name": "Dust bag full"
       },
       "sanitize_support": {
         "name": "Sanitize support"
@@ -84,6 +93,12 @@
       },
       "steam_soak_support": {
         "name": "Steam soak support"
+      },
+      "stick_cleaner_dust_bag": {
+        "name": "[%key:component::smartthingswasher::entity::binary_sensor::robot_cleaner_dust_bag::name%]"
+      },
+      "stick_cleaner_status": {
+        "name": "Stick cleaner in station"
       },
       "storm_wash_support": {
         "name": "Storm wash support"
@@ -843,6 +858,9 @@
       "odor_sensor": {
         "name": "Odor sensor"
       },
+      "oven_completion_time_cavity_01": {
+        "name": "Second cavity completion time"
+      },
       "oven_mode": {
         "name": "Oven mode",
         "state": {
@@ -877,12 +895,54 @@
           "rinse": "Rinse"
         }
       },
+      "oven_mode_cavity_01": {
+        "name": "Second cavity oven mode",
+        "state": {
+          "bake": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::bake%]",
+          "bottom_heat": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::bottom_heat%]",
+          "broil": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::broil%]",
+          "convection_bake": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::convection_bake%]",
+          "convection_broil": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::convection_broil%]",
+          "convection_roast": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::convection_roast%]",
+          "conventional": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::conventional%]",
+          "defrosting": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::defrosting%]",
+          "dehydrate": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::dehydrate%]",
+          "descale": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::descale%]",
+          "grill": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::grill%]",
+          "heating": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::heating%]",
+          "microwave": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::microwave%]",
+          "microwave_plus_convection": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::microwave_plus_convection%]",
+          "microwave_plus_grill": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::microwave_plus_grill%]",
+          "microwave_plus_hot_blast": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::microwave_plus_hot_blast%]",
+          "microwave_plus_hot_blast_2": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::microwave_plus_hot_blast_2%]",
+          "others": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::others%]",
+          "proof": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::proof%]",
+          "rinse": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::rinse%]",
+          "slim_middle": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::slim_middle%]",
+          "slim_strong": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::slim_strong%]",
+          "slow_cook": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::slow_cook%]",
+          "steam_bake": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::steam_bake%]",
+          "steam_bottom_heat_plus_convection": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::steam_bottom_heat_plus_convection%]",
+          "steam_cook": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::steam_cook%]",
+          "steam_roast": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::steam_roast%]",
+          "strong_steam": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::strong_steam%]",
+          "warming": "[%key:component::smartthingswasher::entity::sensor::oven_mode::state::warming%]"
+        }
+      },
       "oven_machine_state": {
         "name": "[%key:component::smartthingswasher::entity::select::machine_state::name%]",
         "state": {
           "ready": "Ready",
           "running": "[%key:component::smartthingswasher::entity::select::machine_state::state::run%]",
           "paused": "[%key:common::state::paused%]"
+        }
+      },
+      "oven_machine_state_cavity_01": {
+        "name": "Second cavity machine state",
+        "state": {
+          "paused": "[%key:common::state::paused%]",
+          "ready": "[%key:component::smartthingswasher::entity::sensor::oven_machine_state::state::ready%]",
+          "running": "[%key:component::smartthingswasher::entity::select::machine_state::state::run%]"
         }
       },
       "oven_job_state": {
@@ -907,8 +967,42 @@
           "time_hold_preheat": "Time hold preheat"
         }
       },
+      "oven_job_state_cavity_01": {
+        "name": "Second cavity job state",
+        "state": {
+          "cleaning": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::cleaning%]",
+          "cooking": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::cooking%]",
+          "cooling": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::cooling%]",
+          "defrosting": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::defrosting%]",
+          "draining": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::draining%]",
+          "fast_preheat": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::fast_preheat%]",
+          "finished": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::finished%]",
+          "preheat": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::preheat%]",
+          "ready": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::ready%]",
+          "rinsing": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::rinsing%]",
+          "scheduled_end": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::scheduled_end%]",
+          "scheduled_start": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::scheduled_start%]",
+          "searing": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::searing%]",
+          "sensing": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::sensing%]",
+          "stone_heating": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::stone_heating%]",
+          "time_hold_preheat": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::time_hold_preheat%]",
+          "warming": "[%key:component::smartthingswasher::entity::sensor::oven_job_state::state::warming%]"
+        }
+      },
+      "oven_operation_time_cavity_01": {
+        "name": "Second cavity operation time"
+      },
+      "oven_operation_progress_cavity_01": {
+        "name": "Second cavity operation progress"
+      },
       "oven_setpoint": {
         "name": "Set point"
+      },
+      "oven_setpoint_cavity_01": {
+        "name": "Second cavity setpoint"
+      },
+      "oven_temperature_cavity_01": {
+        "name": "Second cavity temperature"
       },
       "pm10_health_concern": {
         "name": "PM10 health concern",
