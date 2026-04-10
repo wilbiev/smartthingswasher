@@ -6,7 +6,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import cast
 
-from pysmartthings import Attribute, Capability, Category, SmartThings, Status
+from pysmartthings import Attribute, Capability, Category, SmartThings
 
 from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
@@ -31,13 +31,8 @@ class SmartThingsBinarySensorEntityDescription(BinarySensorEntityDescription):
     is_on_key: str | bool | None = None
     category_device_class: dict[Category | str, BinarySensorDeviceClass] | None = None
     category: set[Category] | None = None
-    exists_fn: (
-        Callable[
-            [str, dict[str, dict[Capability | str, dict[Attribute | str, Status]]]],
-            bool,
-        ]
-        | None
-    ) = None
+    exists_fn: Callable[[str], bool] | None = None
+    component_fn: Callable[[str], bool] | None = None
     component_translation_key: dict[str, str] | None = None
     supported_states_attributes: Attribute | None = None
 
@@ -66,11 +61,7 @@ CAPABILITY_TO_SENSORS: dict[
                     Category.DOOR: BinarySensorDeviceClass.DOOR,
                     Category.WINDOW: BinarySensorDeviceClass.WINDOW,
                 },
-                exists_fn=lambda component, status: (
-                    not ("freezer" in status and "cooler" in status)
-                    if component == MAIN
-                    else True
-                ),
+                exists_fn=lambda key: key in {"freezer", "cooler", "cvroom"},
                 component_translation_key={
                     "freezer": "freezer_door",
                     "cooler": "cooler_door",
@@ -194,13 +185,16 @@ CAPABILITY_TO_SENSORS: dict[
         ]
     },
     Capability.CUSTOM_OVEN_CAVITY_STATUS: {
-        Attribute.OVEN_CAVITY_STATUS: SmartThingsBinarySensorEntityDescription(
-            key=Attribute.OVEN_CAVITY_STATUS,
-            is_on_key="on",
-            component_translation_key={
-                "cavity-01": "oven_cavity_status",
-            },
-        )
+        Attribute.OVEN_CAVITY_STATUS: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.OVEN_CAVITY_STATUS,
+                is_on_key="on",
+                component_fn=lambda component: component == "cavity-01",
+                component_translation_key={
+                    "cavity-01": "oven_status_cavity_01",
+                },
+            )
+        ]
     },
     Capability.GAS_DETECTOR: {
         Attribute.GAS: [
@@ -216,10 +210,10 @@ CAPABILITY_TO_SENSORS: dict[
             SmartThingsBinarySensorEntityDescription(
                 key=Attribute.STATUS,
                 is_on_key="full",
+                component_fn=lambda component: component == "station",
                 component_translation_key={
                     "station": "robot_cleaner_dust_bag",
                 },
-                exists_fn=lambda component, _: component == "station",
                 supported_states_attributes=Attribute.SUPPORTED_STATUS,
             )
         ]
@@ -250,11 +244,11 @@ CAPABILITY_TO_SENSORS: dict[
             SmartThingsBinarySensorEntityDescription(
                 key=Attribute.STATUS,
                 is_on_key="full",
+                component_fn=lambda component: component == "station",
                 component_translation_key={
                     "station": "stick_cleaner_dust_bag",
                 },
                 device_class=BinarySensorDeviceClass.PROBLEM,
-                exists_fn=lambda component, _: component == "station",
             )
         ]
     },
@@ -262,10 +256,10 @@ CAPABILITY_TO_SENSORS: dict[
         Attribute.STATUS: [
             SmartThingsBinarySensorEntityDescription(
                 key=Attribute.STATUS,
+                component_fn=lambda component: component == "station",
                 component_translation_key={
                     "station": "stick_cleaner_status",
                 },
-                exists_fn=lambda component, _: component == "station",
                 is_on_key="attached",
             )
         ]
@@ -428,13 +422,12 @@ async def async_setup_entry(
             and (
                 component == MAIN
                 or (
-                    description.component_translation_key is not None
-                    and component in description.component_translation_key
+                    description.exists_fn is not None
+                    and description.exists_fn(component)
                 )
             )
             and (
-                description.exists_fn is None
-                or description.exists_fn(component, device.status)
+                not description.component_fn or description.component_fn(component)
             )
             and (
                 not description.category

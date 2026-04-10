@@ -306,7 +306,7 @@ ROBOT_CLEANER_MOVEMENT_MAP = {
     "powerOff": "off",
 }
 
-OVEN_MODE = {
+OVEN_MODE_TO_HA = {
     "Conventional": "conventional",
     "Bake": "bake",
     "BottomHeat": "bottom_heat",
@@ -335,7 +335,22 @@ OVEN_MODE = {
     "heating": "heating",
     "grill": "grill",
     "defrosting": "defrosting",
-    "warming": "warming"
+    "warming": "warming",
+    "Autocook": "autocook",
+    "Convection": "convection",
+    "TopHeatPluseConvection": "top_heat_plus_convection",
+    "LargeGrill": "large_grill",
+    "SmallGrill": "small_grill",
+    "BottomHeatPluseConvection": "bottom_heat_plus_convection",
+    "PlateWarm": "plate_warm",
+    "KeepWarm": "keep_warm",
+    "Bottom": "bottom",
+    "EcoConvection": "eco_convection",
+    "FanGrill": "fan_grill",
+    "Defrost": "defrost",
+    "SteamClean": "steam_clean",
+    "AirSousvide": "air_sousvide",
+    "CleanAirPyro": "clean_air_pyro"
 }
 
 HEALTH_CONCERN = {
