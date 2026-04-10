@@ -25,6 +25,9 @@ class SmartThingsButtonEntityDescription(ButtonEntityDescription):
     argument: int | str | list[Any] | dict[str, Any] | None = None
     argument_fn: Callable[[SmartThingsEntity], list[Any] | None] | None = None
     extra_capabilities: list[Capability] | None = None
+    component_fn: Callable[[str], bool] | None = None
+    component_translation_key: dict[str, str] | None = None
+    capability_ignore_list: list[set[Capability]] | None = None
 
 CAPABILITY_TO_BUTTONS: dict[
     Capability, dict[Command, list[SmartThingsButtonEntityDescription]]
@@ -114,17 +117,70 @@ CAPABILITY_TO_BUTTONS: dict[
         ],
     },
     Capability.OVEN_OPERATING_STATE: {
+        Command.START: [
+            SmartThingsButtonEntityDescription(
+                key=Command.START,
+                translation_key="state_start",
+                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_OPERATING_STATE],
+                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_translation_key={
+                    "cavity-01": "state_start_cavity_01",
+                    "cavity-02": "state_start_cavity_02",
+                },
+            ),
+        ],
         Command.STOP: [
             SmartThingsButtonEntityDescription(
-                key=Capability.OVEN_OPERATING_STATE,
-                translation_key="stop",
+                key=Command.STOP,
+                translation_key="state_stop",
+                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_OPERATING_STATE],
+                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_translation_key={
+                    "cavity-01": "state_stop_cavity_01",
+                    "cavity-02": "state_stop_cavity_02",
+                },
             ),
-        ]
+        ],
+    },
+    Capability.SAMSUNG_CE_OVEN_OPERATING_STATE: {
+        Command.START: [
+            SmartThingsButtonEntityDescription(
+                key=Command.START,
+                translation_key="state_start",
+                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_translation_key={
+                    "cavity-01": "state_start_cavity_01",
+                    "cavity-02": "state_start_cavity_02",
+                },
+            ),
+        ],
+        Command.STOP: [
+            SmartThingsButtonEntityDescription(
+                key=Command.STOP,
+                translation_key="state_stop",
+                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_translation_key={
+                    "cavity-01": "state_stop_cavity_01",
+                    "cavity-02": "state_stop_cavity_02",
+                },
+            ),
+        ],
+        Command.PAUSE: [
+            SmartThingsButtonEntityDescription(
+                key=Command.PAUSE,
+                translation_key="state_pause",
+                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_translation_key={
+                    "cavity-01": "state_pause_cavity_01",
+                    "cavity-02": "state_pause_cavity_02",
+                },
+            ),
+        ],
     },
     Capability.CUSTOM_WATER_FILTER: {
         Command.RESET_WATER_FILTER: [
             SmartThingsButtonEntityDescription(
-                key=Capability.CUSTOM_WATER_FILTER,
+                key=Command.RESET_WATER_FILTER,
                 translation_key="reset_water_filter",
             ),
         ]
@@ -154,6 +210,11 @@ async def async_setup_entry(
         if capability in device.status[component]
         for command, descriptions in commands.items()
         for description in descriptions
+            if (not description.component_fn or description.component_fn(component)) and
+               not (description.capability_ignore_list and any(
+                   all(c in device.status[MAIN] for c in cl)
+                   for cl in description.capability_ignore_list
+               ))
     )
 
 
@@ -180,6 +241,10 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
         self.command = command
         self.capability = capability
         self.entity_description = entity_description
+        if self.entity_description.component_translation_key and component != MAIN:
+            self._attr_translation_key = (
+                self.entity_description.component_translation_key[component]
+            )
 
     async def async_press(self) -> None:
         """Press the button."""

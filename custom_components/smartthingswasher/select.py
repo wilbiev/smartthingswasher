@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from typing import cast
 
@@ -23,6 +24,7 @@ from .const import (
     DRIVING_MODE_TO_HA,
     LAMP_TO_HA,
     MAIN,
+    OVEN_MODE_TO_HA,
     SOUND_MODE_TO_HA,
     WASHER_SOIL_LEVEL_TO_HA,
     WASHER_SPIN_LEVEL_TO_HA,
@@ -46,10 +48,11 @@ class SmartThingsSelectEntityDescription(SelectEntityDescription):
     command: Command | None = None
     options_attribute: Attribute | None = None
     supported_option: SupportedOption | None = None
-    extra_components: list[str] | None = None
     capability_ignore_list: list[Capability] | None = None
     options_map: dict[str, str] | None = None
     value_is_integer: bool = False
+    component_fn: Callable[[str], bool] | None = None
+    component_translation_key: dict[str, str] | None = None
 
 
 CAPABILITY_TO_SELECTS: dict[
@@ -261,7 +264,7 @@ CAPABILITY_TO_SELECTS: dict[
                 command=Command.SET_BRIGHTNESS_LEVEL,
                 options_map=LAMP_TO_HA,
                 entity_category=EntityCategory.CONFIG,
-                extra_components=["hood"],
+                component_fn=lambda component: component == "hood",
                 capability_ignore_list=[Capability.SAMSUNG_CE_CONNECTION_STATE],
             )
         ]
@@ -326,6 +329,41 @@ CAPABILITY_TO_SELECTS: dict[
                 entity_category=EntityCategory.CONFIG,
             )
         ]
+    },
+    Capability.OVEN_MODE: {
+        Attribute.OVEN_MODE: [
+            SmartThingsSelectEntityDescription(
+                key=Capability.SAMSUNG_CE_OVEN_MODE,
+                translation_key="oven_mode",
+                entity_category=EntityCategory.CONFIG,
+                options_attribute=Attribute.SUPPORTED_OVEN_MODES,
+                command=Command.SET_OVEN_MODE,
+                options_map=OVEN_MODE_TO_HA,
+                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_MODE],
+                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_translation_key={
+                    "cavity-01": "oven_mode_cavity_01",
+                    "cavity-02": "oven_mode_cavity_02",
+                },
+            )
+        ],
+    },
+    Capability.SAMSUNG_CE_OVEN_MODE: {
+        Attribute.OVEN_MODE: [
+            SmartThingsSelectEntityDescription(
+                key=Capability.SAMSUNG_CE_OVEN_MODE,
+                translation_key="oven_mode",
+                entity_category=EntityCategory.CONFIG,
+                options_attribute=Attribute.SUPPORTED_OVEN_MODES,
+                command=Command.SET_OVEN_MODE,
+                options_map=OVEN_MODE_TO_HA,
+                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_translation_key={
+                    "cavity-01": "oven_mode_cavity_01",
+                    "cavity-02": "oven_mode_cavity_02",
+                },
+            )
+        ],
     },
 }
 
@@ -430,7 +468,7 @@ async def async_setup_entry(
             if capability in capabilities
             for attribute, descriptions in attributes.items()
             for description in descriptions
-            if (component == MAIN or (description.extra_components and component in description.extra_components))
+            if (not description.component_fn or description.component_fn(component))
             and (not description.capability_ignore_list or all(c not in capabilities for c in description.capability_ignore_list))
         )
 
@@ -537,6 +575,10 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         self.capability = capability
         self.entity_description = entity_description
         self.command = self.entity_description.command
+        if self.entity_description.component_translation_key and component != MAIN:
+            self._attr_translation_key = (
+                self.entity_description.component_translation_key[component]
+            )
 
     @property
     def options(self) -> list[str]:

@@ -42,7 +42,6 @@ from .const import (
     MAIN,
     MEDIA_PLAYBACK_STATE_MAP,
     OVEN_JOB_STATE_MAP,
-    OVEN_MODE,
     ROBOT_CLEANER_MOVEMENT_MAP,
     ROBOT_CLEANER_TURBO_MODE_STATE_MAP,
 )
@@ -298,6 +297,7 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.PROGRESS,
                 translation_key="operating_progress",
                 native_unit_of_measurement=PERCENTAGE,
+                exists_fn=lambda status: status.value is not None and isinstance(status.value, (int, float)) and status.value >= 0
             )
         ],
     },
@@ -770,28 +770,6 @@ CAPABILITY_TO_SENSORS: dict[
             )
         ]
     },
-    Capability.OVEN_MODE: {
-        Attribute.OVEN_MODE: [
-            SmartThingsSensorEntityDescription(
-                key=Attribute.OVEN_MODE,
-                translation_key="oven_mode",
-                entity_category=EntityCategory.DIAGNOSTIC,
-                options=[
-                    *OVEN_MODE.values(),
-                    "heating",
-                    "grill",
-                    "defrosting",
-                    "warming",
-                ],
-                device_class=SensorDeviceClass.ENUM,
-                value_fn=lambda value: OVEN_MODE.get(value, value),
-                component_fn=lambda component: component == "cavity-01",
-                component_translation_key={
-                    "cavity-01": "oven_mode_cavity_01",
-                },
-            )
-        ]
-    },
     Capability.OVEN_OPERATING_STATE: {
         Attribute.MACHINE_STATE: [
             SmartThingsSensorEntityDescription(
@@ -799,9 +777,11 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="oven_machine_state",
                 options=["ready", "running", "paused"],
                 device_class=SensorDeviceClass.ENUM,
-                component_fn=lambda component: component == "cavity-01",
+                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_OPERATING_STATE],
+                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
                 component_translation_key={
                     "cavity-01": "oven_machine_state_cavity_01",
+                    "cavity-02": "oven_machine_state_cavity_02",
                 },
             )
         ],
@@ -830,9 +810,11 @@ CAPABILITY_TO_SENSORS: dict[
                 ],
                 device_class=SensorDeviceClass.ENUM,
                 value_fn=lambda value: OVEN_JOB_STATE_MAP.get(value, value),
-                component_fn=lambda component: component == "cavity-01",
+                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_OPERATING_STATE],
+                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
                 component_translation_key={
                     "cavity-01": "oven_job_state_cavity_01",
+                    "cavity-02": "oven_job_state_cavity_02",
                 },
             )
         ],
@@ -842,9 +824,11 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="completion_time",
                 device_class=SensorDeviceClass.TIMESTAMP,
                 value_fn=dt_util.parse_datetime,
-                component_fn=lambda component: component == "cavity-01",
+                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_OPERATING_STATE],
+                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
                 component_translation_key={
                     "cavity-01": "oven_completion_time_cavity_01",
+                    "cavity-02": "oven_completion_time_cavity_02",
                 },
             )
         ],
@@ -853,9 +837,11 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.OPERATION_TIME,
                 translation_key="operation_time",
                 native_unit_of_measurement=UnitOfTime.MINUTES,
-                component_fn=lambda component: component == "cavity-01",
+                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_OPERATING_STATE],
+                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
                 component_translation_key={
                     "cavity-01": "oven_operation_time_cavity_01",
+                    "cavity-02": "oven_operation_time_cavity_02",
                 },
             )
         ],
@@ -864,9 +850,94 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.PROGRESS,
                 translation_key="operating_progress",
                 native_unit_of_measurement=PERCENTAGE,
-                component_fn=lambda component: component == "cavity-01",
+                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_OPERATING_STATE],
+                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
                 component_translation_key={
                     "cavity-01": "oven_operation_progress_cavity_01",
+                    "cavity-02": "oven_operation_progress_cavity_02",
+                },
+            )
+        ],
+    },
+    Capability.SAMSUNG_CE_OVEN_OPERATING_STATE: {
+        Attribute.OPERATING_STATE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.OPERATING_STATE,
+                translation_key="oven_operating_state",
+                options=["ready", "running", "paused"],
+                device_class=SensorDeviceClass.ENUM,
+                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_translation_key={
+                    "cavity-01": "oven_operating_state_cavity_01",
+                    "cavity-02": "oven_operating_state_cavity_02",
+                },
+            )
+        ],
+        Attribute.OVEN_JOB_STATE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.OVEN_JOB_STATE,
+                translation_key="oven_job_state",
+                options=[
+                    "cleaning",
+                    "cooking",
+                    "cooling",
+                    "draining",
+                    "preheat",
+                    "ready",
+                    "rinsing",
+                    "finished",
+                    "scheduled_start",
+                    "warming",
+                    "defrosting",
+                    "sensing",
+                    "searing",
+                    "fast_preheat",
+                    "scheduled_end",
+                    "stone_heating",
+                    "time_hold_preheat",
+                ],
+                device_class=SensorDeviceClass.ENUM,
+                value_fn=lambda value: OVEN_JOB_STATE_MAP.get(value, value),
+                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_translation_key={
+                    "cavity-01": "oven_job_state_cavity_01",
+                    "cavity-02": "oven_job_state_cavity_02",
+                },
+            )
+        ],
+        Attribute.COMPLETION_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.COMPLETION_TIME,
+                translation_key="completion_time",
+                device_class=SensorDeviceClass.TIMESTAMP,
+                value_fn=dt_util.parse_datetime,
+                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_translation_key={
+                    "cavity-01": "oven_completion_time_cavity_01",
+                    "cavity-02": "oven_completion_time_cavity_02",
+                },
+            )
+        ],
+        Attribute.OPERATION_TIME: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.OPERATION_TIME,
+                translation_key="operation_time",
+                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_translation_key={
+                    "cavity-01": "oven_operation_time_cavity_01",
+                    "cavity-02": "oven_operation_time_cavity_02",
+                },
+            )
+        ],
+        Attribute.PROGRESS: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.PROGRESS,
+                translation_key="operating_progress",
+                native_unit_of_measurement=PERCENTAGE,
+                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_translation_key={
+                    "cavity-01": "oven_operation_progress_cavity_01",
+                    "cavity-02": "oven_operation_progress_cavity_02",
                 },
             )
         ],
@@ -880,9 +951,10 @@ CAPABILITY_TO_SENSORS: dict[
                 use_temperature_unit=True,
                 # Set the value to None if it is 0 F (-17 C)
                 value_fn=lambda value: None if value in {-17, 0, 1} else value,
-                component_fn=lambda component: component == "cavity-01",
+                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
                 component_translation_key={
                     "cavity-01": "oven_setpoint_cavity_01",
+                    "cavity-02": "oven_setpoint_cavity_02",
                 },
             )
         ]
@@ -1098,11 +1170,12 @@ CAPABILITY_TO_SENSORS: dict[
         Attribute.TEMPERATURE: [
             SmartThingsSensorEntityDescription(
                 key=Attribute.TEMPERATURE,
+                translation_key="temperature_measurement",
                 device_class=SensorDeviceClass.TEMPERATURE,
                 state_class=SensorStateClass.MEASUREMENT,
                 component_fn=(
                     lambda component: (
-                        component in {"freezer", "cooler", "onedoor", "cavity-01"}
+                        component in {"freezer", "cooler", "onedoor", "cavity-01", "cavity-02"}
                     )
                 ),
                 component_translation_key={
@@ -1110,6 +1183,7 @@ CAPABILITY_TO_SENSORS: dict[
                     "cooler": "cooler_temperature",
                     "onedoor": "target_temperature",
                     "cavity-01": "oven_temperature_cavity_01",
+                    "cavity-02": "oven_temperature_cavity_02",
                 },
             )
         ]
