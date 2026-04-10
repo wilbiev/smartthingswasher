@@ -91,15 +91,24 @@
       "keep_fresh_support": {
         "name": "Suporte para manter fresco"
       },
+	    "microfiber_filter_blockage": {
+	      "name": "Filtro obstruído"
+	    },      
       "multi_tab_support": {
         "name": "Suporte multi-pastilhas"
       },
+	    "oven_cavity_status": {
+	      "name": "Estado da segunda cavidade"
+	    },      
       "remote_control": {
         "name": "Controlo remoto"
       },
       "rinse_plus_support": {
         "name": "Suporte de enxaguamento plus"
       },
+	    "robot_cleaner_dust_bag": {
+	      "name": "Saco de pó cheio"
+	    },      
       "sanitize_support": {
         "name": "Suporte de higienização"
       },
@@ -112,6 +121,12 @@
       "steam_soak_support": {
         "name": "Suporte de imersão a vapor"
       },
+	    "stick_cleaner_dust_bag": {
+	      "name": "Saco de pó cheio"
+	    },
+	    "stick_cleaner_status": {
+	      "name": "Aspirador vertical na base"
+	    },      
       "storm_wash_support": {
         "name": "Suporte Storm Wash"
       }
@@ -869,6 +884,9 @@
       "operation_time": {
         "name": "Tempo de operação"
       },
+      "oven_completion_time_cavity_01": {
+        "name": "Tempo de conclusão da segunda cavidade"
+      },      
       "oven_job_state": {
         "name": "Estado da tarefa",
         "state": {
@@ -891,6 +909,28 @@
           "warming": "A aquecer"
         }
       },
+      "oven_job_state_cavity_01": {
+        "name": "Estado da tarefa da segunda cavidade",
+        "state": {
+          "cleaning": "Limpeza",
+          "cooking": "Cozedura",
+          "cooling": "Arrefecimento",
+          "defrosting": "Descongelação",
+          "draining": "Drenagem",
+          "fast_preheat": "Pré-aquecimento rápido",
+          "finished": "Concluído",
+          "preheat": "Pré-aquecimento",
+          "ready": "Pronto",
+          "rinsing": "Enxaguamento",
+          "scheduled_end": "Fim agendado",
+          "scheduled_start": "Início agendado",
+          "searing": "Selagem",
+          "sensing": "Deteção",
+          "stone_heating": "Aquecimento da pedra",
+          "time_hold_preheat": "Manutenção de pré-aquecimento",
+          "warming": "A aquecer"
+        }
+      },      
       "oven_machine_state": {
         "name": "Estado da máquina",
         "state": {
@@ -899,6 +939,14 @@
           "running": "Em execução"
         }
       },
+      "oven_machine_state_cavity_01": {
+        "name": "Estado da segunda cavidade do forno",
+        "state": {
+          "paused": "Pausado",
+          "ready": "Pronto",
+          "running": "Em execução"
+        }
+      },      
       "oven_mode": {
         "name": "Modo do forno",
         "state": {
@@ -933,9 +981,55 @@
           "warming": "Aquecimento"
         }
       },
+      "oven_mode_cavity_01": {
+        "name": "Modo da segunda cavidade do forno",
+        "state": {
+          "bake": "Cozedura",
+          "bottom_heat": "Calor inferior",
+          "broil": "Grelhar (Broil)",
+          "convection_bake": "Cozedura por convecção",
+          "convection_broil": "Grelhar por convecção",
+          "convection_roast": "Assar por convecção",
+          "conventional": "Convencional",
+          "defrosting": "Descongelação",
+          "dehydrate": "Desidratação",
+          "descale": "Descalcificação",
+          "grill": "Grill",
+          "heating": "Aquecimento",
+          "microwave": "Micro-ondas",
+          "microwave_plus_convection": "Micro-ondas + Convecção",
+          "microwave_plus_grill": "Micro-ondas + Grill",
+          "microwave_plus_hot_blast": "Micro-ondas + Hot Blast",
+          "microwave_plus_hot_blast_2": "Micro-ondas + Hot Blast 2",
+          "others": "Outros",
+          "proof": "Fermentação",
+          "rinse": "Enxaguamento",
+          "slim_middle": "Slim médio",
+          "slim_strong": "Slim forte",
+          "slow_cook": "Cozedura lenta",
+          "steam_bake": "Cozedura a vapor",
+          "steam_bottom_heat_plus_convection": "Calor inferior a vapor + Convecção",
+          "steam_cook": "Cozinhar a vapor",
+          "steam_roast": "Assar a vapor",
+          "strong_steam": "Vapor forte",
+          "warming": "Aquecimento"
+        }
+      },
+      "oven_operation_progress_cavity_01": {
+        "name": "Progresso de operação da segunda cavidade"
+      },
+      "oven_operation_time_cavity_01": {
+        "name": "Tempo de funcionamento da segunda cavidade"
+      },      
       "oven_setpoint": {
         "name": "Ponto de ajuste"
       },
+      "oven_setpoint_cavity_01": {
+        "name": "Ponto de ajuste da segunda cavidade"
+      },
+      "oven_temperature_cavity_01": {
+        "name": "Temperatura da segunda cavidade"
+      },      
       "pm10_health_concern": {
         "name": "Preocupação de saúde PM10",
         "state": {
