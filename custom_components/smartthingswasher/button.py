@@ -122,10 +122,9 @@ CAPABILITY_TO_BUTTONS: dict[
                 key=Command.START,
                 translation_key="state_start",
                 capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_OPERATING_STATE],
-                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "state_start_cavity_01",
-                    "cavity-02": "state_start_cavity_02",
                 },
             ),
         ],
@@ -134,10 +133,9 @@ CAPABILITY_TO_BUTTONS: dict[
                 key=Command.STOP,
                 translation_key="state_stop",
                 capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_OPERATING_STATE],
-                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "state_stop_cavity_01",
-                    "cavity-02": "state_stop_cavity_02",
                 },
             ),
         ],
@@ -147,10 +145,9 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Command.START,
                 translation_key="state_start",
-                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "state_start_cavity_01",
-                    "cavity-02": "state_start_cavity_02",
                 },
             ),
         ],
@@ -158,10 +155,9 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Command.STOP,
                 translation_key="state_stop",
-                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "state_stop_cavity_01",
-                    "cavity-02": "state_stop_cavity_02",
                 },
             ),
         ],
@@ -169,10 +165,9 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Command.PAUSE,
                 translation_key="state_pause",
-                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "state_pause_cavity_01",
-                    "cavity-02": "state_pause_cavity_02",
                 },
             ),
         ],

@@ -340,10 +340,9 @@ CAPABILITY_TO_SELECTS: dict[
                 command=Command.SET_OVEN_MODE,
                 options_map=OVEN_MODE_TO_HA,
                 capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_MODE],
-                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "oven_mode_cavity_01",
-                    "cavity-02": "oven_mode_cavity_02",
                 },
             )
         ],
@@ -357,10 +356,9 @@ CAPABILITY_TO_SELECTS: dict[
                 options_attribute=Attribute.SUPPORTED_OVEN_MODES,
                 command=Command.SET_OVEN_MODE,
                 options_map=OVEN_MODE_TO_HA,
-                component_fn=lambda component: component in ("cavity-01", "cavity-02"),
+                component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "oven_mode_cavity_01",
-                    "cavity-02": "oven_mode_cavity_02",
                 },
             )
         ],

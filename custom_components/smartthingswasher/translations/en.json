@@ -101,10 +101,7 @@
         "name": "Oven status"
       },
       "oven_status_cavity_01": {
-        "name": "Lower cavity status"
-      },
-      "oven_status_cavity_02": {
-        "name": "Upper cavity status"
+        "name": "Second cavity status"
       },
       "remote_control": {
         "name": "Remote control"
@@ -151,10 +148,7 @@
         "name": "State pause"
       },
       "state_pause_cavity_01": {
-        "name": "Lower cavity state pause"
-      },
-      "state_pause_cavity_02": {
-        "name": "Upper cavity state pause"
+        "name": "Second cavity state pause"
       },
       "state_pause_resume": {
         "name": "State pause-resume"
@@ -163,19 +157,13 @@
         "name": "State start"
       },
       "state_start_cavity_01": {
-        "name": "Lower cavity state start"
-      },
-      "state_start_cavity_02": {
-        "name": "Upper cavity state start"
+        "name": "Second cavity state start"
       },
       "state_start_later": {
         "name": "State start later"
       },
       "state_stop_cavity_01": {
-        "name": "Lower cavity state stop"
-      },
-      "state_stop_cavity_02": {
-        "name": "Upper cavity state stop"
+        "name": "Second cavity state stop"
       }
     },
     "climate": {
@@ -607,56 +595,7 @@
         }
       },
       "oven_mode_cavity_01": {
-        "name": "Lower cavity oven mode",
-        "state": {
-          "air_sousvide": "Air sousvide",
-          "autocook": "Autocook",
-          "bake": "Bake",
-          "bottom": "Bottom",
-          "bottom_heat": "Bottom heat",
-          "bottom_heat_plus_convection": "Bottom heat plus convection",
-          "broil": "Broil",
-          "clean_air_pyro": "Clean air pyro",
-          "convection": "Convection",
-          "convection_bake": "Convection bake",
-          "convection_broil": "Convection broil",
-          "convection_roast": "Convection roast",
-          "conventional": "Conventional",
-          "defrost": "Defrost",
-          "defrosting": "Defrosting",
-          "dehydrate": "Dehydrate",
-          "descale": "Descale",
-          "eco_convection": "Eco convection",
-          "fan_grill": "Fan grill",
-          "grill": "Grill",
-          "heating": "Heating",
-          "keep_warm": "Keep warm",
-          "large_grill": "Large grill",
-          "microwave": "Microwave",
-          "microwave_plus_convection": "Microwave plus convection",
-          "microwave_plus_grill": "Microwave plus grill",
-          "microwave_plus_hot_blast": "Microwave plus hot blast",
-          "microwave_plus_hot_blast_2": "Microwave plus hot blast 2",
-          "others": "Others",
-          "plate_warm": "Plate warm",
-          "proof": "Proof",
-          "rinse": "Rinse",
-          "slim_middle": "Slim middle",
-          "slim_strong": "Slim strong",
-          "slow_cook": "Slow cook",
-          "small_grill": "Small grill",
-          "steam_bake": "Steam bake",
-          "steam_bottom_heat_plus_convection": "Steam bottom heat plus convection",
-          "steam_clean": "Steam clean",
-          "steam_cook": "Steam cook",
-          "steam_roast": "Steam roast",
-          "strong_steam": "Strong steam",
-          "top_heat_plus_convection": "Top heat plus convection",
-          "warming": "Warming"
-        }
-      },
-      "oven_mode_cavity_02": {
-        "name": "Upper cavity oven mode",
+        "name": "Second cavity oven mode",
         "state": {
           "air_sousvide": "Air sousvide",
           "autocook": "Autocook",
@@ -1056,10 +995,7 @@
         "name": "Operation time"
       },
       "oven_completion_time_cavity_01": {
-        "name": "Lower cavity completion time"
-      },
-      "oven_completion_time_cavity_02": {
-        "name": "Upper cavity completion time"
+        "name": "Second cavity completion time"
       },
       "oven_job_state": {
         "name": "Job state",
@@ -1084,29 +1020,7 @@
         }
       },
       "oven_job_state_cavity_01": {
-        "name": "Lower cavity job state",
-        "state": {
-          "cleaning": "Cleaning",
-          "cooking": "Cooking",
-          "cooling": "Cooling",
-          "defrosting": "Defrosting",
-          "draining": "Draining",
-          "fast_preheat": "Fast preheat",
-          "finished": "Finished",
-          "preheat": "Preheat",
-          "ready": "Ready",
-          "rinsing": "Rinsing",
-          "scheduled_end": "Scheduled end",
-          "scheduled_start": "Scheduled start",
-          "searing": "Searing",
-          "sensing": "Sensing",
-          "stone_heating": "Stone heating",
-          "time_hold_preheat": "Time hold preheat",
-          "warming": "Warming"
-        }
-      },
-      "oven_job_state_cavity_02": {
-        "name": "Upper cavity job state",
+        "name": "Second cavity job state",
         "state": {
           "cleaning": "Cleaning",
           "cooking": "Cooking",
@@ -1136,15 +1050,7 @@
         }
       },
       "oven_machine_state_cavity_01": {
-        "name": "Lower cavity machine state",
-        "state": {
-          "paused": "Paused",
-          "ready": "Ready",
-          "running": "Running"
-        }
-      },
-      "oven_machine_state_cavity_02": {
-        "name": "Upper cavity machine state",
+        "name": "Second cavity machine state",
         "state": {
           "paused": "Paused",
           "ready": "Ready",
@@ -1160,15 +1066,7 @@
         }
       },
       "oven_operating_state_cavity_01": {
-        "name": "Lower cavity operating state",
-        "state": {
-          "paused": "Paused",
-          "ready": "Ready",
-          "running": "Running"
-        }
-      },
-      "oven_operating_state_cavity_02": {
-        "name": "Upper cavity operating state",
+        "name": "Second cavity operating state",
         "state": {
           "paused": "Paused",
           "ready": "Ready",
@@ -1176,31 +1074,19 @@
         }
       },
       "oven_operation_progress_cavity_01": {
-        "name": "Lower cavity operation progress"
-      },
-      "oven_operation_progress_cavity_02": {
-        "name": "Upper cavity operation progress"
+        "name": "Second cavity operation progress"
       },
       "oven_operation_time_cavity_01": {
-        "name": "Lower cavity operation time"
-      },
-      "oven_operation_time_cavity_02": {
-        "name": "Upper cavity operation time"
+        "name": "Second cavity operation time"
       },
       "oven_setpoint": {
         "name": "Set point"
       },
       "oven_setpoint_cavity_01": {
-        "name": "Lower cavity setpoint"
-      },
-      "oven_setpoint_cavity_02": {
-        "name": "Upper cavity setpoint"
+        "name": "Second cavity setpoint"
       },
       "oven_temperature_cavity_01": {
-        "name": "Lower cavity temperature"
-      },
-      "oven_temperature_cavity_02": {
-        "name": "Upper cavity temperature"
+        "name": "Second cavity temperature"
       },
       "pm10_health_concern": {
         "name": "PM10 health concern",
