@@ -31,7 +31,6 @@ class SmartThingsBinarySensorEntityDescription(BinarySensorEntityDescription):
     is_on_key: str | bool | None = None
     category_device_class: dict[Category | str, BinarySensorDeviceClass] | None = None
     category: set[Category] | None = None
-    exists_fn: Callable[[str], bool] | None = None
     component_fn: Callable[[str], bool] | None = None
     component_translation_key: dict[str, str] | None = None
     supported_states_attributes: Attribute | None = None
@@ -61,7 +60,7 @@ CAPABILITY_TO_SENSORS: dict[
                     Category.DOOR: BinarySensorDeviceClass.DOOR,
                     Category.WINDOW: BinarySensorDeviceClass.WINDOW,
                 },
-                exists_fn=lambda key: key in {"freezer", "cooler", "cvroom"},
+                component_fn=lambda component: component in {"freezer", "cooler", "cvroom"},
                 component_translation_key={
                     "freezer": "freezer_door",
                     "cooler": "cooler_door",
@@ -422,12 +421,8 @@ async def async_setup_entry(
             and (
                 component == MAIN
                 or (
-                    description.exists_fn is not None
-                    and description.exists_fn(component)
+                    description.component_fn is not None and description.component_fn(component)
                 )
-            )
-            and (
-                not description.component_fn or description.component_fn(component)
             )
             and (
                 not description.category
