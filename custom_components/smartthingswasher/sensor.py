@@ -1393,7 +1393,7 @@ async def async_setup_entry(
             for attribute, descriptions in attributes.items()
             if (attr_status := capabilities[capability].get(attribute)) is not None
             for description in descriptions
-            if (not description.component_fn or description.component_fn(component)) and
+            if (component == MAIN or (description.component_fn is not None and description.component_fn(component))) and
                (not description.exists_fn or description.exists_fn(attr_status)) and
                not (description.capability_ignore_list and any(
                    all(c in device.status[MAIN] for c in cl)

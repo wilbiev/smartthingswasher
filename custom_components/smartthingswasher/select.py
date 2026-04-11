@@ -466,7 +466,7 @@ async def async_setup_entry(
             if capability in capabilities
             for attribute, descriptions in attributes.items()
             for description in descriptions
-            if (not description.component_fn or description.component_fn(component))
+            if (component == MAIN or (description.component_fn is not None and description.component_fn(component)))
             and (not description.capability_ignore_list or all(c not in capabilities for c in description.capability_ignore_list))
         )
 
