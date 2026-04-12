@@ -12,6 +12,7 @@ from homeassistant.components.select import SelectEntity, SelectEntityDescriptio
 from homeassistant.const import EntityCategory
 from homeassistant.core import Event, EventStateChangedData, HomeAssistant, callback
 from homeassistant.exceptions import ServiceValidationError
+from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.event import async_track_state_change_event
 
@@ -35,6 +36,7 @@ from .entity import SmartThingsEntity
 from .models import SupportedOption
 from .util import (
     command_program_course,
+    get_current_cavity_id,
     get_program_options,
     get_program_table_id,
     translate_program_course,
@@ -546,8 +548,13 @@ async def async_setup_entry(
                 ) is not None:
                     select_entity.update_select_options(options)
 
-    async_track_state_change_event(hass, program_entities, select_state_listener)
+        async_dispatcher_send(
+            hass,
+            f"smartthings_oven_mode_changed_{source_device_id}",
+            new_state.state
+        )
 
+    async_track_state_change_event(hass, program_entities, select_state_listener)
 
 class SmartThingsSelect(SmartThingsEntity, SelectEntity):
     """Define a SmartThings select."""
@@ -615,15 +622,24 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         new_option: str | int = option
         if self.entity_description.options_map:
             new_option = next(
-                (
-                    key
-                    for key, value in self.entity_description.options_map.items()
-                    if value == option
-                ),
+                (k for k, v in self.entity_description.options_map.items() if v == option),
                 new_option,
             )
+        if self.capability in {Capability.OVEN_MODE, Capability.SAMSUNG_CE_OVEN_MODE}:
+            if (old_mode := self.get_attribute_value(self.capability, self._attribute, component=self.component)):
+                cavity_key = get_current_cavity_id(self.device.status, self.component)
+                old_lookup_id = f"{cavity_key}_{old_mode}"
+                if (old_program := self.device.programs.get(old_lookup_id)):
+                    for opt in old_program.supportedoptions.values():
+                        opt.selected_value = opt.default
+            self.device.status[self.component][self.capability][self._attribute].value = new_option
+            async_dispatcher_send(
+                self.hass,
+                f"smartthings_oven_mode_changed_{self.device.device.device_id}",
+                option
+            )
         if self.entity_description.value_is_integer:
-            new_option = int(option)
+            new_option = int(new_option)
         await self.execute_device_command(
             self.capability,
             self.command,

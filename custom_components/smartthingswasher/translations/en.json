@@ -252,6 +252,18 @@
       "hood_fan_speed": {
         "name": "Fan speed"
       },
+      "oven_operation_time": {
+        "name": "Operation time"
+      },
+      "oven_operation_time_cavity_01": {
+        "name": "Second cavity operation time"
+      },
+      "oven_temperature": {
+        "name": "Temperature"
+      },
+      "oven_temperature_cavity_01": {
+        "name": "Second cavity temperature"
+      },
       "target_temperature": {
         "name": "Target temperature"
       }

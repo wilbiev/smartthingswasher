@@ -1,6 +1,7 @@
 """Utility functions for SmartThings."""
 
 import re
+from typing import Any
 
 from pysmartthings import Attribute, Capability, ComponentStatus
 
@@ -81,3 +82,50 @@ def get_program_table_id(status: dict[str, ComponentStatus]) -> str:
         return table_id.lower()
 
     return ""
+
+def time_to_minutes(time_str: str | None) -> int:
+    """Convert a time string (HH:MM:SS) to minutes."""
+    if not time_str or not isinstance(time_str, str):
+        return 0
+
+    try:
+        parts = time_str.split(":")
+        if len(parts) == 3:
+            hours, minutes, _ = map(int, parts)
+            return (hours * 60) + minutes
+        if len(parts) == 2:
+            minutes, _ = map(int, parts)
+            return minutes
+    except (ValueError, TypeError):
+        return 0
+
+    return 0
+
+
+def get_component_attribute_value(
+    status: dict[str, ComponentStatus], component_id: str, capability: str, attribute: str
+) -> Any:
+    """Get a value from the status dictionary."""
+    try:
+        return status[component_id][capability][attribute].value
+    except (KeyError, AttributeError):
+        return None
+
+
+def get_current_cavity_id(status: dict[str, ComponentStatus], component: str) -> str:
+    """Get the current cavity ID based on the status and component."""
+    spec_status = get_component_attribute_value(
+        status, MAIN, Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION, Attribute.SPECIFICATION
+    ) or {}
+    if component == "cavity-01" and "lower" in spec_status:
+        return "lower"
+    divider = get_component_attribute_value(
+        status, "cavity-01", Capability.CUSTOM_OVEN_CAVITY_STATUS, Attribute.OVEN_CAVITY_STATUS
+    )
+    if divider == "on" and "upper" in spec_status:
+        return "upper"
+    if "single" not in spec_status:
+        for key, value in spec_status.items():
+            if isinstance(value, list):
+                return key
+    return "single"
