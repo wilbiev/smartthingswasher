@@ -12,15 +12,18 @@ from homeassistant.components.number import (
     NumberDeviceClass,
     NumberEntity,
     NumberEntityDescription,
+    NumberMode,
 )
 from homeassistant.const import EntityCategory, UnitOfTime
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FullDevice, SmartThingsConfigEntry
 from .const import MAIN, UNIT_MAP
 from .entity import SmartThingsEntity
-from .models import STType
+from .models import ProgramOptions, STType, SupportedOption
+from .util import get_current_cavity_id, translate_oven_mode
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -36,6 +39,7 @@ class SmartThingsNumberEntityDescription(NumberEntityDescription):
     max_attribute: Attribute | None = None
     range_attribute: Attribute | None = None
     use_temperature_unit: bool = False
+    capability_ignore_list: list[Capability] | None = None
     component_fn: Callable[[str], bool] | None = None
     component_translation_key: dict[str, str] | None = None
     value_fn: Callable[[Any], float | int | None] | None = None
@@ -146,6 +150,39 @@ CAPABILITY_TO_NUMBERS: dict[
     },
 }
 
+OVEN_OPTIONS_TO_NUMBERS: dict[
+    Capability, dict[SupportedOption, list[SmartThingsNumberEntityDescription]]
+] = {
+    Capability.SAMSUNG_CE_OVEN_MODE: {
+        SupportedOption.TEMPERATURE: [
+            SmartThingsNumberEntityDescription(
+                key=SupportedOption.TEMPERATURE,
+                translation_key="oven_temperature",
+                entity_category=EntityCategory.CONFIG,
+                device_class=NumberDeviceClass.TEMPERATURE,
+                component_fn=lambda component: component == "cavity-01",
+                component_translation_key={
+                    "cavity-01": "oven_temperature_cavity_01",
+                },
+                use_temperature_unit=True,
+            )
+        ],
+        SupportedOption.OPERATION_TIME: [
+            SmartThingsNumberEntityDescription(
+                key=SupportedOption.OPERATION_TIME,
+                translation_key="oven_operation_time",
+                entity_category=EntityCategory.CONFIG,
+                device_class=NumberDeviceClass.DURATION,
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+                component_fn=lambda component: component == "cavity-01",
+                component_translation_key={
+                    "cavity-01": "oven_operation_time_cavity_01",
+                },
+            )
+        ],
+    }
+}
+
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -169,6 +206,28 @@ async def async_setup_entry(
         if capability in device.status[component]
         for attribute, descriptions in attributes.items()
         for description in descriptions
+    )
+    async_add_entities(
+        SmartThingsOvenOptionNumber(
+            entry_data.client,
+            device,
+            description,
+            capability,
+            Attribute.OVEN_MODE,
+            component,
+        )
+        for device in entry_data.devices.values()
+        for capability, support_options in OVEN_OPTIONS_TO_NUMBERS.items()
+        for component, capabilities in device.status.items()
+        if capability in capabilities
+        for support_option, descriptions in support_options.items()
+        for description in descriptions
+        if (component == MAIN or (description.component_fn is not None and description.component_fn(component))) and
+            not (description.capability_ignore_list and any(
+                all(c in device.status[MAIN] for c in cl)
+                for cl in description.capability_ignore_list
+            ))
+
     )
 
 
@@ -198,7 +257,6 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
             self._attr_translation_key = (
                 self.entity_description.component_translation_key[component]
             )
-
 
     @property
     def options(self) -> list[int] | None:
@@ -317,4 +375,121 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
             self.capability,
             self.command,
             command_value,
+        )
+
+class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
+    """Defines a number entity for oven options like temperature and operationtime."""
+
+    entity_description: SmartThingsNumberEntityDescription
+
+    def __init__(
+        self,
+        client: SmartThings,
+        device: FullDevice,
+        entity_description: SmartThingsNumberEntityDescription,
+        capability: Capability,
+        attribute: Attribute,
+        component: str = MAIN,
+    ) -> None:
+        """Init de klasse."""
+        capabilities = {capability}
+        capabilities.add(Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION)
+        capabilities.add(Capability.CUSTOM_OVEN_CAVITY_STATUS)
+        capabilities.add(Capability.REMOTE_CONTROL_STATUS)
+        super().__init__(client, device, capabilities, component=component)
+        self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
+        self._attribute = attribute
+        self.capability = capability
+        self.entity_description = entity_description
+        if self.entity_description.component_translation_key and component in self.entity_description.component_translation_key:
+            self._attr_translation_key = (
+                self.entity_description.component_translation_key[component]
+            )
+        if entity_description.key == SupportedOption.OPERATION_TIME:
+            self._attr_mode = NumberMode.BOX
+        else:
+            self._attr_mode = NumberMode.SLIDER
+
+    @property
+    def _active_option(self) -> ProgramOptions | None:
+        """Helper to find the ProgramOptions for the current mode."""
+        if self.device.programs is None:
+            return None
+        cavity_key = get_current_cavity_id(self.device.status, self.component)
+        current_mode = self.get_attribute_value(self.capability, self._attribute, component=self.component)
+        if not current_mode:
+            return None
+        lookup_id = translate_oven_mode(current_mode, cavity_key)
+        if (program := self.device.programs.get(lookup_id)):
+            if self.entity_description.key in program.supportedoptions:
+                return program.supportedoptions[self.entity_description.key]
+        return None
+
+    @property
+    def native_value(self) -> float | None:
+        """Get the selected value from the program model."""
+        if (option := self._active_option):
+            return float(option.selected_value) if option.selected_value is not None else None
+        return None
+
+    @property
+    def native_min_value(self) -> float:
+        """Get the minimum value from the program model."""
+        if (option := self._active_option):
+            if option.min_value is not None:
+                return option.min_value
+        return self.entity_description.native_min_value
+
+    @property
+    def native_max_value(self) -> float:
+        """Get the maximum value from the program model."""
+        if (option := self._active_option):
+            if option.max_value is not None:
+                return option.max_value
+        return self.entity_description.native_max_value
+
+    @property
+    def native_step(self) -> float:
+        """Get the step size (resolution) from the program model."""
+        if (option := self._active_option):
+            if option.step_value is not None:
+                return option.step_value
+        return self.entity_description.native_step
+
+    @property
+    def native_unit_of_measurement(self) -> str | None:
+        """Return the unit this state is expressed in."""
+        if self.entity_description.use_temperature_unit:
+            if (option := self._active_option):
+                if option.unit is not None:
+                    return UNIT_MAP[option.unit]
+        return self.entity_description.native_unit_of_measurement
+
+
+    async def async_set_native_value(self, value: float) -> None:
+        """Update the selected value in the program model."""
+        if (option := self._active_option):
+            option.selected_value = value
+            self.async_write_ha_state()
+
+    @property
+    def available(self) -> bool:
+        """The entity is only available if the current mode supports this option."""
+        return super().available and self._active_option is not None
+
+    async def async_added_to_hass(self) -> None:
+        """Register callbacks."""
+        @callback
+        def update_state(new_mode: str) -> None:
+            """Update de entiteit wanneer de oven-modus verandert."""
+            if (option := self._active_option):
+                option.selected_value = float(option.default)
+            self.async_write_ha_state()
+
+        self.async_on_remove(
+            async_dispatcher_connect(
+                self.hass,
+                f"smartthings_oven_mode_changed_{self.device.device.device_id}",
+                update_state
+            )
         )

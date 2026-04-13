@@ -15,6 +15,8 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from . import FullDevice, SmartThingsConfigEntry
 from .const import MAIN
 from .entity import SmartThingsEntity
+from .models import SupportedOption
+from .util import get_current_cavity_id, translate_oven_mode
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -210,11 +212,11 @@ async def async_setup_entry(
         if capability in device.status[component]
         for command, descriptions in commands.items()
         for description in descriptions
-            if (component == MAIN or (description.component_fn is not None and description.component_fn(component))) and
-               not (description.capability_ignore_list and any(
-                   all(c in device.status[MAIN] for c in cl)
-                   for cl in description.capability_ignore_list
-               ))
+        if (component == MAIN or (description.component_fn is not None and description.component_fn(component))) and
+            not (description.capability_ignore_list and any(
+                all(c in device.status[MAIN] for c in cl)
+                for cl in description.capability_ignore_list
+            ))
     )
 
 
@@ -246,47 +248,34 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
                 self.entity_description.component_translation_key[component]
             )
 
-    def get_component_attribute_value(
-        self, component_id: str, capability: str, attribute: str
-    ) -> Any:
-        """Haal een waarde op van een specifieke component van dit apparaat."""
-        try:
-            return self.device.status[component_id][capability][attribute].value
-        except KeyError:
-            return None
-
     async def async_press(self) -> None:
-        """Press the button."""
+        """Verzamel de waarden uit het model en start de oven."""
+
         argument = None
         if self.capability == Capability.SAMSUNG_CE_OVEN_OPERATING_STATE and self.command == Command.START:
-            cavity = "single"
-            if self.component == MAIN:
-                if self.get_component_attribute_value(
-                            "cavity-01",
-                            Capability.CUSTOM_OVEN_CAVITY_STATUS,
-                            Attribute.OVEN_CAVITY_STATUS
-                        ) == "on":
-                    cavity = "upper"
-            if self.component == "cavity-01":
-                cavity = "lower"
-            device_options = self.get_attribute_value(Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION, Attribute.SPECIFICATION)[cavity]
-            selected_mode = self.get_attribute_value(Capability.SAMSUNG_CE_OVEN_MODE, Attribute.OVEN_MODE)
-            for entry in device_options:
-                if entry.get("mode") == selected_mode:
-                    if "start" not in entry.get("supportedOperations", []):
-                        raise ServiceValidationError(
-                            "Start is not an available operation for current oven mode"
-                        )
-                    options = entry.get("supportedOptions", {})
-                    if "temperature" in options and "operationTime" in options:
-                        temp_options = options.get("temperature", {})
-                        if "C" in temp_options:
-                            temp = temp_options.get("C", {}).get("default", 180)
-                        else:
-                            temp = temp_options.get("F", {}).get("default", 350)
-                        duration = options["operationTime"].get("default", "01:00:00")
-                        argument = [selected_mode, duration, temp]
-                        break
+            cavity_key = get_current_cavity_id(self.device.status, self.component)
+            current_mode = self.get_attribute_value(
+                Capability.SAMSUNG_CE_OVEN_MODE,
+                Attribute.OVEN_MODE,
+                component=self.component
+            )
+            if not current_mode:
+                raise ServiceValidationError("No active oven mode found")
+            lookup_id = translate_oven_mode(current_mode, cavity_key)
+            program = self.device.programs.get(lookup_id)
+            if not program:
+                raise ServiceValidationError(f"No program {lookup_id} found in model")
+
+            if not program.supports_start:
+                raise ServiceValidationError(f"Start is not available for {current_mode}")
+
+            temp_opt = program.supportedoptions.get(SupportedOption.TEMPERATURE)
+            time_opt = program.supportedoptions.get(SupportedOption.OPERATION_TIME)
+
+            if not temp_opt or not time_opt:
+                 raise ServiceValidationError(f"Missing options for {lookup_id}")
+
+            argument = [current_mode, int(time_opt.selected_value), int(temp_opt.selected_value)]
         elif self.entity_description.argument_fn:
             argument = self.entity_description.argument_fn(self)
         else:
