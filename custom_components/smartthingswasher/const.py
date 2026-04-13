@@ -27,6 +27,10 @@ REQUESTED_SCOPES = [
     "w:installedapps",
 ]
 
+CAVITY_LOWER = "lower"
+CAVITY_SINGLE = "single"
+CAVITY_UPPER = "upper"
+
 CONF_APP_ID = "app_id"
 CONF_CLOUDHOOK_URL = "cloudhook_url"
 CONF_INSTALLED_APP_ID = "installed_app_id"

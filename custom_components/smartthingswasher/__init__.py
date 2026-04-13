@@ -76,7 +76,7 @@ from .const import (
     PROGRAM_SUPPORTED_OPTIONS,
 )
 from .models import Program, ProgramOptions, SupportedOption
-from .util import time_to_minutes, translate_program_course
+from .util import time_to_minutes, translate_oven_mode, translate_program_course
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -613,7 +613,7 @@ def process_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
                     continue
 
                 mode_name = mode_data[PROGRAM_MODE]
-                program_id = f"{cavity_key}_{mode_name}"
+                program_id = translate_oven_mode(mode_name, cavity_key)
                 supported_ops = mode_data.get(PROGRAM_SUPPORTED_OPERATIONS, [])
                 can_start = "start" in supported_ops
                 supported_options = mode_data.get(PROGRAM_SUPPORTED_OPTIONS, {})

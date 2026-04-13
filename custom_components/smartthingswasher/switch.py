@@ -231,6 +231,7 @@ DISHWASHER_WASHING_OPTIONS_TO_SWITCHES: dict[
                 on_key=True,
                 off_key=False,
                 entity_category=EntityCategory.CONFIG,
+                check_capability=Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
             )
         ],
         Attribute.DRY_PLUS: [
@@ -241,6 +242,7 @@ DISHWASHER_WASHING_OPTIONS_TO_SWITCHES: dict[
                 on_key=True,
                 off_key=False,
                 entity_category=EntityCategory.CONFIG,
+                check_capability=Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
             )
         ],
         Attribute.HEATED_DRY: [
@@ -251,6 +253,7 @@ DISHWASHER_WASHING_OPTIONS_TO_SWITCHES: dict[
                 on_key=True,
                 off_key=False,
                 entity_category=EntityCategory.CONFIG,
+                check_capability=Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
             )
         ],
         Attribute.HIGH_TEMP_WASH: [
@@ -261,6 +264,7 @@ DISHWASHER_WASHING_OPTIONS_TO_SWITCHES: dict[
                 on_key=True,
                 off_key=False,
                 entity_category=EntityCategory.CONFIG,
+                check_capability=Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
             )
         ],
         Attribute.HOT_AIR_DRY: [
@@ -271,6 +275,7 @@ DISHWASHER_WASHING_OPTIONS_TO_SWITCHES: dict[
                 on_key=True,
                 off_key=False,
                 entity_category=EntityCategory.CONFIG,
+                check_capability=Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
             )
         ],
         Attribute.MULTI_TAB: [
@@ -281,6 +286,7 @@ DISHWASHER_WASHING_OPTIONS_TO_SWITCHES: dict[
                 on_key=True,
                 off_key=False,
                 entity_category=EntityCategory.CONFIG,
+                check_capability=Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
             )
         ],
         Attribute.RINSE_PLUS: [
@@ -291,6 +297,7 @@ DISHWASHER_WASHING_OPTIONS_TO_SWITCHES: dict[
                 on_key=True,
                 off_key=False,
                 entity_category=EntityCategory.CONFIG,
+                check_capability=Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
             )
         ],
         Attribute.SANITIZE: [
@@ -301,6 +308,7 @@ DISHWASHER_WASHING_OPTIONS_TO_SWITCHES: dict[
                 on_key=True,
                 off_key=False,
                 entity_category=EntityCategory.CONFIG,
+                check_capability=Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
             )
         ],
         Attribute.SANITIZING_WASH: [
@@ -311,6 +319,7 @@ DISHWASHER_WASHING_OPTIONS_TO_SWITCHES: dict[
                 on_key=True,
                 off_key=False,
                 entity_category=EntityCategory.CONFIG,
+                check_capability=Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
             )
         ],
         Attribute.SPEED_BOOSTER: [
@@ -321,6 +330,7 @@ DISHWASHER_WASHING_OPTIONS_TO_SWITCHES: dict[
                 on_key=True,
                 off_key=False,
                 entity_category=EntityCategory.CONFIG,
+                check_capability=Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
             )
         ],
         Attribute.STEAM_SOAK: [
@@ -331,6 +341,7 @@ DISHWASHER_WASHING_OPTIONS_TO_SWITCHES: dict[
                 on_key=True,
                 off_key=False,
                 entity_category=EntityCategory.CONFIG,
+                check_capability=Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
             )
         ],
         Attribute.STORM_WASH: [
@@ -341,6 +352,7 @@ DISHWASHER_WASHING_OPTIONS_TO_SWITCHES: dict[
                 on_key=True,
                 off_key=False,
                 entity_category=EntityCategory.CONFIG,
+                check_capability=Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
             )
         ],
     }
@@ -441,26 +453,22 @@ class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
     def _validate_before_execute(self) -> None:
         """Validate that the switch command can be executed."""
         if self.entity_description.check_capability is not None:
-            attribute_course = CAPABILITY_COURSES.get(self.entity_description.check_capability)
-            current_course_raw = self.get_attribute_value(self.entity_description.check_capability, attribute_course)
-            if current_course_raw is None:
+            if (attribute_course := CAPABILITY_COURSES.get(self.entity_description.check_capability)) is None:
+                raise ServiceValidationError("Option is not supported by selected course/cycle")
+
+            if (current_course_raw := self.get_attribute_value(self.entity_description.check_capability, attribute_course)) is None:
                 raise ServiceValidationError("Option is not supported by selected course/cycle")
 
             current_course = translate_program_course(current_course_raw)
-            if current_course not in self.device.programs:
+            if not self.device.programs or current_course not in self.device.programs:
                 raise ServiceValidationError("Option is not supported by selected course/cycle")
 
             program = self.device.programs[current_course]
-            option_key = self.entity_description.key
+            if (opt := program.supportedoptions.get(self.entity_description.key)) is not None:
+                if len(opt.options) > 1:
+                    return
 
-            # Check if the option exists in supportedOptions of course/cycle
-            if (opt := program.supportedoptions.get(option_key)) is None:
-                raise ServiceValidationError("Option is not supported by selected course/cycle")
-
-            # Check of the supportedOptions.option has more than one value
-            if len(opt.options) <= 1:
-                raise ServiceValidationError("Option is not supported by selected course/cycle")
-
+            raise ServiceValidationError("Option is not supported by selected course/cycle")
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Turn the switch off."""

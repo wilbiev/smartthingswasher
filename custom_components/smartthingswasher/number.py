@@ -23,7 +23,7 @@ from . import FullDevice, SmartThingsConfigEntry
 from .const import MAIN, UNIT_MAP
 from .entity import SmartThingsEntity
 from .models import ProgramOptions, STType, SupportedOption
-from .util import get_current_cavity_id
+from .util import get_current_cavity_id, translate_oven_mode
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -222,8 +222,12 @@ async def async_setup_entry(
         if capability in capabilities
         for support_option, descriptions in support_options.items()
         for description in descriptions
-        if (component == MAIN or (description.component_fn is not None and description.component_fn(component)))
-        and (not description.capability_ignore_list or all(c not in capabilities for c in description.capability_ignore_list))
+        if (component == MAIN or (description.component_fn is not None and description.component_fn(component))) and
+            not (description.capability_ignore_list and any(
+                all(c in device.status[MAIN] for c in cl)
+                for cl in description.capability_ignore_list
+            ))
+
     )
 
 
@@ -388,7 +392,11 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
         component: str = MAIN,
     ) -> None:
         """Init de klasse."""
-        super().__init__(client, device, {capability}, component=component)
+        capabilities = {capability}
+        capabilities.add(Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION)
+        capabilities.add(Capability.CUSTOM_OVEN_CAVITY_STATUS)
+        capabilities.add(Capability.REMOTE_CONTROL_STATUS)
+        super().__init__(client, device, capabilities, component=component)
         self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
@@ -411,7 +419,7 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
         current_mode = self.get_attribute_value(self.capability, self._attribute, component=self.component)
         if not current_mode:
             return None
-        lookup_id = f"{cavity_key}_{current_mode}"
+        lookup_id = translate_oven_mode(current_mode, cavity_key)
         if (program := self.device.programs.get(lookup_id)):
             if self.entity_description.key in program.supportedoptions:
                 return program.supportedoptions[self.entity_description.key]

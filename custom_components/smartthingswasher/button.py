@@ -16,7 +16,7 @@ from . import FullDevice, SmartThingsConfigEntry
 from .const import MAIN
 from .entity import SmartThingsEntity
 from .models import SupportedOption
-from .util import get_current_cavity_id
+from .util import get_current_cavity_id, translate_oven_mode
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -212,11 +212,11 @@ async def async_setup_entry(
         if capability in device.status[component]
         for command, descriptions in commands.items()
         for description in descriptions
-            if (component == MAIN or (description.component_fn is not None and description.component_fn(component))) and
-               not (description.capability_ignore_list and any(
-                   all(c in device.status[MAIN] for c in cl)
-                   for cl in description.capability_ignore_list
-               ))
+        if (component == MAIN or (description.component_fn is not None and description.component_fn(component))) and
+            not (description.capability_ignore_list and any(
+                all(c in device.status[MAIN] for c in cl)
+                for cl in description.capability_ignore_list
+            ))
     )
 
 
@@ -261,7 +261,7 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
             )
             if not current_mode:
                 raise ServiceValidationError("No active oven mode found")
-            lookup_id = f"{cavity_key}_{current_mode}"
+            lookup_id = translate_oven_mode(current_mode, cavity_key)
             program = self.device.programs.get(lookup_id)
             if not program:
                 raise ServiceValidationError(f"No program {lookup_id} found in model")
