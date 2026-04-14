@@ -249,7 +249,7 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
             )
 
     async def async_press(self) -> None:
-        """Verzamel de waarden uit het model en start de oven."""
+        """Collect the values from the model and start the oven."""
 
         argument = None
         if self.capability == Capability.SAMSUNG_CE_OVEN_OPERATING_STATE and self.command == Command.START:

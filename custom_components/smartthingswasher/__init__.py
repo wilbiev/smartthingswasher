@@ -596,6 +596,7 @@ def process_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
         return programs
 
     if (spec_status := main_component.get(Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION)) is not None:
+        """Build oven programs."""
         spec_data = cast(dict[str, list[dict[str, Any]]], spec_status[Attribute.SPECIFICATION].value)
         specification: dict[str, list[dict[str, Any]]] = {}
         if isinstance(spec_data, list):
@@ -626,6 +627,7 @@ def process_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
                 )
 
     elif (predefined := program_capabilities_list.get(Attribute.PREDEFINED_COURSES)) is not None:
+        """Build dishwasher programs."""
         course_list = cast(list[dict[str, Any]], predefined.value)
         for course in course_list:
             program_id: str = translate_program_course(course.get(PROGRAM_COURSE_NAME))
@@ -649,6 +651,7 @@ def process_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
             )
 
     elif (supported := program_capabilities_list.get(Attribute.SUPPORTED_CYCLES)) is not None:
+        """Build dryer/washer programs."""
         cycle_list = cast(list[dict[str, Any]], supported.value)
         for cycle in cycle_list:
             program_id: str = translate_program_course(cycle.get(PROGRAM_CYCLE))
