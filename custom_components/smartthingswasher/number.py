@@ -378,7 +378,7 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
         )
 
 class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
-    """Defines a number entity for oven options like temperature and operationtime."""
+    """Defines a number entity for oven options."""
 
     entity_description: SmartThingsNumberEntityDescription
 
@@ -391,7 +391,7 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
         attribute: Attribute,
         component: str = MAIN,
     ) -> None:
-        """Init de klasse."""
+        """Init the class."""
         capabilities = {capability}
         capabilities.add(Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION)
         capabilities.add(Capability.CUSTOM_OVEN_CAVITY_STATUS)
@@ -481,7 +481,7 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
         """Register callbacks."""
         @callback
         def update_state(new_mode: str) -> None:
-            """Update de entiteit wanneer de oven-modus verandert."""
+            """Update the entity when the oven mode changes."""
             if (option := self._active_option):
                 option.selected_value = float(option.default)
             self.async_write_ha_state()

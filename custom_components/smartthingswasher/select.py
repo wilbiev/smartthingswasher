@@ -57,7 +57,6 @@ class SmartThingsSelectEntityDescription(SelectEntityDescription):
     value_is_integer: bool = False
     component_fn: Callable[[str], bool] | None = None
     component_translation_key: dict[str, str] | None = None
-    extra_capabilities: list[Capability] | None = None
 
 
 CAPABILITY_TO_SELECTS: dict[
@@ -417,7 +416,13 @@ PROGRAMS_TO_SELECTS: dict[
                 capability_ignore_list=[Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE],
             )
         ]
-    },
+    }
+}
+
+
+OVEN_MODES_TO_SELECTS: dict[
+    Capability, dict[Attribute, list[SmartThingsSelectEntityDescription]]
+] = {
     Capability.OVEN_MODE: {
         Attribute.OVEN_MODE: [
             SmartThingsSelectEntityDescription(
@@ -427,10 +432,6 @@ PROGRAMS_TO_SELECTS: dict[
                 options_attribute=Attribute.SUPPORTED_OVEN_MODES,
                 command=Command.SET_OVEN_MODE,
                 options_map=OVEN_MODE_TO_HA,
-                extra_capabilities=[
-                    Capability.CUSTOM_OVEN_CAVITY_STATUS,
-                    Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION,
-                ],
                 capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_MODE],
                 component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
@@ -448,10 +449,6 @@ PROGRAMS_TO_SELECTS: dict[
                 options_attribute=Attribute.SUPPORTED_OVEN_MODES,
                 command=Command.SET_OVEN_MODE,
                 options_map=OVEN_MODE_TO_HA,
-                extra_capabilities=[
-                    Capability.CUSTOM_OVEN_CAVITY_STATUS,
-                    Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION,
-                ],
                 component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "oven_mode_cavity_01",
@@ -471,6 +468,7 @@ async def async_setup_entry(
     entry_data = entry.runtime_data
     select_entities: list[SmartThingsSelect | SmartThingsDishwasherOptionSelect] = []
     program_select_entities: list[SmartThingsProgramSelect] = []
+    oven_select_entities: list[SmartThingsOvenModeSelect] = []
 
     for device in entry_data.devices.values():
         select_entities.extend(
@@ -512,11 +510,28 @@ async def async_setup_entry(
                 ))
         )
 
-    async_add_entities(select_entities + program_select_entities)
+        oven_select_entities.extend(
+            SmartThingsOvenModeSelect(entry_data.client, device, description, capability, attribute, component)
+            for capability, attributes in OVEN_MODES_TO_SELECTS.items()
+            for component, capabilities in device.status.items()
+            if capability in capabilities
+            for attribute, descriptions in attributes.items()
+            for description in descriptions
+            if (component == MAIN or (description.component_fn is not None and description.component_fn(component))) and
+                not (description.capability_ignore_list and any(
+                    all(c in device.status[MAIN] for c in cl)
+                    for cl in description.capability_ignore_list
+                ))
+        )
+    async_add_entities(select_entities + program_select_entities + oven_select_entities)
 
     program_entities: list[str] = [
         select_entity.entity_id for select_entity in program_select_entities
     ]
+    program_entities += [
+        select_entity.entity_id for select_entity in oven_select_entities
+    ]
+
 
     @callback
     def select_state_listener(event: Event[EventStateChangedData]) -> None:
@@ -526,12 +541,9 @@ async def async_setup_entry(
         if new_state is None:
             return
 
+        all_program_entities = program_select_entities + oven_select_entities
         source_device_id = next(
-            (
-                ent.device.device.device_id
-                for ent in program_select_entities
-                if ent.entity_id == source_entity_id
-            ),
+            (ent.device.device.device_id for ent in all_program_entities if ent.entity_id == source_entity_id),
             None,
         )
         if not source_device_id:
@@ -566,11 +578,8 @@ async def async_setup_entry(
                 ) is not None:
                     select_entity.update_select_options(options)
 
-        for select_entity in program_select_entities:
-            if (
-                select_entity.device.device.device_id == source_device_id
-                and select_entity.capability in {Capability.SAMSUNG_CE_OVEN_MODE, Capability.OVEN_MODE}
-            ):
+        for select_entity in oven_select_entities:
+            if select_entity.device.device.device_id == source_device_id:
                 select_entity.async_write_ha_state()
 
         async_dispatcher_send(
@@ -598,8 +607,6 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
     ) -> None:
         """Init the class."""
         capabilities = {capability}
-        if entity_description.extra_capabilities:
-            capabilities.update(entity_description.extra_capabilities)
         if entity_description.supported_option:
             capabilities.add(Capability.REMOTE_CONTROL_STATUS)
         super().__init__(client, device, capabilities, component=component)
@@ -650,21 +657,12 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         new_option: str | int = option
         if self.entity_description.options_map:
             new_option = next(
-                (k for k, v in self.entity_description.options_map.items() if v == option),
+                (
+                    key
+                    for key, value in self.entity_description.options_map.items()
+                    if value == option
+                ),
                 new_option,
-            )
-        if self.capability in {Capability.OVEN_MODE, Capability.SAMSUNG_CE_OVEN_MODE}:
-            if (old_mode := self.get_attribute_value(self.capability, self._attribute, component=self.component)):
-                cavity_key = get_current_cavity_id(self.device.status, self.component)
-                old_lookup_id = translate_oven_mode(old_mode, cavity_key)
-                if (old_program := self.device.programs.get(old_lookup_id)):
-                    for opt in old_program.supportedoptions.values():
-                        opt.selected_value = opt.default
-            self.device.status[self.component][self.capability][self._attribute].value = new_option
-            async_dispatcher_send(
-                self.hass,
-                f"smartthings_oven_mode_changed_{self.device.device.device_id}",
-                option
             )
         if self.entity_description.value_is_integer:
             new_option = int(new_option)
@@ -849,19 +847,6 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
                     or []
             )
             return [translate_program_course(option) for option in options]
-
-        if self.capability in {Capability.OVEN_MODE, Capability.SAMSUNG_CE_OVEN_MODE}:
-            cavity_prefix = get_current_cavity_id(self.device.status, self.component)
-            raw_modes = {
-                prog_id.split("_", 1)[-1]
-                for prog_id in self.device.programs
-                if prog_id.startswith(f"{cavity_prefix}_")
-            }
-            if (mapping := self.entity_description.options_map):
-                return sorted([mapping.get(mode, mode) for mode in raw_modes])
-
-            return sorted(raw_modes)
-
         return list(self.device.programs)
 
     @property
@@ -871,25 +856,93 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
         if raw_value is None:
             return None
 
-        new_value = self._attr_current_option
-        if self.capability not in {Capability.OVEN_MODE, Capability.SAMSUNG_CE_OVEN_MODE}:
-            new_value = translate_program_course(raw_value)
-        elif self.entity_description.options_map and new_value is not None:
-            new_value = self.entity_description.options_map.get(new_value, new_value)
-        if new_value not in self.options:
+        value = translate_program_course(raw_value)
+        if value not in self.options:
             return None
 
-        return new_value
+        return value
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
         if self.command is not None:
-            if self.capability in {Capability.OVEN_MODE, Capability.SAMSUNG_CE_OVEN_MODE}:
-                argument = command_oven_mode(option)
-            else:
-                argument = command_program_course(option)
             await self.execute_device_command(
                 self.capability,
                 self.command,
-                argument,
+                command_program_course(option),
+        )
+
+
+class SmartThingsOvenModeSelect(SmartThingsEntity, SelectEntity):
+    """Define a SmartThings select."""
+
+    entity_description: SmartThingsSelectEntityDescription
+
+    def __init__(
+        self,
+        client: SmartThings,
+        device: FullDevice,
+        entity_description: SmartThingsSelectEntityDescription,
+        capability: Capability,
+        attribute: Attribute,
+        component: str = MAIN,
+    ) -> None:
+        """Init the class."""
+        capabilities = {capability}
+        capabilities.add(Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION)
+        capabilities.add(Capability.CUSTOM_OVEN_CAVITY_STATUS)
+        capabilities.add(Capability.REMOTE_CONTROL_STATUS)
+        super().__init__(client, device, capabilities, component=component)
+        self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
+        self._attribute = attribute
+        self.capability = capability
+        self.entity_description = entity_description
+        self._attr_options = []
+        self.command = self.entity_description.command
+        if (table_id := get_program_table_id(device.status)) != "":
+            self._attr_translation_key = (
+                f"{self.entity_description.translation_key}_{table_id}"
             )
+
+    @property
+    def options(self) -> list[str]:
+        """Return the list of options."""
+
+        cavity_key = get_current_cavity_id(self.device.status, self.component)
+        raw_modes = {
+            prog_id.split("_", 1)[-1]
+            for prog_id in self.device.programs
+            if prog_id.startswith(f"{cavity_key}_")
+        }
+        if (mapping := self.entity_description.options_map):
+            return sorted([mapping.get(mode, mode) for mode in raw_modes])
+
+        return sorted(raw_modes)
+
+    @property
+    def current_option(self) -> str | None:
+        """Return the selected entity option to represent the entity state."""
+        raw_value = self.get_attribute_value(self.capability, self._attribute)
+        if raw_value is None:
+            return None
+
+        if (mapping := self.entity_description.options_map):
+            return mapping.get(str(raw_value), str(raw_value))
+
+        return str(raw_value)
+
+    async def async_select_option(self, option: str) -> None:
+        """Change the selected option."""
+        if (old_mode := self.get_attribute_value(self.capability, self._attribute, component=self.component)):
+            cavity_key = get_current_cavity_id(self.device.status, self.component)
+            old_lookup_id = translate_oven_mode(old_mode, cavity_key)
+            if (old_program := self.device.programs.get(old_lookup_id)):
+                for opt in old_program.supportedoptions.values():
+                    opt.selected_value = opt.default
+
+        new_value = command_oven_mode(option)
+        self.device.status[self.component][self.capability][self._attribute].value = new_value
+
+        async_dispatcher_send(self.hass, f"smartthings_oven_mode_changed_{self.device.device.device_id}", option)
+
+        if self.command is not None:
+            await self.execute_device_command(self.capability, self.command, new_value)
