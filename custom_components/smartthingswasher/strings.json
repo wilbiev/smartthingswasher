@@ -603,7 +603,9 @@
           "defrost": "Defrost",
           "steam_clean": "Steam clean",
           "air_sousvide": "Air sousvide",
-          "clean_air_pyro": "Clean air pyro"
+          "clean_air_pyro": "Clean air pyro",
+          "top_convection": "Top convection",
+          "bottom_convection": "Bottom convection"
         }
       },
       "oven_mode_cavity_01": {
@@ -652,7 +654,9 @@
           "defrost": "[%key:component::smartthingswasher::entity::select::oven_mode::state::defrost%]",
           "steam_clean": "[%key:component::smartthingswasher::entity::select::oven_mode::state::steam_clean%]",
           "air_sousvide": "[%key:component::smartthingswasher::entity::select::oven_mode::state::air_sousvide%]",
-          "clean_air_pyro": "[%key:component::smartthingswasher::entity::select::oven_mode::state::clean_air_pyro%]"
+          "clean_air_pyro": "[%key:component::smartthingswasher::entity::select::oven_mode::state::clean_air_pyro%]",
+          "top_convection": "[%key:component::smartthingswasher::entity::select::oven_mode::state::top_convection%]",
+          "bottom_convection": "[%key:component::smartthingswasher::entity::select::oven_mode::state::bottom_convection%]"
         }
       },
       "robot_cleaner_cleaning_type": {

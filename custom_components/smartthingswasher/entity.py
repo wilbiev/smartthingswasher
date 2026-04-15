@@ -86,9 +86,12 @@ class SmartThingsEntity(Entity):
         """Test if device supports a capability."""
         return capability in self.device.status[self.component]
 
-    def get_attribute_value(self, capability: Capability, attribute: Attribute) -> Any:
+    def get_attribute_value(self, capability: Capability, attribute: Attribute, component: str | None = None) -> Any:
         """Get the value of a device attribute."""
-        return self._internal_state[capability][attribute].value
+        target_component = component or self.component
+        if target_component == self.component and capability in self._internal_state:
+            return self._internal_state[capability][attribute].value
+        return self.device.status[target_component][capability][attribute].value
 
     def _update_attr(self) -> None:
         """Update the attributes."""

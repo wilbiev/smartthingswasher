@@ -1387,19 +1387,22 @@ async def async_setup_entry(
             SmartThingsSensor(
                 entry_data.client, device, description, capability, attribute, component
             )
-            for component, capabilities in device.status.items()
             for capability, attributes in CAPABILITY_TO_SENSORS.items()
+            for component, capabilities in device.status.items()
             if capability in capabilities
             for attribute, descriptions in attributes.items()
             if (attr_status := capabilities[capability].get(attribute)) is not None
             for description in descriptions
             if (component == MAIN or (description.component_fn is not None and description.component_fn(component))) and
-               (not description.exists_fn or description.exists_fn(attr_status)) and
-               not (description.capability_ignore_list and any(
-                   all(c in device.status[MAIN] for c in cl)
-                   for cl in description.capability_ignore_list
-               ))
+               (not description.exists_fn or description.exists_fn(attr_status))
+                and not (
+                    description.capability_ignore_list and any(
+                        ignore_cap in capabilities
+                        for ignore_cap in description.capability_ignore_list
+                    )
+                )
         )
+
     async_add_entities(entities)
 
 
