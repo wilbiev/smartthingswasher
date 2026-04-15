@@ -208,15 +208,17 @@ async def async_setup_entry(
         )
         for device in entry_data.devices.values()
         for capability, commands in CAPABILITY_TO_BUTTONS.items()
-        for component in device.status
-        if capability in device.status[component]
+        for component, capabilities in device.status.items()
+        if capability in capabilities
         for command, descriptions in commands.items()
         for description in descriptions
-        if (component == MAIN or (description.component_fn is not None and description.component_fn(component))) and
-            not (description.capability_ignore_list and any(
-                all(c in device.status[MAIN] for c in cl)
-                for cl in description.capability_ignore_list
-            ))
+        if (component == MAIN or (description.component_fn is not None and description.component_fn(component)))
+            and not (
+                description.capability_ignore_list and any(
+                    ignore_cap in capabilities
+                    for ignore_cap in description.capability_ignore_list
+                )
+            )
     )
 
 

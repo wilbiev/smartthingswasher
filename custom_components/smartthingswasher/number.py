@@ -153,6 +153,36 @@ CAPABILITY_TO_NUMBERS: dict[
 OVEN_OPTIONS_TO_NUMBERS: dict[
     Capability, dict[SupportedOption, list[SmartThingsNumberEntityDescription]]
 ] = {
+    Capability.OVEN_MODE: {
+        SupportedOption.TEMPERATURE: [
+            SmartThingsNumberEntityDescription(
+                key=SupportedOption.TEMPERATURE,
+                translation_key="oven_temperature",
+                entity_category=EntityCategory.CONFIG,
+                device_class=NumberDeviceClass.TEMPERATURE,
+                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_MODE],
+                component_fn=lambda component: component == "cavity-01",
+                component_translation_key={
+                    "cavity-01": "oven_temperature_cavity_01",
+                },
+                use_temperature_unit=True,
+            )
+        ],
+        SupportedOption.OPERATION_TIME: [
+            SmartThingsNumberEntityDescription(
+                key=SupportedOption.OPERATION_TIME,
+                translation_key="oven_operation_time",
+                entity_category=EntityCategory.CONFIG,
+                device_class=NumberDeviceClass.DURATION,
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_MODE],
+                component_fn=lambda component: component == "cavity-01",
+                component_translation_key={
+                    "cavity-01": "oven_operation_time_cavity_01",
+                },
+            )
+        ],
+    },
     Capability.SAMSUNG_CE_OVEN_MODE: {
         SupportedOption.TEMPERATURE: [
             SmartThingsNumberEntityDescription(
@@ -222,12 +252,13 @@ async def async_setup_entry(
         if capability in capabilities
         for support_option, descriptions in support_options.items()
         for description in descriptions
-        if (component == MAIN or (description.component_fn is not None and description.component_fn(component))) and
-            not (description.capability_ignore_list and any(
-                all(c in device.status[MAIN] for c in cl)
-                for cl in description.capability_ignore_list
-            ))
-
+        if (component == MAIN or (description.component_fn is not None and description.component_fn(component)))
+            and not (
+                description.capability_ignore_list and any(
+                    ignore_cap in capabilities
+                    for ignore_cap in description.capability_ignore_list
+                )
+            )
     )
 
 

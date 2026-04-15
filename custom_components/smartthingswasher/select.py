@@ -478,11 +478,13 @@ async def async_setup_entry(
             if capability in capabilities
             for attribute, descriptions in attributes.items()
             for description in descriptions
-            if (component == MAIN or (description.component_fn is not None and description.component_fn(component))) and
-                not (description.capability_ignore_list and any(
-                    all(c in device.status[MAIN] for c in cl)
-                    for cl in description.capability_ignore_list
-                ))
+            if (component == MAIN or (description.component_fn is not None and description.component_fn(component)))
+            and not (
+                description.capability_ignore_list and any(
+                    ignore_cap in capabilities
+                    for ignore_cap in description.capability_ignore_list
+                )
+            )
         )
 
         select_entities.extend(
@@ -503,11 +505,13 @@ async def async_setup_entry(
             if capability in capabilities
             for attribute, descriptions in attributes.items()
             for description in descriptions
-            if (component == MAIN or (description.component_fn is not None and description.component_fn(component))) and
-                not (description.capability_ignore_list and any(
-                    all(c in device.status[MAIN] for c in cl)
-                    for cl in description.capability_ignore_list
-                ))
+            if (component == MAIN or (description.component_fn is not None and description.component_fn(component)))
+            and not (
+                description.capability_ignore_list and any(
+                    ignore_cap in capabilities
+                    for ignore_cap in description.capability_ignore_list
+                )
+            )
         )
 
         oven_select_entities.extend(
@@ -517,12 +521,15 @@ async def async_setup_entry(
             if capability in capabilities
             for attribute, descriptions in attributes.items()
             for description in descriptions
-            if (component == MAIN or (description.component_fn is not None and description.component_fn(component))) and
-                not (description.capability_ignore_list and any(
-                    all(c in device.status[MAIN] for c in cl)
-                    for cl in description.capability_ignore_list
-                ))
+            if (component == MAIN or (description.component_fn is not None and description.component_fn(component)))
+            and not (
+                description.capability_ignore_list and any(
+                    ignore_cap in capabilities
+                    for ignore_cap in description.capability_ignore_list
+                )
+            )
         )
+
     async_add_entities(select_entities + program_select_entities + oven_select_entities)
 
     program_entities: list[str] = [
@@ -898,14 +905,25 @@ class SmartThingsOvenModeSelect(SmartThingsEntity, SelectEntity):
         self.entity_description = entity_description
         self._attr_options = []
         self.command = self.entity_description.command
-        if (table_id := get_program_table_id(device.status)) != "":
+        if self.entity_description.component_translation_key and component != MAIN:
             self._attr_translation_key = (
-                f"{self.entity_description.translation_key}_{table_id}"
+                self.entity_description.component_translation_key[component]
             )
 
     @property
     def options(self) -> list[str]:
         """Return the list of options."""
+
+        if self.entity_description.options_attribute:
+            options: list[str] = (
+                    self.get_attribute_value(
+                        self.capability, self.entity_description.options_attribute, component=self.component
+                    )
+                    or []
+            )
+            if (mapping := self.entity_description.options_map):
+                return sorted([mapping.get(mode, mode) for mode in options])
+            return options
 
         cavity_key = get_current_cavity_id(self.device.status, self.component)
         raw_modes = {
@@ -913,15 +931,13 @@ class SmartThingsOvenModeSelect(SmartThingsEntity, SelectEntity):
             for prog_id in self.device.programs
             if prog_id.startswith(f"{cavity_key}_")
         }
-        if (mapping := self.entity_description.options_map):
-            return sorted([mapping.get(mode, mode) for mode in raw_modes])
 
         return sorted(raw_modes)
 
     @property
     def current_option(self) -> str | None:
         """Return the selected entity option to represent the entity state."""
-        raw_value = self.get_attribute_value(self.capability, self._attribute)
+        raw_value = self.get_attribute_value(self.capability, self._attribute, component=self.component)
         if raw_value is None:
             return None
 
