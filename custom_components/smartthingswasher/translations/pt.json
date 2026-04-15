@@ -4,17 +4,17 @@
       "already_configured": "A conta já está configurada",
       "authorize_url_timeout": "Tempo esgotado ao gerar o URL de autorização.",
       "cloud_not_enabled": "Certifique-se de que executa o Home Assistant com `{default_config}` ativado no seu configuration.yaml.",
-      "missing_configuration": "O componente não está configurado. Por favor, siga a documentação.",
+      "missing_configuration": "O componente não está configurado. Siga a documentação.",
       "missing_scopes": "A autenticação falhou. Certifique-se de que concedeu todas as permissões necessárias.",
       "no_url_available": "Nenhum URL disponível. Para informações sobre este erro, [consulte a secção de ajuda]({docs_url})",
-      "oauth_error": "Recebidos dados de token inválidos.",
+      "oauth_error": "Dados de token recebidos inválidos.",
       "oauth_failed": "Erro ao obter o token de acesso.",
       "oauth_implementation_unavailable": "Nenhuma implementação OAuth2 disponível no momento.",
       "oauth_timeout": "Tempo esgotado ao resolver o token OAuth.",
       "oauth_unauthorized": "Erro de autorização OAuth ao obter o token de acesso.",
-      "reauth_account_mismatch": "A conta autenticada não corresponde à conta a reautenticar. Por favor, inicie sessão com a conta correta e escolha o local certo.",
-      "reauth_location_mismatch": "O local autenticado não corresponde ao local a reautenticar. Por favor, inicie sessão com a conta correta e escolha o local certo.",
-      "reauth_successful": "A reautenticação foi bem-sucedida"
+      "reauth_account_mismatch": "A conta autenticada não corresponde à conta a ser reautenticada. Inicie sessão com a conta correta.",
+      "reauth_location_mismatch": "A localização autenticada não corresponde à localização a ser reautenticada. Inicie sessão com a conta e localização corretas.",
+      "reauth_successful": "Reautenticação bem-sucedida"
     },
     "error": {
       "already_configured": "A conta já está configurada"
@@ -24,14 +24,14 @@
     },
     "step": {
       "oauth_discovery": {
-        "description": "O Home Assistant encontrou um dispositivo SmartThings na sua rede. Clique em **Submeter** para continuar a configurar o SmartThings."
+        "description": "O Home Assistant encontrou um dispositivo SmartThings na sua rede. Clique em **Submeter** para continuar a configuração."
       },
       "pick_implementation": {
         "data": {
           "implementation": "Credenciais da aplicação"
         },
         "data_description": {
-          "implementation": "As credenciais que deseja utilizar para a autenticação."
+          "implementation": "As credenciais que deseja usar para autenticar."
         },
         "title": "Escolha o método de autenticação"
       },
@@ -47,10 +47,10 @@
         "name": "Aceleração"
       },
       "add_rinse_support": {
-        "name": "Suporte para enxaguamento extra"
+        "name": "Suporte de enxaguamento extra"
       },
       "bubble_soak_support": {
-        "name": "Suporte para banho de bolhas"
+        "name": "Suporte Bubble Soak"
       },
       "child_lock": {
         "name": "Bloqueio infantil"
@@ -65,10 +65,10 @@
         "name": "Porta"
       },
       "dry_plus_support": {
-        "name": "Suporte de secagem plus"
+        "name": "Suporte de secagem extra"
       },
       "dryer_wrinkle_prevent_active": {
-        "name": "Prevenção de rugas ativa"
+        "name": "Prevenção de vincos ativa"
       },
       "filter_status": {
         "name": "Estado do filtro"
@@ -77,56 +77,59 @@
         "name": "Porta do congelador"
       },
       "heated_dry_support": {
-        "name": "Suporte de secagem com aquecimento"
+        "name": "Suporte de secagem aquecida"
       },
       "high_temp_wash_support": {
         "name": "Suporte de lavagem a alta temperatura"
       },
       "hot_air_dry_support": {
-        "name": "Suporte de secagem com ar quente"
+        "name": "Suporte de secagem a ar quente"
       },
       "keep_fresh_mode_active": {
         "name": "Modo manter fresco ativo"
       },
       "keep_fresh_support": {
-        "name": "Suporte para manter fresco"
+        "name": "Suporte manter fresco"
       },
-	    "microfiber_filter_blockage": {
-	      "name": "Filtro obstruído"
-	    },      
+      "microfiber_filter_blockage": {
+        "name": "Filtro obstruído"
+      },
       "multi_tab_support": {
         "name": "Suporte multi-pastilhas"
       },
-	    "oven_cavity_status": {
-	      "name": "Estado da segunda cavidade"
-	    },      
+      "oven_status": {
+        "name": "Estado do forno superior"
+      },
+      "oven_status_cavity_01": {
+        "name": "Estado do forno inferior"
+      },
       "remote_control": {
         "name": "Controlo remoto"
       },
       "rinse_plus_support": {
-        "name": "Suporte de enxaguamento plus"
+        "name": "Suporte Rinse Plus"
       },
-	    "robot_cleaner_dust_bag": {
-	      "name": "Saco de pó cheio"
-	    },      
+      "robot_cleaner_dust_bag": {
+        "name": "Saco de pó cheio"
+      },
       "sanitize_support": {
         "name": "Suporte de higienização"
       },
       "sanitizing_wash_support": {
-        "name": "Suporte de lavagem higienizante"
+        "name": "Suporte de lavagem sanitizante"
       },
       "speed_booster_support": {
-        "name": "Suporte de reforço de velocidade"
+        "name": "Suporte Speed Booster"
       },
       "steam_soak_support": {
         "name": "Suporte de imersão a vapor"
       },
-	    "stick_cleaner_dust_bag": {
-	      "name": "Saco de pó cheio"
-	    },
-	    "stick_cleaner_status": {
-	      "name": "Aspirador vertical na base"
-	    },      
+      "stick_cleaner_dust_bag": {
+        "name": "Saco de pó cheio"
+      },
+      "stick_cleaner_status": {
+        "name": "Aspirador vertical na base"
+      },
       "storm_wash_support": {
         "name": "Suporte Storm Wash"
       }
@@ -136,22 +139,31 @@
         "name": "Estimar tempo de operação"
       },
       "reset_water_filter": {
-        "name": "Repor filtro de água"
+        "name": "Reset ao filtro de água"
       },
       "state_cancel": {
         "name": "Cancelar estado"
       },
+      "state_pause": {
+        "name": "Pausar superior"
+      },
+      "state_pause_cavity_01": {
+        "name": "Pausar inferior"
+      },
       "state_pause_resume": {
-        "name": "Pausar/Retomar estado"
+        "name": "Pausar/Retomar"
       },
       "state_start": {
-        "name": "Iniciar estado"
+        "name": "Iniciar superior"
+      },
+      "state_start_cavity_01": {
+        "name": "Iniciar inferior"
       },
       "state_start_later": {
-        "name": "Iniciar estado mais tarde"
+        "name": "Iniciar mais tarde"
       },
-      "stop": {
-        "name": "Parar"
+      "state_stop_cavity_01": {
+        "name": "Parar inferior"
       }
     },
     "climate": {
@@ -168,9 +180,9 @@
               "motion_direct": "Movimento direto",
               "motion_indirect": "Movimento indireto",
               "quiet": "Silencioso",
-              "smart": "Poupança inteligente",
+              "smart": "Smart Saver",
               "wind_free": "WindFree",
-              "wind_free_sleep": "WindFree repouso"
+              "wind_free_sleep": "WindFree Sleep"
             }
           }
         }
@@ -181,30 +193,30 @@
         "state": {
           "double": "Duplo",
           "down": "Baixo",
-          "down_2x": "Baixo 2x",
-          "down_3x": "Baixo 3x",
-          "down_4x": "Baixo 4x",
-          "down_5x": "Baixo 5x",
-          "down_6x": "Baixo 6x",
-          "down_hold": "Baixo (manter)",
+          "down_2x": "Baixo (2x)",
+          "down_3x": "Baixo (3x)",
+          "down_4x": "Baixo (4x)",
+          "down_5x": "Baixo (5x)",
+          "down_6x": "Baixo (6x)",
+          "down_hold": "Baixo (Manter)",
           "held": "Mantido",
-          "pushed": "Premido",
-          "pushed_2x": "Premido 2x",
-          "pushed_3x": "Premido 3x",
-          "pushed_4x": "Premido 4x",
-          "pushed_5x": "Premido 5x",
-          "pushed_6x": "Premido 6x",
+          "pushed": "Pressionado",
+          "pushed_2x": "Pressionado (2x)",
+          "pushed_3x": "Pressionado (3x)",
+          "pushed_4x": "Pressionado (4x)",
+          "pushed_5x": "Pressionado (5x)",
+          "pushed_6x": "Pressionado (6x)",
           "swipe_down": "Deslizar para baixo",
           "swipe_left": "Deslizar para a esquerda",
           "swipe_right": "Deslizar para a direita",
           "swipe_up": "Deslizar para cima",
           "up": "Cima",
-          "up_2x": "Cima 2x",
-          "up_3x": "Cima 3x",
-          "up_4x": "Cima 4x",
-          "up_5x": "Cima 5x",
-          "up_6x": "Cima 6x",
-          "up_hold": "Cima (manter)"
+          "up_2x": "Cima (2x)",
+          "up_3x": "Cima (3x)",
+          "up_4x": "Cima (4x)",
+          "up_5x": "Cima (5x)",
+          "up_6x": "Cima (6x)",
+          "up_hold": "Cima (Manter)"
         }
       }
     },
@@ -213,7 +225,7 @@
         "state_attributes": {
           "preset_mode": {
             "state": {
-              "smart": "Inteligente"
+              "smart": "Smart"
             }
           }
         }
@@ -238,7 +250,19 @@
         "name": "Temperatura do congelador"
       },
       "hood_fan_speed": {
-        "name": "Velocidade da ventoinha"
+        "name": "Velocidade do exaustor"
+      },
+      "oven_operation_time": {
+        "name": "Tempo de funcionamento superior"
+      },
+      "oven_operation_time_cavity_01": {
+        "name": "Tempo de funcionamento inferior"
+      },
+      "oven_temperature": {
+        "name": "Temperatura superior"
+      },
+      "oven_temperature_cavity_01": {
+        "name": "Temperatura inferior"
       },
       "target_temperature": {
         "name": "Temperatura pretendida"
@@ -246,37 +270,37 @@
     },
     "select": {
       "auto_dispense_detergent_amount": {
-        "name": "Dose de detergente auto",
+        "name": "Quantidade auto de detergente",
         "state": {
           "custom": "Personalizado",
           "extra": "Extra",
           "less": "Menos",
-          "none": "Desligado",
+          "none": "Desativado",
           "standard": "Padrão"
         }
       },
       "auto_dispense_detergent_density": {
-        "name": "Densidade de detergente auto",
+        "name": "Densidade auto de detergente",
         "state": {
-          "extra_high": "Extra alta",
+          "extra_high": "Muito alta",
           "high": "Alta",
           "normal": "Normal"
         }
       },
       "auto_dispense_softener_amount": {
-        "name": "Dose de amaciador auto",
+        "name": "Quantidade auto de amaciador",
         "state": {
           "custom": "Personalizado",
           "extra": "Extra",
           "less": "Menos",
-          "none": "Desligado",
+          "none": "Desativado",
           "standard": "Padrão"
         }
       },
       "auto_dispense_softener_density": {
-        "name": "Densidade de amaciador auto",
+        "name": "Densidade auto de amaciador",
         "state": {
-          "extra_high": "Extra alta",
+          "extra_high": "Muito alta",
           "high": "Alta",
           "normal": "Normal"
         }
@@ -286,37 +310,37 @@
         "state": {
           "course_1b": "Algodão",
           "course_1c": "Eco 40-60",
-          "course_1d": "Super Rápido",
+          "course_1d": "Super rápido",
           "course_1e": "Lavagem rápida 15m",
-          "course_1f": "Frio Intenso",
-          "course_20": "Higienização a Vapor",
+          "course_1f": "Frio intenso",
+          "course_20": "Higienização a vapor",
           "course_21": "Cores",
           "course_22": "Lã",
-          "course_23": "Roupa Impermeável",
-          "course_24": "Roupa de Cama",
+          "course_23": "Roupa impermeável",
+          "course_24": "Roupa de cama",
           "course_25": "Sintéticos",
           "course_26": "Delicados",
           "course_27": "Enxaguamento+Centrifugação",
           "course_28": "Drenagem/Centrifugação",
-          "course_29": "Limpeza do Tambor",
-          "course_2a": "Ganga",
+          "course_29": "Limpeza do tambor",
+          "course_2a": "Denim",
           "course_2b": "Lavagem AI",
-          "course_2d": "Lavagem Silenciosa",
-          "course_2e": "Roupa de Bebé",
-          "course_2f": "Roupa Desportiva",
-          "course_30": "Dia Nublado",
+          "course_2d": "Lavagem silenciosa",
+          "course_2e": "Cuidado bebé",
+          "course_2f": "Roupa desportiva",
+          "course_30": "Dia nublado",
           "course_32": "Camisas",
           "course_33": "Toalhas",
-          "course_34": "Lavagem Diária",
-          "course_35": "Algodão Eco",
+          "course_34": "Lavagem diária",
+          "course_35": "eAlgodão",
           "course_36": "Lavar e Secar",
-          "course_37": "Refrescar Ar",
-          "course_38": "Secagem de Algodão",
-          "course_39": "Secagem de Sintéticos",
-          "course_3a": "Limpeza do Tambor",
-          "course_66": "Ganga",
-          "course_8f": "Frio Intenso",
-          "course_96": "Menos Microfibras"
+          "course_37": "Arejar (Air Refresh)",
+          "course_38": "Secagem algodão",
+          "course_39": "Secagem sintéticos",
+          "course_3a": "Limpeza do tambor",
+          "course_66": "Denim",
+          "course_8f": "Frio intenso",
+          "course_96": "Menos microfibras"
         }
       },
       "cycle_table_00": {
@@ -324,26 +348,26 @@
         "state": {
           "course_5b": "Algodão",
           "course_5c": "Sintéticos",
-          "course_5d": "Lavagem Diária",
+          "course_5d": "Lavagem diária",
           "course_5e": "Centrifugação",
-          "course_5f": "Enxaguamento-Centrifugação",
-          "course_60": "Limpeza Eco do Tambor",
-          "course_61": "Refrescar Ar",
+          "course_5f": "Enxaguamento+Centrifugação",
+          "course_60": "Limpeza do tambor Eco",
+          "course_61": "Arejar (Air Refresh)",
           "course_63": "Secagem",
           "course_66": "Lavagem rápida 15m",
-          "course_ba": "Drenagem-Centrifugação",
+          "course_ba": "Drenagem+Centrifugação",
           "course_d0": "Algodão",
-          "course_d1": "Algodão Eco",
+          "course_d1": "eAlgodão",
           "course_d2": "Sintéticos",
           "course_d3": "Delicados",
-          "course_d4": "Enxaguamento-Centrifugação",
-          "course_d5": "Limpeza Eco do Tambor",
-          "course_d6": "Roupa de Cama",
-          "course_d7": "Roupa Impermeável",
+          "course_d4": "Enxaguamento+Centrifugação",
+          "course_d5": "Limpeza do tambor Eco",
+          "course_d6": "Roupa de cama",
+          "course_d7": "Roupa impermeável",
           "course_d8": "Lã",
-          "course_d9": "Roupa Escura",
+          "course_d9": "Cores escuras",
           "course_da": "Lavagem Super Eco",
-          "course_db": "Super Rápido",
+          "course_db": "Super rápido",
           "course_dc": "Lavagem rápida 15m"
         }
       },
@@ -355,37 +379,37 @@
         "state": {
           "course_1b": "Algodão",
           "course_1c": "Eco 40-60",
-          "course_1d": "Super Rápido",
+          "course_1d": "Super rápido",
           "course_1e": "Lavagem rápida 15m",
-          "course_1f": "Frio Intenso",
-          "course_20": "Higienização a Vapor",
+          "course_1f": "Frio intenso",
+          "course_20": "Higienização a vapor",
           "course_21": "Cores",
           "course_22": "Lã",
-          "course_23": "Roupa Impermeável",
-          "course_24": "Roupa de Cama",
+          "course_23": "Roupa impermeável",
+          "course_24": "Roupa de cama",
           "course_25": "Sintéticos",
           "course_26": "Delicados",
           "course_27": "Enxaguamento+Centrifugação",
           "course_28": "Drenagem/Centrifugação",
-          "course_29": "Limpeza do Tambor",
-          "course_2a": "Ganga",
+          "course_29": "Limpeza do tambor",
+          "course_2a": "Denim",
           "course_2b": "Lavagem AI",
-          "course_2d": "Lavagem Silenciosa",
-          "course_2e": "Roupa de Bebé",
-          "course_2f": "Roupa Desportiva",
-          "course_30": "Dia Nublado",
+          "course_2d": "Lavagem silenciosa",
+          "course_2e": "Cuidado bebé",
+          "course_2f": "Roupa desportiva",
+          "course_30": "Dia nublado",
           "course_32": "Camisas",
           "course_33": "Toalhas",
-          "course_34": "Lavagem Diária",
-          "course_35": "Algodão Eco",
+          "course_34": "Lavagem diária",
+          "course_35": "eAlgodão",
           "course_36": "Lavar e Secar",
-          "course_37": "Refrescar Ar",
-          "course_38": "Secagem de Algodão",
-          "course_39": "Secagem de Sintéticos",
-          "course_3a": "Limpeza do Tambor",
-          "course_66": "Ganga",
-          "course_8f": "Frio Intenso",
-          "course_96": "Menos Microfibras"
+          "course_37": "Arejar (Air Refresh)",
+          "course_38": "Secagem algodão",
+          "course_39": "Secagem sintéticos",
+          "course_3a": "Limpeza do tambor",
+          "course_66": "Denim",
+          "course_8f": "Frio intenso",
+          "course_96": "Menos microfibras"
         }
       },
       "cycle_table_03": {
@@ -395,62 +419,62 @@
           "course_18": "Sintéticos",
           "course_19": "Delicados",
           "course_1a": "Lã",
-          "course_1b": "Roupa de Cama",
+          "course_1b": "Roupa de cama",
           "course_1c": "Camisas",
           "course_1d": "Toalhas",
-          "course_1e": "Roupa Impermeável",
-          "course_20": "Secagem para Ferro",
+          "course_1e": "Roupa impermeável",
+          "course_20": "Secagem para engomar",
           "course_23": "Secagem rápida 35m",
-          "course_24": "Ar Frio",
-          "course_25": "Ar Quente",
-          "course_27": "Secagem Temporizada",
+          "course_24": "Ar fresco",
+          "course_25": "Ar quente",
+          "course_27": "Secagem temporizada",
           "course_29": "Secagem AI",
-          "course_2b": "Auto-secagem de Cuba"
+          "course_2b": "Auto-secagem do tambor"
         }
       },
       "dishwasher_course": {
         "name": "Programa",
         "state": {
           "ai_wash": "Lavagem AI",
-          "auto": "Automático",
+          "auto": "Auto",
           "baby_bottle": "Biberões",
-          "babycare": "Cuidado Bebé",
+          "babycare": "Cuidado bebé",
           "chef": "Chef",
-          "cold_rinse": "Enxaguamento a Frio",
+          "cold_rinse": "Enxaguamento frio",
           "daily": "Diário",
           "daily_09": "Diário 09",
           "delicate": "Delicado",
-          "drinkware": "Copos e Chávenas",
-          "dry_only": "Apenas Secagem",
+          "drinkware": "Copos",
+          "dry_only": "Apenas secagem",
           "eco": "Eco",
           "eco_08": "Eco 08",
           "eco_10": "Eco 10",
-          "express": "Expresso",
-          "express_0c": "Expresso",
-          "extra_silence": "Silêncio Extra",
-          "glasses": "Vidros",
+          "express": "Express",
+          "express_0c": "Express",
+          "extra_silence": "Extra silêncio",
+          "glasses": "Copos",
           "heavy": "Intenso",
           "intensive": "Intensivo",
-          "machine_care": "Cuidado da Máquina",
+          "machine_care": "Cuidado da máquina",
           "night": "Noite",
-          "night_silence": "Silêncio Noturno",
+          "night_silence": "Silêncio noturno",
           "normal": "Normal",
           "plastics": "Plásticos",
-          "pots_and_pans": "Tachos e Panelas",
-          "pre_blast": "Pré-Lavagem de Alta Pressão",
-          "pre_wash": "Pré-Lavagem",
+          "pots_and_pans": "Tachos e panelas",
+          "pre_blast": "Pré-lavagem forte",
+          "pre_wash": "Pré-lavagem",
           "quick": "Rápido",
           "quick_14": "Rápido 14",
-          "rinse_dry": "Enxaguar + Secar",
-          "rinse_only": "Apenas Enxaguamento",
-          "self_clean": "Auto-Limpeza",
-          "self_sanitize": "Auto-Higienização",
-          "steam_soak": "Imersão a Vapor",
-          "upper_express": "Expresso Cesto Superior"
+          "rinse_dry": "Enxaguamento + Secagem",
+          "rinse_only": "Apenas enxaguamento",
+          "self_clean": "Auto-limpeza",
+          "self_sanitize": "Auto-higienização",
+          "steam_soak": "Imersão a vapor",
+          "upper_express": "Express superior"
         }
       },
       "dryer_dry_level": {
-        "name": "Nível de secagem da máquina",
+        "name": "Nível de secagem",
         "state": {
           "120": "120",
           "180": "180",
@@ -458,7 +482,7 @@
           "30": "30",
           "60": "60",
           "90": "90",
-          "cupboard": "Pronto a arrumar",
+          "cupboard": "Pronto a guardar",
           "damp": "Húmido",
           "less": "Menos",
           "more": "Mais",
@@ -483,17 +507,17 @@
           "95": "95",
           "cold": "Frio",
           "cool": "Fresco",
-          "eco_warm": "Eco Morno",
-          "extra_hot": "Muito Quente",
-          "extra_low": "Muito Baixa",
+          "eco_warm": "Morno Eco",
+          "extra_hot": "Muito quente",
+          "extra_low": "Muito baixa",
           "high": "Alta",
           "hot": "Quente",
           "low": "Baixa",
           "medium": "Média",
-          "medium_low": "Média-Baixa",
-          "none": "Nenhuma",
-          "semi_hot": "Semi-Quente",
-          "tap_cold": "Frio (Torneira)",
+          "medium_low": "Média baixa",
+          "none": "Nenhum",
+          "semi_hot": "Semi quente",
+          "tap_cold": "Frio da torneira",
           "warm": "Morno"
         }
       },
@@ -501,16 +525,16 @@
         "name": "Tempo de secagem"
       },
       "dust_filter_alarm": {
-        "name": "Limite do alarme do filtro de cotão",
+        "name": "Limite do alarme do filtro de pó",
         "unit_of_measurement": "horas"
       },
       "flexible_detergent_amount": {
-        "name": "Quantidade de detergente flexível",
+        "name": "Quantidade flexível de detergente",
         "state": {
           "custom": "Personalizado",
           "extra": "Extra",
           "less": "Menos",
-          "none": "Desligado",
+          "none": "Desativado",
           "standard": "Padrão"
         }
       },
@@ -521,8 +545,8 @@
           "high": "Alta",
           "low": "Baixa",
           "mid": "Média",
-          "off": "Desligada",
-          "on": "Ligada"
+          "off": "Desligado",
+          "on": "Ligado"
         }
       },
       "machine_state": {
@@ -533,13 +557,111 @@
           "stop": "Parado"
         }
       },
+      "oven_mode": {
+        "name": "Modo superior",
+        "state": {
+          "air_sousvide": "Air Sous Vide",
+          "autocook": "Cozedura automática",
+          "bake": "Cozedura (Bake)",
+          "bottom": "Inferior",
+          "bottom_heat": "Calor inferior",
+          "bottom_heat_plus_convection": "Calor inferior + Convecção",
+          "broil": "Grelhar (Broil)",
+          "clean_air_pyro": "Limpeza pirolítica",
+          "convection": "Convecção",
+          "convection_bake": "Cozedura por convecção",
+          "convection_broil": "Grelhar por convecção",
+          "convection_roast": "Assar por convecção",
+          "conventional": "Convencional",
+          "defrost": "Descongelar",
+          "defrosting": "Descongelação",
+          "dehydrate": "Desidratar",
+          "descale": "Descalcificar",
+          "eco_convection": "Convecção Eco",
+          "fan_grill": "Grelhador com ventilador",
+          "grill": "Grill",
+          "heating": "Aquecimento",
+          "keep_warm": "Manter quente",
+          "large_grill": "Grelhador grande",
+          "microwave": "Micro-ondas",
+          "microwave_plus_convection": "Micro-ondas + Convecção",
+          "microwave_plus_grill": "Micro-ondas + Grill",
+          "microwave_plus_hot_blast": "Micro-ondas + Hot Blast",
+          "microwave_plus_hot_blast_2": "Micro-ondas + Hot Blast 2",
+          "others": "Outros",
+          "plate_warm": "Aquecimento de pratos",
+          "proof": "Fermentação",
+          "rinse": "Enxaguamento",
+          "slim_middle": "Slim médio",
+          "slim_strong": "Slim forte",
+          "slow_cook": "Cozedura lenta",
+          "small_grill": "Grelhador pequeno",
+          "steam_bake": "Cozedura a vapor",
+          "steam_bottom_heat_plus_convection": "Calor inf. a vapor + Convecção",
+          "steam_clean": "Limpeza a vapor",
+          "steam_cook": "Cozinhar a vapor",
+          "steam_roast": "Assar a vapor",
+          "strong_steam": "Vapor forte",
+          "top_heat_plus_convection": "Calor superior + Convecção",
+          "warming": "Aquecimento"
+        }
+      },
+      "oven_mode_cavity_01": {
+        "name": "Modo inferior",
+        "state": {
+          "air_sousvide": "Air Sous Vide",
+          "autocook": "Cozedura automática",
+          "bake": "Cozedura (Bake)",
+          "bottom": "Inferior",
+          "bottom_heat": "Calor inferior",
+          "bottom_heat_plus_convection": "Calor inferior + Convecção",
+          "broil": "Grelhar (Broil)",
+          "clean_air_pyro": "Limpeza pirolítica",
+          "convection": "Convecção",
+          "convection_bake": "Cozedura por convecção",
+          "convection_broil": "Grelhar por convecção",
+          "convection_roast": "Assar por convecção",
+          "conventional": "Convencional",
+          "defrost": "Descongelar",
+          "defrosting": "Descongelação",
+          "dehydrate": "Desidratar",
+          "descale": "Descalcificar",
+          "eco_convection": "Convecção Eco",
+          "fan_grill": "Grelhador com ventilador",
+          "grill": "Grill",
+          "heating": "Aquecimento",
+          "keep_warm": "Manter quente",
+          "large_grill": "Grelhador grande",
+          "microwave": "Micro-ondas",
+          "microwave_plus_convection": "Micro-ondas + Convecção",
+          "microwave_plus_grill": "Micro-ondas + Grill",
+          "microwave_plus_hot_blast": "Micro-ondas + Hot Blast",
+          "microwave_plus_hot_blast_2": "Micro-ondas + Hot Blast 2",
+          "others": "Outros",
+          "plate_warm": "Aquecimento de pratos",
+          "proof": "Fermentação",
+          "rinse": "Enxaguamento",
+          "slim_middle": "Slim médio",
+          "slim_strong": "Slim forte",
+          "slow_cook": "Cozedura lenta",
+          "small_grill": "Grelhador pequeno",
+          "steam_bake": "Cozedura a vapor",
+          "steam_bottom_heat_plus_convection": "Calor inf. a vapor + Convecção",
+          "steam_clean": "Limpeza a vapor",
+          "steam_cook": "Cozinhar a vapor",
+          "steam_roast": "Assar a vapor",
+          "strong_steam": "Vapor forte",
+          "top_heat_plus_convection": "Calor superior + Convecção",
+          "warming": "Aquecimento"
+        }
+      },
       "robot_cleaner_cleaning_type": {
         "name": "Tipo de limpeza",
         "state": {
           "mop": "Mopa",
           "mop_after_vacuum": "Mopa após aspirar",
           "vacuum": "Aspirar",
-          "vacuum_and_mop_together": "Aspirar e mopa em simultâneo"
+          "vacuum_and_mop_together": "Aspirar e passar mopa"
         }
       },
       "robot_cleaner_driving_mode": {
@@ -553,7 +675,7 @@
       "robot_cleaner_sound_mode": {
         "name": "Modo de som",
         "state": {
-          "mute": "Mudo",
+          "mute": "Silêncio",
           "tone": "Toque",
           "voice": "Voz"
         }
@@ -586,23 +708,23 @@
         }
       },
       "washer_rinse_cycles": {
-        "name": "Ciclos de enxaguamento da máquina"
+        "name": "Ciclos de enxaguamento"
       },
       "washer_soil_level": {
-        "name": "Nível de sujidade da máquina",
+        "name": "Nível de sujidade",
         "state": {
-          "down": "Para baixo",
-          "extra_heavy": "Muito pesado",
-          "extra_light": "Muito leve",
-          "heavy": "Pesado",
-          "light": "Leve",
+          "down": "Baixo",
+          "extra_heavy": "Muito alto",
+          "extra_light": "Muito baixo",
+          "heavy": "Alto",
+          "light": "Baixo",
           "none": "Nenhum",
           "normal": "Normal",
-          "up": "Para cima"
+          "up": "Alto"
         }
       },
       "washer_spin_level": {
-        "name": "Nível de centrifugação da máquina",
+        "name": "Nível de centrifugação",
         "state": {
           "1000": "1000",
           "1200": "1200",
@@ -620,11 +742,11 @@
           "medium": "Médio",
           "no_spin": "Sem centrifugação",
           "none": "Nenhum",
-          "rinse_hold": "Retenção de enxaguamento"
+          "rinse_hold": "Pausa após enxaguamento"
         }
       },
       "washer_water_temperature": {
-        "name": "Temperatura da água da máquina",
+        "name": "Temperatura da água da máquina de lavar",
         "state": {
           "20": "20",
           "30": "30",
@@ -639,22 +761,22 @@
           "95": "95",
           "cold": "Frio",
           "cool": "Fresco",
-          "eco_warm": "Eco Morno",
-          "extra_hot": "Muito Quente",
-          "extra_low": "Muito Baixa",
+          "eco_warm": "Morno Eco",
+          "extra_hot": "Muito quente",
+          "extra_low": "Muito baixa",
           "high": "Alta",
           "hot": "Quente",
           "low": "Baixa",
           "medium": "Média",
-          "medium_low": "Média-Baixa",
-          "none": "Nenhuma",
-          "semi_hot": "Semi-Quente",
-          "tap_cold": "Frio (Torneira)",
+          "medium_low": "Média baixa",
+          "none": "Nenhum",
+          "semi_hot": "Semi quente",
+          "tap_cold": "Frio da torneira",
           "warm": "Morno"
         }
       },
       "zone_booster": {
-        "name": "Reforço de zona",
+        "name": "Zone Booster",
         "state": {
           "all": "Tudo",
           "left": "Esquerda",
@@ -683,13 +805,13 @@
         "name": "Volume"
       },
       "body_mass_index": {
-        "name": "Índice de massa corporal"
+        "name": "Índice de massa corporal (IMC)"
       },
       "body_weight": {
         "name": "Peso corporal"
       },
       "brightness_intensity": {
-        "name": "Intensidade do brilho"
+        "name": "Intensidade de brilho"
       },
       "carbon_monoxide_detector": {
         "name": "Detetor de monóxido de carbono",
@@ -751,14 +873,14 @@
       "heating_mode": {
         "name": "Modo de aquecimento do bico {burner_id}",
         "state": {
-          "boost": "Reforço",
+          "boost": "Boost",
           "defrost": "Descongelar",
           "keep_warm": "Manter quente",
           "manual": "Manual",
           "melt": "Derreter",
           "off": "Desligado",
           "quick_preheat": "Pré-aquecimento rápido",
-          "simmer": "Fervilhar"
+          "simmer": "Lume brando"
         }
       },
       "hood_filter_usage": {
@@ -774,13 +896,13 @@
           "ai_rinse": "Enxaguamento AI",
           "ai_spin": "Centrifugação AI",
           "ai_wash": "Lavagem AI",
-          "air_wash": "Lavagem a ar",
+          "air_wash": "Lavagem a ar (Air Wash)",
           "continuous_dehumidifying": "Desumidificação contínua",
           "cooling": "Arrefecimento",
           "dehumidifying": "Desumidificação",
-          "delay_wash": "Lavagem diferida",
-          "delay_washing": "Lavagem retardada",
-          "dry": "Secagem",
+          "delay_wash": "Atrasar lavagem",
+          "delay_washing": "Atraso na lavagem",
+          "dry": "Secar",
           "finish": "Terminar",
           "finished": "Concluído",
           "freeze_protection": "Proteção contra gelo",
@@ -794,10 +916,10 @@
           "sanitize": "Higienizar",
           "self_clean": "Auto-limpeza",
           "spin": "Centrifugação",
-          "thawing_frozen_inside": "A descongelar interior",
+          "thawing_frozen_inside": "Descongelamento interno",
           "wash": "Lavagem",
           "weight_sensing": "Deteção de peso",
-          "wrinkle_prevent": "Prevenção de rugas"
+          "wrinkle_prevent": "Prevenção de vincos"
         }
       },
       "lighting_mode": {
@@ -813,15 +935,15 @@
         "name": "Fonte de entrada de média",
         "state": {
           "am": "AM",
-          "analog1": "Analógica 1",
-          "analog2": "Analógica 2",
-          "analog3": "Analógica 3",
+          "analog1": "Analógico 1",
+          "analog2": "Analógico 2",
+          "analog3": "Analógico 3",
           "aux": "AUX",
           "bluetooth": "Bluetooth",
           "cd": "CD",
           "coaxial": "Coaxial",
           "digital": "Digital",
-          "digitaltv": "TV Digital",
+          "digitaltv": "Televisão Digital",
           "fm": "FM",
           "hdmi": "HDMI",
           "hdmi1": "HDMI 1",
@@ -832,7 +954,7 @@
           "hdmi6": "HDMI 6",
           "melon": "Melon",
           "network": "Rede",
-          "optical": "Ótica",
+          "optical": "Ótico",
           "phono": "Phono",
           "usb": "USB",
           "wifi": "Wi-Fi",
@@ -856,7 +978,7 @@
           "none": "Nenhum",
           "sensing": "Deteção de peso",
           "stopping": "A parar",
-          "waiting": "A aguardar"
+          "waiting": "Em espera"
         }
       },
       "microfiber_filter_operating_state": {
@@ -871,10 +993,10 @@
         "name": "Sensor de odores"
       },
       "operating_progress": {
-        "name": "Progresso"
+        "name": "Progresso superior"
       },
       "operating_state": {
-        "name": "Estado de funcionamento",
+        "name": "Estado de funcionamento superior",
         "state": {
           "paused": "Pausado",
           "ready": "Pronto",
@@ -882,35 +1004,13 @@
         }
       },
       "operation_time": {
-        "name": "Tempo de operação"
+        "name": "Tempo de funcionamento superior"
       },
       "oven_completion_time_cavity_01": {
-        "name": "Tempo de conclusão da segunda cavidade"
-      },      
-      "oven_job_state": {
-        "name": "Estado da tarefa",
-        "state": {
-          "cleaning": "A limpar",
-          "cooking": "A cozinhar",
-          "cooling": "A arrefecer",
-          "defrosting": "A descongelar",
-          "draining": "A drenar",
-          "fast_preheat": "Pré-aquecimento rápido",
-          "finished": "Concluído",
-          "preheat": "Pré-aquecimento",
-          "ready": "Pronto",
-          "rinsing": "A enxaguar",
-          "scheduled_end": "Fim agendado",
-          "scheduled_start": "Início agendado",
-          "searing": "A selar",
-          "sensing": "A detetar",
-          "stone_heating": "Aquecimento de pedra",
-          "time_hold_preheat": "Tempo de espera pré-aquecimento",
-          "warming": "A aquecer"
-        }
+        "name": "Tempo de conclusão inferior"
       },
-      "oven_job_state_cavity_01": {
-        "name": "Estado da tarefa da segunda cavidade",
+      "oven_job_state": {
+        "name": "Estado da tarefa superior",
         "state": {
           "cleaning": "Limpeza",
           "cooking": "Cozedura",
@@ -928,11 +1028,33 @@
           "sensing": "Deteção",
           "stone_heating": "Aquecimento da pedra",
           "time_hold_preheat": "Manutenção de pré-aquecimento",
-          "warming": "A aquecer"
+          "warming": "Aquecimento"
         }
-      },      
+      },
+      "oven_job_state_cavity_01": {
+        "name": "Estado da tarefa inferior",
+        "state": {
+          "cleaning": "Limpeza",
+          "cooking": "Cozedura",
+          "cooling": "Arrefecimento",
+          "defrosting": "Descongelação",
+          "draining": "Drenagem",
+          "fast_preheat": "Pré-aquecimento rápido",
+          "finished": "Concluído",
+          "preheat": "Pré-aquecimento",
+          "ready": "Pronto",
+          "rinsing": "Enxaguamento",
+          "scheduled_end": "Fim agendado",
+          "scheduled_start": "Início agendado",
+          "searing": "Selagem",
+          "sensing": "Deteção",
+          "stone_heating": "Aquecimento da pedra",
+          "time_hold_preheat": "Manutenção de pré-aquecimento",
+          "warming": "Aquecimento"
+        }
+      },
       "oven_machine_state": {
-        "name": "Estado da máquina",
+        "name": "Estado do forno superior",
         "state": {
           "paused": "Pausado",
           "ready": "Pronto",
@@ -940,131 +1062,79 @@
         }
       },
       "oven_machine_state_cavity_01": {
-        "name": "Estado da segunda cavidade do forno",
+        "name": "Estado do forno inferior",
         "state": {
           "paused": "Pausado",
           "ready": "Pronto",
           "running": "Em execução"
         }
-      },      
-      "oven_mode": {
-        "name": "Modo do forno",
+      },
+      "oven_operating_state": {
+        "name": "Estado de funcionamento superior",
         "state": {
-          "bake": "Cozedura",
-          "bottom_heat": "Calor inferior",
-          "broil": "Grelhador",
-          "convection_bake": "Cozedura com convecção",
-          "convection_broil": "Grelhador com convecção",
-          "convection_roast": "Assado com convecção",
-          "conventional": "Convencional",
-          "defrosting": "Descongelar",
-          "dehydrate": "Desidratar",
-          "descale": "Descalcificar",
-          "grill": "Grelha",
-          "heating": "Aquecimento",
-          "microwave": "Micro-ondas",
-          "microwave_plus_convection": "Micro-ondas + convecção",
-          "microwave_plus_grill": "Micro-ondas + grelhador",
-          "microwave_plus_hot_blast": "Micro-ondas + Hot Blast",
-          "microwave_plus_hot_blast_2": "Micro-ondas + Hot Blast 2",
-          "others": "Outros",
-          "proof": "Levedação",
-          "rinse": "Enxaguamento",
-          "slim_middle": "Slim médio",
-          "slim_strong": "Slim forte",
-          "slow_cook": "Cozedura lenta",
-          "steam_bake": "Cozedura a vapor",
-          "steam_bottom_heat_plus_convection": "Calor inf. a vapor + convecção",
-          "steam_cook": "Cozinhar a vapor",
-          "steam_roast": "Assado a vapor",
-          "strong_steam": "Vapor forte",
-          "warming": "Aquecimento"
+          "paused": "Pausado",
+          "ready": "Pronto",
+          "running": "Em execução"
         }
       },
-      "oven_mode_cavity_01": {
-        "name": "Modo da segunda cavidade do forno",
+      "oven_operating_state_cavity_01": {
+        "name": "Estado de funcionamento inferior",
         "state": {
-          "bake": "Cozedura",
-          "bottom_heat": "Calor inferior",
-          "broil": "Grelhar (Broil)",
-          "convection_bake": "Cozedura por convecção",
-          "convection_broil": "Grelhar por convecção",
-          "convection_roast": "Assar por convecção",
-          "conventional": "Convencional",
-          "defrosting": "Descongelação",
-          "dehydrate": "Desidratação",
-          "descale": "Descalcificação",
-          "grill": "Grill",
-          "heating": "Aquecimento",
-          "microwave": "Micro-ondas",
-          "microwave_plus_convection": "Micro-ondas + Convecção",
-          "microwave_plus_grill": "Micro-ondas + Grill",
-          "microwave_plus_hot_blast": "Micro-ondas + Hot Blast",
-          "microwave_plus_hot_blast_2": "Micro-ondas + Hot Blast 2",
-          "others": "Outros",
-          "proof": "Fermentação",
-          "rinse": "Enxaguamento",
-          "slim_middle": "Slim médio",
-          "slim_strong": "Slim forte",
-          "slow_cook": "Cozedura lenta",
-          "steam_bake": "Cozedura a vapor",
-          "steam_bottom_heat_plus_convection": "Calor inferior a vapor + Convecção",
-          "steam_cook": "Cozinhar a vapor",
-          "steam_roast": "Assar a vapor",
-          "strong_steam": "Vapor forte",
-          "warming": "Aquecimento"
+          "paused": "Pausado",
+          "ready": "Pronto",
+          "running": "Em execução"
         }
       },
       "oven_operation_progress_cavity_01": {
-        "name": "Progresso de operação da segunda cavidade"
+        "name": "Progresso de operação inferior"
       },
       "oven_operation_time_cavity_01": {
-        "name": "Tempo de funcionamento da segunda cavidade"
-      },      
+        "name": "Tempo de funcionamento inferior"
+      },
       "oven_setpoint": {
-        "name": "Ponto de ajuste"
+        "name": "Ponto de ajuste superior"
       },
       "oven_setpoint_cavity_01": {
-        "name": "Ponto de ajuste da segunda cavidade"
+        "name": "Ponto de ajuste inferior"
       },
       "oven_temperature_cavity_01": {
-        "name": "Temperatura da segunda cavidade"
-      },      
+        "name": "Temperatura inferior"
+      },
       "pm10_health_concern": {
         "name": "Preocupação de saúde PM10",
         "state": {
-          "good": "Bom",
-          "hazardous": "Perigoso",
-          "moderate": "Moderado",
-          "slightly_unhealthy": "Ligeiramente insalubre",
-          "unhealthy": "Insalubre",
-          "very_unhealthy": "Muito insalubre"
+          "good": "Boa",
+          "hazardous": "Perigosa",
+          "moderate": "Moderada",
+          "slightly_unhealthy": "Ligeiramente prejudicial",
+          "unhealthy": "Prejudicial",
+          "very_unhealthy": "Muito prejudicial"
         }
       },
       "pm1_health_concern": {
         "name": "Preocupação de saúde PM1",
         "state": {
-          "good": "Bom",
-          "hazardous": "Perigoso",
-          "moderate": "Moderado",
-          "slightly_unhealthy": "Ligeiramente insalubre",
-          "unhealthy": "Insalubre",
-          "very_unhealthy": "Muito insalubre"
+          "good": "Boa",
+          "hazardous": "Perigosa",
+          "moderate": "Moderada",
+          "slightly_unhealthy": "Ligeiramente prejudicial",
+          "unhealthy": "Prejudicial",
+          "very_unhealthy": "Muito prejudicial"
         }
       },
       "pm25_health_concern": {
         "name": "Preocupação de saúde PM2.5",
         "state": {
-          "good": "Bom",
-          "hazardous": "Perigoso",
-          "moderate": "Moderado",
-          "slightly_unhealthy": "Ligeiramente insalubre",
-          "unhealthy": "Insalubre",
-          "very_unhealthy": "Muito insalubre"
+          "good": "Boa",
+          "hazardous": "Perigosa",
+          "moderate": "Moderada",
+          "slightly_unhealthy": "Ligeiramente prejudicial",
+          "unhealthy": "Prejudicial",
+          "very_unhealthy": "Muito prejudicial"
         }
       },
       "power_energy": {
-        "name": "Energia elétrica"
+        "name": "Consumo de energia"
       },
       "power_source": {
         "name": "Fonte de alimentação"
@@ -1098,7 +1168,7 @@
       "robot_cleaner_cleaning_mode": {
         "name": "Modo de limpeza",
         "state": {
-          "auto": "Auto",
+          "auto": "Automático",
           "manual": "Manual",
           "map": "Mapa",
           "part": "Parcial",
@@ -1125,7 +1195,7 @@
       "robot_cleaner_turbo_mode": {
         "name": "Modo Turbo",
         "state": {
-          "extra_silence": "Silêncio extra",
+          "extra_silence": "Extra silencioso",
           "off": "Desligado",
           "on": "Ligado",
           "silence": "Silencioso"
@@ -1142,11 +1212,14 @@
       "target_temperature": {
         "name": "Temperatura pretendida"
       },
+      "temperature_measurement": {
+        "name": "Temperatura superior"
+      },
       "thermostat_cooling_setpoint": {
         "name": "Ponto de ajuste de arrefecimento"
       },
       "thermostat_fan_mode": {
-        "name": "Modo da ventoinha"
+        "name": "Modo de ventilação"
       },
       "thermostat_heating_setpoint": {
         "name": "Ponto de ajuste de aquecimento"
@@ -1208,22 +1281,22 @@
         "name": "Abertura automática da porta"
       },
       "baby_bottle": {
-        "name": "Biberão"
+        "name": "Biberões"
       },
       "babycare": {
         "name": "Cuidado bebé"
       },
       "bubble_soak": {
-        "name": "Banho de bolhas"
+        "name": "Banho de espuma (Bubble Soak)"
       },
       "bypass_mode": {
-        "name": "Modo bypass"
+        "name": "Modo Bypass"
       },
       "chef": {
         "name": "Chef"
       },
       "cold_rinse": {
-        "name": "Enxaguamento a frio"
+        "name": "Enxaguamento frio"
       },
       "daily": {
         "name": "Diário"
@@ -1241,13 +1314,13 @@
         "name": "Não incomodar"
       },
       "drinkware": {
-        "name": "Copos e chávenas"
+        "name": "Copos"
       },
       "dry_only": {
         "name": "Apenas secagem"
       },
       "dry_plus": {
-        "name": "Secagem plus"
+        "name": "Secagem extra"
       },
       "eco": {
         "name": "Eco"
@@ -1259,19 +1332,19 @@
         "name": "Eco 10"
       },
       "express": {
-        "name": "Expresso"
+        "name": "Express"
       },
       "express_0c": {
-        "name": "Expresso"
+        "name": "Express"
       },
       "extra_silence": {
         "name": "Silêncio extra"
       },
       "glasses": {
-        "name": "Vidros"
+        "name": "Copos"
       },
       "heated_dry": {
-        "name": "Secagem com aquecimento"
+        "name": "Secagem aquecida"
       },
       "heavy": {
         "name": "Intenso"
@@ -1280,7 +1353,7 @@
         "name": "Lavagem a alta temperatura"
       },
       "hot_air_dry": {
-        "name": "Secagem com ar quente"
+        "name": "Secagem a ar quente"
       },
       "intensive": {
         "name": "Intensivo"
@@ -1310,13 +1383,13 @@
         "name": "Tachos e panelas"
       },
       "power_cool": {
-        "name": "Arrefecimento rápido"
+        "name": "Power Cool"
       },
       "power_freeze": {
-        "name": "Congelação rápida"
+        "name": "Power Freeze"
       },
       "pre_blast": {
-        "name": "Pré-lavagem de alta pressão"
+        "name": "Pré-lavagem forte"
       },
       "pre_wash": {
         "name": "Pré-lavagem"
@@ -1328,13 +1401,13 @@
         "name": "Rápido 14"
       },
       "rinse_dry": {
-        "name": "Enxaguar + Secar"
+        "name": "Enxaguamento + Secagem"
       },
       "rinse_only": {
         "name": "Apenas enxaguamento"
       },
       "rinse_plus": {
-        "name": "Enxaguamento plus"
+        "name": "Enxaguamento extra"
       },
       "sabbath_mode": {
         "name": "Modo Sabbath"
@@ -1358,19 +1431,19 @@
         "name": "Efeito sonoro"
       },
       "speed_booster": {
-        "name": "Reforço de velocidade"
+        "name": "Acelerador de velocidade (Speed Booster)"
       },
       "steam_closet_keep_fresh_mode": {
         "name": "Modo manter fresco"
       },
       "steam_closet_sanitize_mode": {
-        "name": "Modo de higienização"
+        "name": "Modo higienizar"
       },
       "steam_soak": {
         "name": "Imersão a vapor"
       },
       "storm_wash": {
-        "name": "Storm Wash"
+        "name": "Lavagem Storm Wash"
       },
       "switch": {
         "name": "Interruptor"
@@ -1388,13 +1461,13 @@
         "name": "Centrifugação"
       },
       "table_00_course_5f": {
-        "name": "Enxaguamento-Centrifugação"
+        "name": "Enxaguamento+Centrifugação"
       },
       "table_00_course_60": {
-        "name": "Limpeza Eco do tambor"
+        "name": "Limpeza do tambor Eco"
       },
       "table_00_course_61": {
-        "name": "Refrescar ar"
+        "name": "Arejar (Air Refresh)"
       },
       "table_00_course_63": {
         "name": "Secagem"
@@ -1403,10 +1476,10 @@
         "name": "Lavagem rápida 15m"
       },
       "table_00_course_ba": {
-        "name": "Drenagem-Centrifugação"
+        "name": "Drenagem+Centrifugação"
       },
       "table_00_course_d1": {
-        "name": "Algodão Eco"
+        "name": "eAlgodão"
       },
       "table_00_course_d2": {
         "name": "Sintéticos"
@@ -1415,10 +1488,10 @@
         "name": "Delicados"
       },
       "table_00_course_d4": {
-        "name": "Enxaguamento-Centrifugação"
+        "name": "Enxaguamento+Centrifugação"
       },
       "table_00_course_d5": {
-        "name": "Limpeza Eco do tambor"
+        "name": "Limpeza do tambor Eco"
       },
       "table_00_course_d6": {
         "name": "Roupa de cama"
@@ -1430,7 +1503,7 @@
         "name": "Lã"
       },
       "table_00_course_d9": {
-        "name": "Roupa escura"
+        "name": "Cores escuras"
       },
       "table_00_course_da": {
         "name": "Lavagem Super Eco"
@@ -1487,7 +1560,7 @@
         "name": "Limpeza do tambor"
       },
       "table_02_course_2a": {
-        "name": "Ganga"
+        "name": "Denim"
       },
       "table_02_course_2b": {
         "name": "Lavagem AI"
@@ -1496,7 +1569,7 @@
         "name": "Lavagem silenciosa"
       },
       "table_02_course_2e": {
-        "name": "Roupa de bebé"
+        "name": "Cuidado bebé"
       },
       "table_02_course_2f": {
         "name": "Roupa desportiva"
@@ -1514,25 +1587,25 @@
         "name": "Lavagem diária"
       },
       "table_02_course_35": {
-        "name": "Algodão Eco"
+        "name": "eAlgodão"
       },
       "table_02_course_36": {
-        "name": "Lavar e secar"
+        "name": "Lavar e Secar"
       },
       "table_02_course_37": {
-        "name": "Refrescar ar"
+        "name": "Arejar (Air Refresh)"
       },
       "table_02_course_38": {
-        "name": "Secagem de algodão"
+        "name": "Secagem algodão"
       },
       "table_02_course_39": {
-        "name": "Secagem de sintéticos"
+        "name": "Secagem sintéticos"
       },
       "table_02_course_3a": {
         "name": "Limpeza do tambor"
       },
       "table_02_course_66": {
-        "name": "Ganga"
+        "name": "Denim"
       },
       "table_02_course_8f": {
         "name": "Frio intenso"
@@ -1565,13 +1638,13 @@
         "name": "Roupa impermeável"
       },
       "table_03_course_20": {
-        "name": "Secagem para ferro"
+        "name": "Secagem para engomar"
       },
       "table_03_course_23": {
         "name": "Secagem rápida 35m"
       },
       "table_03_course_24": {
-        "name": "Ar frio"
+        "name": "Ar fresco"
       },
       "table_03_course_25": {
         "name": "Ar quente"
@@ -1583,13 +1656,13 @@
         "name": "Secagem AI"
       },
       "table_03_course_2b": {
-        "name": "Auto-secagem de cuba"
+        "name": "Auto-secagem do tambor"
       },
       "upper_express": {
-        "name": "Expresso cesto superior"
+        "name": "Express superior"
       },
       "wrinkle_prevent": {
-        "name": "Prevenção de rugas"
+        "name": "Prevenção de vincos"
       }
     },
     "time": {
@@ -1605,9 +1678,9 @@
         "state_attributes": {
           "fan_speed": {
             "state": {
-              "maximum": "Máximo",
+              "maximum": "Máxima",
               "normal": "Normal",
-              "quiet": "Silencioso",
+              "quiet": "Silenciosa",
               "smart": "Inteligente"
             }
           }
@@ -1622,60 +1695,60 @@
   },
   "issues": {
     "deprecated_binary_fridge_door": {
-      "description": "O sensor binário da porta do frigorífico {entity_name} (`{entity_id}`) foi descontinuado e será removido no futuro. Estão disponíveis entidades separadas para as portas do frigorífico e do congelador que devem ser utilizadas daqui em diante. Por favor, atualize os seus painéis e modelos (templates) e desative a entidade para corrigir este problema.",
+      "description": "O sensor binário da porta do frigorífico {entity_name} (`{entity_id}`) foi descontinuado e será removido no futuro. Estão disponíveis entidades separadas para a porta do frigorífico e do congelador que devem ser utilizadas daqui em diante. Atualize os seus painéis e modelos de acordo e desative a entidade para corrigir este problema.",
       "title": "Sensor binário da porta do frigorífico descontinuado"
     },
     "deprecated_binary_fridge_door_scripts": {
-      "description": "O sensor binário da porta do frigorífico {entity_name} (`{entity_id}`) foi descontinuado e será removido no futuro. A entidade é utilizada nas seguintes automações ou scripts:\n{items}\n\nEstão disponíveis entidades separadas para as portas do frigorífico e do congelador que devem ser utilizadas daqui em diante. Por favor, utilize-as nas automações ou scripts acima e desative a entidade para corrigir este problema.",
+      "description": "O sensor binário da porta do frigorífico {entity_name} (`{entity_id}`) foi descontinuado e será removido no futuro. A entidade é utilizada nas seguintes automações ou scripts:\n{items}\n\nEstão disponíveis entidades separadas para a porta do frigorífico e do congelador. Utilize-as nas automações ou scripts acima e desative a entidade para corrigir este problema.",
       "title": "Sensor binário da porta do frigorífico descontinuado"
     },
     "deprecated_binary_valve": {
-      "description": "O sensor binário da válvula {entity_name} (`{entity_id}`) foi descontinuado e será removido no futuro. Está disponível uma entidade de válvula com controlos que deve ser utilizada daqui em diante. Por favor, atualize os seus painéis e modelos (templates) e desative a entidade para corrigir este problema.",
+      "description": "O sensor binário de válvula {entity_name} (`{entity_id}`) foi descontinuado e será removido no futuro. Uma entidade de válvula com controlos está disponível e deve ser utilizada. Atualize os seus painéis e modelos de acordo e desative a entidade para corrigir este problema.",
       "title": "Sensor binário de válvula descontinuado"
     },
     "deprecated_binary_valve_scripts": {
-      "description": "O sensor binário da válvula {entity_name} (`{entity_id}`) foi descontinuado e será removido no futuro. A entidade é utilizada nas seguintes automações ou scripts:\n{items}\n\nEstá disponível uma entidade de válvula com controlos que deve ser utilizada daqui em diante. Por favor, utilize a nova entidade de válvula nas automações ou scripts acima e desative a entidade para corrigir este problema.",
+      "description": "O sensor binário de válvula {entity_name} (`{entity_id}`) foi descontinuado e será removido no futuro. A entidade é utilizada nas seguintes automações ou scripts:\n{items}\n\nUma entidade de válvula com controlos está disponível. Utilize a nova entidade de válvula nas automações ou scripts acima e desative a entidade para corrigir este problema.",
       "title": "Sensor binário de válvula descontinuado"
     },
     "deprecated_dhw": {
-      "description": "O sensor {entity_name} (`{entity_id}`) foi descontinuado porque foi substituído por uma entidade de aquecedor de água (water heater).\n\nPor favor, atualize os seus painéis e modelos para utilizar a nova entidade de aquecedor de água e desative o sensor para corrigir este problema.",
-      "title": "Sensores de aquecedor de água descontinuados"
+      "description": "O sensor {entity_name} (`{entity_id}`) foi descontinuado porque foi substituído por uma entidade de aquecimento de água.\n\nAtualize os seus painéis e modelos para utilizar a nova entidade de aquecimento de água e desative o sensor para corrigir este problema.",
+      "title": "Sensores de aquecimento de água descontinuados"
     },
     "deprecated_dhw_scripts": {
-      "description": "O sensor {entity_name} (`{entity_id}`) foi descontinuado porque foi substituído por uma entidade de aquecedor de água (water heater).\n\nO sensor era utilizado nas seguintes automações ou scripts:\n{items}\n\nPor favor, atualize as automações ou scripts acima para utilizar a nova entidade de aquecedor de água e desative o sensor para corrigir este problema.",
-      "title": "Sensores de aquecedor de água descontinuados"
+      "description": "O sensor {entity_name} (`{entity_id}`) foi descontinuado porque foi substituído por uma entidade de aquecimento de água.\n\nO sensor era utilizado nas seguintes automações ou scripts:\n{items}\n\nAtualize as automações ou scripts acima para utilizar a nova entidade de aquecimento de água e desative o sensor para corrigir este problema.",
+      "title": "Sensores de aquecimento de água descontinuados"
     },
     "deprecated_media_player": {
-      "description": "O sensor {entity_name} (`{entity_id}`) foi descontinuado porque foi substituído por uma entidade de leitor de multimédia (media player).\n\nPor favor, atualize os seus painéis e modelos para utilizar a nova entidade de leitor de multimédia e desative o sensor para corrigir este problema.",
-      "title": "Sensores de leitor de multimédia descontinuados"
+      "description": "O sensor {entity_name} (`{entity_id}`) foi descontinuado porque foi substituído por uma entidade de leitor de média.\n\nAtualize os seus painéis e modelos para utilizar a nova entidade de leitor de média e desative o sensor para corrigir este problema.",
+      "title": "Sensores de leitor de média descontinuados"
     },
     "deprecated_media_player_scripts": {
-      "description": "O sensor {entity_name} (`{entity_id}`) foi descontinuado porque foi substituído por uma entidade de leitor de multimédia (media player).\n\nO sensor era utilizado nas seguintes automações ou scripts:\n{items}\n\nPor favor, atualize as automações ou scripts acima para utilizar a nova entidade de leitor de multimédia e desative o sensor para corrigir este problema.",
-      "title": "Detetado sensor descontinuado em algumas automações ou scripts"
+      "description": "O sensor {entity_name} (`{entity_id}`) foi descontinuado porque foi substituído por uma entidade de leitor de média.\n\nO sensor era utilizado nas seguintes automações ou scripts:\n{items}\n\nAtualize as automações ou scripts acima para utilizar a nova entidade de leitor de média e desative o sensor para corrigir este problema.",
+      "title": "Sensor descontinuado detetado em algumas automações ou scripts"
     },
     "deprecated_switch_appliance": {
-      "description": "O interruptor `{entity_id}` foi descontinuado porque as ações não funcionavam, tendo sido substituído por um sensor binário.\n\nPor favor, atualize os seus painéis e modelos de acordo e desative a entidade para corrigir este problema.",
-      "title": "Interruptor do eletrodoméstico descontinuado"
+      "description": "O interruptor `{entity_id}` foi descontinuado porque as ações não funcionavam, tendo sido substituído por um sensor binário.\n\nAtualize os seus painéis e modelos de acordo e desative a entidade para corrigir este problema.",
+      "title": "Interruptor de eletrodoméstico descontinuado"
     },
     "deprecated_switch_appliance_scripts": {
-      "description": "O interruptor `{entity_id}` foi descontinuado porque as ações não funcionavam, tendo sido substituído por um sensor binário.\n\nO interruptor era utilizado nas seguintes automações ou scripts:\n{items}\n\nPor favor, utilize o novo sensor binário nas automações ou scripts acima e desative o interruptor para corrigir este problema.",
-      "title": "Interruptor do eletrodoméstico descontinuado"
+      "description": "O interruptor `{entity_id}` foi descontinuado porque as ações não funcionavam, tendo sido substituído por um sensor binário.\n\nO interruptor era utilizado nas seguintes automações ou scripts:\n{items}\n\nUtilize o novo sensor binário nas automações ou scripts acima e desative o interruptor para corrigir este problema.",
+      "title": "Interruptor de eletrodoméstico descontinuado"
     },
     "deprecated_switch_dhw": {
-      "description": "O interruptor `{entity_id}` foi descontinuado e foi adicionada uma entidade de aquecedor de água para o substituir.\n\nPor favor, atualize os seus painéis e modelos de acordo e desative o interruptor para corrigir este problema.",
-      "title": "Interruptor da bomba de calor descontinuado"
+      "description": "O interruptor `{entity_id}` foi descontinuado e foi adicionada uma entidade de aquecimento de água para o substituir.\n\nAtualize os seus painéis e modelos de acordo e desative o interruptor para corrigir este problema.",
+      "title": "Interruptor de bomba de calor descontinuado"
     },
     "deprecated_switch_dhw_scripts": {
-      "description": "O interruptor `{entity_id}` foi descontinuado e foi adicionada uma entidade de aquecedor de água para o substituir.\n\nO interruptor era utilizado nas seguintes automações ou scripts:\n{items}\n\nPor favor, utilize a nova entidade de aquecedor de água nas automações ou scripts acima e desative o interruptor para corrigir este problema.",
-      "title": "Interruptor da bomba de calor descontinuado"
+      "description": "O interruptor `{entity_id}` foi descontinuado e foi adicionada uma entidade de aquecimento de água para o substituir.\n\nO interruptor era utilizado nas seguintes automações ou scripts:\n{items}\n\nUtilize a nova entidade de aquecimento de água nas automações ou scripts acima e desative o interruptor para corrigir este problema.",
+      "title": "Interruptor de bomba de calor descontinuado"
     },
     "deprecated_switch_media_player": {
-      "description": "O interruptor `{entity_id}` foi descontinuado e foi adicionada uma entidade de leitor de multimédia para o substituir.\n\nPor favor, atualize os seus painéis e modelos de acordo e desative o interruptor para corrigir este problema.",
-      "title": "Interruptor do eletrodoméstico descontinuado"
+      "description": "O interruptor `{entity_id}` foi descontinuado e foi adicionada uma entidade de leitor de média para o substituir.\n\nAtualize os seus painéis e modelos de acordo e desative o interruptor para corrigir este problema.",
+      "title": "Interruptor de eletrodoméstico descontinuado"
     },
     "deprecated_switch_media_player_scripts": {
-      "description": "O interruptor `{entity_id}` foi descontinuado e foi adicionada uma entidade de leitor de multimédia para o substituir.\n\nO interruptor era utilizado nas seguintes automações ou scripts:\n{items}\n\nPor favor, utilize a nova entidade de leitor de multimédia nas automações ou scripts acima e desative o interruptor para corrigir este problema.",
-      "title": "Interruptor do eletrodoméstico descontinuado"
+      "description": "O interruptor `{entity_id}` foi descontinuado e foi adicionada uma entidade de leitor de média para o substituir.\n\nO interruptor era utilizado nas seguintes automações ou scripts:\n{items}\n\nUtilize a nova entidade de leitor de média nas automações ou scripts acima e desative o interruptor para corrigir este problema.",
+      "title": "Interruptor de eletrodoméstico descontinuado"
     }
   }
 }
