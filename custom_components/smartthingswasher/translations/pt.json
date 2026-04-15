@@ -162,6 +162,9 @@
       "state_start_later": {
         "name": "Iniciar mais tarde"
       },
+      "state_stop": {
+        "name": "Parar superior"
+      },      
       "state_stop_cavity_01": {
         "name": "Parar inferior"
       }
@@ -564,6 +567,7 @@
           "autocook": "Cozedura automática",
           "bake": "Cozedura (Bake)",
           "bottom": "Inferior",
+          "bottom_convection": "Convecção inferior",
           "bottom_heat": "Calor inferior",
           "bottom_heat_plus_convection": "Calor inferior + Convecção",
           "broil": "Grelhar (Broil)",
@@ -602,6 +606,7 @@
           "steam_cook": "Cozinhar a vapor",
           "steam_roast": "Assar a vapor",
           "strong_steam": "Vapor forte",
+          "top_convection": "Convecção superior",
           "top_heat_plus_convection": "Calor superior + Convecção",
           "warming": "Aquecimento"
         }
@@ -613,6 +618,7 @@
           "autocook": "Cozedura automática",
           "bake": "Cozedura (Bake)",
           "bottom": "Inferior",
+          "bottom_convection": "Convecção inferior",
           "bottom_heat": "Calor inferior",
           "bottom_heat_plus_convection": "Calor inferior + Convecção",
           "broil": "Grelhar (Broil)",
@@ -651,6 +657,7 @@
           "steam_cook": "Cozinhar a vapor",
           "steam_roast": "Assar a vapor",
           "strong_steam": "Vapor forte",
+          "top_convection": "Convecção superior",
           "top_heat_plus_convection": "Calor superior + Convecção",
           "warming": "Aquecimento"
         }
@@ -822,7 +829,7 @@
         }
       },
       "completion_time": {
-        "name": "Tempo de conclusão"
+        "name": "Tempo de conclusão superior"
       },
       "cooktop_operating_state": {
         "name": "Estado de funcionamento",
@@ -1086,7 +1093,7 @@
         }
       },
       "oven_operation_progress_cavity_01": {
-        "name": "Progresso de operação inferior"
+        "name": "Progresso inferior"
       },
       "oven_operation_time_cavity_01": {
         "name": "Tempo de funcionamento inferior"
