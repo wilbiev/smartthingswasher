@@ -250,7 +250,7 @@ async def async_setup_entry(
         for capability, support_options in OVEN_OPTIONS_TO_NUMBERS.items()
         for component, capabilities in device.status.items()
         if capability in capabilities
-        for support_option, descriptions in support_options.items()
+        for descriptions in support_options.values()
         for description in descriptions
         if (component == MAIN or (description.component_fn is not None and description.component_fn(component)))
             and not (
@@ -502,11 +502,6 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
         if (option := self._active_option):
             option.selected_value = value
             self.async_write_ha_state()
-
-    @property
-    def available(self) -> bool:
-        """The entity is only available if the current mode supports this option."""
-        return super().available and self._active_option is not None
 
     async def async_added_to_hass(self) -> None:
         """Register callbacks."""

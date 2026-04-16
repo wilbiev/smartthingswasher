@@ -154,19 +154,22 @@ def get_component_attribute_value(
 
 
 def get_current_cavity_id(status: dict[str, ComponentStatus], component: str) -> str:
-    """Get the current cavity ID based on the status and component."""
+    """Get the current cavity ID (single, upper, lower)."""
+
     spec_status = get_component_attribute_value(
         status, MAIN, Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION, Attribute.SPECIFICATION
     ) or {}
-    if component == "cavity-01" and CAVITY_LOWER in spec_status:
-        return CAVITY_LOWER
+    is_dual_model = "upper" in spec_status or "lower" in spec_status
+    if not is_dual_model:
+        return CAVITY_SINGLE
+
     divider = get_component_attribute_value(
         status, "cavity-01", Capability.CUSTOM_OVEN_CAVITY_STATUS, Attribute.OVEN_CAVITY_STATUS
     )
-    if divider == "on" and CAVITY_UPPER in spec_status:
-        return CAVITY_UPPER
-    if CAVITY_SINGLE not in spec_status:
-        for key, value in spec_status.items():
-            if isinstance(value, list):
-                return key
+    is_dual_cook_active = (divider == "on")
+    if component == MAIN:
+        return CAVITY_UPPER if is_dual_cook_active else CAVITY_SINGLE
+    if component == "cavity-01":
+        return CAVITY_LOWER if is_dual_cook_active else CAVITY_SINGLE
+
     return CAVITY_SINGLE
