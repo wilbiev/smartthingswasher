@@ -101,7 +101,7 @@
         "name": "Estado do forno superior"
       },
       "oven_status_cavity_01": {
-        "name": "Estado do forno inferior"
+        "name": "Modo Dual Cook"
       },
       "remote_control": {
         "name": "Controlo remoto"
