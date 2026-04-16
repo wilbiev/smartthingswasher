@@ -42,11 +42,15 @@ class SmartThingsEntity(Entity):
         self.capabilities = capabilities
         self.component = component
         self.program = program
-        self._internal_state: ComponentStatus = {
-            capability: device.status[component][capability]
-            for capability in capabilities
-            if capability in device.status[component]
-        }
+        self._internal_state: ComponentStatus = {}
+        for capability in capabilities:
+            if capability in device.status[self.component]:
+                self._internal_state[capability] = device.status[self.component][capability]
+            else:
+                for component_status in device.status.values():
+                    if capability in component_status:
+                        self._internal_state[capability] = component_status[capability]
+                        break
         self.device = device
         self._attr_unique_id = f"{device.device.device_id}_{component}"
         self._attr_device_info = DeviceInfo(
@@ -58,10 +62,16 @@ class SmartThingsEntity(Entity):
         """Subscribe to updates."""
         await super().async_added_to_hass()
         for capability in self._internal_state:
+            component = self.component
+            if capability not in self.device.status[self.component]:
+                for component_id, component_status in self.device.status.items():
+                    if capability in component_status:
+                        component = component_id
+                        break
             self.async_on_remove(
                 self.client.add_device_capability_event_listener(
                     self.device.device.device_id,
-                    self.component,
+                    component,
                     capability,
                     self._update_handler,
                 )
@@ -88,10 +98,10 @@ class SmartThingsEntity(Entity):
 
     def get_attribute_value(self, capability: Capability, attribute: Attribute, component: str | None = None) -> Any:
         """Get the value of a device attribute."""
-        target_component = component or self.component
-        if target_component == self.component and capability in self._internal_state:
+        try:
             return self._internal_state[capability][attribute].value
-        return self.device.status[target_component][capability][attribute].value
+        except KeyError:
+            return self.device.status[self.component][capability][attribute].value
 
     def _update_attr(self) -> None:
         """Update the attributes."""
