@@ -31,6 +31,7 @@ class SmartThingsButtonEntityDescription(ButtonEntityDescription):
     component_translation_key: dict[str, str] | None = None
     capability_ignore_list: list[set[Capability]] | None = None
 
+
 CAPABILITY_TO_BUTTONS: dict[
     Capability, dict[Command, list[SmartThingsButtonEntityDescription]]
 ] = {
@@ -86,14 +87,18 @@ CAPABILITY_TO_BUTTONS: dict[
                 key=Command.START_LATER,
                 translation_key="state_start_later",
                 extra_capabilities=[Capability.CUSTOM_DISHWASHER_DELAY_START_TIME],
-                argument_fn=lambda ent: (
+                argument_fn=lambda ent: [
                     int(parts[0]) * 60 + int(parts[1])
-                    if isinstance(val := ent.get_attribute_value(
-                        Capability.CUSTOM_DISHWASHER_DELAY_START_TIME,
-                        Attribute.DISHWASHER_DELAY_START_TIME,
-                    ), str) and len(parts := val.split(":")) >= 2
+                    if isinstance(
+                        val := ent.get_attribute_value(
+                            Capability.CUSTOM_DISHWASHER_DELAY_START_TIME,
+                            Attribute.DISHWASHER_DELAY_START_TIME,
+                        ),
+                        str,
+                    )
+                    and len(parts := val.split(":")) >= 2
                     else 60
-                ),
+                ],
             )
         ],
     },
@@ -123,7 +128,7 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Command.START,
                 translation_key="state_start",
-                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_OPERATING_STATE],
+                capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
                 component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "state_start_cavity_01",
@@ -134,7 +139,7 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Command.STOP,
                 translation_key="state_stop",
-                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_OPERATING_STATE],
+                capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
                 component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "state_stop_cavity_01",
@@ -212,13 +217,20 @@ async def async_setup_entry(
         if capability in capabilities
         for command, descriptions in commands.items()
         for description in descriptions
-        if (component == MAIN or (description.component_fn is not None and description.component_fn(component)))
-            and not (
-                description.capability_ignore_list and any(
-                    ignore_cap in capabilities
-                    for ignore_cap in description.capability_ignore_list
-                )
+        if (
+            component == MAIN
+            or (
+                description.component_fn is not None
+                and description.component_fn(component)
             )
+        )
+        and not (
+            description.capability_ignore_list
+            and any(
+                ignore_cap in capabilities
+                for ignore_cap in description.capability_ignore_list
+            )
+        )
     )
 
 
@@ -254,12 +266,15 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
         """Collect the values from the model and start the oven."""
 
         argument = None
-        if self.capability == Capability.SAMSUNG_CE_OVEN_OPERATING_STATE and self.command == Command.START:
+        if (
+            self.capability == Capability.SAMSUNG_CE_OVEN_OPERATING_STATE
+            and self.command == Command.START
+        ):
             cavity_key = get_current_cavity_id(self.device.status, self.component)
             current_mode = self.get_attribute_value(
                 Capability.SAMSUNG_CE_OVEN_MODE,
                 Attribute.OVEN_MODE,
-                component=self.component
+                component=self.component,
             )
             if not current_mode:
                 raise ServiceValidationError("No active oven mode found")
@@ -269,23 +284,32 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
                 raise ServiceValidationError(f"No program {lookup_id} found in model")
 
             if not program.supports_start:
-                raise ServiceValidationError(f"Start is not available for {current_mode}")
+                raise ServiceValidationError(
+                    f"Start is not available for {current_mode}"
+                )
 
             temp_opt = program.supportedoptions.get(SupportedOption.TEMPERATURE)
             time_opt = program.supportedoptions.get(SupportedOption.OPERATION_TIME)
 
             if not temp_opt or not time_opt:
-                 raise ServiceValidationError(f"Missing options for {lookup_id}")
+                raise ServiceValidationError(f"Missing options for {lookup_id}")
 
-            argument = [current_mode, int(time_opt.selected_value), int(temp_opt.selected_value)]
+            argument = [
+                current_mode,
+                int(time_opt.selected_value or 0),
+                int(temp_opt.selected_value or 0),
+            ]
         elif self.entity_description.argument_fn:
             argument = self.entity_description.argument_fn(self)
         else:
             argument = self.entity_description.argument
         if self.command == Command.START_LATER and argument is not None:
-            try:
-                argument = int(float(argument))
-            except (ValueError, TypeError):
+            if isinstance(argument, (int, float, str)):
+                try:
+                    argument = int(float(argument))
+                except (ValueError, TypeError):
+                    argument = 60
+            else:
                 argument = 60
         if self.entity_description.command_list:
             item = self.entity_description.command_list.index(self.command)
