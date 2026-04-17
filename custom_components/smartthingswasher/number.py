@@ -108,7 +108,7 @@ CAPABILITY_TO_NUMBERS: dict[
                 value_fn=lambda val: (
                     int(parts[0]) * 60 + int(parts[1])
                     if isinstance(val, str) and len(parts := val.split(":")) >= 2
-                    else val
+                    else (float(val) if isinstance(val, (int, float)) else None)
                 ),
                 action_fn=lambda val: f"{int(val) // 60:02d}:{int(val) % 60:02d}:00",
                 int_type=STType.INTEGER,
@@ -120,8 +120,9 @@ CAPABILITY_TO_NUMBERS: dict[
             SmartThingsNumberEntityDescription(
                 key=Capability.THERMOSTAT_COOLING_SETPOINT,
                 entity_category=EntityCategory.CONFIG,
-                device_class = NumberDeviceClass.TEMPERATURE,
-                component_fn=lambda component: component in {"freezer", "cooler", "onedoor"},
+                device_class=NumberDeviceClass.TEMPERATURE,
+                component_fn=lambda component: component
+                in {"freezer", "cooler", "onedoor"},
                 component_translation_key={
                     "freezer": "freezer_temperature",
                     "cooler": "cooler_temperature",
@@ -210,7 +211,7 @@ OVEN_OPTIONS_TO_NUMBERS: dict[
                 },
             )
         ],
-    }
+    },
 }
 
 
@@ -252,13 +253,20 @@ async def async_setup_entry(
         if capability in capabilities
         for descriptions in support_options.values()
         for description in descriptions
-        if (component == MAIN or (description.component_fn is not None and description.component_fn(component)))
-            and not (
-                description.capability_ignore_list and any(
-                    ignore_cap in capabilities
-                    for ignore_cap in description.capability_ignore_list
-                )
+        if (
+            component == MAIN
+            or (
+                description.component_fn is not None
+                and description.component_fn(component)
             )
+        )
+        and not (
+            description.capability_ignore_list
+            and any(
+                ignore_cap in capabilities
+                for ignore_cap in description.capability_ignore_list
+            )
+        )
     )
 
 
@@ -292,12 +300,15 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
     @property
     def options(self) -> list[int] | None:
         """Return the list of options."""
-        if self.entity_description.min_attribute and self.entity_description.max_attribute:
+        if (
+            self.entity_description.min_attribute
+            and self.entity_description.max_attribute
+        ):
             min_value_list = self.get_attribute_value(
                 self.capability, self.entity_description.min_attribute
             )
             max_value_list = self.get_attribute_value(
-               self.capability, self.entity_description.max_attribute
+                self.capability, self.entity_description.max_attribute
             )
             return list(range(min_value_list, max_value_list + 1))
         return None
@@ -315,7 +326,10 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
     @property
     def native_min_value(self) -> float:
         """Return the minimum value."""
-        if self.entity_description.min_attribute and self.entity_description.max_attribute:
+        if (
+            self.entity_description.min_attribute
+            and self.entity_description.max_attribute
+        ):
             if self.options is None:
                 return 0
             return min(self.options)
@@ -331,11 +345,13 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
             return 0
         return self.entity_description.native_min_value
 
-
     @property
     def native_max_value(self) -> float:
         """Return the maximum value."""
-        if self.entity_description.min_attribute and self.entity_description.max_attribute:
+        if (
+            self.entity_description.min_attribute
+            and self.entity_description.max_attribute
+        ):
             if self.options is None:
                 return 0
             return max(self.options)
@@ -362,15 +378,15 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
             return 1.0
         return self.entity_description.native_step
 
-
     @property
     def native_unit_of_measurement(self) -> str | None:
         """Return the unit this state is expressed in."""
         if self.entity_description.use_temperature_unit:
-            if (unit := self._internal_state[self.capability][self._attribute].unit) is not None:
+            if (
+                unit := self._internal_state[self.capability][self._attribute].unit
+            ) is not None:
                 return UNIT_MAP[unit]
         return self.entity_description.native_unit_of_measurement
-
 
     @property
     def native_value(self) -> float | int | None:
@@ -386,7 +402,6 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
             return self.entity_description.value_fn(raw_val)
 
         return raw_val
-
 
     async def async_set_native_value(self, value: float) -> None:
         """Set new value."""
@@ -407,6 +422,7 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
             self.command,
             command_value,
         )
+
 
 class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
     """Defines a number entity for oven options."""
@@ -432,7 +448,10 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description
-        if self.entity_description.component_translation_key and component in self.entity_description.component_translation_key:
+        if (
+            self.entity_description.component_translation_key
+            and component in self.entity_description.component_translation_key
+        ):
             self._attr_translation_key = (
                 self.entity_description.component_translation_key[component]
             )
@@ -447,11 +466,13 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
         if self.device.programs is None:
             return None
         cavity_key = get_current_cavity_id(self.device.status, self.component)
-        current_mode = self.get_attribute_value(self.capability, self._attribute, component=self.component)
+        current_mode = self.get_attribute_value(
+            self.capability, self._attribute, component=self.component
+        )
         if not current_mode:
             return None
         lookup_id = translate_oven_mode(current_mode, cavity_key)
-        if (program := self.device.programs.get(lookup_id)):
+        if program := self.device.programs.get(lookup_id):
             if self.entity_description.key in program.supportedoptions:
                 return program.supportedoptions[self.entity_description.key]
         return None
@@ -459,56 +480,57 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
     @property
     def native_value(self) -> float | None:
         """Get the selected value from the program model."""
-        if (option := self._active_option):
-            return float(option.selected_value) if option.selected_value is not None else None
+        if option := self._active_option:
+            return (
+                float(option.selected_value)
+                if option.selected_value is not None
+                else None
+            )
         return None
 
     @property
     def native_min_value(self) -> float:
-        """Get the minimum value from the program model."""
-        if (option := self._active_option):
-            if option.min_value is not None:
-                return option.min_value
-        return self.entity_description.native_min_value
+        """Return the minimum value."""
+        if (option := self._active_option) and option.min_value is not None:
+            return option.min_value
+        return 0.0
 
     @property
     def native_max_value(self) -> float:
-        """Get the maximum value from the program model."""
-        if (option := self._active_option):
-            if option.max_value is not None:
-                return option.max_value
-        return self.entity_description.native_max_value
+        """Return the maximum value."""
+        if (option := self._active_option) and option.max_value is not None:
+            return option.max_value
+        return 100.0
 
     @property
     def native_step(self) -> float:
-        """Get the step size (resolution) from the program model."""
-        if (option := self._active_option):
-            if option.step_value is not None:
-                return option.step_value
-        return self.entity_description.native_step
+        """Return the increment step."""
+        if (option := self._active_option) and option.step_value is not None:
+            return option.step_value
+        return 1.0
 
     @property
     def native_unit_of_measurement(self) -> str | None:
         """Return the unit this state is expressed in."""
         if self.entity_description.use_temperature_unit:
-            if (option := self._active_option):
+            if option := self._active_option:
                 if option.unit is not None:
                     return UNIT_MAP[option.unit]
         return self.entity_description.native_unit_of_measurement
 
-
     async def async_set_native_value(self, value: float) -> None:
         """Update the selected value in the program model."""
-        if (option := self._active_option):
+        if option := self._active_option:
             option.selected_value = value
             self.async_write_ha_state()
 
     async def async_added_to_hass(self) -> None:
         """Register callbacks."""
+
         @callback
         def update_state(new_mode: str) -> None:
             """Update the entity when the oven mode changes."""
-            if (option := self._active_option):
+            if option := self._active_option:
                 option.selected_value = float(option.default)
             self.async_write_ha_state()
 
@@ -516,6 +538,6 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
             async_dispatcher_connect(
                 self.hass,
                 f"smartthings_oven_mode_changed_{self.device.device.device_id}",
-                update_state
+                update_state,
             )
         )

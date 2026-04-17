@@ -297,7 +297,9 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.PROGRESS,
                 translation_key="operating_progress",
                 native_unit_of_measurement=PERCENTAGE,
-                exists_fn=lambda status: status.value is not None and isinstance(status.value, (int, float)) and status.value >= 0
+                exists_fn=lambda status: status.value is not None
+                and isinstance(status.value, (int, float))
+                and status.value >= 0,
             )
         ],
     },
@@ -777,7 +779,7 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="oven_machine_state",
                 options=["ready", "running", "paused"],
                 device_class=SensorDeviceClass.ENUM,
-                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_OPERATING_STATE],
+                capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
                 component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "oven_machine_state_cavity_01",
@@ -809,7 +811,7 @@ CAPABILITY_TO_SENSORS: dict[
                 ],
                 device_class=SensorDeviceClass.ENUM,
                 value_fn=lambda value: OVEN_JOB_STATE_MAP.get(value, value),
-                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_OPERATING_STATE],
+                capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
                 component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "oven_job_state_cavity_01",
@@ -822,7 +824,7 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="completion_time",
                 device_class=SensorDeviceClass.TIMESTAMP,
                 value_fn=dt_util.parse_datetime,
-                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_OPERATING_STATE],
+                capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
                 component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "oven_completion_time_cavity_01",
@@ -834,7 +836,7 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.OPERATION_TIME,
                 translation_key="operation_time",
                 native_unit_of_measurement=UnitOfTime.MINUTES,
-                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_OPERATING_STATE],
+                capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
                 component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "oven_operation_time_cavity_01",
@@ -846,7 +848,7 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.PROGRESS,
                 translation_key="operating_progress",
                 native_unit_of_measurement=PERCENTAGE,
-                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_OPERATING_STATE],
+                capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
                 component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "oven_operation_progress_cavity_01",
@@ -1393,14 +1395,21 @@ async def async_setup_entry(
             for attribute, descriptions in attributes.items()
             if (attr_status := capabilities[capability].get(attribute)) is not None
             for description in descriptions
-            if (component == MAIN or (description.component_fn is not None and description.component_fn(component))) and
-               (not description.exists_fn or description.exists_fn(attr_status))
-                and not (
-                    description.capability_ignore_list and any(
-                        ignore_cap in capabilities
-                        for ignore_cap in description.capability_ignore_list
-                    )
+            if (
+                component == MAIN
+                or (
+                    description.component_fn is not None
+                    and description.component_fn(component)
                 )
+            )
+            and (not description.exists_fn or description.exists_fn(attr_status))
+            and not (
+                description.capability_ignore_list
+                and any(
+                    ignore_cap in capabilities
+                    for ignore_cap in description.capability_ignore_list
+                )
+            )
         )
 
     async_add_entities(entities)
@@ -1449,8 +1458,16 @@ class SmartThingsSensor(SmartThingsEntity, SensorEntity):
     @property
     def native_unit_of_measurement(self) -> str | None:
         """Return the unit this state is expressed in."""
-        cap = Capability.TEMPERATURE_MEASUREMENT if self.entity_description.use_temperature_unit else self.capability
-        attr = Attribute.TEMPERATURE if self.entity_description.use_temperature_unit else self._attribute
+        cap = (
+            Capability.TEMPERATURE_MEASUREMENT
+            if self.entity_description.use_temperature_unit
+            else self.capability
+        )
+        attr = (
+            Attribute.TEMPERATURE
+            if self.entity_description.use_temperature_unit
+            else self._attribute
+        )
         cap_state = self._internal_state.get(cap, {})
         attr_state = cap_state.get(attr)
         unit = attr_state.unit if attr_state else None
@@ -1480,6 +1497,10 @@ class SmartThingsSensor(SmartThingsEntity, SensorEntity):
             ) is None:
                 return []
             if options_map := self.entity_description.options_map:
-                return [options_map.get(option, option) for option in options]
+                return [
+                    str(options_map.get(option, option) or "")
+                    for option in options
+                    if option is not None
+                ]
             return [option.lower() for option in options]
         return super().options
