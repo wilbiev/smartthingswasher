@@ -15,15 +15,15 @@ from homeassistant.components.number import (
     NumberMode,
 )
 from homeassistant.const import EntityCategory, UnitOfTime
-from homeassistant.core import HomeAssistant, callback
+from homeassistant.core import _LOGGER, HomeAssistant, callback
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FullDevice, SmartThingsConfigEntry
-from .const import MAIN, UNIT_MAP
+from .const import MAIN, OVEN_LIVE_SYNC_MAP, UNIT_MAP
 from .entity import SmartThingsEntity
 from .models import ProgramOptions, STType, SupportedOption
-from .util import get_current_cavity_id, translate_oven_mode
+from .util import get_current_cavity_id, time_to_minutes, translate_oven_mode
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -244,14 +244,14 @@ async def async_setup_entry(
             device,
             description,
             capability,
-            Attribute.OVEN_MODE,
+            support_option,
             component,
         )
         for device in entry_data.devices.values()
         for capability, support_options in OVEN_OPTIONS_TO_NUMBERS.items()
         for component, capabilities in device.status.items()
         if capability in capabilities
-        for descriptions in support_options.values()
+        for support_option, descriptions in support_options.items()
         for description in descriptions
         if (
             component == MAIN
@@ -435,11 +435,15 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
         device: FullDevice,
         entity_description: SmartThingsNumberEntityDescription,
         capability: Capability,
-        attribute: Attribute,
+        support_option: SupportedOption,
         component: str = MAIN,
     ) -> None:
         """Init the class."""
+        attribute = Attribute.OVEN_MODE
+        self._sync_info = OVEN_LIVE_SYNC_MAP.get(support_option)
         capabilities = {capability}
+        if self._sync_info:
+            capabilities.add(self._sync_info[0])
         capabilities.add(Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION)
         capabilities.add(Capability.CUSTOM_OVEN_CAVITY_STATUS)
         capabilities.add(Capability.REMOTE_CONTROL_STATUS)
@@ -541,3 +545,28 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
                 update_state,
             )
         )
+
+    def _handle_update(self) -> None:
+        """Handle updated data from the oven."""
+        super()._handle_update()
+
+        if self._sync_info:
+            capability, attribute = self._sync_info
+            live_value = self.get_attribute_value(capability, attribute)
+            if (option := self._active_option) and live_value is not None:
+                parsed_value: float | None = None
+                if isinstance(live_value, str) and ":" in live_value:
+                    parsed_value = float(time_to_minutes(live_value))
+                else:
+                    try:
+                        parsed_value = float(live_value)
+                    except (ValueError, TypeError):
+                        parsed_value = None
+                if parsed_value is not None and option.selected_value != parsed_value:
+                    option.selected_value = parsed_value
+                    _LOGGER.debug(
+                        "Option %s synchronized to %s minutes",
+                        self.entity_description.key,
+                        parsed_value,
+                    )
+                    self.async_write_ha_state()

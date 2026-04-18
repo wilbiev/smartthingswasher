@@ -1,6 +1,6 @@
-# SmartThings Dishwasher - Dryer - Steam Closet - Washer
+# Bring your HA SmartThings integration to the next level!
 
-Custom integration for SmartThings Dishwashers, Dryers, Steam Closets and Washers
+This custom integration provides some amazing features for Dishwashers, Dryers, Ovens, Steam Closets and Washers
 
 Custom version based on SmartThings integration of @JoostLek
 
@@ -131,7 +131,7 @@ A red box is displayed in the integration while it replaces the standard integra
 
 Please share the information when your dishwasher courses are not supported!
 
-## Additional SmartThings dryer/washer support
+## SmartThings dryer/steam closet/washer support
 
 ### Button entities
 
@@ -166,10 +166,10 @@ Please share the information when your dishwasher courses are not supported!
 
 ### Select entities
 
-- Auto dispense detergent amount
-- Auto dispense detergent density
-- Auto dispense softener amount
-- Auto dispense softener density
+- Auto dispense detergent amount (washer only)
+- Auto dispense detergent density (washer only)
+- Auto dispense softener amount (washer only)
+- Auto dispense softener density (washer only)
 - Course (when dryer/steam closet/washer cycle not available)
 - Cycle courses
 - Dry level\*
@@ -249,3 +249,94 @@ Please share the information when your dishwasher courses are not supported!
 | Wool            | Course_D8 |          | Course_22 | Course_1A |
 
 Please share the information when your dryer/steam closet/washer courses are not supported!
+
+## SmartThings oven support
+
+### Button entities
+
+- Pause
+- Start\*
+- Stop
+
+(\* Can only be used when supported by selected mode)
+
+### Binary sensor entities (are hidden by default and can be enabled)
+
+- Dual mode
+
+### Number entities
+
+- Temperature\*
+- Operation time\*
+
+(\* Minimum, maximum and step values based on selected mode)
+
+### Sensor entities
+
+- Completion time (additional sensor for Dual mode)
+- Energy/Power consumption (standard)
+- Job state (additional sensor for Dual mode)
+- Operating state (additional sensor for Dual mode)
+- Operation time (additional sensor for Dual mode)
+- Progress (additional sensor for Dual mode)
+- Setpoint (additional sensor for Dual mode)
+
+### Select entities
+
+- Oven mode Single (Dual mode: Single/Upper\*)
+- Oven mode Lower (only Dual mode)
+
+(\* Modes depend on status Dual mode binary_sensor, conditional card can be used in dashboard to switch between Single and Dual mode)
+
+### Current oven mode support
+
+| Name mode                         |
+| --------------------------------- |
+| Air sousvide                      |
+| Autocook                          |
+| Bake                              |
+| Bottom                            |
+| Bottom convection                 |
+| Bottom heat                       |
+| Bottom heat plus convection       |
+| Broil                             |
+| Clean air pyro                    |
+| Convection                        |
+| Convection bake                   |
+| Convection broil                  |
+| Convection roast                  |
+| Conventional                      |
+| Defrost                           |
+| Defrosting                        |
+| Dehydrate                         |
+| Descale                           |
+| Eco convection                    |
+| Fan grill                         |
+| Grill                             |
+| Heating                           |
+| Keep warm                         |
+| Large grill                       |
+| Microwave                         |
+| Microwave plus convection         |
+| Microwave plus grill              |
+| Microwave plus hot blast          |
+| Microwave plus hot blast 2        |
+| Others                            |
+| Plate warm                        |
+| Proof                             |
+| Rinse                             |
+| Slim middle                       |
+| Slim strong                       |
+| Slow cook                         |
+| Small grill                       |
+| Steam bake                        |
+| Steam bottom heat plus convection |
+| Steam clean                       |
+| Steam cook                        |
+| Steam roast                       |
+| Strong steam                      |
+| Top convection                    |
+| Top heat plus convection          |
+| Warming                           |
+
+Please share the information when your oven modes are not supported!
