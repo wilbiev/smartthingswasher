@@ -43,6 +43,12 @@
       "multi_tab_support": {
         "default": "mdi:pill-multiple"
       },
+      "oven_status_cavity_01": {
+        "default": "mdi:window-closed",
+        "state": {
+          "on": "mdi:window-open"
+        }
+      },
       "remote_control": {
         "default": "mdi:remote-off",
         "state": {
@@ -51,6 +57,9 @@
       },
       "rinse_plus_support": {
         "default": "mdi:water-plus"
+      },
+      "robot_cleaner_dust_bag": {
+        "default": "mdi:delete"
       },
       "sanitize_support": {
         "default": "mdi:lotion"
@@ -81,14 +90,26 @@
       "state_pause_resume": {
         "default": "mdi:pause-circle"
       },
+      "state_pause_cavity_01": {
+        "default": "mdi:pause-circle"
+      },
       "state_start": {
+        "default": "mdi:play-circle"
+      },
+      "state_start_cavity_01": {
         "default": "mdi:play-circle"
       },
       "state_start_later": {
         "default": "mdi:clock-start"
       },
-      "stop": {
-        "default": "mdi:stop"
+      "state_stop": {
+        "default": "mdi:stop-circle"
+      },
+      "state_stop_cavity_01": {
+        "default": "mdi:stop-circle"
+      },
+      "time_sync": {
+        "default": "mdi:clock-check"
       }
     },
     "climate": {
@@ -113,12 +134,38 @@
         }
       }
     },
+    "fan": {
+      "hood": {
+        "state_attributes": {
+          "preset_mode": {
+            "state": {
+              "smart": "mdi:brain"
+            }
+          }
+        }
+      }
+    },
     "number": {
-      "delay_time": {
-        "default": "mdi:timer"
+      "cooler_temperature": {
+        "default": "mdi:snowflake-thermometer"
       },
       "freezer_temperature": {
         "default": "mdi:snowflake-thermometer"
+      },
+      "oven_operation_time": {
+        "default": "mdi:timer-sand"
+      },
+      "oven_operation_time_cavity_01": {
+        "default": "mdi:timer-sand"
+      },
+      "oven_temperature": {
+        "default": "mdi:thermometer"
+      },
+      "oven_temperature_cavity_01": {
+        "default": "mdi:thermometer"
+      },
+      "target_temperature": {
+        "default": "mdi:thermometer"
       }
     },
     "select": {
@@ -218,11 +265,17 @@
       "completion_time": {
         "default": "mdi:clock-end"
       },
+      "cooler_temperature": {
+        "default": "mdi:snowflake-thermometer"
+      },
       "diverter_valve_position": {
         "state": {
           "room": "mdi:sofa",
           "tank": "mdi:water-boiler"
         }
+      },
+      "freezer_temperature": {
+        "default": "mdi:snowflake-thermometer"
       },
       "heating_mode": {
         "state": {
@@ -251,6 +304,53 @@
       "operation_time": {
         "default": "mdi:clock"
       },
+      "oven_completion_time_cavity_01": {
+        "default": "mdi:clock-end"
+      },
+      "oven_machine_state": {
+        "default": "mdi:play-speed",
+        "state": {
+          "ready": "mdi:check-bold",
+          "running": "mdi:play",
+          "paused": "mdi:pause"
+        }
+      },
+      "oven_machine_state_cavity_01": {
+        "default": "mdi:play-speed",
+        "state": {
+          "ready": "mdi:check-bold",
+          "running": "mdi:play",
+          "paused": "mdi:pause"
+        }
+      },
+      "oven_operating_state": {
+        "default": "mdi:play-speed",
+        "state": {
+          "ready": "mdi:check-bold",
+          "running": "mdi:play",
+          "paused": "mdi:pause"
+        }
+      },
+      "oven_operating_state_cavity_01": {
+        "default": "mdi:play-speed",
+        "state": {
+          "ready": "mdi:check-bold",
+          "running": "mdi:play",
+          "paused": "mdi:pause"
+        }
+      },
+      "oven_operation_progress_cavity_01": {
+        "default": "mdi:progress-clock"
+      },
+      "oven_setpoint": {
+        "default": "mdi:themometer-lines"
+      },
+      "oven_setpoint_cavity_01": {
+        "default": "mdi:themometer-lines"
+      },
+      "oven_temperature_cavity_01": {
+        "default": "mdi:thermometer"
+      },
       "remaining_amount_dispense_detergent": {
         "default": "mdi:bottle-tonic-outline"
       },
@@ -259,6 +359,9 @@
       },
       "remaining_time": {
         "default": "mdi:timelapse"
+      },
+      "target_temperature": {
+        "default": "mdi:thermometer"
       }
     },
     "switch": {

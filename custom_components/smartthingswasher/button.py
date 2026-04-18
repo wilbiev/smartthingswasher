@@ -4,12 +4,13 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
+from datetime import datetime
 from typing import Any
 
 from pysmartthings import Attribute, Capability, Command, SmartThings
 
 from homeassistant.components.button import ButtonEntity, ButtonEntityDescription
-from homeassistant.core import HomeAssistant, ServiceValidationError
+from homeassistant.core import _LOGGER, HomeAssistant, ServiceValidationError
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FullDevice, SmartThingsConfigEntry
@@ -30,6 +31,7 @@ class SmartThingsButtonEntityDescription(ButtonEntityDescription):
     component_fn: Callable[[str], bool] | None = None
     component_translation_key: dict[str, str] | None = None
     capability_ignore_list: list[set[Capability]] | None = None
+    capability_include_list: list[set[Capability]] | None = None
 
 
 CAPABILITY_TO_BUTTONS: dict[
@@ -192,6 +194,18 @@ CAPABILITY_TO_BUTTONS: dict[
             ),
         ]
     },
+    Capability.EXECUTE: {
+        Command.EXECUTE: [
+            SmartThingsButtonEntityDescription(
+                key="time_sync",
+                translation_key="time_sync",
+                capability_include_list=[
+                    {Capability.OVEN_MODE},
+                    {Capability.SAMSUNG_CE_OVEN_MODE},
+                ],
+            ),
+        ]
+    },
 }
 
 
@@ -227,8 +241,15 @@ async def async_setup_entry(
         and not (
             description.capability_ignore_list
             and any(
-                ignore_cap in capabilities
-                for ignore_cap in description.capability_ignore_list
+                all(ignore_cap in capabilities for ignore_cap in ignore_cap_list)
+                for ignore_cap_list in description.capability_ignore_list
+            )
+        )
+        and (
+            not description.capability_include_list
+            or any(
+                all(include_cap in capabilities for include_cap in include_cap_list)
+                for include_cap_list in description.capability_include_list
             )
         )
     )
@@ -290,15 +311,21 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
 
             temp_opt = program.supportedoptions.get(SupportedOption.TEMPERATURE)
             time_opt = program.supportedoptions.get(SupportedOption.OPERATION_TIME)
-
             if not temp_opt or not time_opt:
                 raise ServiceValidationError(f"Missing options for {lookup_id}")
 
             argument = [
                 current_mode,
-                int(time_opt.selected_value or 0),
+                int(time_opt.selected_value or 0) * 60,
                 int(temp_opt.selected_value or 0),
             ]
+        elif self.entity_description.key == "time_sync":
+            current_time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+            argument = [
+                "/configuration/vs/0",
+                {"x.com.samsung.da.currentTime": current_time},
+            ]
+            _LOGGER.debug("Sending time sync command with time: %s", current_time)
         elif self.entity_description.argument_fn:
             argument = self.entity_description.argument_fn(self)
         else:
