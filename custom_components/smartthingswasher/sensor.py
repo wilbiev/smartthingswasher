@@ -74,6 +74,7 @@ class SmartThingsSensorEntityDescription(SensorEntityDescription):
     translation_placeholders_fn: Callable[[str], dict[str, str]] | None = None
     component_fn: Callable[[str], bool] | None = None
     exists_fn: Callable[[Status], bool] | None = None
+    exists_program: Callable[[FullDevice], bool] | None = None
     use_temperature_unit: bool = False
     component_translation_key: dict[str, str] | None = None
     options_map: dict[str, str] | None = None
@@ -837,6 +838,7 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="operation_time",
                 native_unit_of_measurement=UnitOfTime.MINUTES,
                 capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
+                exists_program=lambda device: device.programs is None,
                 component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "oven_operation_time_cavity_01",
@@ -1164,6 +1166,7 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="temperature_measurement",
                 device_class=SensorDeviceClass.TEMPERATURE,
                 state_class=SensorStateClass.MEASUREMENT,
+                exists_program=lambda device: device.programs is None,
                 component_fn=(
                     lambda component: (
                         component in {"freezer", "cooler", "onedoor", "cavity-01"}
@@ -1403,11 +1406,12 @@ async def async_setup_entry(
                 )
             )
             and (not description.exists_fn or description.exists_fn(attr_status))
+            and (not description.exists_program or description.exists_program(device))
             and not (
                 description.capability_ignore_list
                 and any(
-                    ignore_cap in capabilities
-                    for ignore_cap in description.capability_ignore_list
+                    all(ignore_cap in capabilities for ignore_cap in ignore_cap_list)
+                    for ignore_cap_list in description.capability_ignore_list
                 )
             )
         )

@@ -248,6 +248,7 @@ async def async_setup_entry(
             component,
         )
         for device in entry_data.devices.values()
+        if device.programs is not None
         for capability, support_options in OVEN_OPTIONS_TO_NUMBERS.items()
         for component, capabilities in device.status.items()
         if capability in capabilities

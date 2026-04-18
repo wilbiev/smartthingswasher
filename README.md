@@ -257,6 +257,7 @@ Please share the information when your dryer/steam closet/washer courses are not
 - Pause
 - Start\*
 - Stop
+- Time sync
 
 (\* Can only be used when supported by selected mode)
 
