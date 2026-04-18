@@ -4,6 +4,8 @@ from pysmartthings import Attribute, Capability, Command
 
 from homeassistant.const import UnitOfTemperature
 
+from .models import SupportedOption
+
 DOMAIN = "smartthings"
 
 SCOPES = [
@@ -79,6 +81,17 @@ CAPABILITY_COMMANDS: dict[Capability, Command] = {
     Capability.SAMSUNG_CE_STEAM_CLOSET_CYCLE: Command.SET_STEAM_CLOSET_CYCLE,
     Capability.SAMSUNG_CE_WASHER_CYCLE: Command.SET_WASHER_CYCLE,
     Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: Command.SET_WASHING_COURSE,
+}
+
+OVEN_LIVE_SYNC_MAP = {
+    SupportedOption.TEMPERATURE: (
+        Capability.TEMPERATURE_MEASUREMENT,
+        Attribute.TEMPERATURE,
+    ),
+    SupportedOption.OPERATION_TIME: (
+        Capability.OVEN_OPERATING_STATE,
+        Attribute.OPERATION_TIME,
+    ),
 }
 
 UNIT_MAP = {"C": UnitOfTemperature.CELSIUS, "F": UnitOfTemperature.FAHRENHEIT}
@@ -220,7 +233,7 @@ DISHWASHER_COURSE_TO_HA = {
     "selfClean": "self_clean",
     "selfSanitize": "self_sanitize",
     "steamSoak": "steam_soak",
-    "upperExpress": "upper_express"
+    "upperExpress": "upper_express",
 }
 
 COURSE_TO_HA = {
@@ -256,7 +269,7 @@ COURSE_TO_HA = {
     "3A": "course_3a",
     "66": "course_66",
     "8F": "course_8f",
-    "96": "course_96"
+    "96": "course_96",
 }
 
 COOKTOP_HEATING_MODES = {
@@ -362,7 +375,7 @@ OVEN_MODE_TO_HA = {
     "StrongSteam": "strong_steam",
     "TopConvection": "top_convection",
     "TopHeatPluseConvection": "top_heat_plus_convection",
-    "warming": "warming"
+    "warming": "warming",
 }
 
 HEALTH_CONCERN = {
