@@ -167,6 +167,9 @@
       },      
       "state_stop_cavity_01": {
         "name": "Parar inferior"
+      },
+      "time_sync": {
+        "name": "Sincronizar hora"
       }
     },
     "climate": {
@@ -256,16 +259,16 @@
         "name": "Velocidade do exaustor"
       },
       "oven_operation_time": {
-        "name": "Tempo de funcionamento superior"
+        "name": "Definir tempo superior"
       },
       "oven_operation_time_cavity_01": {
-        "name": "Tempo de funcionamento inferior"
+        "name": "Definir tempo inferior"
       },
       "oven_temperature": {
-        "name": "Temperatura superior"
+        "name": "Definir temperatura superior"
       },
       "oven_temperature_cavity_01": {
-        "name": "Temperatura inferior"
+        "name": "Definir temperatura inferior"
       },
       "target_temperature": {
         "name": "Temperatura pretendida"
