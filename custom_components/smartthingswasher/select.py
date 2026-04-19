@@ -52,7 +52,7 @@ class SmartThingsSelectEntityDescription(SelectEntityDescription):
     command: Command | None = None
     options_attribute: Attribute | None = None
     supported_option: SupportedOption | None = None
-    capability_ignore_list: list[Capability] | None = None
+    capability_ignore_list: list[set[Capability]] | None = None
     options_map: dict[str, str] | None = None
     value_is_integer: bool = False
     component_fn: Callable[[str], bool] | None = None
@@ -94,8 +94,8 @@ CAPABILITY_TO_SELECTS: dict[
                 command=Command.SET_COURSE,
                 options_map=COURSE_TO_HA,
                 capability_ignore_list=[
-                    *CAPABILITIES_WITH_PROGRAMS,
-                    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE,
+                    *[{capability} for capability in CAPABILITIES_WITH_PROGRAMS],
+                    {Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE},
                 ],
             )
         ]
@@ -269,7 +269,7 @@ CAPABILITY_TO_SELECTS: dict[
                 options_map=LAMP_TO_HA,
                 entity_category=EntityCategory.CONFIG,
                 component_fn=lambda component: component == "hood",
-                capability_ignore_list=[Capability.SAMSUNG_CE_CONNECTION_STATE],
+                capability_ignore_list=[{Capability.SAMSUNG_CE_CONNECTION_STATE}],
             )
         ]
     },
@@ -414,7 +414,7 @@ PROGRAMS_TO_SELECTS: dict[
                 options_attribute=Attribute.SUPPORTED_COURSES,
                 command=Command.SET_WASHING_COURSE,
                 capability_ignore_list=[
-                    Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE
+                    {Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE}
                 ],
             )
         ]
@@ -434,7 +434,7 @@ OVEN_MODES_TO_SELECTS: dict[
                 options_attribute=Attribute.SUPPORTED_OVEN_MODES,
                 command=Command.SET_OVEN_MODE,
                 options_map=OVEN_MODE_TO_HA,
-                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_MODE],
+                capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_MODE}],
                 component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "oven_mode_cavity_01",
@@ -492,8 +492,8 @@ async def async_setup_entry(
             and not (
                 description.capability_ignore_list
                 and any(
-                    ignore_cap in capabilities
-                    for ignore_cap in description.capability_ignore_list
+                    all(ignore_cap in capabilities for ignore_cap in ignore_cap_list)
+                    for ignore_cap_list in description.capability_ignore_list
                 )
             )
         )
@@ -531,8 +531,8 @@ async def async_setup_entry(
             and not (
                 description.capability_ignore_list
                 and any(
-                    ignore_cap in capabilities
-                    for ignore_cap in description.capability_ignore_list
+                    all(ignore_cap in capabilities for ignore_cap in ignore_cap_list)
+                    for ignore_cap_list in description.capability_ignore_list
                 )
             )
         )
@@ -556,8 +556,8 @@ async def async_setup_entry(
             and not (
                 description.capability_ignore_list
                 and any(
-                    ignore_cap in capabilities
-                    for ignore_cap in description.capability_ignore_list
+                    all(ignore_cap in capabilities for ignore_cap in ignore_cap_list)
+                    for ignore_cap_list in description.capability_ignore_list
                 )
             )
         )

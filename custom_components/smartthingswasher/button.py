@@ -309,16 +309,27 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
                     f"Start is not available for {current_mode}"
                 )
 
-            temp_opt = program.supportedoptions.get(SupportedOption.TEMPERATURE)
             time_opt = program.supportedoptions.get(SupportedOption.OPERATION_TIME)
+            temp_opt = program.supportedoptions.get(SupportedOption.TEMPERATURE)
             if not temp_opt or not time_opt:
                 raise ServiceValidationError(f"Missing options for {lookup_id}")
 
-            argument = [
-                current_mode,
-                int(time_opt.selected_value or 0) * 60,
-                int(temp_opt.selected_value or 0),
-            ]
+            time = int((time_opt.selected_value or 0) * 60)
+            if time == 0:
+                raise ServiceValidationError(
+                    "Cannot start oven session with operation time 0"
+                )
+            temp = int(temp_opt.selected_value or 0)
+            if temp == 0:
+                raise ServiceValidationError(
+                    "Cannot start oven session with temperature 0"
+                )
+
+            argument = {
+                "mode": current_mode,
+                "operationTime": time,
+                "ovenTemperature": temp,
+            }
         elif self.entity_description.key == "time_sync":
             current_time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
             argument = [
@@ -339,11 +350,10 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
             else:
                 argument = 60
         if self.entity_description.command_list:
-            item = self.entity_description.command_list.index(self.command)
-            if item == (len(self.entity_description.command_list) - 1):
-                self.command = self.entity_description.command_list[0]
-            else:
-                self.command = self.entity_description.command_list[item + 1]
+            idx = self.entity_description.command_list.index(self.command)
+            self.command = self.entity_description.command_list[
+                (idx + 1) % len(self.entity_description.command_list)
+            ]
         await self.execute_device_command(
             self.capability,
             self.command,

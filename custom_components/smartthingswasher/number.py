@@ -39,7 +39,7 @@ class SmartThingsNumberEntityDescription(NumberEntityDescription):
     max_attribute: Attribute | None = None
     range_attribute: Attribute | None = None
     use_temperature_unit: bool = False
-    capability_ignore_list: list[Capability] | None = None
+    capability_ignore_list: list[set[Capability]] | None = None
     component_fn: Callable[[str], bool] | None = None
     component_translation_key: dict[str, str] | None = None
     value_fn: Callable[[Any], float | int | None] | None = None
@@ -161,7 +161,7 @@ OVEN_OPTIONS_TO_NUMBERS: dict[
                 translation_key="oven_temperature",
                 entity_category=EntityCategory.CONFIG,
                 device_class=NumberDeviceClass.TEMPERATURE,
-                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_MODE],
+                capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_MODE}],
                 component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "oven_temperature_cavity_01",
@@ -176,7 +176,7 @@ OVEN_OPTIONS_TO_NUMBERS: dict[
                 entity_category=EntityCategory.CONFIG,
                 device_class=NumberDeviceClass.DURATION,
                 native_unit_of_measurement=UnitOfTime.MINUTES,
-                capability_ignore_list=[Capability.SAMSUNG_CE_OVEN_MODE],
+                capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_MODE}],
                 component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "oven_operation_time_cavity_01",
@@ -264,8 +264,8 @@ async def async_setup_entry(
         and not (
             description.capability_ignore_list
             and any(
-                ignore_cap in capabilities
-                for ignore_cap in description.capability_ignore_list
+                all(ignore_cap in capabilities for ignore_cap in ignore_cap_list)
+                for ignore_cap_list in description.capability_ignore_list
             )
         )
     )
