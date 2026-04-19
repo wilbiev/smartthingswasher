@@ -918,6 +918,8 @@ CAPABILITY_TO_SENSORS: dict[
             SmartThingsSensorEntityDescription(
                 key=Attribute.OPERATION_TIME,
                 translation_key="operation_time",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+                exists_program=lambda device: device.programs is None,
                 component_fn=lambda component: component == "cavity-01",
                 component_translation_key={
                     "cavity-01": "oven_operation_time_cavity_01",

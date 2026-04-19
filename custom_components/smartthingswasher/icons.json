@@ -302,7 +302,7 @@
         "default": "mdi:state-machine"
       },
       "operation_time": {
-        "default": "mdi:clock"
+        "default": "mdi:timer-sand"
       },
       "oven_completion_time_cavity_01": {
         "default": "mdi:clock-end"
@@ -341,6 +341,9 @@
       },
       "oven_operation_progress_cavity_01": {
         "default": "mdi:progress-clock"
+      },
+      "oven_operation_time_cavity_01": {
+        "default": "mdi:timer-sand"
       },
       "oven_setpoint": {
         "default": "mdi:thermometer-lines"
