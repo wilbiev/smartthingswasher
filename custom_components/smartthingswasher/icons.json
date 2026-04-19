@@ -343,10 +343,10 @@
         "default": "mdi:progress-clock"
       },
       "oven_setpoint": {
-        "default": "mdi:themometer-lines"
+        "default": "mdi:thermometer-lines"
       },
       "oven_setpoint_cavity_01": {
-        "default": "mdi:themometer-lines"
+        "default": "mdi:thermometer-lines"
       },
       "oven_temperature_cavity_01": {
         "default": "mdi:thermometer"
