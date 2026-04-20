@@ -55,6 +55,10 @@ from homeassistant.helpers.config_entry_oauth2_flow import (
 
 from .const import (
     CAPABILITIES_WITH_PROGRAMS,
+    CAVITY_LOWER,
+    CAVITY_SECOND,
+    CAVITY_SINGLE,
+    CAVITY_UPPER,
     CONF_INSTALLED_APP_ID,
     CONF_LOCATION_ID,
     CONF_SUBSCRIPTION_ID,
@@ -76,7 +80,12 @@ from .const import (
     PROGRAM_SUPPORTED_OPTIONS,
 )
 from .models import Program, ProgramOptions, SupportedOption
-from .util import time_to_minutes, translate_oven_mode, translate_program_course
+from .util import (
+    get_temperature_unit,
+    time_to_minutes,
+    translate_oven_mode,
+    translate_program_course,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -526,47 +535,109 @@ def process_component_status(status: ComponentStatus) -> None:
                     del status[capability]
 
 
-def _parse_oven_options(supported_options: dict[str, Any]) -> dict[str, ProgramOptions]:
-    """Parse oven-specific options like temperature and time."""
+def _parse_oven_options(
+    supported_options: dict[str, Any], unit: str
+) -> dict[str, ProgramOptions]:
+    """Parse oven-specific options like temperature and time based on the detected unit."""
     supported_options_list = {}
+
     if SupportedOption.TEMPERATURE in supported_options:
         temp_spec = supported_options[SupportedOption.TEMPERATURE]
-        temp_data = None
-        if "C" in temp_spec:
-            unit_key = "C"
-            temp_data = temp_spec[unit_key]
-            default_val = temp_data.get(PROGRAM_OPTION_DEFAULT, 180)
-            min_val = float(temp_data.get(PROGRAM_OPTION_MIN, 30))
-            max_val = float(temp_data.get(PROGRAM_OPTION_MAX, 250))
-        elif "F" in temp_spec:
-            unit_key = "F"
-            temp_data = temp_spec[unit_key]
-            default_val = temp_data.get(PROGRAM_OPTION_DEFAULT, 350)
-            min_val = float(temp_data.get(PROGRAM_OPTION_MIN, 80))
-            max_val = float(temp_data.get(PROGRAM_OPTION_MAX, 500) )
-        if temp_data:
+        available_units = [u for u in ["C", "F"] if u in temp_spec]
+        if len(available_units) == 1:
+            unit = available_units[0]
+        if unit in temp_spec:
+            temp_data = temp_spec[unit]
+            default_val = temp_data.get(
+                PROGRAM_OPTION_DEFAULT, 180 if unit == "C" else 350
+            )
+            min_val = float(
+                temp_data.get(PROGRAM_OPTION_MIN, 30 if unit == "C" else 80)
+            )
+            max_val = float(
+                temp_data.get(PROGRAM_OPTION_MAX, 250 if unit == "C" else 500)
+            )
             supported_options_list[SupportedOption.TEMPERATURE] = ProgramOptions(
                 supportedoption=SupportedOption.TEMPERATURE,
-                default=str(default_val),
+                default=default_val,
                 options=[],
-                selected_value=default_val,
                 min_value=min_val,
                 max_value=max_val,
                 step_value=float(temp_data.get(PROGRAM_OPTION_STEP, 5)),
-                unit=unit_key
+                unit=unit,
             )
+
     if SupportedOption.OPERATION_TIME in supported_options:
-        if (time_data := supported_options[SupportedOption.OPERATION_TIME]):
+        if time_data := supported_options[SupportedOption.OPERATION_TIME]:
             supported_options_list[SupportedOption.OPERATION_TIME] = ProgramOptions(
                 supportedoption=SupportedOption.OPERATION_TIME,
-                default=time_to_minutes(time_data.get(PROGRAM_OPTION_DEFAULT, "01:00:00")),
+                default=time_to_minutes(
+                    time_data.get(PROGRAM_OPTION_DEFAULT, "01:00:00")
+                ),
                 options=[],
-                selected_value=time_to_minutes(time_data.get(PROGRAM_OPTION_DEFAULT, "01:00:00")),
-                min_value=float(time_to_minutes(time_data.get(PROGRAM_OPTION_MIN, "00:01:00"))),
-                max_value=float(time_to_minutes(time_data.get(PROGRAM_OPTION_MAX, "23:59:00"))),
-                step_value=float(time_to_minutes(time_data.get(PROGRAM_OPTION_STEP, "00:01:00"))),
+                min_value=float(
+                    time_to_minutes(time_data.get(PROGRAM_OPTION_MIN, "00:01:00"))
+                ),
+                max_value=float(
+                    time_to_minutes(time_data.get(PROGRAM_OPTION_MAX, "23:59:00"))
+                ),
+                step_value=float(
+                    time_to_minutes(time_data.get(PROGRAM_OPTION_STEP, "00:01:00"))
+                ),
             )
+
     return supported_options_list
+
+
+def _process_oven_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
+    """Specifieke verwerking voor Ovens (Dual Cook & Single)."""
+    programs: dict[str, Program] = {}
+
+    unit = get_temperature_unit(status)
+    oven_component_mapping = {MAIN: CAVITY_SINGLE, "cavity-02": CAVITY_SECOND}
+    for comp_id, target_cavity in oven_component_mapping.items():
+        if (comp_status := status.get(comp_id)) is None:
+            continue
+
+        spec_status = comp_status.get(Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION)
+        if spec_status is None:
+            continue
+
+        spec_data = cast(dict[str, Any], spec_status[Attribute.SPECIFICATION].value)
+        specification: dict[str, list[dict[str, Any]]] = {}
+        if isinstance(spec_data, list):
+            specification = {target_cavity: spec_data}
+        elif isinstance(spec_data, dict):
+            if comp_id == "cavity-02" and CAVITY_SINGLE in spec_data:
+                specification = {CAVITY_SECOND: spec_data[CAVITY_SINGLE]}
+            elif any(
+                key in spec_data for key in [CAVITY_SINGLE, CAVITY_UPPER, CAVITY_LOWER]
+            ):
+                specification = cast(dict[str, list[dict[str, Any]]], spec_data)
+            else:
+                for key, value in spec_data.items():
+                    if isinstance(value, list):
+                        specification[key] = value
+        for cavity_key, mode_list in specification.items():
+            for mode_data in mode_list:
+                if PROGRAM_MODE not in mode_data:
+                    continue
+
+                mode_name = mode_data[PROGRAM_MODE]
+                program_id = translate_oven_mode(mode_name, cavity_key)
+                supported_ops = mode_data.get(PROGRAM_SUPPORTED_OPERATIONS, [])
+                can_start = "start" in supported_ops
+                supported_options = mode_data.get(PROGRAM_SUPPORTED_OPTIONS, {})
+                supported_options_list = _parse_oven_options(supported_options, unit)
+                programs[program_id] = Program(
+                    program_id=program_id,
+                    program_type="OvenMode",
+                    supportedoptions=supported_options_list,
+                    supports_start=can_start,
+                )
+
+    return programs
+
 
 def process_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
     """Build a program list from status."""
@@ -595,38 +666,13 @@ def process_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
                 )
         return programs
 
-    if (spec_status := main_component.get(Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION)) is not None:
+    if main_component.get(Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION) is not None:
         """Build oven programs."""
-        spec_data = cast(dict[str, list[dict[str, Any]]], spec_status[Attribute.SPECIFICATION].value)
-        specification: dict[str, list[dict[str, Any]]] = {}
-        if isinstance(spec_data, list):
-            specification = {"single": spec_data}
-        elif isinstance(spec_data, dict):
-            if any(key in spec_data for key in ["single", "upper", "lower"]):
-                specification = cast(dict[str, list[dict[str, Any]]], spec_data)
-            else:
-                for key, value in spec_data.items():
-                    if isinstance(value, list):
-                        specification[key] = value
-        for cavity_key, mode_list in specification.items():
-            for mode_data in mode_list:
-                if PROGRAM_MODE not in mode_data:
-                    continue
+        programs = _process_oven_programs(status)
 
-                mode_name = mode_data[PROGRAM_MODE]
-                program_id = translate_oven_mode(mode_name, cavity_key)
-                supported_ops = mode_data.get(PROGRAM_SUPPORTED_OPERATIONS, [])
-                can_start = "start" in supported_ops
-                supported_options = mode_data.get(PROGRAM_SUPPORTED_OPTIONS, {})
-                supported_options_list = _parse_oven_options(supported_options)
-                programs[program_id] = Program(
-                    program_id=program_id,
-                    program_type="OvenMode",
-                    supportedoptions=supported_options_list,
-                    supports_start=can_start,
-                )
-
-    elif (predefined := program_capabilities_list.get(Attribute.PREDEFINED_COURSES)) is not None:
+    elif (
+        predefined := program_capabilities_list.get(Attribute.PREDEFINED_COURSES)
+    ) is not None:
         """Build dishwasher programs."""
         course_list = cast(list[dict[str, Any]], predefined.value)
         for course in course_list:
@@ -650,7 +696,9 @@ def process_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
                 supportedoptions=supported_options_list,
             )
 
-    elif (supported := program_capabilities_list.get(Attribute.SUPPORTED_CYCLES)) is not None:
+    elif (
+        supported := program_capabilities_list.get(Attribute.SUPPORTED_CYCLES)
+    ) is not None:
         """Build dryer/washer programs."""
         cycle_list = cast(list[dict[str, Any]], supported.value)
         for cycle in cycle_list:
@@ -676,4 +724,3 @@ def process_programs(status: dict[str, ComponentStatus]) -> dict[str, Program]:
             )
 
     return programs
-

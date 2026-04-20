@@ -25,8 +25,6 @@ from homeassistant.const import (
     UnitOfEnergy,
     UnitOfMass,
     UnitOfPower,
-    UnitOfPressure,
-    UnitOfTemperature,
     UnitOfTime,
     UnitOfVolume,
 )
@@ -44,8 +42,10 @@ from .const import (
     OVEN_JOB_STATE_MAP,
     ROBOT_CLEANER_MOVEMENT_MAP,
     ROBOT_CLEANER_TURBO_MODE_STATE_MAP,
+    UNIT_MAP,
 )
 from .entity import SmartThingsEntity
+from .util import get_temperature_unit
 
 THERMOSTAT_CAPABILITIES = {
     Capability.TEMPERATURE_MEASUREMENT,
@@ -781,9 +781,10 @@ CAPABILITY_TO_SENSORS: dict[
                 options=["ready", "running", "paused"],
                 device_class=SensorDeviceClass.ENUM,
                 capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
-                component_fn=lambda component: component == "cavity-01",
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "oven_machine_state_cavity_01",
+                    "cavity-02": "oven_machine_state_cavity_02",
                 },
             )
         ],
@@ -813,9 +814,10 @@ CAPABILITY_TO_SENSORS: dict[
                 device_class=SensorDeviceClass.ENUM,
                 value_fn=lambda value: OVEN_JOB_STATE_MAP.get(value, value),
                 capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
-                component_fn=lambda component: component == "cavity-01",
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "oven_job_state_cavity_01",
+                    "cavity-02": "oven_job_state_cavity_02",
                 },
             )
         ],
@@ -826,9 +828,10 @@ CAPABILITY_TO_SENSORS: dict[
                 device_class=SensorDeviceClass.TIMESTAMP,
                 value_fn=dt_util.parse_datetime,
                 capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
-                component_fn=lambda component: component == "cavity-01",
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "oven_completion_time_cavity_01",
+                    "cavity-02": "oven_completion_time_cavity_02",
                 },
             )
         ],
@@ -839,9 +842,10 @@ CAPABILITY_TO_SENSORS: dict[
                 native_unit_of_measurement=UnitOfTime.MINUTES,
                 capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
                 exists_program=lambda device: device.programs is None,
-                component_fn=lambda component: component == "cavity-01",
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "oven_operation_time_cavity_01",
+                    "cavity-02": "oven_operation_time_cavity_02",
                 },
             )
         ],
@@ -851,9 +855,10 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="operating_progress",
                 native_unit_of_measurement=PERCENTAGE,
                 capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
-                component_fn=lambda component: component == "cavity-01",
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "oven_operation_progress_cavity_01",
+                    "cavity-02": "oven_operation_progress_cavity_02",
                 },
             )
         ],
@@ -865,9 +870,10 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="oven_operating_state",
                 options=["ready", "running", "paused"],
                 device_class=SensorDeviceClass.ENUM,
-                component_fn=lambda component: component == "cavity-01",
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "oven_operating_state_cavity_01",
+                    "cavity-02": "oven_operating_state_cavity_02",
                 },
             )
         ],
@@ -896,9 +902,10 @@ CAPABILITY_TO_SENSORS: dict[
                 ],
                 device_class=SensorDeviceClass.ENUM,
                 value_fn=lambda value: OVEN_JOB_STATE_MAP.get(value, value),
-                component_fn=lambda component: component == "cavity-01",
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "oven_job_state_cavity_01",
+                    "cavity-02": "oven_job_state_cavity_02",
                 },
             )
         ],
@@ -908,9 +915,10 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="completion_time",
                 device_class=SensorDeviceClass.TIMESTAMP,
                 value_fn=dt_util.parse_datetime,
-                component_fn=lambda component: component == "cavity-01",
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "oven_completion_time_cavity_01",
+                    "cavity-02": "oven_completion_time_cavity_02",
                 },
             )
         ],
@@ -918,9 +926,12 @@ CAPABILITY_TO_SENSORS: dict[
             SmartThingsSensorEntityDescription(
                 key=Attribute.OPERATION_TIME,
                 translation_key="operation_time",
-                component_fn=lambda component: component == "cavity-01",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+                exists_program=lambda device: device.programs is None,
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "oven_operation_time_cavity_01",
+                    "cavity-02": "oven_operation_time_cavity_02",
                 },
             )
         ],
@@ -929,9 +940,10 @@ CAPABILITY_TO_SENSORS: dict[
                 key=Attribute.PROGRESS,
                 translation_key="operating_progress",
                 native_unit_of_measurement=PERCENTAGE,
-                component_fn=lambda component: component == "cavity-01",
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "oven_operation_progress_cavity_01",
+                    "cavity-02": "oven_operation_progress_cavity_02",
                 },
             )
         ],
@@ -943,11 +955,13 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="oven_setpoint",
                 device_class=SensorDeviceClass.TEMPERATURE,
                 use_temperature_unit=True,
+                exists_program=lambda device: device.programs is None,
                 # Set the value to None if it is 0 F (-17 C)
                 value_fn=lambda value: None if value in {-17, 0, 1} else value,
-                component_fn=lambda component: component == "cavity-01",
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "oven_setpoint_cavity_01",
+                    "cavity-02": "oven_setpoint_cavity_02",
                 },
             )
         ]
@@ -1166,10 +1180,11 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="temperature_measurement",
                 device_class=SensorDeviceClass.TEMPERATURE,
                 state_class=SensorStateClass.MEASUREMENT,
-                exists_program=lambda device: device.programs is None,
+                use_temperature_unit=True,
                 component_fn=(
                     lambda component: (
-                        component in {"freezer", "cooler", "onedoor", "cavity-01"}
+                        component
+                        in {"freezer", "cooler", "onedoor", "cavity-01", "cavity-02"}
                     )
                 ),
                 component_translation_key={
@@ -1177,6 +1192,7 @@ CAPABILITY_TO_SENSORS: dict[
                     "cooler": "cooler_temperature",
                     "onedoor": "target_temperature",
                     "cavity-01": "oven_temperature_cavity_01",
+                    "cavity-02": "oven_temperature_cavity_02",
                 },
             )
         ]
@@ -1367,17 +1383,6 @@ CAPABILITY_TO_SENSORS: dict[
 }
 
 
-UNITS = {
-    "C": UnitOfTemperature.CELSIUS,
-    "F": UnitOfTemperature.FAHRENHEIT,
-    "ccf": UnitOfVolume.CENTUM_CUBIC_FEET,
-    "lux": LIGHT_LUX,
-    "mG": None,
-    "μg/m^3": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
-    "kPa": UnitOfPressure.KPA,
-}
-
-
 async def async_setup_entry(
     hass: HomeAssistant,
     entry: SmartThingsConfigEntry,
@@ -1435,8 +1440,6 @@ class SmartThingsSensor(SmartThingsEntity, SensorEntity):
     ) -> None:
         """Init the class."""
         capabilities_to_subscribe = {capability}
-        if entity_description.use_temperature_unit:
-            capabilities_to_subscribe.add(Capability.TEMPERATURE_MEASUREMENT)
         super().__init__(client, device, capabilities_to_subscribe, component=component)
         self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
         self._attribute = attribute
@@ -1462,24 +1465,15 @@ class SmartThingsSensor(SmartThingsEntity, SensorEntity):
     @property
     def native_unit_of_measurement(self) -> str | None:
         """Return the unit this state is expressed in."""
-        cap = (
-            Capability.TEMPERATURE_MEASUREMENT
-            if self.entity_description.use_temperature_unit
-            else self.capability
-        )
-        attr = (
-            Attribute.TEMPERATURE
-            if self.entity_description.use_temperature_unit
-            else self._attribute
-        )
-        cap_state = self._internal_state.get(cap, {})
-        attr_state = cap_state.get(attr)
-        unit = attr_state.unit if attr_state else None
-        return (
-            UNITS.get(unit, unit)
-            if unit
-            else self.entity_description.native_unit_of_measurement
-        )
+        unit = None
+        if self.entity_description.use_temperature_unit:
+            state_attr = self._internal_state[self.capability][self._attribute]
+            unit = getattr(state_attr, "unit", None)
+            if unit is None:
+                unit = get_temperature_unit(self.device.status)
+        if unit:
+            return UNIT_MAP.get(unit)
+        return self.entity_description.native_unit_of_measurement
 
     @property
     def extra_state_attributes(self) -> Mapping[str, Any] | None:

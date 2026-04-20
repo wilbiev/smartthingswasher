@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import StrEnum
-from typing import Any
 
 from mashumaro import field_options
 from mashumaro.mixins.orjson import DataClassORJSONMixin
@@ -68,8 +67,9 @@ class ProgramOptions(DataClassORJSONMixin):
     supportedoption: SupportedOption | str
     raw: str = field(default="", metadata=field_options(alias="raw"))
     default: int | str = field(default="", metadata=field_options(alias="default"))
-    options: list[str] = field(default_factory=list, metadata=field_options(alias="options"))
-    selected_value: Any | None = field(default=None)
+    options: list[str] = field(
+        default_factory=list, metadata=field_options(alias="options")
+    )
     min_value: float | None = field(default=None)
     max_value: float | None = field(default=None)
     step_value: float | None = field(default=None)

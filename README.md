@@ -293,6 +293,7 @@ Please share the information when your dryer/steam closet/washer courses are not
 
 | Name mode                         |
 | --------------------------------- |
+| Air fryer                         |
 | Air sousvide                      |
 | Autocook                          |
 | Bake                              |
@@ -306,11 +307,13 @@ Please share the information when your dryer/steam closet/washer courses are not
 | Convection bake                   |
 | Convection broil                  |
 | Convection roast                  |
+| Convection vegetable              |
 | Conventional                      |
 | Defrost                           |
 | Defrosting                        |
 | Dehydrate                         |
 | Descale                           |
+| Drain                             |
 | Eco convection                    |
 | Fan grill                         |
 | Grill                             |
@@ -334,6 +337,7 @@ Please share the information when your dryer/steam closet/washer courses are not
 | Steam bottom heat plus convection |
 | Steam clean                       |
 | Steam cook                        |
+| Steam proof                       |
 | Steam roast                       |
 | Strong steam                      |
 | Top convection                    |

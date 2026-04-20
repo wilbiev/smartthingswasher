@@ -4,8 +4,6 @@ from pysmartthings import Attribute, Capability, Command
 
 from homeassistant.const import UnitOfTemperature
 
-from .models import SupportedOption
-
 DOMAIN = "smartthings"
 
 SCOPES = [
@@ -32,6 +30,7 @@ REQUESTED_SCOPES = [
 CAVITY_LOWER = "lower"
 CAVITY_SINGLE = "single"
 CAVITY_UPPER = "upper"
+CAVITY_SECOND = "second"
 
 CONF_APP_ID = "app_id"
 CONF_CLOUDHOOK_URL = "cloudhook_url"
@@ -60,6 +59,7 @@ PROGRAM_OPTION_MIN = "min"
 PROGRAM_OPTION_MAX = "max"
 PROGRAM_OPTION_STEP = "resolution"
 
+
 CAPABILITIES_WITH_PROGRAMS: dict[Capability, Attribute] = {
     Capability.SAMSUNG_CE_DRYER_CYCLE: Attribute.DRYER_CYCLE,
     Capability.SAMSUNG_CE_STEAM_CLOSET_CYCLE: Attribute.STEAM_CLOSET_CYCLE,
@@ -81,17 +81,6 @@ CAPABILITY_COMMANDS: dict[Capability, Command] = {
     Capability.SAMSUNG_CE_STEAM_CLOSET_CYCLE: Command.SET_STEAM_CLOSET_CYCLE,
     Capability.SAMSUNG_CE_WASHER_CYCLE: Command.SET_WASHER_CYCLE,
     Capability.SAMSUNG_CE_DISHWASHER_WASHING_COURSE: Command.SET_WASHING_COURSE,
-}
-
-OVEN_LIVE_SYNC_MAP = {
-    SupportedOption.TEMPERATURE: (
-        Capability.TEMPERATURE_MEASUREMENT,
-        Attribute.TEMPERATURE,
-    ),
-    SupportedOption.OPERATION_TIME: (
-        Capability.OVEN_OPERATING_STATE,
-        Attribute.OPERATION_TIME,
-    ),
 }
 
 UNIT_MAP = {"C": UnitOfTemperature.CELSIUS, "F": UnitOfTemperature.FAHRENHEIT}
@@ -340,10 +329,10 @@ OVEN_MODE_TO_HA = {
     "Broil": "broil",
     "CleanAirPyro": "clean_air_pyro",
     "Convection": "convection",
-    "ConvectionBake": "convection_bake",
-    "ConvectionRoast": "convection_roast",
     "Conventional": "conventional",
+    "ConvectionBake": "convection_bake",
     "ConvectionBroil": "convection_broil",
+    "ConvectionRoast": "convection_roast",
     "Defrost": "defrost",
     "defrosting": "defrosting",
     "Dehydrate": "dehydrate",
@@ -376,6 +365,10 @@ OVEN_MODE_TO_HA = {
     "TopConvection": "top_convection",
     "TopHeatPluseConvection": "top_heat_plus_convection",
     "warming": "warming",
+    "AirFryer": "airfryer",
+    "ConvectionVegetable": "convection_vegetable",
+    "SteamProof": "steam_proof",
+    "Drain": "drain",
 }
 
 HEALTH_CONCERN = {

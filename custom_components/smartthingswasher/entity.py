@@ -45,7 +45,9 @@ class SmartThingsEntity(Entity):
         self._internal_state: ComponentStatus = {}
         for capability in capabilities:
             if capability in device.status[self.component]:
-                self._internal_state[capability] = device.status[self.component][capability]
+                self._internal_state[capability] = device.status[self.component][
+                    capability
+                ]
             else:
                 for component_status in device.status.values():
                     if capability in component_status:
@@ -96,7 +98,7 @@ class SmartThingsEntity(Entity):
         """Test if device supports a capability."""
         return capability in self.device.status[self.component]
 
-    def get_attribute_value(self, capability: Capability, attribute: Attribute, component: str | None = None) -> Any:
+    def get_attribute_value(self, capability: Capability, attribute: Attribute) -> Any:
         """Get the value of a device attribute."""
         try:
             return self._internal_state[capability][attribute].value

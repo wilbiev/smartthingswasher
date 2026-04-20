@@ -16,8 +16,7 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from . import FullDevice, SmartThingsConfigEntry
 from .const import MAIN
 from .entity import SmartThingsEntity
-from .models import SupportedOption
-from .util import get_current_cavity_id, translate_oven_mode
+from .util import get_current_cavity_id, time_to_minutes, translate_oven_mode
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -131,9 +130,10 @@ CAPABILITY_TO_BUTTONS: dict[
                 key=Command.START,
                 translation_key="state_start",
                 capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
-                component_fn=lambda component: component == "cavity-01",
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "state_start_cavity_01",
+                    "cavity-02": "state_start_cavity_02",
                 },
             ),
         ],
@@ -142,9 +142,10 @@ CAPABILITY_TO_BUTTONS: dict[
                 key=Command.STOP,
                 translation_key="state_stop",
                 capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
-                component_fn=lambda component: component == "cavity-01",
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "state_stop_cavity_01",
+                    "cavity-02": "state_stop_cavity_02",
                 },
             ),
         ],
@@ -158,10 +159,13 @@ CAPABILITY_TO_BUTTONS: dict[
                     Capability.CUSTOM_OVEN_CAVITY_STATUS,
                     Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION,
                     Capability.SAMSUNG_CE_OVEN_MODE,
+                    Capability.OVEN_SETPOINT,
+                    Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
                 ],
-                component_fn=lambda component: component == "cavity-01",
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "state_start_cavity_01",
+                    "cavity-02": "state_start_cavity_02",
                 },
             ),
         ],
@@ -169,9 +173,10 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Command.STOP,
                 translation_key="state_stop",
-                component_fn=lambda component: component == "cavity-01",
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "state_stop_cavity_01",
+                    "cavity-02": "state_stop_cavity_02",
                 },
             ),
         ],
@@ -179,9 +184,10 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Command.PAUSE,
                 translation_key="state_pause",
-                component_fn=lambda component: component == "cavity-01",
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "state_pause_cavity_01",
+                    "cavity-02": "state_pause_cavity_02",
                 },
             ),
         ],
@@ -295,10 +301,25 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
             current_mode = self.get_attribute_value(
                 Capability.SAMSUNG_CE_OVEN_MODE,
                 Attribute.OVEN_MODE,
-                component=self.component,
             )
             if not current_mode:
                 raise ServiceValidationError("No active oven mode found")
+            current_temp = self.get_attribute_value(
+                Capability.OVEN_SETPOINT,
+                Attribute.OVEN_SETPOINT,
+            )
+            if not current_temp or int(current_temp) == 0:
+                raise ServiceValidationError(
+                    "Cannot start oven session with temperature 0"
+                )
+            current_time = self.get_attribute_value(
+                Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
+                Attribute.OPERATION_TIME,
+            )
+            if not current_time or time_to_minutes(current_time) == 0:
+                raise ServiceValidationError(
+                    "Cannot start oven session with operation time 0"
+                )
             lookup_id = translate_oven_mode(current_mode, cavity_key)
             program = self.device.programs.get(lookup_id)
             if not program:
@@ -308,28 +329,6 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
                 raise ServiceValidationError(
                     f"Start is not available for {current_mode}"
                 )
-
-            time_opt = program.supportedoptions.get(SupportedOption.OPERATION_TIME)
-            temp_opt = program.supportedoptions.get(SupportedOption.TEMPERATURE)
-            if not temp_opt or not time_opt:
-                raise ServiceValidationError(f"Missing options for {lookup_id}")
-
-            time = int((time_opt.selected_value or 0) * 60)
-            if time == 0:
-                raise ServiceValidationError(
-                    "Cannot start oven session with operation time 0"
-                )
-            temp = int(temp_opt.selected_value or 0)
-            if temp == 0:
-                raise ServiceValidationError(
-                    "Cannot start oven session with temperature 0"
-                )
-
-            argument = {
-                "mode": current_mode,
-                "operationTime": time,
-                "ovenTemperature": temp,
-            }
         elif self.entity_description.key == "time_sync":
             current_time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
             argument = [

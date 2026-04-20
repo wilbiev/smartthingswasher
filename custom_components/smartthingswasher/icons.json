@@ -93,10 +93,16 @@
       "state_pause_cavity_01": {
         "default": "mdi:pause-circle"
       },
+      "state_pause_cavity_02": {
+        "default": "mdi:pause-circle"
+      },
       "state_start": {
         "default": "mdi:play-circle"
       },
       "state_start_cavity_01": {
+        "default": "mdi:play-circle"
+      },
+      "state_start_cavity_02": {
         "default": "mdi:play-circle"
       },
       "state_start_later": {
@@ -106,6 +112,9 @@
         "default": "mdi:stop-circle"
       },
       "state_stop_cavity_01": {
+        "default": "mdi:stop-circle"
+      },
+      "state_stop_cavity_02": {
         "default": "mdi:stop-circle"
       },
       "time_sync": {
@@ -158,10 +167,16 @@
       "oven_operation_time_cavity_01": {
         "default": "mdi:timer-sand"
       },
+      "oven_operation_time_cavity_02": {
+        "default": "mdi:timer-sand"
+      },
       "oven_temperature": {
         "default": "mdi:thermometer"
       },
       "oven_temperature_cavity_01": {
+        "default": "mdi:thermometer"
+      },
+      "oven_temperature_cavity_02": {
         "default": "mdi:thermometer"
       },
       "target_temperature": {
@@ -302,9 +317,12 @@
         "default": "mdi:state-machine"
       },
       "operation_time": {
-        "default": "mdi:clock"
+        "default": "mdi:timer-sand"
       },
       "oven_completion_time_cavity_01": {
+        "default": "mdi:clock-end"
+      },
+      "oven_completion_time_cavity_02": {
         "default": "mdi:clock-end"
       },
       "oven_machine_state": {
@@ -316,6 +334,14 @@
         }
       },
       "oven_machine_state_cavity_01": {
+        "default": "mdi:play-speed",
+        "state": {
+          "ready": "mdi:check-bold",
+          "running": "mdi:play",
+          "paused": "mdi:pause"
+        }
+      },
+      "oven_machine_state_cavity_02": {
         "default": "mdi:play-speed",
         "state": {
           "ready": "mdi:check-bold",
@@ -339,8 +365,25 @@
           "paused": "mdi:pause"
         }
       },
+      "oven_operating_state_cavity_02": {
+        "default": "mdi:play-speed",
+        "state": {
+          "ready": "mdi:check-bold",
+          "running": "mdi:play",
+          "paused": "mdi:pause"
+        }
+      },
       "oven_operation_progress_cavity_01": {
         "default": "mdi:progress-clock"
+      },
+      "oven_operation_progress_cavity_02": {
+        "default": "mdi:progress-clock"
+      },
+      "oven_operation_time_cavity_01": {
+        "default": "mdi:timer-sand"
+      },
+      "oven_operation_time_cavity_02": {
+        "default": "mdi:timer-sand"
       },
       "oven_setpoint": {
         "default": "mdi:thermometer-lines"
@@ -348,7 +391,13 @@
       "oven_setpoint_cavity_01": {
         "default": "mdi:thermometer-lines"
       },
+      "oven_setpoint_cavity_02": {
+        "default": "mdi:thermometer-lines"
+      },
       "oven_temperature_cavity_01": {
+        "default": "mdi:thermometer"
+      },
+      "oven_temperature_cavity_02": {
         "default": "mdi:thermometer"
       },
       "remaining_amount_dispense_detergent": {
