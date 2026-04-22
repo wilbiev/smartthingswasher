@@ -536,8 +536,6 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
             command_value = self.entity_description.action_fn(value)
         elif self._number is STType.INTEGER:
             command_value = int(value)
-        elif self._number is STType.FLOAT:
-            command_value = str(value)
         else:
             command_value = str(int(value))
 

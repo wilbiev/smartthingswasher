@@ -17,7 +17,7 @@ from . import FullDevice, SmartThingsConfigEntry
 from .const import MAIN
 from .entity import SmartThingsEntity
 from .models import SupportedOption
-from .util import get_current_cavity_id, time_to_minutes, translate_oven_mode
+from .util import get_current_cavity_id, translate_oven_mode
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -326,30 +326,34 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
                     current_temp = int(temp_opt.default)
                 else:
                     current_temp = 175
-            current_time_raw = self.get_attribute_value(
+            operation_time = self.get_attribute_value(
                 Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
                 Attribute.OPERATION_TIME,
                 component=self.component,
             )
-            if not current_time_raw or current_time_raw in {0, "00:00:00"}:
+            if not operation_time or operation_time in {0, "00:00:00"}:
                 if program and (
                     time_opt := program.supportedoptions.get(
                         SupportedOption.OPERATION_TIME
                     )
                 ):
-                    current_time_minutes = time_opt.default
+                    operation_time = f"{int(time_opt.default) // 60:02d}:{int(time_opt.default) % 60:02d}:00"
                 else:
-                    current_time_minutes = 60
-            else:
-                current_time_minutes = time_to_minutes(current_time_raw)
+                    operation_time = "01:00:00"
             await self.execute_device_command(
-                Capability.OVEN_SETPOINT, Command.SET_OVEN_SETPOINT, [int(current_temp)]
+                Capability.SAMSUNG_CE_OVEN_MODE,
+                Command.SET_OVEN_MODE,
+                current_mode,
             )
-            calc_time_seconds = int(current_time_minutes * 60)
+            await self.execute_device_command(
+                Capability.OVEN_SETPOINT,
+                Command.SET_OVEN_SETPOINT,
+                current_temp,
+            )
             await self.execute_device_command(
                 Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
                 Command.SET_OPERATION_TIME,
-                [calc_time_seconds],
+                operation_time,
             )
         elif self.entity_description.key == "time_sync":
             current_time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")

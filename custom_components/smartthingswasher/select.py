@@ -566,9 +566,6 @@ async def async_setup_entry(
     program_entities: list[str] = [
         select_entity.entity_id for select_entity in program_select_entities
     ]
-    program_entities += [
-        select_entity.entity_id for select_entity in oven_select_entities
-    ]
 
     @callback
     def select_state_listener(event: Event[EventStateChangedData]) -> None:
@@ -578,7 +575,7 @@ async def async_setup_entry(
         if new_state is None:
             return
 
-        all_program_entities = program_select_entities + oven_select_entities
+        all_program_entities = program_select_entities
         source_device_id = next(
             (
                 ent.device.device.device_id
@@ -618,14 +615,6 @@ async def async_setup_entry(
                     )
                 ) is not None:
                     select_entity.update_select_options(options)
-
-        for select_entity in oven_select_entities:
-            if select_entity.device.device.device_id == source_device_id:
-                select_entity.async_write_ha_state()
-
-        async_dispatcher_send(
-            hass, f"smartthings_oven_mode_changed_{source_device_id}", new_state.state
-        )
 
     async_track_state_change_event(hass, program_entities, select_state_listener)
 
@@ -1002,7 +991,6 @@ class SmartThingsOvenModeSelect(SmartThingsEntity, SelectEntity):
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
-
         if self.command is not None:
             await self.execute_device_command(
                 self.capability,
@@ -1010,9 +998,10 @@ class SmartThingsOvenModeSelect(SmartThingsEntity, SelectEntity):
                 command_oven_mode(option),
             )
 
+        self.async_write_ha_state()
+
         async_dispatcher_send(
             self.hass,
             f"smartthings_oven_mode_changed_{self.device.device.device_id}",
             option,
         )
-        self.async_write_ha_state()
