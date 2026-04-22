@@ -16,7 +16,8 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from . import FullDevice, SmartThingsConfigEntry
 from .const import MAIN
 from .entity import SmartThingsEntity
-from .util import get_current_cavity_id, time_to_minutes, translate_oven_mode
+from .models import SupportedOption
+from .util import get_current_cavity_id, translate_oven_mode
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -301,34 +302,59 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
             current_mode = self.get_attribute_value(
                 Capability.SAMSUNG_CE_OVEN_MODE,
                 Attribute.OVEN_MODE,
+                component=self.component,
             )
             if not current_mode:
                 raise ServiceValidationError("No active oven mode found")
-            current_temp = self.get_attribute_value(
-                Capability.OVEN_SETPOINT,
-                Attribute.OVEN_SETPOINT,
-            )
-            if not current_temp or int(current_temp) == 0:
-                raise ServiceValidationError(
-                    "Cannot start oven session with temperature 0"
-                )
-            current_time = self.get_attribute_value(
-                Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
-                Attribute.OPERATION_TIME,
-            )
-            if not current_time or time_to_minutes(current_time) == 0:
-                raise ServiceValidationError(
-                    "Cannot start oven session with operation time 0"
-                )
             lookup_id = translate_oven_mode(current_mode, cavity_key)
             program = self.device.programs.get(lookup_id)
-            if not program:
-                raise ServiceValidationError(f"No program {lookup_id} found in model")
-
-            if not program.supports_start:
+            if program and not program.supports_start:
                 raise ServiceValidationError(
                     f"Start is not available for {current_mode}"
                 )
+            current_temp = self.get_attribute_value(
+                Capability.OVEN_SETPOINT,
+                Attribute.OVEN_SETPOINT,
+                component=self.component,
+            )
+            if not current_temp or current_temp == 0:
+                if program and (
+                    temp_opt := program.supportedoptions.get(
+                        SupportedOption.TEMPERATURE
+                    )
+                ):
+                    current_temp = int(temp_opt.default)
+                else:
+                    current_temp = 175
+            operation_time = self.get_attribute_value(
+                Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
+                Attribute.OPERATION_TIME,
+                component=self.component,
+            )
+            if not operation_time or operation_time in {0, "00:00:00"}:
+                if program and (
+                    time_opt := program.supportedoptions.get(
+                        SupportedOption.OPERATION_TIME
+                    )
+                ):
+                    operation_time = f"{int(time_opt.default) // 60:02d}:{int(time_opt.default) % 60:02d}:00"
+                else:
+                    operation_time = "01:00:00"
+            await self.execute_device_command(
+                Capability.SAMSUNG_CE_OVEN_MODE,
+                Command.SET_OVEN_MODE,
+                current_mode,
+            )
+            await self.execute_device_command(
+                Capability.OVEN_SETPOINT,
+                Command.SET_OVEN_SETPOINT,
+                current_temp,
+            )
+            await self.execute_device_command(
+                Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
+                Command.SET_OPERATION_TIME,
+                operation_time,
+            )
         elif self.entity_description.key == "time_sync":
             current_time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
             argument = [

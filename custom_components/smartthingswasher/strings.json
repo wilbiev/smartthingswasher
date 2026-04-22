@@ -630,7 +630,8 @@
           "airfryer": "Air fryer",
           "convection_vegetable": "Convection vegetable",
           "steam_proof": "Steam proof",
-          "drain": "Drain"
+          "drain": "Drain",
+          "no_operation": "No operation"
         }
       },
       "oven_mode_cavity_01": {
@@ -685,7 +686,8 @@
           "airfryer": "[%key:component::smartthingswasher::entity::select::oven_mode::state::airfryer%]",
           "convection_vegetable": "[%key:component::smartthingswasher::entity::select::oven_mode::state::convection_vegetable%]",
           "steam_proof": "[%key:component::smartthingswasher::entity::select::oven_mode::state::steam_proof%]",
-          "drain": "[%key:component::smartthingswasher::entity::select::oven_mode::state::drain%]"
+          "drain": "[%key:component::smartthingswasher::entity::select::oven_mode::state::drain%]",
+          "no_operation": "[%key:component::smartthingswasher::entity::select::oven_mode::state::no_operation%]"
         }
       },
       "oven_mode_cavity_02": {
@@ -740,7 +742,8 @@
           "airfryer": "[%key:component::smartthingswasher::entity::select::oven_mode::state::airfryer%]",
           "convection_vegetable": "[%key:component::smartthingswasher::entity::select::oven_mode::state::convection_vegetable%]",
           "steam_proof": "[%key:component::smartthingswasher::entity::select::oven_mode::state::steam_proof%]",
-          "drain": "[%key:component::smartthingswasher::entity::select::oven_mode::state::drain%]"
+          "drain": "[%key:component::smartthingswasher::entity::select::oven_mode::state::drain%]",
+          "no_operation": "[%key:component::smartthingswasher::entity::select::oven_mode::state::no_operation%]"
         }
       },
       "robot_cleaner_cleaning_type": {

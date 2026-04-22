@@ -465,7 +465,9 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
             return None
         cavity_key = get_current_cavity_id(self.device.status, self.component)
         current_mode = self.get_attribute_value(
-            Capability.SAMSUNG_CE_OVEN_MODE, Attribute.OVEN_MODE
+            Capability.SAMSUNG_CE_OVEN_MODE,
+            Attribute.OVEN_MODE,
+            component=self.component,
         )
         if not current_mode:
             return None
@@ -534,8 +536,6 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
             command_value = self.entity_description.action_fn(value)
         elif self._number is STType.INTEGER:
             command_value = int(value)
-        elif self._number is STType.FLOAT:
-            command_value = str(value)
         else:
             command_value = str(int(value))
 

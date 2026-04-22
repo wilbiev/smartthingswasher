@@ -369,6 +369,7 @@ OVEN_MODE_TO_HA = {
     "ConvectionVegetable": "convection_vegetable",
     "SteamProof": "steam_proof",
     "Drain": "drain",
+    "NoOperation": "no_operation",
 }
 
 HEALTH_CONCERN = {

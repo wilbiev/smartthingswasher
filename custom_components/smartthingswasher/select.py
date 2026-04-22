@@ -25,7 +25,6 @@ from .const import (
     DRIVING_MODE_TO_HA,
     LAMP_TO_HA,
     MAIN,
-    OVEN_MODE_TO_HA,
     SOUND_MODE_TO_HA,
     WASHER_SOIL_LEVEL_TO_HA,
     WASHER_SPIN_LEVEL_TO_HA,
@@ -40,6 +39,7 @@ from .util import (
     get_current_cavity_id,
     get_program_options,
     get_program_table_id,
+    translate_oven_mode,
     translate_program_course,
 )
 
@@ -432,7 +432,6 @@ OVEN_MODES_TO_SELECTS: dict[
                 entity_category=EntityCategory.CONFIG,
                 options_attribute=Attribute.SUPPORTED_OVEN_MODES,
                 command=Command.SET_OVEN_MODE,
-                options_map=OVEN_MODE_TO_HA,
                 capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_MODE}],
                 component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
@@ -450,7 +449,6 @@ OVEN_MODES_TO_SELECTS: dict[
                 entity_category=EntityCategory.CONFIG,
                 options_attribute=Attribute.SUPPORTED_OVEN_MODES,
                 command=Command.SET_OVEN_MODE,
-                options_map=OVEN_MODE_TO_HA,
                 component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "oven_mode_cavity_01",
@@ -568,9 +566,6 @@ async def async_setup_entry(
     program_entities: list[str] = [
         select_entity.entity_id for select_entity in program_select_entities
     ]
-    program_entities += [
-        select_entity.entity_id for select_entity in oven_select_entities
-    ]
 
     @callback
     def select_state_listener(event: Event[EventStateChangedData]) -> None:
@@ -580,7 +575,7 @@ async def async_setup_entry(
         if new_state is None:
             return
 
-        all_program_entities = program_select_entities + oven_select_entities
+        all_program_entities = program_select_entities
         source_device_id = next(
             (
                 ent.device.device.device_id
@@ -620,14 +615,6 @@ async def async_setup_entry(
                     )
                 ) is not None:
                     select_entity.update_select_options(options)
-
-        for select_entity in oven_select_entities:
-            if select_entity.device.device.device_id == source_device_id:
-                select_entity.async_write_ha_state()
-
-        async_dispatcher_send(
-            hass, f"smartthings_oven_mode_changed_{source_device_id}", new_state.state
-        )
 
     async_track_state_change_event(hass, program_entities, select_state_listener)
 
@@ -972,16 +959,13 @@ class SmartThingsOvenModeSelect(SmartThingsEntity, SelectEntity):
         if self.entity_description.options_attribute:
             options: list[str] = (
                 self.get_attribute_value(
-                    self.capability, self.entity_description.options_attribute
+                    self.capability,
+                    self.entity_description.options_attribute,
+                    component=self.component,
                 )
                 or []
             )
-            if self.entity_description.options_map:
-                options = [
-                    self.entity_description.options_map.get(option, option)
-                    for option in options
-                ]
-            return options
+            return [translate_oven_mode(option) for option in options]
 
         cavity_key = get_current_cavity_id(self.device.status, self.component)
         return [
@@ -993,29 +977,31 @@ class SmartThingsOvenModeSelect(SmartThingsEntity, SelectEntity):
     @property
     def current_option(self) -> str | None:
         """Return the selected entity option to represent the entity state."""
-        raw_value = self.get_attribute_value(self.capability, self._attribute)
+        raw_value = self.get_attribute_value(
+            self.capability, self._attribute, component=self.component
+        )
         if raw_value is None:
             return None
 
-        if self.entity_description.options_map:
-            return self.entity_description.options_map.get(
-                str(raw_value), str(raw_value)
-            )
+        value = translate_oven_mode(raw_value)
+        if value not in self.options:
+            return None
 
-        return str(raw_value)
+        return value
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
-
-        async_dispatcher_send(
-            self.hass,
-            f"smartthings_oven_mode_changed_{self.device.device.device_id}",
-            option,
-        )
-
         if self.command is not None:
             await self.execute_device_command(
                 self.capability,
                 self.command,
                 command_oven_mode(option),
             )
+
+        self.async_write_ha_state()
+
+        async_dispatcher_send(
+            self.hass,
+            f"smartthings_oven_mode_changed_{self.device.device.device_id}",
+            option,
+        )
