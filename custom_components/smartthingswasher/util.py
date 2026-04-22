@@ -57,7 +57,7 @@ def command_program_course(program_course: str) -> str:
     return program_course
 
 
-def translate_oven_mode(oven_mode: str | None, cavity: str) -> str:
+def translate_oven_mode(oven_mode: str | None, cavity: str | None = None) -> str:
     """Convert an oven mode key to a translation key format (e.g. oven_mode_xx)."""
 
     if not oven_mode:
@@ -68,6 +68,8 @@ def translate_oven_mode(oven_mode: str | None, cavity: str) -> str:
         mode = OVEN_MODE_TO_HA[oven_mode]
     elif "_" not in oven_mode and len(oven_mode) > 2:
         mode = re.sub(r"(?<!^)(?=[A-Z])", "_", oven_mode).lower()
+    if not cavity:
+        return mode
 
     return f"{cavity}_{mode}"
 

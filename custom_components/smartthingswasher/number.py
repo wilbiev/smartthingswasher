@@ -465,7 +465,9 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
             return None
         cavity_key = get_current_cavity_id(self.device.status, self.component)
         current_mode = self.get_attribute_value(
-            Capability.SAMSUNG_CE_OVEN_MODE, Attribute.OVEN_MODE
+            Capability.SAMSUNG_CE_OVEN_MODE,
+            Attribute.OVEN_MODE,
+            component=self.component,
         )
         if not current_mode:
             return None
