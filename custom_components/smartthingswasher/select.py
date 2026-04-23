@@ -983,11 +983,7 @@ class SmartThingsOvenModeSelect(SmartThingsEntity, SelectEntity):
         if raw_value is None:
             return None
 
-        value = translate_oven_mode(raw_value)
-        if value not in self.options:
-            return None
-
-        return value
+        return translate_oven_mode(raw_value)
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
