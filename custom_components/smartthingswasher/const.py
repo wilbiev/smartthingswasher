@@ -4,7 +4,7 @@ from pysmartthings import Attribute, Capability, Command
 
 from homeassistant.const import UnitOfTemperature
 
-DOMAIN = "smartthings"
+DOMAIN = "smartthingswasher"
 
 SCOPES = [
     "r:devices:*",

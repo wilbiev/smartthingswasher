@@ -1,6 +1,7 @@
 {
-  "domain": "smartthings",
+  "domain": "smartthingswasher",
   "name": "SmartThings",
+  "issue_tracker": "https://github.com/wilbiev/smartthingswasher/issues",
   "codeowners": ["@joostlek", "@wilbiev"],
   "config_flow": true,
   "dependencies": ["application_credentials"],
