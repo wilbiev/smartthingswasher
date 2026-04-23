@@ -642,6 +642,7 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description
+        self._attr_current_option = None
         self.command = self.entity_description.command
         if self.entity_description.component_translation_key and component != MAIN:
             self._attr_translation_key = (
@@ -673,10 +674,7 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         """Return the current option."""
         raw_value = self.get_attribute_value(self.capability, self._attribute)
         new_value = str(raw_value) if raw_value else None
-        if (
-            hasattr(self, "_attr_current_option")
-            and self._attr_current_option is not None
-        ):
+        if self._attr_current_option is not None:
             if new_value == self._attr_current_option:
                 self._attr_current_option = None
             else:
@@ -750,6 +748,7 @@ class SmartThingsDishwasherOptionSelect(SmartThingsEntity, SelectEntity):
         self.capability = capability
         self.entity_description = entity_description
         self._attr_options = []
+        self._attr_current_option = None
         self.command = self.entity_description.command
 
     @property
@@ -780,10 +779,7 @@ class SmartThingsDishwasherOptionSelect(SmartThingsEntity, SelectEntity):
             new_value = str(raw_status["value"])
         else:
             new_value = str(raw_status) if raw_status else None
-        if (
-            hasattr(self, "_attr_current_option")
-            and self._attr_current_option is not None
-        ):
+        if self._attr_current_option is not None:
             if new_value == self._attr_current_option:
                 self._attr_current_option = None
             else:
@@ -879,6 +875,7 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
         self.capability = capability
         self.entity_description = entity_description
         self._attr_options = []
+        self._attr_current_option = None
         self.command = self.entity_description.command
         if (table_id := get_program_table_id(device.status)) != "":
             self._attr_translation_key = (
@@ -903,10 +900,14 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
     def current_option(self) -> str | None:
         """Return the selected entity option to represent the entity state."""
         raw_value = self.get_attribute_value(self.capability, self._attribute)
-        if raw_value is None:
-            return None
+        value = translate_program_course(raw_value) if raw_value is not None else None
 
-        value = translate_program_course(raw_value)
+        if self._attr_current_option is not None:
+            if value == self._attr_current_option:
+                self._attr_current_option = None
+            else:
+                value = self._attr_current_option
+
         if value not in self.options:
             return None
 
@@ -914,12 +915,19 @@ class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
-        if self.command is not None:
-            await self.execute_device_command(
-                self.capability,
-                self.command,
-                command_program_course(option),
-            )
+        self._attr_current_option = option
+        try:
+            if self.command is not None:
+                await self.execute_device_command(
+                    self.capability,
+                    self.command,
+                    command_program_course(option),
+                )
+        except Exception:
+            self._attr_current_option = None
+            raise
+
+        self.async_write_ha_state()
 
 
 class SmartThingsOvenModeSelect(SmartThingsEntity, SelectEntity):
@@ -947,6 +955,7 @@ class SmartThingsOvenModeSelect(SmartThingsEntity, SelectEntity):
         self.capability = capability
         self.entity_description = entity_description
         self._attr_options = []
+        self._attr_current_option = None
         self.command = self.entity_description.command
         if self.entity_description.component_translation_key and component != MAIN:
             self._attr_translation_key = (
@@ -980,10 +989,14 @@ class SmartThingsOvenModeSelect(SmartThingsEntity, SelectEntity):
         raw_value = self.get_attribute_value(
             self.capability, self._attribute, component=self.component
         )
-        if raw_value is None:
-            return None
+        value = translate_oven_mode(raw_value) if raw_value is not None else None
 
-        value = translate_oven_mode(raw_value)
+        if self._attr_current_option is not None:
+            if value == self._attr_current_option:
+                self._attr_current_option = None
+            else:
+                value = self._attr_current_option
+
         if value not in self.options:
             return None
 
@@ -991,12 +1004,17 @@ class SmartThingsOvenModeSelect(SmartThingsEntity, SelectEntity):
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
-        if self.command is not None:
-            await self.execute_device_command(
-                self.capability,
-                self.command,
-                command_oven_mode(option),
-            )
+        self._attr_current_option = option
+        try:
+            if self.command is not None:
+                await self.execute_device_command(
+                    self.capability,
+                    self.command,
+                    command_oven_mode(option),
+                )
+        except Exception:
+            self._attr_current_option = None
+            raise
 
         self.async_write_ha_state()
 
