@@ -1,10 +1,14 @@
 {
   "domain": "smartthingswasher",
   "name": "SmartThings",
-  "issue_tracker": "https://github.com/wilbiev/smartthingswasher/issues",
-  "codeowners": ["@joostlek", "@wilbiev"],
+  "codeowners": [
+    "@joostlek",
+    "@wilbiev"
+  ],
   "config_flow": true,
-  "dependencies": ["application_credentials"],
+  "dependencies": [
+    "application_credentials"
+  ],
   "dhcp": [
     {
       "hostname": "st*",
@@ -29,7 +33,12 @@
   ],
   "documentation": "https://github.com/wilbiev/smartthingswasher/blob/main/README.md",
   "iot_class": "cloud_push",
-  "loggers": ["pysmartthings"],
-  "requirements": ["pysmartthings==3.7.3"],
+  "issue_tracker": "https://github.com/wilbiev/smartthingswasher/issues",
+  "loggers": [
+    "pysmartthings"
+  ],
+  "requirements": [
+    "pysmartthings==3.7.3"
+  ],
   "version": "2026.3.6"
 }
