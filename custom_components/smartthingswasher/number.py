@@ -446,6 +446,7 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
         self.entity_description = entity_description
         self.command = self.entity_description.command
         self._number = self.entity_description.int_type
+        self._predicted_mode = None
         if (
             self.entity_description.component_translation_key
             and component in self.entity_description.component_translation_key
@@ -463,15 +464,25 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
         """Helper to find the ProgramOptions for the current mode."""
         if self.device.programs is None:
             return None
-        cavity_key = get_current_cavity_id(self.device.status, self.component)
+
         current_mode = self.get_attribute_value(
             Capability.SAMSUNG_CE_OVEN_MODE,
             Attribute.OVEN_MODE,
             component=self.component,
         )
-        if not current_mode:
+        cavity_key = get_current_cavity_id(self.device.status, self.component)
+        if self._predicted_mode:
+            lookup_id = f"{cavity_key}_{self._predicted_mode}"
+            # Reset predicted mode when API status matches
+            if current_mode and self._predicted_mode == translate_oven_mode(
+                current_mode
+            ):
+                self._predicted_mode = None
+        elif not current_mode:
             return None
-        lookup_id = translate_oven_mode(current_mode, cavity_key)
+        else:
+            lookup_id = translate_oven_mode(current_mode, cavity_key)
+
         if program := self.device.programs.get(lookup_id):
             if (
                 self.entity_description.supported_option
@@ -551,6 +562,7 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
         @callback
         def update_state(new_mode: str) -> None:
             """Update the entity when the oven mode changes."""
+            self._predicted_mode = new_mode
             self.async_write_ha_state()
 
         self.async_on_remove(
