@@ -79,7 +79,7 @@ from .const import (
     PROGRAM_SUPPORTED_OPERATIONS,
     PROGRAM_SUPPORTED_OPTIONS,
 )
-from .models import Program, ProgramOptions, SupportedOption
+from .models import CavityMode, CavityType, Program, ProgramOptions, SupportedOption
 from .util import (
     get_temperature_unit,
     time_to_minutes,
@@ -112,6 +112,7 @@ class FullDevice:
     device: Device
     status: dict[str, ComponentStatus]
     programs: dict[str, Program]
+    modes: dict[CavityType | str, CavityMode]
     online: bool
 
 
@@ -242,16 +243,19 @@ async def async_setup_entry(hass: HomeAssistant, entry: SmartThingsConfigEntry) 
                     device=device,
                     status={},
                     programs={},
+                    modes={},
                     online=True,
                 )
                 continue
             status = process_status(await client.get_device_status(device.device_id))
             programs = process_programs(status)
+            oven_modes = set_oven_modes()
             online = await client.get_device_health(device.device_id)
             device_status[device.device_id] = FullDevice(
                 device=device,
                 status=status,
                 programs=programs,
+                modes=oven_modes,
                 online=online.state == HealthStatus.ONLINE,
             )
     except SmartThingsAuthenticationFailedError as err:
@@ -535,6 +539,19 @@ def process_component_status(status: ComponentStatus) -> None:
                     del status[capability]
 
 
+def set_oven_modes() -> dict[CavityType | str, CavityMode]:
+    """Set oven modes based on cavity type."""
+    return {
+        cavity: CavityMode(cavity_id=cavity, active_mode="no_operation")
+        for cavity in [
+            CavityType.SINGLE,
+            CavityType.UPPER,
+            CavityType.LOWER,
+            CavityType.SECOND,
+        ]
+    }
+
+
 def _parse_oven_options(
     supported_options: dict[str, Any], unit: str
 ) -> dict[str, ProgramOptions]:
@@ -561,6 +578,7 @@ def _parse_oven_options(
                 supportedoption=SupportedOption.TEMPERATURE,
                 default=default_val,
                 options=[],
+                selected_value=default_val,
                 min_value=min_val,
                 max_value=max_val,
                 step_value=float(temp_data.get(PROGRAM_OPTION_STEP, 5)),
@@ -575,6 +593,9 @@ def _parse_oven_options(
                     time_data.get(PROGRAM_OPTION_DEFAULT, "01:00:00")
                 ),
                 options=[],
+                selected_value=time_to_minutes(
+                    time_data.get(PROGRAM_OPTION_DEFAULT, "01:00:00")
+                ),
                 min_value=float(
                     time_to_minutes(time_data.get(PROGRAM_OPTION_MIN, "00:01:00"))
                 ),
@@ -634,6 +655,13 @@ def _process_oven_programs(status: dict[str, ComponentStatus]) -> dict[str, Prog
                     program_type="OvenMode",
                     supportedoptions=supported_options_list,
                     supports_start=can_start,
+                )
+            if f"{cavity_key}_no_operation" not in programs:
+                programs[f"{cavity_key}_no_operation"] = Program(
+                    program_id=f"{cavity_key}_no_operation",
+                    program_type="OvenMode",
+                    supportedoptions={},
+                    supports_start=False,
                 )
 
     return programs

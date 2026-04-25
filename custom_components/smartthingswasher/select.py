@@ -12,7 +12,10 @@ from homeassistant.components.select import SelectEntity, SelectEntityDescriptio
 from homeassistant.const import EntityCategory
 from homeassistant.core import Event, EventStateChangedData, HomeAssistant, callback
 from homeassistant.exceptions import ServiceValidationError
-from homeassistant.helpers.dispatcher import async_dispatcher_send
+from homeassistant.helpers.dispatcher import (
+    async_dispatcher_connect,
+    async_dispatcher_send,
+)
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.event import async_track_state_change_event
 
@@ -34,12 +37,10 @@ from .const import (
 from .entity import SmartThingsEntity
 from .models import SupportedOption
 from .util import (
-    command_oven_mode,
     command_program_course,
     get_current_cavity_id,
     get_program_options,
     get_program_table_id,
-    translate_oven_mode,
     translate_program_course,
 )
 
@@ -566,16 +567,21 @@ async def async_setup_entry(
     program_entities: list[str] = [
         select_entity.entity_id for select_entity in program_select_entities
     ]
+    program_entities += [
+        select_entity.entity_id for select_entity in oven_select_entities
+    ]
 
     @callback
     def select_state_listener(event: Event[EventStateChangedData]) -> None:
         """Handle state changes of the sensor entity."""
         source_entity_id = event.data["entity_id"]
         new_state = event.data["new_state"]
-        if new_state is None:
+        old_state = event.data["old_state"]
+
+        if new_state is None or (old_state and old_state.state == new_state.state):
             return
 
-        all_program_entities = program_select_entities
+        all_program_entities = program_select_entities + oven_select_entities
         source_device_id = next(
             (
                 ent.device.device.device_id
@@ -615,6 +621,16 @@ async def async_setup_entry(
                     )
                 ) is not None:
                     select_entity.update_select_options(options)
+
+        for select_entity in oven_select_entities:
+            if select_entity.device.device.device_id == source_device_id:
+                select_entity.async_write_ha_state()
+                if source_entity_id == select_entity.entity_id:
+                    async_dispatcher_send(
+                        hass,
+                        f"smartthings_oven_mode_changed_{source_device_id}",
+                        new_state.state,
+                    )
 
     async_track_state_change_event(hass, program_entities, select_state_listener)
 
@@ -952,21 +968,11 @@ class SmartThingsOvenModeSelect(SmartThingsEntity, SelectEntity):
             self._attr_translation_key = (
                 self.entity_description.component_translation_key[component]
             )
+        self._attr_current_option = None
 
     @property
     def options(self) -> list[str]:
         """Return the list of options."""
-        if self.entity_description.options_attribute:
-            options: list[str] = (
-                self.get_attribute_value(
-                    self.capability,
-                    self.entity_description.options_attribute,
-                    component=self.component,
-                )
-                or []
-            )
-            return [translate_oven_mode(option) for option in options]
-
         cavity_key = get_current_cavity_id(self.device.status, self.component)
         return [
             prog_id.split("_", 1)[-1]
@@ -977,27 +983,52 @@ class SmartThingsOvenModeSelect(SmartThingsEntity, SelectEntity):
     @property
     def current_option(self) -> str | None:
         """Return the selected entity option to represent the entity state."""
-        raw_value = self.get_attribute_value(
-            self.capability, self._attribute, component=self.component
-        )
-        if raw_value is None:
+        value = None
+        cavity_key = get_current_cavity_id(self.device.status, self.component)
+        if self.device.modes and cavity_key in self.device.modes:
+            value = self.device.modes[cavity_key].active_mode
+        if self._attr_current_option is not None:
+            if value == self._attr_current_option:
+                self._attr_current_option = None
+            else:
+                value = self._attr_current_option
+
+        if value not in self.options:
             return None
 
-        return translate_oven_mode(raw_value)
+        return value
 
     async def async_select_option(self, option: str) -> None:
-        """Change the selected option."""
-        if self.command is not None:
-            await self.execute_device_command(
-                self.capability,
-                self.command,
-                command_oven_mode(option),
-            )
-
-        self.async_write_ha_state()
+        """Change the selected option locally."""
+        cavity_key = get_current_cavity_id(self.device.status, self.component)
+        if self.device.modes and cavity_key in self.device.modes:
+            self.device.modes[cavity_key].active_mode = option
+            self._attr_current_option = option
+            self.async_write_ha_state()
 
         async_dispatcher_send(
             self.hass,
             f"smartthings_oven_mode_changed_{self.device.device.device_id}",
             option,
+        )
+
+    async def async_added_to_hass(self) -> None:
+        """Register callbacks."""
+        await super().async_added_to_hass()
+
+        @callback
+        def on_oven_state_changed(is_divided: bool = False) -> None:
+            """Handles update of the binary_sensor which switches between Single/Dual cook modes."""
+            cavity_key = get_current_cavity_id(self.device.status, self.component)
+            if self.device.modes and cavity_key in self.device.modes:
+                active_mode = self.device.modes[cavity_key].active_mode
+                self._attr_current_option = active_mode
+                self.async_write_ha_state()
+
+        self.async_on_remove(
+            async_dispatcher_connect(
+                self.hass,
+                f"smartthings_oven_state_changed_{self.device.device.device_id}",
+                on_oven_state_changed,
+            )
         )
