@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import StrEnum
+from typing import Any
 
 from mashumaro import field_options
 from mashumaro.mixins.orjson import DataClassORJSONMixin
@@ -50,6 +51,15 @@ class SupportedOption(StrEnum):
     OPERATION_TIME = "operationTime"
 
 
+class CavityType(StrEnum):
+    """CavityType model."""
+
+    SINGLE = "single"
+    LOWER = "lower"
+    UPPER = "upper"
+    SECOND = "second"
+
+
 @dataclass
 class Program(DataClassORJSONMixin):
     """Program model."""
@@ -70,7 +80,16 @@ class ProgramOptions(DataClassORJSONMixin):
     options: list[str] = field(
         default_factory=list, metadata=field_options(alias="options")
     )
+    selected_value: Any | None = field(default=None)
     min_value: float | None = field(default=None)
     max_value: float | None = field(default=None)
     step_value: float | None = field(default=None)
     unit: str | None = field(default=None)
+
+
+@dataclass
+class CavityMode(DataClassORJSONMixin):
+    """Program oven mode model."""
+
+    cavity_id: CavityType | str
+    active_mode: str | None = field(default=None)

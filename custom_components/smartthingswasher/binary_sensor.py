@@ -14,8 +14,10 @@ from homeassistant.components.binary_sensor import (
     BinarySensorEntityDescription,
 )
 from homeassistant.const import EntityCategory
-from homeassistant.core import HomeAssistant
+from homeassistant.core import Event, EventStateChangedData, HomeAssistant, callback
+from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
+from homeassistant.helpers.event import async_track_state_change_event
 
 from . import FullDevice, SmartThingsConfigEntry
 from .const import CAPABILITY_COURSES, MAIN
@@ -60,7 +62,8 @@ CAPABILITY_TO_SENSORS: dict[
                     Category.DOOR: BinarySensorDeviceClass.DOOR,
                     Category.WINDOW: BinarySensorDeviceClass.WINDOW,
                 },
-                component_fn=lambda component: component in {"freezer", "cooler", "cvroom"},
+                component_fn=lambda component: component
+                in {"freezer", "cooler", "cvroom"},
                 component_translation_key={
                     "freezer": "freezer_door",
                     "cooler": "cooler_door",
@@ -291,14 +294,14 @@ PROGRAMS_OPTIONS_TO_BINARY_SENSORS: dict[
             SmartThingsBinarySensorEntityDescription(
                 key=SupportedOption.KEEP_FRESH,
                 translation_key="keep_fresh_support",
-           )
+            )
         ],
         Attribute.SANITIZE: [
             SmartThingsBinarySensorEntityDescription(
                 key=SupportedOption.SANITIZE,
                 translation_key="sanitize_support",
             )
-        ]
+        ],
     },
 }
 
@@ -402,84 +405,131 @@ async def async_setup_entry(
 ) -> None:
     """Add binary sensors for a config entry."""
     entry_data = entry.runtime_data
-    async_add_entities(
-        SmartThingsBinarySensor(
-            entry_data.client,
-            device,
-            description,
-            capability,
-            attribute,
-            component,
-        )
-        for device in entry_data.devices.values()
-        for capability, attributes in CAPABILITY_TO_SENSORS.items()
-        for component in device.status
-        for attribute, descriptions in attributes.items()
-        for description in descriptions
-        if (
-            capability in device.status[component]
-            and (
-                component == MAIN
-                or (
-                    description.component_fn is not None and description.component_fn(component)
-                )
+    sensor_entities: list[SmartThingsBinarySensor] = []
+    program_sensor_entities: list[SmartThingsProgramBinarySensor] = []
+
+    for device in entry_data.devices.values():
+        sensor_entities.extend(
+            SmartThingsBinarySensor(
+                entry_data.client,
+                device,
+                description,
+                capability,
+                attribute,
+                component,
             )
-            and (
-                not description.category
-                or get_main_component_category(device) in description.category
-            )
-            and (
-                not description.supported_states_attributes
-                or (
-                    isinstance(
-                        options := device.status[component][capability][
-                            description.supported_states_attributes
-                        ].value,
-                        list,
+            for capability, attributes in CAPABILITY_TO_SENSORS.items()
+            for component in device.status
+            for attribute, descriptions in attributes.items()
+            for description in descriptions
+            if (
+                capability in device.status[component]
+                and (
+                    component == MAIN
+                    or (
+                        description.component_fn is not None
+                        and description.component_fn(component)
                     )
-                    and len(options) == 2
+                )
+                and (
+                    not description.category
+                    or get_main_component_category(device) in description.category
+                )
+                and (
+                    not description.supported_states_attributes
+                    or (
+                        isinstance(
+                            options := device.status[component][capability][
+                                description.supported_states_attributes
+                            ].value,
+                            list,
+                        )
+                        and len(options) == 2
+                    )
                 )
             )
         )
-    )
 
-    async_add_entities(
-        SmartThingsProgramBinarySensor(
-            entry_data.client,
-            device,
-            description,
-            capability,
-            attribute,
-            component,
+        program_sensor_entities.extend(
+            SmartThingsProgramBinarySensor(
+                entry_data.client,
+                device,
+                description,
+                capability,
+                attribute,
+                component,
+            )
+            for capability, attributes in PROGRAMS_OPTIONS_TO_BINARY_SENSORS.items()
+            if device.programs is not None
+            for component in device.status
+            if capability in device.status[component]
+            for attribute, descriptions in attributes.items()
+            for description in descriptions
         )
-        for device in entry_data.devices.values()
-        if device.programs is not None
-        for capability, attributes in PROGRAMS_OPTIONS_TO_BINARY_SENSORS.items()
-        for component in device.status
-        if capability in device.status[component]
-        for attribute, descriptions in attributes.items()
-        for description in descriptions
-    )
 
-    async_add_entities(
-        SmartThingsProgramBinarySensor(
-            entry_data.client,
-            device,
-            description,
-            capability,
-            attribute,
-            component,
+        program_sensor_entities.extend(
+            SmartThingsProgramBinarySensor(
+                entry_data.client,
+                device,
+                description,
+                capability,
+                attribute,
+                component,
+            )
+            for capability, attributes in DISHWASHER_OPTIONS_TO_BINARY_SENSORS.items()
+            for component in device.status
+            if capability in device.status[component]
+            for supported_attr in [
+                device.status[component][
+                    Capability.SAMSUNG_CE_DISHWASHER_WASHING_OPTIONS
+                ].get(Attribute.SUPPORTED_LIST)
+            ]
+            if supported_attr and supported_attr.value
+            for attribute, descriptions in attributes.items()
+            if attribute in cast(list[str], supported_attr.value)
+            for description in descriptions
         )
-        for device in entry_data.devices.values()
-        for capability, attributes in DISHWASHER_OPTIONS_TO_BINARY_SENSORS.items()
-        for component in device.status
-        if capability in device.status[component]
-        for supported_attr in [device.status[component][Capability.SAMSUNG_CE_DISHWASHER_WASHING_OPTIONS].get(Attribute.SUPPORTED_LIST)]
-        if supported_attr and supported_attr.value
-        for attribute, descriptions in attributes.items()
-        if attribute in cast(list[str], supported_attr.value)
-        for description in descriptions
-    )
+
+    async_add_entities(sensor_entities + program_sensor_entities)
+    oven_status_sensors = [
+        ent
+        for ent in sensor_entities
+        if ent.capability == Capability.CUSTOM_OVEN_CAVITY_STATUS
+    ]
+    oven_status_entity_ids = [ent.entity_id for ent in oven_status_sensors]
+
+    @callback
+    def select_state_listener(event: Event[EventStateChangedData]) -> None:
+        """Handle state changes of the sensor entity."""
+        new_state = event.data["new_state"]
+        old_state = event.data["old_state"]
+
+        if new_state is None or new_state.state in ("unknown", "unavailable"):
+            return
+
+        if old_state is not None and old_state.state == new_state.state:
+            return
+
+        source_entity_id = event.data["entity_id"]
+        target_sensor = next(
+            (ent for ent in oven_status_sensors if ent.entity_id == source_entity_id),
+            None,
+        )
+        if target_sensor:
+            device_id = target_sensor.device.device.device_id
+            is_divided = new_state.state == "on"
+
+            async_dispatcher_send(
+                hass, f"smartthings_oven_state_changed_{device_id}", is_divided
+            )
+
+    if oven_status_entity_ids:
+        entry.async_on_unload(
+            async_track_state_change_event(
+                hass, oven_status_entity_ids, select_state_listener
+            )
+        )
+
 
 class SmartThingsBinarySensor(SmartThingsEntity, BinarySensorEntity):
     """Define a SmartThings Binary Sensor."""
@@ -512,7 +562,6 @@ class SmartThingsBinarySensor(SmartThingsEntity, BinarySensorEntity):
             self._attr_translation_key = (
                 self.entity_description.component_translation_key[component]
             )
-
 
     @property
     def is_on(self) -> bool:
@@ -556,7 +605,11 @@ class SmartThingsProgramBinarySensor(SmartThingsEntity, BinarySensorEntity):
         if (attribute_course := CAPABILITY_COURSES.get(self.capability)) is None:
             return False
 
-        if (current_course_raw := self.get_attribute_value(self.capability, attribute_course)) is None:
+        if (
+            current_course_raw := self.get_attribute_value(
+                self.capability, attribute_course
+            )
+        ) is None:
             return False
 
         current_course = translate_program_course(current_course_raw)
@@ -564,7 +617,9 @@ class SmartThingsProgramBinarySensor(SmartThingsEntity, BinarySensorEntity):
             return False
 
         program = self.device.programs[current_course]
-        if (opt := program.supportedoptions.get(self.entity_description.key)) is not None:
-             return len(opt.options) > 1
+        if (
+            opt := program.supportedoptions.get(self.entity_description.key)
+        ) is not None:
+            return len(opt.options) > 1
 
         return False

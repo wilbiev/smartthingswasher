@@ -174,32 +174,23 @@ OVEN_OPTIONS_TO_NUMBERS: dict[
                 },
                 use_temperature_unit=True,
                 supported_option=SupportedOption.TEMPERATURE,
-                command=Command.SET_OVEN_SETPOINT,
-                int_type=STType.INTEGER,
             )
-        ],
+        ]
     },
     Capability.SAMSUNG_CE_OVEN_OPERATING_STATE: {
         Attribute.OPERATION_TIME: [
             SmartThingsNumberEntityDescription(
-                key=SupportedOption.OPERATION_TIME,
+                key=Attribute.OPERATION_TIME,
                 translation_key="oven_operation_time",
                 entity_category=EntityCategory.CONFIG,
                 device_class=NumberDeviceClass.DURATION,
                 native_unit_of_measurement=UnitOfTime.MINUTES,
-                value_fn=lambda val: (
-                    time_to_minutes(val)
-                    if isinstance(val, str)
-                    else (float(val) if isinstance(val, (int, float)) else None)
-                ),
-                action_fn=lambda val: f"{int(val) // 60:02d}:{int(val) % 60:02d}:00",
                 component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "oven_operation_time_cavity_01",
                     "cavity-02": "oven_operation_time_cavity_02",
                 },
                 supported_option=SupportedOption.OPERATION_TIME,
-                command=Command.SET_OPERATION_TIME,
             )
         ],
     },
@@ -435,18 +426,14 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
     ) -> None:
         """Init the class."""
         capabilities = {capability}
-        capabilities.add(Capability.SAMSUNG_CE_OVEN_MODE)
         capabilities.add(Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION)
         capabilities.add(Capability.CUSTOM_OVEN_CAVITY_STATUS)
-        capabilities.add(Capability.REMOTE_CONTROL_STATUS)
         super().__init__(client, device, capabilities, component=component)
         self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description
         self.command = self.entity_description.command
-        self._number = self.entity_description.int_type
-        self._predicted_mode = None
         if (
             self.entity_description.component_translation_key
             and component in self.entity_description.component_translation_key
@@ -458,36 +445,23 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
             self._attr_mode = NumberMode.BOX
         else:
             self._attr_mode = NumberMode.SLIDER
+        self._attr_current_option = None
 
     @property
     def _active_option(self) -> ProgramOptions | None:
         """Helper to find the ProgramOptions for the current mode."""
         if self.device.programs is None:
             return None
-
-        current_mode = self.get_attribute_value(
-            Capability.SAMSUNG_CE_OVEN_MODE,
-            Attribute.OVEN_MODE,
-            component=self.component,
-        )
         cavity_key = get_current_cavity_id(self.device.status, self.component)
-        if self._predicted_mode:
-            lookup_id = f"{cavity_key}_{self._predicted_mode}"
-            # Reset predicted mode when API status matches
-            if current_mode and self._predicted_mode == translate_oven_mode(
-                current_mode
-            ):
-                self._predicted_mode = None
-        elif not current_mode:
-            return None
+        if self.device.modes and cavity_key in self.device.modes:
+            current_mode = self.device.modes[cavity_key].active_mode
         else:
-            lookup_id = translate_oven_mode(current_mode, cavity_key)
-
-        if program := self.device.programs.get(lookup_id):
-            if (
-                self.entity_description.supported_option
-                and self.entity_description.supported_option in program.supportedoptions
-            ):
+            return None
+        lookup_id = translate_oven_mode(current_mode, cavity_key)
+        if (
+            program := self.device.programs.get(lookup_id)
+        ) and self.entity_description.supported_option:
+            if self.entity_description.supported_option in program.supportedoptions:
                 return program.supportedoptions[
                     self.entity_description.supported_option
                 ]
@@ -496,17 +470,17 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
     @property
     def native_value(self) -> float | None:
         """Get the selected value from the program model."""
-        if self._number is None:
-            return None
+        value = None
+        if option := self._active_option:
+            if option.selected_value:
+                value = float(option.selected_value)
+        if self._attr_current_option is not None:
+            if value == self._attr_current_option:
+                self._attr_current_option = None
+            else:
+                value = self._attr_current_option
 
-        raw_val = self.get_attribute_value(self.capability, self._attribute)
-        if raw_val is None:
-            return None
-
-        if self.entity_description.value_fn:
-            return self.entity_description.value_fn(raw_val)
-
-        return raw_val
+        return value
 
     @property
     def native_min_value(self) -> float:
@@ -534,27 +508,16 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
         """Return the unit this state is expressed in."""
         if self.entity_description.use_temperature_unit:
             if option := self._active_option:
-                if option.unit is not None:
+                if option.unit:
                     return UNIT_MAP[option.unit]
         return self.entity_description.native_unit_of_measurement
 
     async def async_set_native_value(self, value: float) -> None:
-        """Set new value."""
-        if self.command is None or value is None:
-            return
-
-        if self.entity_description.action_fn:
-            command_value = self.entity_description.action_fn(value)
-        elif self._number is STType.INTEGER:
-            command_value = int(value)
-        else:
-            command_value = str(int(value))
-
-        await self.execute_device_command(
-            self.capability,
-            self.command,
-            command_value,
-        )
+        """Update the selected value in the program model."""
+        if option := self._active_option:
+            option.selected_value = value
+            self._attr_current_option = value
+            self.async_write_ha_state()
 
     async def async_added_to_hass(self) -> None:
         """Register callbacks."""
@@ -562,7 +525,9 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
         @callback
         def update_state(new_mode: str) -> None:
             """Update the entity when the oven mode changes."""
-            self._predicted_mode = new_mode
+            if option := self._active_option:
+                option.selected_value = float(option.default)
+                self._attr_current_option = float(option.default)
             self.async_write_ha_state()
 
         self.async_on_remove(

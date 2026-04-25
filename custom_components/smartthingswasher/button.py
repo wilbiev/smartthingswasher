@@ -17,7 +17,7 @@ from . import FullDevice, SmartThingsConfigEntry
 from .const import MAIN
 from .entity import SmartThingsEntity
 from .models import SupportedOption
-from .util import get_current_cavity_id, translate_oven_mode
+from .util import get_current_cavity_id
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -32,6 +32,7 @@ class SmartThingsButtonEntityDescription(ButtonEntityDescription):
     component_translation_key: dict[str, str] | None = None
     capability_ignore_list: list[set[Capability]] | None = None
     capability_include_list: list[set[Capability]] | None = None
+    requires_remote_control_status: bool = False
 
 
 CAPABILITY_TO_BUTTONS: dict[
@@ -42,12 +43,14 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Command.START,
                 translation_key="state_start",
+                requires_remote_control_status=True,
             )
         ],
         Command.CANCEL: [
             SmartThingsButtonEntityDescription(
                 key=Command.CANCEL,
                 translation_key="state_cancel",
+                requires_remote_control_status=True,
             )
         ],
         Command.RESUME: [
@@ -55,6 +58,7 @@ CAPABILITY_TO_BUTTONS: dict[
                 key="pause_resume",
                 translation_key="state_pause_resume",
                 command_list=[Command.PAUSE, Command.RESUME],
+                requires_remote_control_status=True,
             )
         ],
         Command.ESTIMATE_OPERATION_TIME: [
@@ -69,12 +73,14 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Command.START,
                 translation_key="state_start",
+                requires_remote_control_status=True,
             )
         ],
         Command.CANCEL: [
             SmartThingsButtonEntityDescription(
                 key=Command.CANCEL,
                 translation_key="state_cancel",
+                requires_remote_control_status=True,
             )
         ],
         Command.RESUME: [
@@ -82,6 +88,7 @@ CAPABILITY_TO_BUTTONS: dict[
                 key="pause_resume",
                 translation_key="state_pause_resume",
                 command_list=[Command.PAUSE, Command.RESUME],
+                requires_remote_control_status=True,
             )
         ],
         Command.START_LATER: [
@@ -101,6 +108,7 @@ CAPABILITY_TO_BUTTONS: dict[
                     and len(parts := val.split(":")) >= 2
                     else 60
                 ],
+                requires_remote_control_status=True,
             )
         ],
     },
@@ -109,12 +117,14 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Command.START,
                 translation_key="state_start",
+                requires_remote_control_status=True,
             )
         ],
         Command.CANCEL: [
             SmartThingsButtonEntityDescription(
                 key=Command.CANCEL,
                 translation_key="state_cancel",
+                requires_remote_control_status=True,
             )
         ],
         Command.RESUME: [
@@ -122,6 +132,7 @@ CAPABILITY_TO_BUTTONS: dict[
                 key="pause_resume",
                 translation_key="state_pause_resume",
                 command_list=[Command.PAUSE, Command.RESUME],
+                requires_remote_control_status=True,
             )
         ],
     },
@@ -136,6 +147,7 @@ CAPABILITY_TO_BUTTONS: dict[
                     "cavity-01": "state_start_cavity_01",
                     "cavity-02": "state_start_cavity_02",
                 },
+                requires_remote_control_status=True,
             ),
         ],
         Command.STOP: [
@@ -148,6 +160,7 @@ CAPABILITY_TO_BUTTONS: dict[
                     "cavity-01": "state_stop_cavity_01",
                     "cavity-02": "state_stop_cavity_02",
                 },
+                requires_remote_control_status=True,
             ),
         ],
     },
@@ -168,6 +181,7 @@ CAPABILITY_TO_BUTTONS: dict[
                     "cavity-01": "state_start_cavity_01",
                     "cavity-02": "state_start_cavity_02",
                 },
+                requires_remote_control_status=True,
             ),
         ],
         Command.STOP: [
@@ -179,6 +193,7 @@ CAPABILITY_TO_BUTTONS: dict[
                     "cavity-01": "state_stop_cavity_01",
                     "cavity-02": "state_stop_cavity_02",
                 },
+                requires_remote_control_status=True,
             ),
         ],
         Command.PAUSE: [
@@ -190,6 +205,7 @@ CAPABILITY_TO_BUTTONS: dict[
                     "cavity-01": "state_pause_cavity_01",
                     "cavity-02": "state_pause_cavity_02",
                 },
+                requires_remote_control_status=True,
             ),
         ],
     },
@@ -278,6 +294,7 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
     ) -> None:
         """Init the class."""
         capabilities = {capability}
+        capabilities.add(Capability.REMOTE_CONTROL_STATUS)
         if entity_description.extra_capabilities:
             capabilities.update(entity_description.extra_capabilities)
         super().__init__(client, device, capabilities, component=component)
@@ -293,53 +310,57 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
     async def async_press(self) -> None:
         """Collect the values from the model and start the oven."""
 
+        if (
+            self.entity_description.requires_remote_control_status
+            and self.get_attribute_value(
+                Capability.REMOTE_CONTROL_STATUS, Attribute.REMOTE_CONTROL_ENABLED
+            )
+            == "false"
+        ):
+            raise ServiceValidationError(
+                "Can only be used when remote control is enabled"
+            )
         argument = None
         if (
             self.capability == Capability.SAMSUNG_CE_OVEN_OPERATING_STATE
             and self.command == Command.START
         ):
+            current_mode = None
             cavity_key = get_current_cavity_id(self.device.status, self.component)
-            current_mode = self.get_attribute_value(
-                Capability.SAMSUNG_CE_OVEN_MODE,
-                Attribute.OVEN_MODE,
-                component=self.component,
-            )
+            if self.device.modes and cavity_key in self.device.modes:
+                if self.device.modes[cavity_key].active_mode != "no_operation":
+                    current_mode = self.device.modes[cavity_key].active_mode
             if not current_mode:
                 raise ServiceValidationError("No active oven mode found")
-            lookup_id = translate_oven_mode(current_mode, cavity_key)
+
+            lookup_id = f"{cavity_key}_{current_mode}"
             program = self.device.programs.get(lookup_id)
-            if program and not program.supports_start:
+            if not program:
+                raise ServiceValidationError(f"Program not found for {current_mode}")
+            if not program.supports_start:
                 raise ServiceValidationError(
                     f"Start is not available for {current_mode}"
                 )
-            current_temp = self.get_attribute_value(
-                Capability.OVEN_SETPOINT,
-                Attribute.OVEN_SETPOINT,
-                component=self.component,
-            )
-            if not current_temp or current_temp == 0:
-                if program and (
-                    temp_opt := program.supportedoptions.get(
-                        SupportedOption.TEMPERATURE
-                    )
-                ):
-                    current_temp = int(temp_opt.default)
-                else:
-                    current_temp = 175
-            operation_time = self.get_attribute_value(
-                Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
-                Attribute.OPERATION_TIME,
-                component=self.component,
-            )
+            current_temp = 0
+            if temp_opt := program.supportedoptions.get(SupportedOption.TEMPERATURE):
+                current_temp = int(temp_opt.selected_value or temp_opt.default or 0)
+            if current_temp == 0:
+                raise ServiceValidationError(
+                    "Cannot start oven session with zero temperature"
+                )
+            operation_time = None
+            if time_opt := program.supportedoptions.get(SupportedOption.OPERATION_TIME):
+                operation_time = f"{int(time_opt.selected_value or time_opt.default) // 60:02d}:{int(time_opt.selected_value or time_opt.default) % 60:02d}:00"
             if not operation_time or operation_time in {0, "00:00:00"}:
-                if program and (
-                    time_opt := program.supportedoptions.get(
-                        SupportedOption.OPERATION_TIME
-                    )
-                ):
-                    operation_time = f"{int(time_opt.default) // 60:02d}:{int(time_opt.default) % 60:02d}:00"
-                else:
-                    operation_time = "01:00:00"
+                raise ServiceValidationError(
+                    "Cannot start oven session with zero operation time"
+                )
+            _LOGGER.debug(
+                "Staging oven session: Mode=%s, Temp=%s, Time=%s",
+                current_mode,
+                current_temp,
+                operation_time,
+            )
             await self.execute_device_command(
                 Capability.SAMSUNG_CE_OVEN_MODE,
                 Command.SET_OVEN_MODE,
