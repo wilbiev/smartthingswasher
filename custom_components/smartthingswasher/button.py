@@ -17,7 +17,7 @@ from . import FullDevice, SmartThingsConfigEntry
 from .const import MAIN
 from .entity import SmartThingsEntity
 from .models import SupportedOption
-from .util import get_current_cavity_id
+from .util import command_oven_mode, get_current_cavity_id
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -329,7 +329,8 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
             cavity_key = get_current_cavity_id(self.device.status, self.component)
             if self.device.modes and cavity_key in self.device.modes:
                 if self.device.modes[cavity_key].active_mode != "no_operation":
-                    current_mode = self.device.modes[cavity_key].active_mode
+                    if raw_mode := self.device.modes[cavity_key].active_mode:
+                        current_mode = command_oven_mode(raw_mode)
             if not current_mode:
                 raise ServiceValidationError("No active oven mode found")
 
@@ -364,7 +365,7 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
             await self.execute_device_command(
                 Capability.SAMSUNG_CE_OVEN_MODE,
                 Command.SET_OVEN_MODE,
-                current_mode,
+                command_oven_mode(current_mode),
             )
             await self.execute_device_command(
                 Capability.OVEN_SETPOINT,

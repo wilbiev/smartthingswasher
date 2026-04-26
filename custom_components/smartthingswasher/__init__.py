@@ -249,7 +249,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: SmartThingsConfigEntry) 
                 continue
             status = process_status(await client.get_device_status(device.device_id))
             programs = process_programs(status)
-            oven_modes = set_oven_modes()
+            oven_modes = set_oven_modes(status)
             online = await client.get_device_health(device.device_id)
             device_status[device.device_id] = FullDevice(
                 device=device,
@@ -539,8 +539,14 @@ def process_component_status(status: ComponentStatus) -> None:
                     del status[capability]
 
 
-def set_oven_modes() -> dict[CavityType | str, CavityMode]:
+def set_oven_modes(
+    status: dict[str, ComponentStatus],
+) -> dict[CavityType | str, CavityMode]:
     """Set oven modes based on cavity type."""
+    if (main_component := status.get(MAIN)) is None:
+        return {}
+    if main_component.get(Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION) is None:
+        return {}
     return {
         cavity: CavityMode(cavity_id=cavity, active_mode="no_operation")
         for cavity in [
@@ -656,9 +662,10 @@ def _process_oven_programs(status: dict[str, ComponentStatus]) -> dict[str, Prog
                     supportedoptions=supported_options_list,
                     supports_start=can_start,
                 )
-            if f"{cavity_key}_no_operation" not in programs:
-                programs[f"{cavity_key}_no_operation"] = Program(
-                    program_id=f"{cavity_key}_no_operation",
+            no_operation_id = f"{cavity_key}_no_operation"
+            if no_operation_id not in programs:
+                programs[no_operation_id] = Program(
+                    program_id=no_operation_id,
                     program_type="OvenMode",
                     supportedoptions={},
                     supports_start=False,
