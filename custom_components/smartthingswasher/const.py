@@ -401,7 +401,6 @@ OVEN_MODE_TO_HA = {
     "InternalClean": "internal_clean",
     "KeepWarm": "keep_warm",
     "LargeGrill": "large_grill",
-    "MW+HotBlast2": "mw+hotblast2",
     "MemoryCook": "memory_cook",
     "MicroWave": "micro_wave",
     "MicroWaveConvection": "micro_wave_convection",
