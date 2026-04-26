@@ -533,7 +533,7 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
         self.async_on_remove(
             async_dispatcher_connect(
                 self.hass,
-                f"smartthings_oven_mode_changed_{self.device.device.device_id}",
+                f"smartthings_oven_mode_changed_{self.device.device.device_id}_{self.component}",
                 update_state,
             )
         )

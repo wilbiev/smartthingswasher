@@ -624,11 +624,11 @@ async def async_setup_entry(
 
         for select_entity in oven_select_entities:
             if select_entity.device.device.device_id == source_device_id:
-                select_entity.async_write_ha_state()
-                if source_entity_id == select_entity.entity_id:
+                if select_entity.entity_id == source_entity_id:
+                    select_entity.async_write_ha_state()
                     async_dispatcher_send(
                         hass,
-                        f"smartthings_oven_mode_changed_{source_device_id}",
+                        f"smartthings_oven_mode_changed_{source_device_id}_{select_entity.component}",
                         new_state.state,
                     )
 
@@ -1008,7 +1008,7 @@ class SmartThingsOvenModeSelect(SmartThingsEntity, SelectEntity):
 
         async_dispatcher_send(
             self.hass,
-            f"smartthings_oven_mode_changed_{self.device.device.device_id}",
+            f"smartthings_oven_mode_changed_{self.device.device.device_id}_{self.component}",
             option,
         )
 
