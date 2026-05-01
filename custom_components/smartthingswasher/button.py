@@ -141,40 +141,9 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Command.START,
                 translation_key="state_start",
-                capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
-                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
-                component_translation_key={
-                    "cavity-01": "state_start_cavity_01",
-                    "cavity-02": "state_start_cavity_02",
-                },
-                requires_remote_control_status=True,
-            ),
-        ],
-        Command.STOP: [
-            SmartThingsButtonEntityDescription(
-                key=Command.STOP,
-                translation_key="state_stop",
-                capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
-                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
-                component_translation_key={
-                    "cavity-01": "state_stop_cavity_01",
-                    "cavity-02": "state_stop_cavity_02",
-                },
-                requires_remote_control_status=True,
-            ),
-        ],
-    },
-    Capability.SAMSUNG_CE_OVEN_OPERATING_STATE: {
-        Command.START: [
-            SmartThingsButtonEntityDescription(
-                key=Command.START,
-                translation_key="state_start",
                 extra_capabilities=[
                     Capability.CUSTOM_OVEN_CAVITY_STATUS,
                     Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION,
-                    Capability.SAMSUNG_CE_OVEN_MODE,
-                    Capability.OVEN_SETPOINT,
-                    Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
                 ],
                 component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
@@ -196,10 +165,59 @@ CAPABILITY_TO_BUTTONS: dict[
                 requires_remote_control_status=True,
             ),
         ],
+        Command.SET_MACHINE_STATE: [
+            SmartThingsButtonEntityDescription(
+                key=Command.SET_MACHINE_STATE,
+                translation_key="state_pause",
+                argument="pause",
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
+                component_translation_key={
+                    "cavity-01": "state_pause_cavity_01",
+                    "cavity-02": "state_pause_cavity_02",
+                },
+                requires_remote_control_status=True,
+            ),
+        ],
+    },
+    Capability.SAMSUNG_CE_OVEN_OPERATING_STATE: {
+        Command.START: [
+            SmartThingsButtonEntityDescription(
+                key=Command.START,
+                translation_key="state_start",
+                extra_capabilities=[
+                    Capability.CUSTOM_OVEN_CAVITY_STATUS,
+                    Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION,
+                    Capability.SAMSUNG_CE_OVEN_MODE,
+                    Capability.OVEN_SETPOINT,
+                    Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
+                ],
+                capability_ignore_list=[{Capability.OVEN_OPERATING_STATE}],
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
+                component_translation_key={
+                    "cavity-01": "state_start_cavity_01",
+                    "cavity-02": "state_start_cavity_02",
+                },
+                requires_remote_control_status=True,
+            ),
+        ],
+        Command.STOP: [
+            SmartThingsButtonEntityDescription(
+                key=Command.STOP,
+                translation_key="state_stop",
+                capability_ignore_list=[{Capability.OVEN_OPERATING_STATE}],
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
+                component_translation_key={
+                    "cavity-01": "state_stop_cavity_01",
+                    "cavity-02": "state_stop_cavity_02",
+                },
+                requires_remote_control_status=True,
+            ),
+        ],
         Command.PAUSE: [
             SmartThingsButtonEntityDescription(
                 key=Command.PAUSE,
                 translation_key="state_pause",
+                capability_ignore_list=[{Capability.OVEN_OPERATING_STATE}],
                 component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "state_pause_cavity_01",
@@ -322,7 +340,11 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
             )
         argument = None
         if (
-            self.capability == Capability.SAMSUNG_CE_OVEN_OPERATING_STATE
+            self.capability
+            in {
+                Capability.OVEN_OPERATING_STATE,
+                Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
+            }
             and self.command == Command.START
         ):
             raw_mode = None
@@ -352,32 +374,40 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
                 )
             operation_time = None
             if time_opt := program.supportedoptions.get(SupportedOption.OPERATION_TIME):
-                operation_time = f"{int(time_opt.selected_value or time_opt.default) // 60:02d}:{int(time_opt.selected_value or time_opt.default) % 60:02d}:00"
+                time_minutes = int(time_opt.selected_value or time_opt.default or 0)
+                operation_time = f"{time_minutes // 60:02d}:{time_minutes % 60:02d}:00"
             if not operation_time or operation_time in {0, "00:00:00"}:
                 raise ServiceValidationError(
                     "Cannot start oven session with zero operation time"
                 )
             _LOGGER.debug(
-                "Staging oven session: Mode=%s, Temp=%s, Time=%s",
+                "Staging oven session: Mode=%s, Time=%s, Temp=%s",
                 current_mode,
-                current_temp,
                 operation_time,
-            )
-            await self.execute_device_command(
-                Capability.SAMSUNG_CE_OVEN_MODE,
-                Command.SET_OVEN_MODE,
-                command_oven_mode(current_mode),
-            )
-            await self.execute_device_command(
-                Capability.OVEN_SETPOINT,
-                Command.SET_OVEN_SETPOINT,
                 current_temp,
             )
-            await self.execute_device_command(
-                Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
-                Command.SET_OPERATION_TIME,
-                operation_time,
-            )
+            if self.capability == Capability.OVEN_OPERATING_STATE:
+                argument = [
+                    current_mode,
+                    time_minutes * 60,
+                    current_temp,
+                ]
+            else:
+                await self.execute_device_command(
+                    Capability.SAMSUNG_CE_OVEN_MODE,
+                    Command.SET_OVEN_MODE,
+                    current_mode,
+                )
+                await self.execute_device_command(
+                    Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
+                    Command.SET_OPERATION_TIME,
+                    operation_time,
+                )
+                await self.execute_device_command(
+                    Capability.OVEN_SETPOINT,
+                    Command.SET_OVEN_SETPOINT,
+                    current_temp,
+                )
         elif self.entity_description.key == "time_sync":
             current_time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
             argument = [
