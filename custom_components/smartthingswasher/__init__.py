@@ -652,8 +652,10 @@ def _process_oven_programs(status: dict[str, ComponentStatus]) -> dict[str, Prog
 
                 mode_name = mode_data[PROGRAM_MODE]
                 program_id = translate_oven_mode(mode_name, cavity_key)
-                supported_ops = mode_data.get(PROGRAM_SUPPORTED_OPERATIONS, [])
-                can_start = "start" in supported_ops
+                if supported_ops := mode_data.get(PROGRAM_SUPPORTED_OPERATIONS):
+                    can_start = "start" in supported_ops
+                else:
+                    can_start = True
                 supported_options = mode_data.get(PROGRAM_SUPPORTED_OPTIONS, {})
                 supported_options_list = _parse_oven_options(supported_options, unit)
                 programs[program_id] = Program(
