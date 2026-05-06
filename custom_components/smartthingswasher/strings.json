@@ -112,6 +112,9 @@
       "door": {
         "name": "Door"
       },
+      "door_cavity_02": {
+        "name": "Second door"
+      },
       "dryer_wrinkle_prevent_active": {
         "name": "Wrinkle prevent active"
       },
@@ -132,6 +135,9 @@
       },
       "remote_control": {
         "name": "Remote control"
+      },
+      "water_reservoir": {
+        "name": "Water reservoir"
       }
     },
     "button": {
@@ -619,6 +625,7 @@
           "defrost": "Defrost",
           "defrost_a": "Defrost A",
           "defrosting": "Defrosting",
+          "defrosting_2": "Defrosting",
           "dehydrate": "Dehydrate",
           "deodorization": "Deodorization",
           "descale": "Descale",
@@ -642,6 +649,7 @@
           "green_clean": "Green clean",
           "green_clean_real": "Green clean real",
           "grill": "Grill",
+          "grill_2": "Grill",
           "grill_convection": "Grill convection",
           "guided_cook": "Guided cook",
           "homecare_wizard_v2": "Homecare wizard v2",
@@ -659,6 +667,7 @@
           "large_grill": "Large grill",
           "memory_cook": "Memory cook",
           "micro_wave": "Microwave",
+          "micro_wave_2": "Microwave",
           "micro_wave_convection": "Microwave convection",
           "micro_wave_fan_grill": "Microwave fan grill",
           "micro_wave_grill": "Microwave grill",
@@ -788,6 +797,7 @@
           "defrost": "[%key:component::smartthingswasher::entity::select::oven_mode::state::defrost%]",
           "defrost_a": "[%key:component::smartthingswasher::entity::select::oven_mode::state::defrost_a%]",
           "defrosting": "[%key:component::smartthingswasher::entity::select::oven_mode::state::defrosting%]",
+          "defrosting_2": "[%key:component::smartthingswasher::entity::select::oven_mode::state::defrosting_2%]",
           "dehydrate": "[%key:component::smartthingswasher::entity::select::oven_mode::state::dehydrate%]",
           "deodorization": "[%key:component::smartthingswasher::entity::select::oven_mode::state::deodorization%]",
           "descale": "[%key:component::smartthingswasher::entity::select::oven_mode::state::descale%]",
@@ -811,6 +821,7 @@
           "green_clean": "[%key:component::smartthingswasher::entity::select::oven_mode::state::green_clean%]",
           "green_clean_real": "[%key:component::smartthingswasher::entity::select::oven_mode::state::green_clean_real%]",
           "grill": "[%key:component::smartthingswasher::entity::select::oven_mode::state::grill%]",
+          "grill_2": "[%key:component::smartthingswasher::entity::select::oven_mode::state::grill_2%]",
           "grill_convection": "[%key:component::smartthingswasher::entity::select::oven_mode::state::grill_convection%]",
           "guided_cook": "[%key:component::smartthingswasher::entity::select::oven_mode::state::guided_cook%]",
           "homecare_wizard_v2": "[%key:component::smartthingswasher::entity::select::oven_mode::state::homecare_wizard_v2%]",
@@ -828,6 +839,7 @@
           "large_grill": "[%key:component::smartthingswasher::entity::select::oven_mode::state::large_grill%]",
           "memory_cook": "[%key:component::smartthingswasher::entity::select::oven_mode::state::memory_cook%]",
           "micro_wave": "[%key:component::smartthingswasher::entity::select::oven_mode::state::micro_wave%]",
+          "micro_wave_2": "[%key:component::smartthingswasher::entity::select::oven_mode::state::micro_wave_2%]",
           "micro_wave_convection": "[%key:component::smartthingswasher::entity::select::oven_mode::state::micro_wave_convection%]",
           "micro_wave_fan_grill": "[%key:component::smartthingswasher::entity::select::oven_mode::state::micro_wave_fan_grill%]",
           "micro_wave_grill": "[%key:component::smartthingswasher::entity::select::oven_mode::state::micro_wave_grill%]",
@@ -957,6 +969,7 @@
           "defrost": "[%key:component::smartthingswasher::entity::select::oven_mode::state::defrost%]",
           "defrost_a": "[%key:component::smartthingswasher::entity::select::oven_mode::state::defrost_a%]",
           "defrosting": "[%key:component::smartthingswasher::entity::select::oven_mode::state::defrosting%]",
+          "defrosting_2": "[%key:component::smartthingswasher::entity::select::oven_mode::state::defrosting_2%]",
           "dehydrate": "[%key:component::smartthingswasher::entity::select::oven_mode::state::dehydrate%]",
           "deodorization": "[%key:component::smartthingswasher::entity::select::oven_mode::state::deodorization%]",
           "descale": "[%key:component::smartthingswasher::entity::select::oven_mode::state::descale%]",
@@ -980,6 +993,7 @@
           "green_clean": "[%key:component::smartthingswasher::entity::select::oven_mode::state::green_clean%]",
           "green_clean_real": "[%key:component::smartthingswasher::entity::select::oven_mode::state::green_clean_real%]",
           "grill": "[%key:component::smartthingswasher::entity::select::oven_mode::state::grill%]",
+          "grill_2": "[%key:component::smartthingswasher::entity::select::oven_mode::state::grill_2%]",
           "grill_convection": "[%key:component::smartthingswasher::entity::select::oven_mode::state::grill_convection%]",
           "guided_cook": "[%key:component::smartthingswasher::entity::select::oven_mode::state::guided_cook%]",
           "homecare_wizard_v2": "[%key:component::smartthingswasher::entity::select::oven_mode::state::homecare_wizard_v2%]",
@@ -997,6 +1011,7 @@
           "large_grill": "[%key:component::smartthingswasher::entity::select::oven_mode::state::large_grill%]",
           "memory_cook": "[%key:component::smartthingswasher::entity::select::oven_mode::state::memory_cook%]",
           "micro_wave": "[%key:component::smartthingswasher::entity::select::oven_mode::state::micro_wave%]",
+          "micro_wave_2": "[%key:component::smartthingswasher::entity::select::oven_mode::state::micro_wave_2%]",
           "micro_wave_convection": "[%key:component::smartthingswasher::entity::select::oven_mode::state::micro_wave_convection%]",
           "micro_wave_fan_grill": "[%key:component::smartthingswasher::entity::select::oven_mode::state::micro_wave_fan_grill%]",
           "micro_wave_grill": "[%key:component::smartthingswasher::entity::select::oven_mode::state::micro_wave_grill%]",

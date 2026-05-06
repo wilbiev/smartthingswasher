@@ -64,6 +64,9 @@
       "door": {
         "name": "Door"
       },
+      "door_cavity_02": {
+        "name": "Second door"
+      },
       "dry_plus_support": {
         "name": "Dry plus support"
       },
@@ -132,6 +135,9 @@
       },
       "storm_wash_support": {
         "name": "Storm wash support"
+      },
+      "water_reservoir": {
+        "name": "Water reservoir"
       }
     },
     "button": {
@@ -619,6 +625,7 @@
           "defrost": "Defrost",
           "defrost_a": "Defrost A",
           "defrosting": "Defrosting",
+          "defrosting_2": "Defrosting",
           "dehydrate": "Dehydrate",
           "deodorization": "Deodorization",
           "descale": "Descale",
@@ -642,6 +649,7 @@
           "green_clean": "Green clean",
           "green_clean_real": "Green clean real",
           "grill": "Grill",
+          "grill_2": "Grill",
           "grill_convection": "Grill convection",
           "guided_cook": "Guided cook",
           "healthycook1": "Healthycook 1",
@@ -659,6 +667,7 @@
           "large_grill": "Large grill",
           "memory_cook": "Memory cook",
           "micro_wave": "Microwave",
+          "micro_wave_2": "Microwave",
           "micro_wave_convection": "Microwave convection",
           "micro_wave_fan_grill": "Microwave fan grill",
           "micro_wave_grill": "Microwave grill",
@@ -788,6 +797,7 @@
           "defrost": "Defrost",
           "defrost_a": "Defrost A",
           "defrosting": "Defrosting",
+          "defrosting_2": "Defrosting",
           "dehydrate": "Dehydrate",
           "deodorization": "Deodorization",
           "descale": "Descale",
@@ -811,6 +821,7 @@
           "green_clean": "Green clean",
           "green_clean_real": "Green clean real",
           "grill": "Grill",
+          "grill_2": "Grill",
           "grill_convection": "Grill convection",
           "guided_cook": "Guided cook",
           "healthycook1": "Healthycook 1",
@@ -828,6 +839,7 @@
           "large_grill": "Large grill",
           "memory_cook": "Memory cook",
           "micro_wave": "Microwave",
+          "micro_wave_2": "Microwave",
           "micro_wave_convection": "Microwave convection",
           "micro_wave_fan_grill": "Microwave fan grill",
           "micro_wave_grill": "Microwave grill",
@@ -957,6 +969,7 @@
           "defrost": "Defrost",
           "defrost_a": "Defrost A",
           "defrosting": "Defrosting",
+          "defrosting_2": "Defrosting",
           "dehydrate": "Dehydrate",
           "deodorization": "Deodorization",
           "descale": "Descale",
@@ -980,6 +993,7 @@
           "green_clean": "Green clean",
           "green_clean_real": "Green clean real",
           "grill": "Grill",
+          "grill_2": "Grill",
           "grill_convection": "Grill convection",
           "guided_cook": "Guided cook",
           "healthycook1": "Healthycook 1",
@@ -997,6 +1011,7 @@
           "large_grill": "Large grill",
           "memory_cook": "Memory cook",
           "micro_wave": "Microwave",
+          "micro_wave_2": "Microwave",
           "micro_wave_convection": "Microwave convection",
           "micro_wave_fan_grill": "Microwave fan grill",
           "micro_wave_grill": "Microwave grill",

@@ -90,44 +90,20 @@ A red box is displayed in the integration while it replaces the standard integra
 
 ### Current dishwasher course support
 
-| Name course   |
-| ------------- |
-| AI Wash       |
-| Auto          |
-| Baby Bottle   |
-| Babycare      |
-| Chef          |
-| Cold Rinse    |
-| Daily         |
-| Daily 09      |
-| Delicate      |
-| Drinkware     |
-| Dry Only      |
-| Eco           |
-| Eco 08        |
-| Eco 10        |
-| Express       |
-| Express 0C    |
-| Extra Silence |
-| Glasses       |
-| Heavy         |
-| Intensive     |
-| Machine Care  |
-| Night         |
-| Night Silence |
-| Normal        |
-| Plastics      |
-| Pots and Pans |
-| Pre Blast     |
-| Pre Wash      |
-| Quick         |
-| Quick 14      |
-| Rinse Dry     |
-| Rinse Only    |
-| Self Clean    |
-| Self Sanitize |
-| Steam Soak    |
-| Upper Express |
+| Name course | Name course   | Name course   |
+| ----------- | ------------- | ------------- |
+| AI Wash     | Eco 08        | Plastics      |
+| Auto        | Eco 10        | Pots and Pans |
+| Baby Bottle | Express       | Pre Blast     |
+| Babycare    | Express 0C    | Pre Wash      |
+| Chef        | Extra Silence | Quick         |
+| Cold Rinse  | Glasses       | Quick 14      |
+| Daily       | Heavy         | Rinse Dry     |
+| Daily 09    | Intensive     | Rinse Only    |
+| Delicate    | Machine Care  | Self Clean    |
+| Drinkware   | Night         | Self Sanitize |
+| Dry Only    | Night Silence | Steam Soak    |
+| Eco         | Normal        | Upper Express |
 
 Please share the information when your dishwasher courses are not supported!
 
@@ -291,89 +267,62 @@ Please share the information when your dryer/steam closet/washer courses are not
 
 ### Current oven mode support
 
-| Name mode                        | Name mode                      |
-| -------------------------------- | ------------------------------ |
-| AI defrost                       | Microwave roast                |
-| AI reheat                        | Moist steam                    |
-| AI sousvide                      | Multi grill                    |
-| Air fry                          | Multi level cook               |
-| Air fryer                        | Microwave + grill              |
-| Air fry max                      | Microwave + convection         |
-| Air sousvide                     | Microwave + hot blast          |
-| Autocook                         | Microwave + hot blast 2        |
-| Autocook custom                  | Natural steam                  |
-| Bake                             | No operation                   |
-| Bottom                           | Others                         |
-| Bottom convection                | Pizza                          |
-| Bottom heat                      | Pizza cook                     |
-| Bottom heat + convection         | Pizza naan                     |
-| Bottom heat + eConvection        | Plate warm                     |
-| Bread proof                      | Power bake                     |
-| Broil                            | Power convection               |
-| Broil combi                      | Power convection combi         |
-| Broil convection                 | Preheat                        |
-| Broil S                          | Pro convection                 |
-| Brownie                          | Pro roasting                   |
-| Catalytic clean                  | Proof                          |
-| Chef bake                        | Prove dough                    |
-| Chef broil                       | Pure convection                |
-| Chef proof                       | Pure convection sear           |
-| Clean air pyro                   | Pure steam                     |
-| Convection                       | Pyro free                      |
-| Convection bake                  | Rinse                          |
-| Convection broil                 | Roast                          |
-| Convection combi                 | Roasting                       |
-| Convection roast                 | Seafood                        |
-| Convection sear                  | Self clean                     |
-| Convection vegetable             | Sensor self diagnosis          |
-| Conventional                     | Slim fry middle                |
-| Cookie                           | Slim fry strong                |
-| Defrost                          | Slim middle                    |
-| DefrostA                         | Slim strong                    |
-| Defrosting                       | Slow cook                      |
-| Dehydrate                        | Slow cook beef                 |
-| Deodorization                    | Slow cook poultry              |
-| Descale                          | Slow cook stew                 |
-| Drain                            | Small grill                    |
-| Drying                           | Spare rib                      |
-| Easycook1                        | Speed bake                     |
-| Easycook2                        | Speed broil                    |
-| Easycook3                        | Speed brown                    |
-| Eco convection                   | Speed conv sear                |
-| Eco grill                        | Speed convection               |
-| Fan conventional                 | Speed grill                    |
-| Fan grill                        | Speed power convection         |
-| Favorite cook                    | Speed roast                    |
-| Favorite recipes                 | Steam assist                   |
-| Fermentation                     | Steam autocook                 |
-| Fine steam                       | Steam bake                     |
-| Four part pure convection        | Steam bottom convection        |
-| Four part pure convection single | Steam bottom heat + convection |
-| Frozen food                      | Steam bread proof              |
-| Frozen mode                      | Steam clean                    |
-| Green clean                      | Steam clean real               |
-| Green clean real                 | Steam convection               |
-| Grill                            | Steam cook                     |
-| Grill convection                 | Steam proof                    |
-| Guided cook                      | Steam reheat                   |
-| Homecare wizard v2               | Steam roast                    |
-| Healthycook1                     | Steam top convection           |
-| Healthycook2                     | Stone mode                     |
-| Healthycook3                     | Strong steam                   |
-| Healthycook4                     | Three part pure convection     |
-| Healthycook5                     | Toast bagle                    |
-| Healthycook6                     | Toast croissant                |
-| Heating                          | Toast sliced bread             |
-| Hot blast                        | Top convection                 |
-| Intensive cook                   | Top heat plus eConvection      |
-| Internal clean                   | Turkey                         |
-| Keep warm                        | Vapor bottom heat + convection |
-| Large grill                      | Vapor cleaning                 |
-| Memory cook                      | Vapor convection               |
-| Microwave                        | Vapor grill                    |
-| Microwave convection             | Vapor MWO                      |
-| Microwave fan grill              | Vapor top heat + convection    |
-| Microwave grill                  | Warm hold                      |
-| Microwave hot blast              | Warming                        |
+| Name mode                 | Name mode                        | Name mode                      |
+| ------------------------- | -------------------------------- | ------------------------------ |
+| AI defrost                | Four part pure convection single | Roast                          |
+| AI reheat                 | Frozen food                      | Roasting                       |
+| AI sousvide               | Frozen mode                      | Seafood                        |
+| Air fry                   | Green clean                      | Self clean                     |
+| Air fryer                 | Green clean real                 | Sensor self diagnosis          |
+| Air fry max               | Grill                            | Slim fry middle                |
+| Air sousvide              | Grill convection                 | Slim fry strong                |
+| Autocook                  | Guided cook                      | Slim middle                    |
+| Autocook custom           | Homecare wizard v2               | Slim strong                    |
+| Bake                      | Healthycook 1                    | Slow cook                      |
+| Bottom                    | Healthycook 2                    | Slow cook beef                 |
+| Bottom convection         | Healthycook 3                    | Slow cook poultry              |
+| Bottom heat               | Healthycook 4                    | Slow cook stew                 |
+| Bottom heat + convection  | Healthycook 5                    | Small grill                    |
+| Bottom heat + eConvection | Healthycook 6                    | Spare rib                      |
+| Bread proof               | Heating                          | Speed bake                     |
+| Broil                     | Hot blast                        | Speed broil                    |
+| Broil combi               | Intensive cook                   | Speed brown                    |
+| Broil convection          | Internal clean                   | Speed conv sear                |
+| Broil S                   | Keep warm                        | Speed convection               |
+| Brownie                   | Large grill                      | Speed grill                    |
+| Catalytic clean           | Memory cook                      | Speed power convection         |
+| Chef bake                 | Microwave                        | Speed roast                    |
+| Chef broil                | Microwave convection             | Steam assist                   |
+| Chef proof                | Microwave fan grill              | Steam autocook                 |
+| Clean air pyro            | Microwave grill                  | Steam bake                     |
+| Convection                | Microwave hot blast              | Steam bottom convection        |
+| Convection bake           | Microwave roast                  | Steam bottom heat + convection |
+| Convection broil          | Microwave + grill                | Steam bread proof              |
+| Convection combi          | Microwave + convection           | Steam clean                    |
+| Convection roast          | Microwave + hot blast            | Steam clean real               |
+| Convection sear           | Microwave + hot blast 2          | Steam convection               |
+| Convection vegetable      | Moist steam                      | Steam cook                     |
+| Conventional              | Multi grill                      | Steam proof                    |
+| Cookie                    | Multi level cook                 | Steam reheat                   |
+| Defrost                   | Natural steam                    | Steam roast                    |
+| DefrostA                  | No operation                     | Steam top convection           |
+| Defrosting                | Others                           | Stone mode                     |
+| Dehydrate                 | Pizza                            | Strong steam                   |
+| Deodorization             | Pizza cook                       | Three part pure convection     |
+| Descale                   | Pizza naan                       | Toast bagle                    |
+| Drain                     | Plate warm                       | Toast croissant                |
+| Drying                    | Power bake                       | Toast sliced bread             |
+| Easycook1                 | Power convection                 | Top convection                 |
+| Easycook2                 | Power convection combi           | Top heat plus eConvection      |
+| Easycook3                 | Preheat                          | Turkey                         |
+| Eco convection            | Pro convection                   | Vapor bottom heat + convection |
+| Eco grill                 | Pro roasting                     | Vapor cleaning                 |
+| Fan conventional          | Proof                            | Vapor convection               |
+| Fan grill                 | Prove dough                      | Vapor grill                    |
+| Favorite cook             | Pure convection                  | Vapor MWO                      |
+| Favorite recipes          | Pure convection sear             | Vapor top heat + convection    |
+| Fermentation              | Pure steam                       | Warm hold                      |
+| Fine steam                | Pyro free                        | Warming                        |
+| Four part pure convection | Rinse                            |                                |
 
 Please share the information when your oven modes are not supported!
