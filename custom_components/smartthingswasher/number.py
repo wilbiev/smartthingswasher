@@ -177,6 +177,24 @@ OVEN_OPTIONS_TO_NUMBERS: dict[
             )
         ]
     },
+    Capability.OVEN_OPERATING_STATE: {
+        Attribute.OPERATION_TIME: [
+            SmartThingsNumberEntityDescription(
+                key=Attribute.OPERATION_TIME,
+                translation_key="oven_operation_time",
+                entity_category=EntityCategory.CONFIG,
+                device_class=NumberDeviceClass.DURATION,
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+                capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
+                component_translation_key={
+                    "cavity-01": "oven_operation_time_cavity_01",
+                    "cavity-02": "oven_operation_time_cavity_02",
+                },
+                supported_option=SupportedOption.OPERATION_TIME,
+            )
+        ],
+    },
     Capability.SAMSUNG_CE_OVEN_OPERATING_STATE: {
         Attribute.OPERATION_TIME: [
             SmartThingsNumberEntityDescription(

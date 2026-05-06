@@ -6,7 +6,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import cast
 
-from pysmartthings import Attribute, Capability, Category, SmartThings
+from pysmartthings import Attribute, Capability, Category, SmartThings, Status
 
 from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
@@ -36,6 +36,7 @@ class SmartThingsBinarySensorEntityDescription(BinarySensorEntityDescription):
     component_fn: Callable[[str], bool] | None = None
     component_translation_key: dict[str, str] | None = None
     supported_states_attributes: Attribute | None = None
+    exists_fn: Callable[[Status], bool] | None = None
 
 
 CAPABILITY_TO_SENSORS: dict[
@@ -99,6 +100,17 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="filter_status",
                 device_class=BinarySensorDeviceClass.PROBLEM,
                 is_on_key="replace",
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_WATER_RESERVOIR: {
+        Attribute.SLOT_STATE: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.SLOT_STATE,
+                translation_key="water_reservoir",
+                is_on_key="open",
+                exists_fn=lambda status: status.value is not None
+                and isinstance(status.value, str),
             )
         ]
     },
@@ -183,6 +195,10 @@ CAPABILITY_TO_SENSORS: dict[
                 translation_key="door",
                 device_class=BinarySensorDeviceClass.OPENING,
                 is_on_key="open",
+                component_fn=lambda component: component == "cavity-02",
+                component_translation_key={
+                    "cavity-02": "door_cavity_02",
+                },
             )
         ]
     },
@@ -419,35 +435,35 @@ async def async_setup_entry(
                 component,
             )
             for capability, attributes in CAPABILITY_TO_SENSORS.items()
-            for component in device.status
+            for component, capabilities in device.status.items()
+            if capability in capabilities
             for attribute, descriptions in attributes.items()
+            if (attr_status := capabilities[capability].get(attribute)) is not None
             for description in descriptions
             if (
-                capability in device.status[component]
-                and (
-                    component == MAIN
-                    or (
-                        description.component_fn is not None
-                        and description.component_fn(component)
-                    )
-                )
-                and (
-                    not description.category
-                    or get_main_component_category(device) in description.category
-                )
-                and (
-                    not description.supported_states_attributes
-                    or (
-                        isinstance(
-                            options := device.status[component][capability][
-                                description.supported_states_attributes
-                            ].value,
-                            list,
-                        )
-                        and len(options) == 2
-                    )
+                component == MAIN
+                or (
+                    description.component_fn is not None
+                    and description.component_fn(component)
                 )
             )
+            and (
+                not description.category
+                or get_main_component_category(device) in description.category
+            )
+            and (
+                not description.supported_states_attributes
+                or (
+                    isinstance(
+                        options := device.status[component][capability][
+                            description.supported_states_attributes
+                        ].value,
+                        list,
+                    )
+                    and len(options) == 2
+                )
+            )
+            and (not description.exists_fn or description.exists_fn(attr_status))
         )
 
         program_sensor_entities.extend(

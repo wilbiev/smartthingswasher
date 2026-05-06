@@ -16,6 +16,18 @@
           "on": "mdi:lock"
         }
       },
+      "door": {
+        "default": "mdi:door-closed",
+        "state": {
+          "on": "mdi:door-open"
+        }
+      },
+      "door_cavity_02": {
+        "default": "mdi:door-closed",
+        "state": {
+          "on": "mdi:door-open"
+        }
+      },
       "dry_plus_support": {
         "default": "mdi:heat-wave"
       },
@@ -75,6 +87,12 @@
       },
       "storm_wash_support": {
         "default": "mdi:weather-dust"
+      },
+      "water_reservoir": {
+        "default": "mdi:lock",
+        "state": {
+          "on": "mdi:lock-open-variant"
+        }
       }
     },
     "button": {

@@ -14,7 +14,7 @@ from homeassistant.core import _LOGGER, HomeAssistant, ServiceValidationError
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FullDevice, SmartThingsConfigEntry
-from .const import MAIN
+from .const import CAVITY_01, CAVITY_SINGLE, MAIN
 from .entity import SmartThingsEntity
 from .models import SupportedOption
 from .util import command_oven_mode, get_current_cavity_id
@@ -145,6 +145,7 @@ CAPABILITY_TO_BUTTONS: dict[
                     Capability.CUSTOM_OVEN_CAVITY_STATUS,
                     Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION,
                 ],
+                capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
                 component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "state_start_cavity_01",
@@ -157,6 +158,7 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Command.STOP,
                 translation_key="state_stop",
+                capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
                 component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "state_stop_cavity_01",
@@ -170,6 +172,7 @@ CAPABILITY_TO_BUTTONS: dict[
                 key=Command.SET_MACHINE_STATE,
                 translation_key="state_pause",
                 argument="pause",
+                capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_OPERATING_STATE}],
                 component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "state_pause_cavity_01",
@@ -189,9 +192,8 @@ CAPABILITY_TO_BUTTONS: dict[
                     Capability.SAMSUNG_CE_KITCHEN_MODE_SPECIFICATION,
                     Capability.SAMSUNG_CE_OVEN_MODE,
                     Capability.OVEN_SETPOINT,
-                    Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
+                    Capability.OVEN_OPERATING_STATE,
                 ],
-                capability_ignore_list=[{Capability.OVEN_OPERATING_STATE}],
                 component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "state_start_cavity_01",
@@ -204,7 +206,6 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Command.STOP,
                 translation_key="state_stop",
-                capability_ignore_list=[{Capability.OVEN_OPERATING_STATE}],
                 component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "state_stop_cavity_01",
@@ -217,7 +218,6 @@ CAPABILITY_TO_BUTTONS: dict[
             SmartThingsButtonEntityDescription(
                 key=Command.PAUSE,
                 translation_key="state_pause",
-                capability_ignore_list=[{Capability.OVEN_OPERATING_STATE}],
                 component_fn=lambda component: component in ["cavity-01", "cavity-02"],
                 component_translation_key={
                     "cavity-01": "state_pause_cavity_01",
@@ -339,75 +339,93 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
                 "Can only be used when remote control is enabled"
             )
         argument = None
-        if (
-            self.capability
-            in {
-                Capability.OVEN_OPERATING_STATE,
-                Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
-            }
-            and self.command == Command.START
-        ):
+        if self.capability in {
+            Capability.OVEN_OPERATING_STATE,
+            Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
+        }:
             raw_mode = None
             current_mode = None
             cavity_key = get_current_cavity_id(self.device.status, self.component)
-            if self.device.modes and cavity_key in self.device.modes:
-                if self.device.modes[cavity_key].active_mode != "no_operation":
-                    if raw_mode := self.device.modes[cavity_key].active_mode:
-                        current_mode = command_oven_mode(raw_mode)
-            if not raw_mode or not current_mode:
-                raise ServiceValidationError("No active oven mode found")
+            if self.component == CAVITY_01 and cavity_key == CAVITY_SINGLE:
+                raise ServiceValidationError(
+                    "Cannot perform action for lower oven in single cavity mode"
+                )
+            if self.command == Command.START:
+                if self.device.modes and cavity_key in self.device.modes:
+                    if self.device.modes[cavity_key].active_mode != "no_operation":
+                        if raw_mode := self.device.modes[cavity_key].active_mode:
+                            current_mode = command_oven_mode(raw_mode)
+                if not raw_mode or not current_mode:
+                    raise ServiceValidationError("No active oven mode found")
 
-            lookup_id = f"{cavity_key}_{raw_mode}"
-            program = self.device.programs.get(lookup_id)
-            if not program:
-                raise ServiceValidationError(f"Program not found for {current_mode}")
-            if not program.supports_start:
-                raise ServiceValidationError(
-                    f"Start is not available for {current_mode}"
-                )
-            current_temp = 0
-            if temp_opt := program.supportedoptions.get(SupportedOption.TEMPERATURE):
-                current_temp = int(temp_opt.selected_value or temp_opt.default or 0)
-            if current_temp == 0:
-                raise ServiceValidationError(
-                    "Cannot start oven session with zero temperature"
-                )
-            operation_time = None
-            if time_opt := program.supportedoptions.get(SupportedOption.OPERATION_TIME):
-                time_minutes = int(time_opt.selected_value or time_opt.default or 0)
-                operation_time = f"{time_minutes // 60:02d}:{time_minutes % 60:02d}:00"
-            if not operation_time or operation_time in {0, "00:00:00"}:
-                raise ServiceValidationError(
-                    "Cannot start oven session with zero operation time"
-                )
-            _LOGGER.debug(
-                "Staging oven session: Mode=%s, Time=%s, Temp=%s",
-                current_mode,
-                operation_time,
-                current_temp,
-            )
-            if self.capability == Capability.OVEN_OPERATING_STATE:
-                argument = [
+                lookup_id = f"{cavity_key}_{raw_mode}"
+                program = self.device.programs.get(lookup_id)
+                if not program:
+                    raise ServiceValidationError(
+                        f"Program not found for {current_mode}"
+                    )
+                current_temp = 0
+                if temp_opt := program.supportedoptions.get(
+                    SupportedOption.TEMPERATURE
+                ):
+                    current_temp = int(temp_opt.selected_value or temp_opt.default or 0)
+                if current_temp == 0:
+                    raise ServiceValidationError(
+                        "Cannot start oven session with zero temperature"
+                    )
+                operation_time = None
+                if time_opt := program.supportedoptions.get(
+                    SupportedOption.OPERATION_TIME
+                ):
+                    time_minutes = int(time_opt.selected_value or time_opt.default or 0)
+                    operation_time = (
+                        f"{time_minutes // 60:02d}:{time_minutes % 60:02d}:00"
+                    )
+                if not operation_time or operation_time in {0, "00:00:00"}:
+                    raise ServiceValidationError(
+                        "Cannot start oven session with zero operation time"
+                    )
+                _LOGGER.debug(
+                    "Staging oven session: Mode=%s, Time=%s, Temp=%s",
                     current_mode,
-                    time_minutes * 60,
-                    current_temp,
-                ]
-            else:
-                await self.execute_device_command(
-                    Capability.SAMSUNG_CE_OVEN_MODE,
-                    Command.SET_OVEN_MODE,
-                    current_mode,
-                )
-                await self.execute_device_command(
-                    Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
-                    Command.SET_OPERATION_TIME,
                     operation_time,
-                )
-                await self.execute_device_command(
-                    Capability.OVEN_SETPOINT,
-                    Command.SET_OVEN_SETPOINT,
                     current_temp,
                 )
+                if self.capability == Capability.SAMSUNG_CE_OVEN_OPERATING_STATE:
+                    await self.execute_device_command(
+                        Capability.SAMSUNG_CE_OVEN_MODE,
+                        Command.SET_OVEN_MODE,
+                        current_mode,
+                    )
+                    if program.supports_start:
+                        await self.execute_device_command(
+                            Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
+                            Command.SET_OPERATION_TIME,
+                            operation_time,
+                        )
+                        await self.execute_device_command(
+                            Capability.OVEN_SETPOINT,
+                            Command.SET_OVEN_SETPOINT,
+                            current_temp,
+                        )
+                else:
+                    argument = [
+                        current_mode,
+                        time_minutes * 60,
+                        current_temp,
+                    ]
+                if program.supports_start:
+                    await self.execute_device_command(
+                        self.capability,
+                        self.command,
+                        argument,
+                    )
+                await self.execute_device_command(
+                    Capability.OVEN_OPERATING_STATE,
+                    Command.SET_MACHINE_STATE,
+                    "run",
+                )
+                return
         elif self.entity_description.key == "time_sync":
             current_time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
             argument = [
