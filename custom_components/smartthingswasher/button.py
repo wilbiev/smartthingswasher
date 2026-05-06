@@ -391,29 +391,30 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
                     operation_time,
                     current_temp,
                 )
-                if self.capability == Capability.OVEN_OPERATING_STATE:
-                    argument = [
-                        current_mode,
-                        time_minutes * 60,
-                        current_temp,
-                    ]
-                else:
+                if self.capability == Capability.SAMSUNG_CE_OVEN_OPERATING_STATE:
                     await self.execute_device_command(
                         Capability.SAMSUNG_CE_OVEN_MODE,
                         Command.SET_OVEN_MODE,
                         current_mode,
                     )
-                    await self.execute_device_command(
-                        Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
-                        Command.SET_OPERATION_TIME,
-                        operation_time,
-                    )
-                    await self.execute_device_command(
-                        Capability.OVEN_SETPOINT,
-                        Command.SET_OVEN_SETPOINT,
+                    if program.supports_start:
+                        await self.execute_device_command(
+                            Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
+                            Command.SET_OPERATION_TIME,
+                            operation_time,
+                        )
+                        await self.execute_device_command(
+                            Capability.OVEN_SETPOINT,
+                            Command.SET_OVEN_SETPOINT,
+                            current_temp,
+                        )
+                else:
+                    argument = [
+                        current_mode,
+                        time_minutes * 60,
                         current_temp,
-                    )
-                if not program.supports_start:
+                    ]
+                if program.supports_start:
                     await self.execute_device_command(
                         self.capability,
                         self.command,
