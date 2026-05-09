@@ -414,18 +414,6 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
                         time_minutes * 60,
                         current_temp,
                     ]
-                if program.supports_start:
-                    await self.execute_device_command(
-                        self.capability,
-                        self.command,
-                        argument,
-                    )
-                await self.execute_device_command(
-                    Capability.OVEN_OPERATING_STATE,
-                    Command.SET_MACHINE_STATE,
-                    "run",
-                )
-                return
         elif self.entity_description.key == "time_sync":
             current_time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
             argument = [

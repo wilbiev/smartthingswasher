@@ -308,7 +308,7 @@ OVEN_JOB_STATE_MAP = {
     "scheduledStart": "scheduled_start",
     "fastPreheat": "fast_preheat",
     "scheduledEnd": "scheduled_end",
-    "stone_heating": "stone_heating",
+    "stoneHeating": "stone_heating",
     "timeHoldPreheat": "time_hold_preheat",
 }
 

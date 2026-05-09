@@ -28,6 +28,7 @@ from .const import (
     DRIVING_MODE_TO_HA,
     LAMP_TO_HA,
     MAIN,
+    OVEN_MODE_TO_HA,
     SOUND_MODE_TO_HA,
     WASHER_SOIL_LEVEL_TO_HA,
     WASHER_SPIN_LEVEL_TO_HA,
@@ -334,6 +335,24 @@ CAPABILITY_TO_SELECTS: dict[
             )
         ]
     },
+    Capability.OVEN_MODE: {
+        Attribute.OVEN_MODE: [
+            SmartThingsSelectEntityDescription(
+                key=Capability.SAMSUNG_CE_OVEN_MODE,
+                translation_key="oven_mode",
+                entity_category=EntityCategory.CONFIG,
+                options_attribute=Attribute.SUPPORTED_OVEN_MODES,
+                command=Command.SET_OVEN_MODE,
+                options_map=OVEN_MODE_TO_HA,
+                capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_MODE}],
+                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
+                component_translation_key={
+                    "cavity-01": "oven_mode_cavity_01",
+                    "cavity-02": "oven_mode_cavity_02",
+                },
+            )
+        ],
+    },
 }
 
 DISHWASHER_WASHING_OPTIONS_TO_SELECT: dict[
@@ -425,23 +444,6 @@ PROGRAMS_TO_SELECTS: dict[
 OVEN_MODES_TO_SELECTS: dict[
     Capability, dict[Attribute, list[SmartThingsSelectEntityDescription]]
 ] = {
-    Capability.OVEN_MODE: {
-        Attribute.OVEN_MODE: [
-            SmartThingsSelectEntityDescription(
-                key=Capability.SAMSUNG_CE_OVEN_MODE,
-                translation_key="oven_mode",
-                entity_category=EntityCategory.CONFIG,
-                options_attribute=Attribute.SUPPORTED_OVEN_MODES,
-                command=Command.SET_OVEN_MODE,
-                capability_ignore_list=[{Capability.SAMSUNG_CE_OVEN_MODE}],
-                component_fn=lambda component: component in ["cavity-01", "cavity-02"],
-                component_translation_key={
-                    "cavity-01": "oven_mode_cavity_01",
-                    "cavity-02": "oven_mode_cavity_02",
-                },
-            )
-        ],
-    },
     Capability.SAMSUNG_CE_OVEN_MODE: {
         Attribute.OVEN_MODE: [
             SmartThingsSelectEntityDescription(
