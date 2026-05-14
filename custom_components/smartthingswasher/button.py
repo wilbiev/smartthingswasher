@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import asyncio
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime
@@ -392,40 +391,34 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
                     operation_time,
                     current_temp,
                 )
-                argument = [
-                    current_mode,
-                    time_minutes * 60,
-                    current_temp,
-                ]
+                await self.execute_device_command(
+                    Capability.OVEN_OPERATING_STATE,
+                    Command.SET_MACHINE_STATE,
+                    "stop",
+                )
                 if self.capability == Capability.SAMSUNG_CE_OVEN_OPERATING_STATE:
-                    dummy_mode = next(
-                        (
-                            key.split("_", 1)[1]
-                            for key in self.device.programs
-                            if key.startswith(f"{cavity_key}_")
-                            and key != f"{cavity_key}_{raw_mode}"
-                        ),
-                        raw_mode,
-                    )
                     await self.execute_device_command(
                         Capability.SAMSUNG_CE_OVEN_MODE,
                         Command.SET_OVEN_MODE,
-                        command_oven_mode(dummy_mode),
+                        current_mode,
                     )
-                    await asyncio.sleep(1)
                     if program.supports_start:
                         await self.execute_device_command(
-                            Capability.SAMSUNG_CE_OVEN_MODE,
-                            Command.SET_OVEN_MODE,
-                            argument,
+                            Capability.SAMSUNG_CE_OVEN_OPERATING_STATE,
+                            Command.SET_OPERATION_TIME,
+                            operation_time,
                         )
-                    else:
                         await self.execute_device_command(
-                            Capability.SAMSUNG_CE_OVEN_MODE,
-                            Command.SET_OVEN_MODE,
-                            current_mode,
+                            Capability.OVEN_SETPOINT,
+                            Command.SET_OVEN_SETPOINT,
+                            current_temp,
                         )
-                    return
+                else:
+                    argument = [
+                        current_mode,
+                        time_minutes * 60,
+                        current_temp,
+                    ]
         elif self.entity_description.key == "time_sync":
             current_time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
             argument = [
