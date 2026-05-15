@@ -335,6 +335,16 @@
       "course": {
         "name": "Course",
         "state": {
+          "course_02": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_02%]",
+          "course_0f": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_0f%]",
+          "course_10": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_10%]",
+          "course_11": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_11%]",
+          "course_14": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_14%]",
+          "course_16": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_16%]",
+          "course_17": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_17%]",
+          "course_18": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_18%]",
+          "course_19": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_19%]",
+          "course_1a": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_1a%]",
           "course_1b": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_1b%]",
           "course_1c": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_1c%]",
           "course_1d": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_1d%]",
@@ -352,10 +362,12 @@
           "course_29": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_29%]",
           "course_2a": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_2a%]",
           "course_2b": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_2b%]",
+          "course_2c": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_2c%]",
           "course_2d": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_2d%]",
           "course_2e": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_2e%]",
           "course_2f": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_2f%]",
           "course_30": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_30%]",
+          "course_31": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_31%]",
           "course_32": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_32%]",
           "course_33": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_33%]",
           "course_34": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_34%]",
@@ -365,9 +377,63 @@
           "course_38": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_38%]",
           "course_39": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_39%]",
           "course_3a": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_3a%]",
+          "course_3e": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_3e%]",
+          "course_3f": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_3f%]",
+          "course_50": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_50%]",
+          "course_52": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_52%]",
+          "course_53": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_53%]",
+          "course_59": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_59%]",
+          "course_5a": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_5a%]",
+          "course_5b": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_5b%]",
+          "course_5d": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_5d%]",
+          "course_5f": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_5f%]",
+          "course_60": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_60%]",
+          "course_61": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_61%]",
+          "course_62": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_62%]",
+          "course_63": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_63%]",
+          "course_64": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_64%]",
           "course_66": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_66%]",
+          "course_67": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_67%]",
+          "course_68": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_68%]",
+          "course_71": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_71%]",
+          "course_73": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_73%]",
+          "course_7c": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_7c%]",
+          "course_7d": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_7d%]",
+          "course_7e": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_7e%]",
+          "course_7f": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_7f%]",
+          "course_80": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_80%]",
+          "course_82": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_82%]",
+          "course_84": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_84%]",
+          "course_85": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_85%]",
+          "course_86": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_86%]",
+          "course_88": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_88%]",
+          "course_89": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_89%]",
+          "course_8c": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_8c%]",
+          "course_8d": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_8d%]",
+          "course_8e": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_8e%]",
           "course_8f": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_8f%]",
-          "course_96": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_96%]"
+          "course_96": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_96%]",
+          "course_a0": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_a0%]",
+          "course_a1": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_a1%]",
+          "course_a2": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_a2%]",
+          "course_a3": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_a3%]",
+          "course_a4": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_a4%]",
+          "course_a6": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_a6%]",
+          "course_a7": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_a7%]",
+          "course_a8": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_a8%]",
+          "course_a9": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_a9%]",
+          "course_aa": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_aa%]",
+          "course_ab": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_ab%]",
+          "course_ac": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_ac%]",
+          "course_ad": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_ad%]",
+          "course_ae": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_ae%]",
+          "course_af": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_af%]",
+          "course_b2": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_b2%]",
+          "course_b3": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_b3%]",
+          "course_b4": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_b4%]",
+          "course_b5": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_b5%]",
+          "course_b6": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_b6%]",
+          "course_fb": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_fb%]"
         }
       },
       "cycle_table_00": {
@@ -404,6 +470,16 @@
       "cycle_table_02": {
         "name": "Cycle",
         "state": {
+          "course_02": "Powerbubble+",
+          "course_0f": "Clean Wash",
+          "course_10": "Spin for Dry",
+          "course_11": "Thin Bedding",
+          "course_14": "Undergarment",
+          "course_16": "Blouses",
+          "course_17": "Cloud",
+          "course_18": "Soft Bubble",
+          "course_19": "AI Optimal Wash",
+          "course_1a": "Shirts",
           "course_1b": "Cotton",
           "course_1c": "Eco 40-60",
           "course_1d": "Super Speed",
@@ -418,25 +494,81 @@
           "course_26": "Delicates",
           "course_27": "Rinse+Spin",
           "course_28": "Drain/Spin",
-          "course_29": "Drum Clean",
+          "course_29": "Drum Clean+",
           "course_2a": "Denim",
           "course_2b": "AI Wash",
+          "course_2c": "Stain Away",
           "course_2d": "Silent Wash",
           "course_2e": "Baby Care",
           "course_2f": "Activewear",
           "course_30": "Cloudy Day",
+          "course_31": "Sportswear",
           "course_32": "Shirts",
           "course_33": "Towels",
           "course_34": "Daily Wash",
           "course_35": "eCotton",
-          "course_36": "Wash Dry",
-          "course_37": "Air Refresh",
+          "course_36": "Wash+Dry",
+          "course_37": "Air Wash",
           "course_38": "Cotton Dry",
           "course_39": "Synthetics Dry",
           "course_3a": "Drum Clean",
+          "course_3e": "Bubble Wash+",
+          "course_3f": "Deep Softener",
+          "course_50": "Heavy Duty+",
+          "course_52": "Eco Cold",
+          "course_53": "Heavy Duty",
+          "course_59": "Perm Press",
+          "course_5a": "Steam Sanitise",
+          "course_5b": "Small Load",
+          "course_5d": "Power Rinse",
+          "course_5f": "Spin Only",
+          "course_60": "Self Clean+",
+          "course_61": "Steam Cotton",
+          "course_62": "OptiWash",
+          "course_63": "Power Steam",
+          "course_64": "Steam Whites",
           "course_66": "Denim",
+          "course_67": "Steam Allergen",
+          "course_68": "Steam Bulky",
+          "course_71": "Quick Wash",
+          "course_73": "Sanitise",
+          "course_7c": "Whites",
+          "course_7d": "Bedding/WaterProof",
+          "course_7e": "Self Clean",
+          "course_7f": "Wool/Delicates",
+          "course_80": "Water Saving",
+          "course_82": "Tub Clean",
+          "course_84": "Stain Wash",
+          "course_85": "Steam Normal",
+          "course_86": "Deep Wash",
+          "course_88": "Pet Care Wash",
+          "course_89": "Air Refresh",
+          "course_8c": "AI OptiWash",
+          "course_8d": "Steam Bedding",
+          "course_8e": "Super Eco Wash",
           "course_8f": "Intense Cold",
-          "course_96": "Less Microfiber"
+          "course_96": "Less Microfiber",
+          "course_a0": "Quick Wash 15m",
+          "course_a1": "Normal",
+          "course_a2": "AI Wash & Dry",
+          "course_a3": "Quick Wash+Dry",
+          "course_a4": "Less Microfiber",
+          "course_a6": "Pet Care",
+          "course_a7": "Product Care",
+          "course_a8": "Time Dry",
+          "course_a9": "Tide POD Cold",
+          "course_aa": "Air Fluff",
+          "course_ab": "Deep Clean",
+          "course_ac": "Air Sanitise",
+          "course_ad": "AI Opti Wash & Dry",
+          "course_ae": "Cool Air",
+          "course_af": "Down Jacket Care",
+          "course_b2": "AI Wash & Dry +",
+          "course_b3": "Single Garment",
+          "course_b4": "Hand Wash",
+          "course_b5": "AI Wash+",
+          "course_b6": "AI OptiWash+",
+          "course_fb": "Care label cycle"
         }
       },
       "cycle_table_03": {
@@ -2018,6 +2150,36 @@
       "table_00_course_dc": {
         "name": "[%key:component::smartthingswasher::entity::select::cycle_table_00::state::course_dc%]"
       },
+      "table_02_course_02": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_02%]"
+      },
+      "table_02_course_0f": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_0f%]"
+      },
+      "table_02_course_10": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_10%]"
+      },
+      "table_02_course_11": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_11%]"
+      },
+      "table_02_course_14": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_14%]"
+      },
+      "table_02_course_16": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_16%]"
+      },
+      "table_02_course_17": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_17%]"
+      },
+      "table_02_course_18": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_18%]"
+      },
+      "table_02_course_19": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_19%]"
+      },
+      "table_02_course_1a": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_1a%]"
+      },
       "table_02_course_1b": {
         "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_1b%]"
       },
@@ -2069,6 +2231,9 @@
       "table_02_course_2b": {
         "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_2b%]"
       },
+      "table_02_course_2c": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_2c%]"
+      },
       "table_02_course_2d": {
         "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_2d%]"
       },
@@ -2080,6 +2245,9 @@
       },
       "table_02_course_30": {
         "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_30%]"
+      },
+      "table_02_course_31": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_31%]"
       },
       "table_02_course_32": {
         "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_32%]"
@@ -2108,14 +2276,176 @@
       "table_02_course_3a": {
         "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_3a%]"
       },
+      "table_02_course_3e": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_3e%]"
+      },
+      "table_02_course_3f": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_3f%]"
+      },
+      "table_02_course_50": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_50%]"
+      },
+      "table_02_course_52": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_52%]"
+      },
+      "table_02_course_53": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_53%]"
+      },
+      "table_02_course_59": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_59%]"
+      },
+      "table_02_course_5a": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_5a%]"
+      },
+      "table_02_course_5b": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_5b%]"
+      },
+      "table_02_course_5d": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_5d%]"
+      },
+      "table_02_course_5f": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_5f%]"
+      },
+      "table_02_course_60": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_60%]"
+      },
+      "table_02_course_61": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_61%]"
+      },
+      "table_02_course_62": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_62%]"
+      },
+      "table_02_course_63": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_63%]"
+      },
+      "table_02_course_64": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_64%]"
+      },
       "table_02_course_66": {
         "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_66%]"
+      },
+      "table_02_course_67": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_67%]"
+      },
+      "table_02_course_68": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_68%]"
+      },
+      "table_02_course_71": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_71%]"
+      },
+      "table_02_course_73": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_73%]"
+      },
+      "table_02_course_7c": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_7c%]"
+      },
+      "table_02_course_7d": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_7d%]"
+      },
+      "table_02_course_7e": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_7e%]"
+      },
+      "table_02_course_7f": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_7f%]"
+      },
+      "table_02_course_80": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_80%]"
+      },
+      "table_02_course_82": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_82%]"
+      },
+      "table_02_course_84": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_84%]"
+      },
+      "table_02_course_85": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_85%]"
+      },
+      "table_02_course_86": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_86%]"
+      },
+      "table_02_course_88": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_88%]"
+      },
+      "table_02_course_89": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_89%]"
+      },
+      "table_02_course_8c": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_8c%]"
+      },
+      "table_02_course_8d": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_8d%]"
+      },
+      "table_02_course_8e": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_8e%]"
       },
       "table_02_course_8f": {
         "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_8f%]"
       },
       "table_02_course_96": {
         "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_96%]"
+      },
+      "table_02_course_a0": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_a0%]"
+      },
+      "table_02_course_a1": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_a1%]"
+      },
+      "table_02_course_a2": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_a2%]"
+      },
+      "table_02_course_a3": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_a3%]"
+      },
+      "table_02_course_a4": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_a4%]"
+      },
+      "table_02_course_a6": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_a6%]"
+      },
+      "table_02_course_a7": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_a7%]"
+      },
+      "table_02_course_a8": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_a8%]"
+      },
+      "table_02_course_a9": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_a9%]"
+      },
+      "table_02_course_aa": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_aa%]"
+      },
+      "table_02_course_ab": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_ab%]"
+      },
+      "table_02_course_ac": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_ac%]"
+      },
+      "table_02_course_ad": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_ad%]"
+      },
+      "table_02_course_ae": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_ae%]"
+      },
+      "table_02_course_af": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_af%]"
+      },
+      "table_02_course_b2": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_b2%]"
+      },
+      "table_02_course_b3": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_b3%]"
+      },
+      "table_02_course_b4": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_b4%]"
+      },
+      "table_02_course_b5": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_b5%]"
+      },
+      "table_02_course_b6": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_b6%]"
+      },
+      "table_02_course_fb": {
+        "name": "[%key:component::smartthingswasher::entity::select::cycle_table_02::state::course_fb%]"
       },
       "table_03_course_16": {
         "name": "[%key:component::smartthingswasher::entity::select::cycle_table_03::state::course_16%]"
