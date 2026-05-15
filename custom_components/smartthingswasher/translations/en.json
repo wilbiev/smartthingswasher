@@ -335,6 +335,16 @@
       "course": {
         "name": "Course",
         "state": {
+          "course_02": "Powerbubble+",
+          "course_0f": "Clean Wash",
+          "course_10": "Spin for Dry",
+          "course_11": "Thin Bedding",
+          "course_14": "Undergarment",
+          "course_16": "Blouses",
+          "course_17": "Cloud",
+          "course_18": "Soft Bubble",
+          "course_19": "AI Optimal Wash",
+          "course_1a": "Shirts",
           "course_1b": "Cotton",
           "course_1c": "Eco 40-60",
           "course_1d": "Super Speed",
@@ -349,25 +359,81 @@
           "course_26": "Delicates",
           "course_27": "Rinse+Spin",
           "course_28": "Drain/Spin",
-          "course_29": "Drum Clean",
+          "course_29": "Drum Clean+",
           "course_2a": "Denim",
           "course_2b": "AI Wash",
+          "course_2c": "Stain Away",
           "course_2d": "Silent Wash",
           "course_2e": "Baby Care",
           "course_2f": "Activewear",
           "course_30": "Cloudy Day",
+          "course_31": "Sportswear",
           "course_32": "Shirts",
           "course_33": "Towels",
           "course_34": "Daily Wash",
           "course_35": "eCotton",
-          "course_36": "Wash Dry",
-          "course_37": "Air Refresh",
+          "course_36": "Wash+Dry",
+          "course_37": "Air Wash",
           "course_38": "Cotton Dry",
           "course_39": "Synthetics Dry",
           "course_3a": "Drum Clean",
+          "course_3e": "Bubble Wash+",
+          "course_3f": "Deep Softener",
+          "course_50": "Heavy Duty+",
+          "course_52": "Eco Cold",
+          "course_53": "Heavy Duty",
+          "course_59": "Perm Press",
+          "course_5a": "Steam Sanitise",
+          "course_5b": "Small Load",
+          "course_5d": "Power Rinse",
+          "course_5f": "Spin Only",
+          "course_60": "Self Clean+",
+          "course_61": "Steam Cotton",
+          "course_62": "OptiWash",
+          "course_63": "Power Steam",
+          "course_64": "Steam Whites",
           "course_66": "Denim",
+          "course_67": "Steam Allergen",
+          "course_68": "Steam Bulky",
+          "course_71": "Quick Wash",
+          "course_73": "Sanitise",
+          "course_7c": "Whites",
+          "course_7d": "Bedding/WaterProof",
+          "course_7e": "Self Clean",
+          "course_7f": "Wool/Delicates",
+          "course_80": "Water Saving",
+          "course_82": "Tub Clean",
+          "course_84": "Stain Wash",
+          "course_85": "Steam Normal",
+          "course_86": "Deep Wash",
+          "course_88": "Pet Care Wash",
+          "course_89": "Air Refresh",
+          "course_8c": "AI OptiWash",
+          "course_8d": "Steam Bedding",
+          "course_8e": "Super Eco Wash",
           "course_8f": "Intense Cold",
-          "course_96": "Less Microfiber"
+          "course_96": "Less Microfiber",
+          "course_a0": "Quick Wash 15m",
+          "course_a1": "Normal",
+          "course_a2": "AI Wash & Dry",
+          "course_a3": "Quick Wash+Dry",
+          "course_a4": "Less Microfiber",
+          "course_a6": "Pet Care",
+          "course_a7": "Product Care",
+          "course_a8": "Time Dry",
+          "course_a9": "Tide POD Cold",
+          "course_aa": "Air Fluff",
+          "course_ab": "Deep Clean",
+          "course_ac": "Air Sanitise",
+          "course_ad": "AI Opti Wash & Dry",
+          "course_ae": "Cool Air",
+          "course_af": "Down Jacket Care",
+          "course_b2": "AI Wash & Dry +",
+          "course_b3": "Single Garment",
+          "course_b4": "Hand Wash",
+          "course_b5": "AI Wash+",
+          "course_b6": "AI OptiWash+",
+          "course_fb": "Care label cycle"
         }
       },
       "cycle_table_00": {
@@ -404,6 +470,16 @@
       "cycle_table_02": {
         "name": "Cycle",
         "state": {
+          "course_02": "Powerbubble+",
+          "course_0f": "Clean Wash",
+          "course_10": "Spin for Dry",
+          "course_11": "Thin Bedding",
+          "course_14": "Undergarment",
+          "course_16": "Blouses",
+          "course_17": "Cloud",
+          "course_18": "Soft Bubble",
+          "course_19": "AI Optimal Wash",
+          "course_1a": "Shirts",
           "course_1b": "Cotton",
           "course_1c": "Eco 40-60",
           "course_1d": "Super Speed",
@@ -418,25 +494,81 @@
           "course_26": "Delicates",
           "course_27": "Rinse+Spin",
           "course_28": "Drain/Spin",
-          "course_29": "Drum Clean",
+          "course_29": "Drum Clean+",
           "course_2a": "Denim",
           "course_2b": "AI Wash",
+          "course_2c": "Stain Away",
           "course_2d": "Silent Wash",
           "course_2e": "Baby Care",
           "course_2f": "Activewear",
           "course_30": "Cloudy Day",
+          "course_31": "Sportswear",
           "course_32": "Shirts",
           "course_33": "Towels",
           "course_34": "Daily Wash",
           "course_35": "eCotton",
-          "course_36": "Wash Dry",
-          "course_37": "Air Refresh",
+          "course_36": "Wash+Dry",
+          "course_37": "Air Wash",
           "course_38": "Cotton Dry",
           "course_39": "Synthetics Dry",
           "course_3a": "Drum Clean",
+          "course_3e": "Bubble Wash+",
+          "course_3f": "Deep Softener",
+          "course_50": "Heavy Duty+",
+          "course_52": "Eco Cold",
+          "course_53": "Heavy Duty",
+          "course_59": "Perm Press",
+          "course_5a": "Steam Sanitise",
+          "course_5b": "Small Load",
+          "course_5d": "Power Rinse",
+          "course_5f": "Spin Only",
+          "course_60": "Self Clean+",
+          "course_61": "Steam Cotton",
+          "course_62": "OptiWash",
+          "course_63": "Power Steam",
+          "course_64": "Steam Whites",
           "course_66": "Denim",
+          "course_67": "Steam Allergen",
+          "course_68": "Steam Bulky",
+          "course_71": "Quick Wash",
+          "course_73": "Sanitise",
+          "course_7c": "Whites",
+          "course_7d": "Bedding/WaterProof",
+          "course_7e": "Self Clean",
+          "course_7f": "Wool/Delicates",
+          "course_80": "Water Saving",
+          "course_82": "Tub Clean",
+          "course_84": "Stain Wash",
+          "course_85": "Steam Normal",
+          "course_86": "Deep Wash",
+          "course_88": "Pet Care Wash",
+          "course_89": "Air Refresh",
+          "course_8c": "AI OptiWash",
+          "course_8d": "Steam Bedding",
+          "course_8e": "Super Eco Wash",
           "course_8f": "Intense Cold",
-          "course_96": "Less Microfiber"
+          "course_96": "Less Microfiber",
+          "course_a0": "Quick Wash 15m",
+          "course_a1": "Normal",
+          "course_a2": "AI Wash & Dry",
+          "course_a3": "Quick Wash+Dry",
+          "course_a4": "Less Microfiber",
+          "course_a6": "Pet Care",
+          "course_a7": "Product Care",
+          "course_a8": "Time Dry",
+          "course_a9": "Tide POD Cold",
+          "course_aa": "Air Fluff",
+          "course_ab": "Deep Clean",
+          "course_ac": "Air Sanitise",
+          "course_ad": "AI Opti Wash & Dry",
+          "course_ae": "Cool Air",
+          "course_af": "Down Jacket Care",
+          "course_b2": "AI Wash & Dry +",
+          "course_b3": "Single Garment",
+          "course_b4": "Hand Wash",
+          "course_b5": "AI Wash+",
+          "course_b6": "AI OptiWash+",
+          "course_fb": "Care label cycle"
         }
       },
       "cycle_table_03": {
@@ -2012,6 +2144,36 @@
       "table_00_course_dc": {
         "name": "15m Quick Wash"
       },
+      "table_02_course_02": {
+        "name": "Powerbubble+"
+      },
+      "table_02_course_0f": {
+        "name": "Clean Wash"
+      },
+      "table_02_course_10": {
+        "name": "Spin for Dry"
+      },
+      "table_02_course_11": {
+        "name": "Thin Bedding"
+      },
+      "table_02_course_14": {
+        "name": "Undergarment"
+      },
+      "table_02_course_16": {
+        "name": "Blouses"
+      },
+      "table_02_course_17": {
+        "name": "Cloud"
+      },
+      "table_02_course_18": {
+        "name": "Soft Bubble"
+      },
+      "table_02_course_19": {
+        "name": "AI Optimal Wash"
+      },
+      "table_02_course_1a": {
+        "name": "Shirts"
+      },
       "table_02_course_1b": {
         "name": "Cotton"
       },
@@ -2055,13 +2217,16 @@
         "name": "Drain/Spin"
       },
       "table_02_course_29": {
-        "name": "Drum Clean"
+        "name": "Drum Clean+"
       },
       "table_02_course_2a": {
         "name": "Denim"
       },
       "table_02_course_2b": {
         "name": "AI Wash"
+      },
+      "table_02_course_2c": {
+        "name": "Stain Away"
       },
       "table_02_course_2d": {
         "name": "Silent Wash"
@@ -2074,6 +2239,9 @@
       },
       "table_02_course_30": {
         "name": "Cloudy Day"
+      },
+      "table_02_course_31": {
+        "name": "Sportswear"
       },
       "table_02_course_32": {
         "name": "Shirts"
@@ -2088,10 +2256,10 @@
         "name": "eCotton"
       },
       "table_02_course_36": {
-        "name": "Wash Dry"
+        "name": "Wash+Dry"
       },
       "table_02_course_37": {
-        "name": "Air Refresh"
+        "name": "Air Wash"
       },
       "table_02_course_38": {
         "name": "Cotton Dry"
@@ -2102,14 +2270,176 @@
       "table_02_course_3a": {
         "name": "Drum Clean"
       },
+      "table_02_course_3e": {
+        "name": "Bubble Wash+"
+      },
+      "table_02_course_3f": {
+        "name": "Deep Softener"
+      },
+      "table_02_course_50": {
+        "name": "Heavy Duty+"
+      },
+      "table_02_course_52": {
+        "name": "Eco Cold"
+      },
+      "table_02_course_53": {
+        "name": "Heavy Duty"
+      },
+      "table_02_course_59": {
+        "name": "Perm Press"
+      },
+      "table_02_course_5a": {
+        "name": "Steam Sanitise"
+      },
+      "table_02_course_5b": {
+        "name": "Small Load"
+      },
+      "table_02_course_5d": {
+        "name": "Power Rinse"
+      },
+      "table_02_course_5f": {
+        "name": "Spin Only"
+      },
+      "table_02_course_60": {
+        "name": "Self Clean+"
+      },
+      "table_02_course_61": {
+        "name": "Steam Cotton"
+      },
+      "table_02_course_62": {
+        "name": "OptiWash"
+      },
+      "table_02_course_63": {
+        "name": "Power Steam"
+      },
+      "table_02_course_64": {
+        "name": "Steam Whites"
+      },
       "table_02_course_66": {
         "name": "Denim"
+      },
+      "table_02_course_67": {
+        "name": "Steam Allergen"
+      },
+      "table_02_course_68": {
+        "name": "Steam Bulky"
+      },
+      "table_02_course_71": {
+        "name": "Quick Wash"
+      },
+      "table_02_course_73": {
+        "name": "Sanitise"
+      },
+      "table_02_course_7c": {
+        "name": "Whites"
+      },
+      "table_02_course_7d": {
+        "name": "Bedding/WaterProof"
+      },
+      "table_02_course_7e": {
+        "name": "Self Clean"
+      },
+      "table_02_course_7f": {
+        "name": "Wool/Delicates"
+      },
+      "table_02_course_80": {
+        "name": "Water Saving"
+      },
+      "table_02_course_82": {
+        "name": "Tub Clean"
+      },
+      "table_02_course_84": {
+        "name": "Stain Wash"
+      },
+      "table_02_course_85": {
+        "name": "Steam Normal"
+      },
+      "table_02_course_86": {
+        "name": "Deep Wash"
+      },
+      "table_02_course_88": {
+        "name": "Pet Care Wash"
+      },
+      "table_02_course_89": {
+        "name": "Air Refresh"
+      },
+      "table_02_course_8c": {
+        "name": "AI OptiWash"
+      },
+      "table_02_course_8d": {
+        "name": "Steam Bedding"
+      },
+      "table_02_course_8e": {
+        "name": "Super Eco Wash"
       },
       "table_02_course_8f": {
         "name": "Intense Cold"
       },
       "table_02_course_96": {
         "name": "Less Microfiber"
+      },
+      "table_02_course_a0": {
+        "name": "Quick Wash 15m"
+      },
+      "table_02_course_a1": {
+        "name": "Normal"
+      },
+      "table_02_course_a2": {
+        "name": "AI Wash & Dry"
+      },
+      "table_02_course_a3": {
+        "name": "Quick Wash+Dry"
+      },
+      "table_02_course_a4": {
+        "name": "Less Microfiber"
+      },
+      "table_02_course_a6": {
+        "name": "Pet Care"
+      },
+      "table_02_course_a7": {
+        "name": "Product Care"
+      },
+      "table_02_course_a8": {
+        "name": "Time Dry"
+      },
+      "table_02_course_a9": {
+        "name": "Tide POD Cold"
+      },
+      "table_02_course_aa": {
+        "name": "Air Fluff"
+      },
+      "table_02_course_ab": {
+        "name": "Deep Clean"
+      },
+      "table_02_course_ac": {
+        "name": "Air Sanitise"
+      },
+      "table_02_course_ad": {
+        "name": "AI Opti Wash & Dry"
+      },
+      "table_02_course_ae": {
+        "name": "Cool Air"
+      },
+      "table_02_course_af": {
+        "name": "Down Jacket Care"
+      },
+      "table_02_course_b2": {
+        "name": "AI Wash & Dry +"
+      },
+      "table_02_course_b3": {
+        "name": "Single Garment"
+      },
+      "table_02_course_b4": {
+        "name": "Hand Wash"
+      },
+      "table_02_course_b5": {
+        "name": "AI Wash+"
+      },
+      "table_02_course_b6": {
+        "name": "AI OptiWash+"
+      },
+      "table_02_course_fb": {
+        "name": "Care label cycle"
       },
       "table_03_course_16": {
         "name": "Cotton"

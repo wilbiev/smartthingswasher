@@ -167,62 +167,123 @@ Please share the information when your dishwasher courses are not supported!
 
 ### Current dryer/steam closet/washer course support
 
-| Name course     | Table_00  | Table_01 | Table_02  | Table_03  |
-| --------------- | --------- | -------- | --------- | --------- |
-| 15m Quick Wash  | Course_66 |          | Course_1E |           |
-| 15m Quick Wash  | Course_DC |          | Course_1E |           |
-| Activewear      |           |          | Course_2F |           |
-| AI Dry          |           |          |           | Course_29 |
-| AI Wash         |           |          | Course_2B |           |
-| Air Refresh     | Course_61 |          | Course_37 |           |
-| Baby Care       |           |          | Course_2E |           |
-| Bedding         | Course_D6 |          | Course_24 | Course_1B |
-| Cloudy Day      |           |          | Course_30 |           |
-| Colours         |           |          | Course_21 |           |
-| Cool Air        |           |          |           | Course_24 |
-| Cotton          | Course_5B |          | Course_1B | Course_16 |
-| Cotton          | Course_D0 |          | Course_1B | Course_16 |
-| Cotton Dry      |           |          | Course_38 |           |
-| Daily Wash      | Course_5D |          | Course_34 |           |
-| Dark Garment    | Course_D9 |          |           |           |
-| Delicates       | Course_D3 |          | Course_26 | Course_19 |
-| Denim           |           |          | Course_2A |           |
-| Denim           |           |          | Course_66 |           |
-| Drain/Spin      | Course_BA |          | Course_28 |           |
-| Drum Clean      |           |          | Course_29 |           |
-| Drum Clean      |           |          | Course_3A |           |
-| Drum Clean+     |           |          |           |           |
-| Drying          | Course_63 |          |           |           |
-| Eco 40-60       |           |          | Course_1C |           |
-| Eco Drum Clean  | Course_60 |          |           |           |
-| Eco Drum Clean  | Course_D5 |          |           |           |
-| eCotton         | Course_D1 |          | Course_35 |           |
-| Hygiene Care    |           |          |           |           |
-| Hygiene Steam   |           |          | Course_20 |           |
-| Intense Cold    |           |          | Course_1F |           |
-| Intense Cold    |           |          | Course_8F |           |
-| Iron Dry        |           |          |           | Course_20 |
-| Less Microfiber |           |          | Course_96 |           |
-| Mixed Load      |           |          |           |           |
-| Outdoor         | Course_D7 |          | Course_23 | Course_1E |
-| Quick Dry 35m   |           |          |           | Course_23 |
-| Rinse+Spin      | Course_5F |          | Course_27 |           |
-| Rinse+Spin      | Course_D4 |          | Course_27 |           |
-| Self Tub Dry    |           |          |           | Course_2B |
-| Shirts          |           |          | Course_32 | Course_1C |
-| Silent Dry      |           |          |           |           |
-| Silent Wash     |           |          | Course_2D |           |
-| Spin            | Course_5E |          |           |           |
-| Super Eco Wash  | Course_DA |          |           |           |
-| Super Speed     | Course_DB |          | Course_1D |           |
-| Synthetics      | Course_5C |          | Course_25 | Course_18 |
-| Synthetics      | Course_D2 |          | Course_25 | Course_18 |
-| Synthetics Dry  |           |          | Course_39 |           |
-| Time Dry        |           |          |           | Course_27 |
-| Towels          |           |          | Course_33 | Course_1D |
-| Warm Air        |           |          |           | Course_25 |
-| Wash+Dry        |           |          | Course_36 |           |
-| Wool            | Course_D8 |          | Course_22 | Course_1A |
+| Name course        | Table_00  | Table_01 | Table_02  | Table_03  |
+| ------------------ | --------- | -------- | --------- | --------- |
+| 15m Quick Wash     | Course_66 |          | Course_1E |           |
+| 15m Quick Wash     | Course_DC |          | Course_1E |           |
+| Activewear         |           |          | Course_2F |           |
+| AI Dry             |           |          |           | Course_29 |
+| AI Opti Wash & Dry |           |          | Course_AD |           |
+| AI Optimal Wash    |           |          | Course_19 |           |
+| AI OptiWash        |           |          | Course_8C |           |
+| AI OptiWash+       |           |          | Course_B6 |           |
+| AI Wash            |           |          | Course_2B |           |
+| AI Wash & Dry      |           |          | Course_A2 |           |
+| AI Wash & Dry +    |           |          | Course_B2 |           |
+| AI Wash+           |           |          | Course_B5 |           |
+| Air Fluff          |           |          | Course_AA |           |
+| Air Refresh        | Course_61 |          | Course_89 |           |
+| Air Sanitise       |           |          | Course_AC |           |
+| Air Wash           |           |          | Course_37 |           |
+| Baby Care          |           |          | Course_2E |           |
+| Bedding            | Course_D6 |          | Course_24 | Course_1B |
+| Bedding/WaterProof |           |          | Course_7D |           |
+| Blouses            |           |          | Course_6C |           |
+| Bubble Wash+       |           |          | Course_3E |           |
+| Care label cycle   |           |          | Course_FB |           |
+| Clean Wash         |           |          | Course_0F |           |
+| Cloud              |           |          | Course_17 |           |
+| Cloudy Day         |           |          | Course_30 |           |
+| Colours            |           |          | Course_21 |           |
+| Cool Air           |           |          |           | Course_24 |
+| Cotton             | Course_5B |          | Course_1B | Course_16 |
+| Cotton             | Course_D0 |          | Course_1B | Course_16 |
+| Cotton Dry         |           |          | Course_38 |           |
+| Daily Wash         | Course_5D |          | Course_34 |           |
+| Dark Garment       | Course_D9 |          |           |           |
+| Deep Clean         |           |          | Course_AB |           |
+| Deep Softener      |           |          | Course_3F |           |
+| Deep Wash          |           |          | Course_86 |           |
+| Delicates          | Course_D3 |          | Course_26 | Course_19 |
+| Denim              |           |          | Course_2A |           |
+| Denim              |           |          | Course_66 |           |
+| Down Jacket Care   |           |          | Course_AF |           |
+| Drain/Spin         | Course_BA |          | Course_28 |           |
+| Drum Clean         |           |          | Course_3A |           |
+| Drum Clean+        |           |          | Course_29 |           |
+| Drying             | Course_63 |          |           |           |
+| Eco 40-60          |           |          | Course_1C |           |
+| Eco Cold           |           |          | Course_52 |           |
+| Eco Drum Clean     | Course_60 |          |           |           |
+| Eco Drum Clean     | Course_D5 |          |           |           |
+| eCotton            | Course_D1 |          | Course_35 |           |
+| Hand Wash          |           |          | Course_B4 |           |
+| Heavy Duty         |           |          | Course_53 |           |
+| Heavy Duty+        |           |          | Course_50 |           |
+| Hygiene Care       |           |          |           |           |
+| Hygiene Steam      |           |          | Course_20 |           |
+| Intense Cold       |           |          | Course_1F |           |
+| Intense Cold       |           |          | Course_8F |           |
+| Iron Dry           |           |          |           | Course_20 |
+| Less Microfiber    |           |          | Course_96 |           |
+| Less Microfiber    |           |          | Course_A4 |           |
+| Normal             |           |          | Course_A1 |           |
+| OptiWash           |           |          | Course_62 |           |
+| Outdoor            | Course_D7 |          | Course_23 | Course_1E |
+| Perm Press         |           |          | Course_59 |           |
+| Pet Care           |           |          | Course_A6 |           |
+| Pet Care Wash      |           |          | Course_88 |           |
+| Power Rinse        |           |          | Course_5D |           |
+| Power Steam        |           |          | Course_63 |           |
+| Powerbubble+       |           |          | Course_02 |           |
+| Product Care       |           |          | Course_A7 |           |
+| Quick Dry 35m      |           |          |           | Course_23 |
+| Quick Wash         |           |          | Course_71 |           |
+| Quick Wash 15'     |           |          | Course_A0 |           |
+| Quick Wash+Dry     |           |          | Course_A3 |           |
+| Rinse+Spin         | Course_5F |          | Course_27 |           |
+| Rinse+Spin         | Course_D4 |          | Course_27 |           |
+| Sanitise           |           |          | Course_73 |           |
+| Sanitize Wash      |           |          | Course_83 |           |
+| Self Clean         |           |          | Course_7E |           |
+| Self Clean⁺        |           |          | Course_60 |           |
+| Self Tub Dry       |           |          |           | Course_2B |
+| Shirts             |           |          | Course_32 | Course_1C |
+| Silent Dry         |           |          |           |           |
+| Silent Wash        |           |          | Course_2D |           |
+| Single Garment     |           |          | Course_B3 |           |
+| Small Load         |           |          | Course_5B |           |
+| Soft Bubble        |           |          | Course_18 |           |
+| Spin               | Course_5E |          |           |           |
+| Spin for Dry       |           |          | Course_10 |           |
+| Spin Only          |           |          | Course_5F |           |
+| Sportswear         |           |          | Course_31 |           |
+| Stain Away         |           |          | Course_2C |           |
+| Stain Wash         |           |          | Course_84 |           |
+| Steam Allergen     |           |          | Course_67 |           |
+| Steam Bedding      |           |          | Course_8D |           |
+| Steam Bulky        |           |          | Course_68 |           |
+| Steam Cotton       |           |          | Course_61 |           |
+| Steam Normal       |           |          | Course_85 |           |
+| Steam Sanitise     |           |          | Course_5A |           |
+| Steam Whites       |           |          | Course_64 |           |
+| Super Eco Wash     | Course_DA |          | Course_8E |           |
+| Super Speed        | Course_DB |          | Course_1D |           |
+| Synthetics         | Course_5C |          | Course_25 | Course_18 |
+| Synthetics         | Course_D2 |          | Course_25 | Course_18 |
+| Synthetics Dry     |           |          | Course_39 |           |
+| Thin Bedding       |           |          | Course_11 |           |
+| Tide POD Cold      |           |          | Course_A9 |           |
+| Time Dry           |           |          | Course_A8 | Course_27 |
+| Towels             |           |          | Course_33 | Course_1D |
+| Tub Clean          |           |          | Course_82 |           |
+| Undergarment       |           |          | Course_14 |           |
+| Warm Air           |           |          |           | Course_25 |
+| Wash+Dry           |           |          | Course_36 |           |
+| Water Saving       |           |          | Course_80 |           |
+| Whites             |           |          | Course_7C |           |
+| Wool               | Course_D8 |          | Course_22 | Course_1A |
+| Wool/Delicates     |           |          | Course_7F |           |
 
 Please share the information when your dryer/steam closet/washer courses are not supported!
 

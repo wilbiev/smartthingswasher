@@ -582,57 +582,62 @@ async def async_setup_entry(
 
         if new_state is None or (old_state and old_state.state == new_state.state):
             return
+        if new_state.state in [None, "unknown", "unavailable"]:
+            return
 
-        all_program_entities = program_select_entities + oven_select_entities
-        source_device_id = next(
+        source_ent = next(
             (
-                ent.device.device.device_id
-                for ent in all_program_entities
+                ent
+                for ent in (program_select_entities + oven_select_entities)
                 if ent.entity_id == source_entity_id
             ),
             None,
         )
-        if not source_device_id:
+        if not source_ent:
             return
 
-        for select_entity in select_entities:
-            if (
-                select_entity.device.device.device_id == source_device_id
-                and select_entity.entity_description.supported_option
-            ):
-                if (
-                    select_entity.get_attribute_value(
-                        Capability.REMOTE_CONTROL_STATUS,
-                        Attribute.REMOTE_CONTROL_ENABLED,
-                    )
-                    == "false"
-                    and select_entity.entity_description.options_attribute is not None
-                ):
-                    if (
-                        options := select_entity.get_attribute_value(
-                            select_entity.capability,
-                            select_entity.entity_description.options_attribute,
-                        )
-                    ) is not None:
-                        select_entity.update_select_options(options)
-                elif (
-                    options := get_program_options(
-                        select_entity.device.programs,
-                        translate_program_course(new_state.state),
-                        select_entity.entity_description.supported_option,
-                    )
-                ) is not None:
-                    select_entity.update_select_options(options)
+        source_device_id = source_ent.device.device.device_id
 
-        for select_entity in oven_select_entities:
-            if select_entity.device.device.device_id == source_device_id:
-                if select_entity.entity_id == source_entity_id:
-                    select_entity.async_write_ha_state()
-                    async_dispatcher_send(
-                        hass,
-                        f"smartthings_oven_mode_changed_{source_device_id}_{select_entity.component}",
-                        new_state.state,
-                    )
+        if isinstance(source_ent, SmartThingsProgramSelect):
+            program_id = translate_program_course(new_state.state)
+            for select_entity in select_entities:
+                if (
+                    select_entity.device.device.device_id == source_device_id
+                    and select_entity.entity_description.supported_option
+                ):
+                    options = []
+                    if (
+                        options := get_program_options(
+                            select_entity.device.programs,
+                            program_id,
+                            select_entity.entity_description.supported_option,
+                        )
+                    ) is None:
+                        if select_entity.entity_description.options_attribute:
+                            options = select_entity.get_attribute_value(
+                                select_entity.capability,
+                                select_entity.entity_description.options_attribute,
+                            )
+                    if options:
+                        if select_entity.entity_description.options_map:
+                            options = [
+                                select_entity.entity_description.options_map.get(
+                                    str(option), str(option)
+                                )
+                                for option in options
+                            ]
+                        select_entity.update_select_options(options, program_id)
+
+        if isinstance(source_ent, SmartThingsOvenModeSelect):
+            for select_entity in oven_select_entities:
+                if select_entity.device.device.device_id == source_device_id:
+                    if select_entity.entity_id == source_entity_id:
+                        select_entity.async_write_ha_state()
+                        async_dispatcher_send(
+                            hass,
+                            f"smartthings_oven_mode_changed_{source_device_id}_{select_entity.component}",
+                            new_state.state,
+                        )
 
     async_track_state_change_event(hass, program_entities, select_state_listener)
 
@@ -653,8 +658,6 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
     ) -> None:
         """Init the class."""
         capabilities = {capability}
-        if entity_description.supported_option:
-            capabilities.add(Capability.REMOTE_CONTROL_STATUS)
         super().__init__(client, device, capabilities, component=component)
         self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
         self._attribute = attribute
@@ -665,46 +668,54 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
             self._attr_translation_key = (
                 self.entity_description.component_translation_key[component]
             )
+        self._attr_options = []
+        self._attr_current_option = None
 
     @property
     def options(self) -> list[str]:
         """Return the list of options."""
-        if self.entity_description.options_attribute is None:
-            return []
-        options: list[str] = (
-            self.get_attribute_value(
-                self.capability, self.entity_description.options_attribute
+        options = []
+        if (
+            self._attr_options
+            and self.entity_description.supported_option
+            and self.device.programs
+        ):
+            return self._attr_options
+        if self.entity_description.options_attribute:
+            options = (
+                self.get_attribute_value(
+                    self.capability, self.entity_description.options_attribute
+                )
+                or []
             )
-            or []
-        )
         if self.entity_description.options_map:
             options = [
-                self.entity_description.options_map.get(option, option)
+                self.entity_description.options_map.get(str(option), str(option))
                 for option in options
             ]
-        if self.entity_description.value_is_integer:
+        if self.entity_description.value_is_integer or any(
+            isinstance(o, int) for o in options
+        ):
             options = [str(option) for option in options]
+
+        self._attr_options = options or []
         return options
 
     @property
     def current_option(self) -> str | None:
         """Return the current option."""
+        if self._attr_current_option is not None:
+            return self._attr_current_option
+
         raw_value = self.get_attribute_value(self.capability, self._attribute)
         new_value = str(raw_value) if raw_value else None
-        if (
-            hasattr(self, "_attr_current_option")
-            and self._attr_current_option is not None
-        ):
-            if new_value == self._attr_current_option:
-                self._attr_current_option = None
-            else:
-                new_value = self._attr_current_option
         if self.entity_description.options_map and new_value is not None:
             new_value = self.entity_description.options_map.get(new_value, new_value)
         return str(new_value) if new_value is not None else None
 
     async def async_select_option(self, option: str) -> None:
         """Select an option."""
+        self._attr_current_option = None
         new_option: str | int = option
         if self.entity_description.options_map:
             new_option = next(
@@ -724,8 +735,8 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
                 new_option,
             )
 
-    def update_select_options(self, options: list[str]) -> None:
-        """Update the options for this select entity."""
+    def update_select_options(self, options: list[str], program_id: str | None) -> None:
+        """Update the options and ensure the current selection remains valid."""
         if self.entity_description.options_map:
             new_options = [
                 self.entity_description.options_map.get(opt, opt) for opt in options
@@ -733,11 +744,37 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         else:
             new_options = options
         self._attr_options = new_options
-        current_val = self.current_option
-        if current_val not in new_options:
-            first_item = new_options[0] if new_options else None
-            self._attr_current_option = first_item
+        self._attr_current_option = None
+        if program_id and self.entity_description.supported_option:
+            program = self.device.programs.get(program_id)
+            if program and (
+                opt_data := program.supportedoptions.get(
+                    self.entity_description.supported_option
+                )
+            ):
+                if (default_val := getattr(opt_data, "default", None)) is not None:
+                    default_str = str(default_val)
+                    if self.entity_description.options_map:
+                        default_str = self.entity_description.options_map.get(
+                            default_str, default_str
+                        )
+
+                    self._attr_current_option = default_str
+
         self.async_write_ha_state()
+
+    @callback
+    def _handle_update(self) -> None:
+        """Reset staged value when API confirms value."""
+        if self._attr_current_option is not None:
+            new_value = self.get_attribute_value(self.capability, self._attribute)
+            if self.entity_description.options_map:
+                new_value = self.entity_description.options_map.get(
+                    new_value, new_value
+                )
+            if str(new_value) == self._attr_current_option:
+                self._attr_current_option = None
+        super()._handle_update()
 
 
 class SmartThingsDishwasherOptionSelect(SmartThingsEntity, SelectEntity):
@@ -767,7 +804,6 @@ class SmartThingsDishwasherOptionSelect(SmartThingsEntity, SelectEntity):
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description
-        self._attr_options = []
         self.command = self.entity_description.command
 
     @property
@@ -798,14 +834,6 @@ class SmartThingsDishwasherOptionSelect(SmartThingsEntity, SelectEntity):
             new_value = str(raw_status["value"])
         else:
             new_value = str(raw_status) if raw_status else None
-        if (
-            hasattr(self, "_attr_current_option")
-            and self._attr_current_option is not None
-        ):
-            if new_value == self._attr_current_option:
-                self._attr_current_option = None
-            else:
-                new_value = self._attr_current_option
         if self.entity_description.options_map and new_value is not None:
             new_value = self.entity_description.options_map.get(new_value, new_value)
         return str(new_value) if new_value is not None else None
@@ -860,8 +888,10 @@ class SmartThingsDishwasherOptionSelect(SmartThingsEntity, SelectEntity):
             options,
         )
 
-    def update_select_options(self, options: list[str]) -> None:
-        """Update the options and ensure the current selection remains valid."""
+    def update_select_options(
+        self, options: list[str], program_id: str | None = None
+    ) -> None:
+        """Update the options for this select entity."""
         if self.entity_description.options_map:
             new_options = [
                 self.entity_description.options_map.get(opt, opt) for opt in options
@@ -869,10 +899,6 @@ class SmartThingsDishwasherOptionSelect(SmartThingsEntity, SelectEntity):
         else:
             new_options = options
         self._attr_options = new_options
-        current_val = self.current_option
-        if current_val not in new_options:
-            first_item = new_options[0] if new_options else None
-            self._attr_current_option = first_item
         self.async_write_ha_state()
 
 
@@ -970,7 +996,6 @@ class SmartThingsOvenModeSelect(SmartThingsEntity, SelectEntity):
             self._attr_translation_key = (
                 self.entity_description.component_translation_key[component]
             )
-        self._attr_current_option = None
 
     @property
     def options(self) -> list[str]:
@@ -989,12 +1014,6 @@ class SmartThingsOvenModeSelect(SmartThingsEntity, SelectEntity):
         cavity_key = get_current_cavity_id(self.device.status, self.component)
         if self.device.modes and cavity_key in self.device.modes:
             value = self.device.modes[cavity_key].active_mode
-        if self._attr_current_option is not None:
-            if value == self._attr_current_option:
-                self._attr_current_option = None
-            else:
-                value = self._attr_current_option
-
         if value not in self.options:
             return None
 
