@@ -112,6 +112,7 @@ class FullDevice:
     device: Device
     status: dict[str, ComponentStatus]
     programs: dict[str, Program]
+    selected_course: str | None
     modes: dict[CavityType | str, CavityMode]
     online: bool
 
@@ -243,18 +244,21 @@ async def async_setup_entry(hass: HomeAssistant, entry: SmartThingsConfigEntry) 
                     device=device,
                     status={},
                     programs={},
+                    selected_course = None,
                     modes={},
                     online=True,
                 )
                 continue
             status = process_status(await client.get_device_status(device.device_id))
             programs = process_programs(status)
+            selected_course = set_selected_course(status)
             oven_modes = set_oven_modes(status)
             online = await client.get_device_health(device.device_id)
             device_status[device.device_id] = FullDevice(
                 device=device,
                 status=status,
                 programs=programs,
+                selected_course=selected_course,
                 modes=oven_modes,
                 online=online.state == HealthStatus.ONLINE,
             )
@@ -556,6 +560,23 @@ def set_oven_modes(
             CavityType.SECOND,
         ]
     }
+
+
+def set_selected_course(
+    status: dict[str, ComponentStatus],
+) -> str | None:
+    """Set selected course for program capabilities."""
+    if (main_component := status.get(MAIN)) is None:
+        return None
+
+    for capability in CAPABILITIES_WITH_PROGRAMS:
+        if capability in main_component:
+            if course_attribute := CAPABILITIES_WITH_PROGRAMS.get(capability):
+                attr_status = main_component[capability].get(course_attribute)
+                if attr_status and attr_status.value:
+                    return translate_program_course(str(attr_status.value))
+
+    return None
 
 
 def _parse_oven_options(
