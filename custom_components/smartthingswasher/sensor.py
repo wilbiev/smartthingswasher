@@ -553,6 +553,53 @@ CAPABILITY_TO_SENSORS: dict[
             )
         ],
     },
+    Capability.SAMSUNG_CE_COUNT_DOWN_TIMER: {
+        Attribute.CURRENT_VALUE: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.CURRENT_VALUE,
+                translation_key="countdown_time",
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+                translation_placeholders_fn=lambda component: (
+                    {"burner_id": component.split("-0")[-1]}
+                    if component.startswith("burner-0")
+                    else {}
+                ),
+                component_fn=lambda component: component.startswith("burner-0")
+                or component == "hood",
+                component_translation_key={
+                    "hood": "countdown_time_hood",
+                },
+            )
+        ],
+        Attribute.STATUS: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.STATUS,
+                translation_key="countdown_status",
+                translation_placeholders_fn=lambda component: (
+                    {"burner_id": component.split("-0")[-1]}
+                    if component.startswith("burner-0")
+                    else {}
+                ),
+                component_fn=lambda component: component.startswith("burner-0")
+                or component == "hood",
+                component_translation_key={
+                    "hood": "countdown_status_hood",
+                },
+            )
+        ],
+    },
+    Capability.SAMSUNG_CE_SURFACE_RESIDUAL_HEAT: {
+        Attribute.SURFACE_RESIDUAL_HEAT: [
+            SmartThingsSensorEntityDescription(
+                key=Attribute.SURFACE_RESIDUAL_HEAT,
+                translation_key="surface_residual_heat",
+                translation_placeholders_fn=lambda component: {
+                    "burner_id": component.split("-0")[-1]
+                },
+                component_fn=lambda component: component.startswith("burner-0"),
+            )
+        ]
+    },
     Capability.CUSTOM_COOKTOP_OPERATING_STATE: {
         Attribute.COOKTOP_OPERATING_STATE: [
             SmartThingsSensorEntityDescription(

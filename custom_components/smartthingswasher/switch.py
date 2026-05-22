@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any, cast
 
@@ -44,6 +45,8 @@ class SmartThingsSwitchEntityDescription(SwitchEntityDescription):
     off_command: Command = Command.OFF
     check_capability: Capability | None = None
     supported_option: SupportedOption | None = None
+    component_fn: Callable[[str], bool] | None = None
+    component_translation_key: dict[str, str] | None = None
 
 
 CAPABILITY_TO_SWITCHES: dict[
@@ -214,11 +217,27 @@ CAPABILITY_TO_SWITCHES: dict[
             )
         ]
     },
+    Capability.SAMSUNG_CE_KIDS_LOCK_CONTROL: {
+        Attribute.LOCK_STATE: [
+            SmartThingsSwitchEntityDescription(
+                key=Capability.SAMSUNG_CE_KIDS_LOCK_CONTROL,
+                translation_key="child_lock_control",
+                entity_category=EntityCategory.CONFIG,
+                on_key="locked",
+                on_command=Command.LOCK,
+                off_command=Command.UNLOCK,
+            )
+        ]
+    },
     Capability.SWITCH: {
         Attribute.SWITCH: [
             SmartThingsSwitchEntityDescription(
                 key=Capability.SWITCH,
                 translation_key="switch",
+                component_fn=lambda component: component in ["hood"],
+                component_translation_key={
+                    "hood": "switch_hood",
+                },
             )
         ]
     },
@@ -400,6 +419,13 @@ async def async_setup_entry(
         if capability in capabilities
         for attribute, descriptions in attributes.items()
         for description in descriptions
+        if (
+            component == MAIN
+            or (
+                description.component_fn is not None
+                and description.component_fn(component)
+            )
+        )
     )
 
     async_add_entities(

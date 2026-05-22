@@ -42,6 +42,7 @@ CONF_REFRESH_TOKEN = "refresh_token"
 MAIN = "main"
 CAVITY_01 = "cavity-01"
 CAVITY_02 = "cavity-02"
+HOOD = "hood"
 OLD_DATA = "old_data"
 
 CONF_SUBSCRIPTION_ID = "subscription_id"

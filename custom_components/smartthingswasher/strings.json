@@ -52,6 +52,9 @@
       "bubble_soak_support": {
         "name": "Bubble soak support"
       },
+      "connection_state_hood": {
+        "name": "Hood connection state"
+      },
       "dry_plus_support": {
         "name": "Dry plus support"
       },
@@ -141,6 +144,24 @@
       }
     },
     "button": {
+      "cook_start": {
+        "name": "Burner {burner_id} start"
+      },
+      "cook_cancel": {
+        "name": "Burner {burner_id} cancel"
+      },
+      "cook_pause_resume": {
+        "name": "Burner {burner_id} pause-resume"
+      },
+      "cook_start_hood": {
+        "name": "Hood start"
+      },
+      "cook_cancel_hood": {
+        "name": "Hood cancel"
+      },
+      "cook_pause_resume_hood": {
+        "name": "Hood pause-resume"
+      },
       "estimate_operation_time": {
         "name": "Estimate operation time"
       },
@@ -258,6 +279,12 @@
       }
     },
     "number": {
+      "countdown_timer": {
+        "name": "Burner {burner_id} countdown timer"
+      },
+      "countdown_timer_hood": {
+        "name": "Hood countdown timer"
+      },
       "delay_time": {
         "name": "Delay time"
       },
@@ -1413,6 +1440,21 @@
       "cooler_temperature": {
         "name": "Fridge temperature"
       },
+      "countdown_time": {
+        "name": "Burner {burner_id} countdown time"
+      },
+      "countdown_time_hood": {
+        "name": "Hood countdown time"
+      },
+      "countdown_status": {
+        "name": "Burner {burner_id} countdown status"
+      },
+      "countdown_status_hood": {
+        "name": "Hood countdown status"
+      },
+      "surface_residual_heat": {
+        "name": "Surface residual heat"
+      },
       "diverter_valve_position": {
         "name": "Valve position",
         "state": {
@@ -2039,6 +2081,9 @@
       "keep_fresh_mode": {
         "name": "Keep fresh mode"
       },
+      "child_lock_control": {
+        "name": "Child lock control"
+      },
       "multi_tab": {
         "name": "Multi-tab"
       },
@@ -2080,6 +2125,9 @@
       },
       "switch": {
         "name": "Switch"
+      },
+      "switch_hood": {
+        "name": "Hood switch"
       },
       "wrinkle_prevent": {
         "name": "Wrinkle prevent"
