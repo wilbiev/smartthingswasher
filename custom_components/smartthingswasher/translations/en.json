@@ -55,6 +55,9 @@
       "child_lock": {
         "name": "Child lock"
       },
+      "connection_state_hood": {
+        "name": "Hood connection state"
+      },
       "cool_select_plus_door": {
         "name": "CoolSelect+ door"
       },
@@ -141,6 +144,24 @@
       }
     },
     "button": {
+      "cook_cancel": {
+        "name": "Burner {burner_id} cancel"
+      },
+      "cook_cancel_hood": {
+        "name": "Hood cancel"
+      },
+      "cook_pause_resume": {
+        "name": "Burner {burner_id} pause-resume"
+      },
+      "cook_pause_resume_hood": {
+        "name": "Hood pause-resume"
+      },
+      "cook_start": {
+        "name": "Burner {burner_id} start"
+      },
+      "cook_start_hood": {
+        "name": "Hood start"
+      },
       "estimate_operation_time": {
         "name": "Estimate operation time"
       },
@@ -263,6 +284,12 @@
       },
       "cooler_temperature": {
         "name": "Fridge temperature"
+      },
+      "countdown_timer": {
+        "name": "Burner {burner_id} countdown timer"
+      },
+      "countdown_timer_hood": {
+        "name": "Hood countdown timer"
       },
       "delay_time": {
         "name": "Delay time"
@@ -1413,6 +1440,18 @@
       "cooler_temperature": {
         "name": "Fridge temperature"
       },
+      "countdown_status": {
+        "name": "Burner {burner_id} countdown status"
+      },
+      "countdown_status_hood": {
+        "name": "Hood countdown status"
+      },
+      "countdown_time": {
+        "name": "Burner {burner_id} countdown time"
+      },
+      "countdown_time_hood": {
+        "name": "Hood countdown time"
+      },
       "diverter_valve_position": {
         "name": "Valve position",
         "state": {
@@ -1839,6 +1878,9 @@
           "tested": "Tested"
         }
       },
+      "surface_residual_heat": {
+        "name": "Surface residual heat"
+      },
       "target_temperature": {
         "name": "Target temperature"
       },
@@ -1924,6 +1966,9 @@
       },
       "chef": {
         "name": "Chef"
+      },
+      "child_lock_control": {
+        "name": "Child lock control"
       },
       "cold_rinse": {
         "name": "Cold Rinse"
@@ -2077,6 +2122,9 @@
       },
       "switch": {
         "name": "Switch"
+      },
+      "switch_hood": {
+        "name": "Hood switch"
       },
       "table_00_course_5b": {
         "name": "Cotton"

@@ -20,7 +20,7 @@ from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FullDevice, SmartThingsConfigEntry
-from .const import MAIN, UNIT_MAP
+from .const import HOOD, MAIN, UNIT_MAP
 from .entity import SmartThingsEntity
 from .models import ProgramOptions, STType, SupportedOption
 from .util import (
@@ -47,6 +47,7 @@ class SmartThingsNumberEntityDescription(NumberEntityDescription):
     capability_ignore_list: list[set[Capability]] | None = None
     component_fn: Callable[[str], bool] | None = None
     component_translation_key: dict[str, str] | None = None
+    translation_placeholders_fn: Callable[[str], dict[str, str]] | None = None
     value_fn: Callable[[Any], float | int | None] | None = None
     action_fn: Callable[[float], Any] | None = None
     supported_option: SupportedOption | None = None
@@ -152,6 +153,31 @@ CAPABILITY_TO_NUMBERS: dict[
                 max_attribute=Attribute.SETTABLE_MAX_FAN_SPEED,
                 native_step=1.0,
                 int_type=STType.FLOAT,
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_COUNT_DOWN_TIMER: {
+        Attribute.START_VALUE: [
+            SmartThingsNumberEntityDescription(
+                key=Capability.SAMSUNG_CE_COUNT_DOWN_TIMER,
+                translation_key="countdown_timer",
+                entity_category=EntityCategory.CONFIG,
+                native_unit_of_measurement=UnitOfTime.MINUTES,
+                translation_placeholders_fn=lambda component: (
+                    {"burner_id": component.split("-0")[-1]}
+                    if component.startswith("burner-0")
+                    else {}
+                ),
+                component_fn=lambda component: component.startswith("burner-0")
+                or component == HOOD,
+                command=Command.SET_START_VALUE,
+                native_min_value=0,
+                native_max_value=1440,
+                native_step=1,
+                int_type=STType.INTEGER,
+                component_translation_key={
+                    "hood": "countdown_timer_hood",
+                },
             )
         ]
     },
@@ -286,13 +312,20 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
         component: str = MAIN,
     ) -> None:
         """Init the class."""
-        super().__init__(client, device, {capability}, component=component)
+        capabilities = {capability}
+        if component == HOOD and Capability.SAMSUNG_CE_CONNECTION_STATE in device.status.get(component, {}):
+            capabilities.add(Capability.SAMSUNG_CE_CONNECTION_STATE)
+        super().__init__(client, device, capabilities, component=component)
         self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
         self.entity_description = entity_description
         self.command = self.entity_description.command
         self._number = self.entity_description.int_type
+        if self.entity_description.translation_placeholders_fn:
+            self._attr_translation_placeholders = (
+                self.entity_description.translation_placeholders_fn(component)
+            )
         if self.entity_description.component_translation_key and component != MAIN:
             self._attr_translation_key = (
                 self.entity_description.component_translation_key[component]
@@ -406,6 +439,21 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
             return self.entity_description.value_fn(raw_val)
 
         return raw_val
+
+    @property
+    def available(self) -> bool:
+        """Return True if entity is available."""
+        if not super().available:
+            return False
+
+        if Capability.SAMSUNG_CE_CONNECTION_STATE in self.capabilities:
+            connection_state = self.get_attribute_value(
+                Capability.SAMSUNG_CE_CONNECTION_STATE, Attribute.CONNECTION_STATE
+            )
+            if connection_state == "disconnected":
+                return False
+
+        return True
 
     async def async_set_native_value(self, value: float) -> None:
         """Set new value."""

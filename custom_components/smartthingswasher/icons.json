@@ -16,6 +16,9 @@
           "on": "mdi:lock"
         }
       },
+      "connection_state_hood": {
+        "default": "mdi:connection"
+      },
       "door": {
         "default": "mdi:door-closed",
         "state": {
@@ -96,6 +99,24 @@
       }
     },
     "button": {
+      "cook_start": {
+        "default": "mdi:timer-play"
+      },
+      "cook_cancel": {
+        "default": "mdi:timer-stop"
+      },
+      "cook_pause_resume": {
+        "default": "mdi:timer-pause"
+      },
+      "cook_start_hood": {
+        "default": "mdi:timer-play"
+      },
+      "cook_cancel_hood": {
+        "default": "mdi:timer-stop"
+      },
+      "cook_pause_resume_hood": {
+        "default": "mdi:timer-pause"
+      },
       "estimate_operation_time": {
         "default": "mdi:clock-end"
       },
@@ -175,6 +196,12 @@
     "number": {
       "cooler_temperature": {
         "default": "mdi:snowflake-thermometer"
+      },
+      "countdown_timer": {
+        "default": "mdi:timer-edit"
+      },
+      "countdown_timer_hood": {
+        "default": "mdi:timer-edit"
       },
       "freezer_temperature": {
         "default": "mdi:snowflake-thermometer"
@@ -300,6 +327,18 @@
       },
       "cooler_temperature": {
         "default": "mdi:snowflake-thermometer"
+      },
+      "countdown_time": {
+        "default": "mdi:timelapse"
+      },
+      "countdown_time_hood": {
+        "default": "mdi:timelapse"
+      },
+      "countdown_status": {
+        "default": "mdi:timer-sand"
+      },
+      "countdown_status_hood": {
+        "default": "mdi:timer-sand"
       },
       "diverter_valve_position": {
         "state": {
@@ -451,6 +490,12 @@
         "default": "mdi:water-off",
         "state": {
           "on": "mdi:water"
+        }
+      },
+      "child_lock_control": {
+        "default": "mdi:lock-open",
+        "state": {
+          "on": "mdi:lock"
         }
       },
       "display_lighting": {

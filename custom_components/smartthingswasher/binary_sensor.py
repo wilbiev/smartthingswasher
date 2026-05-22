@@ -274,11 +274,11 @@ CAPABILITY_TO_SENSORS: dict[
         Attribute.STATUS: [
             SmartThingsBinarySensorEntityDescription(
                 key=Attribute.STATUS,
+                is_on_key="attached",
                 component_fn=lambda component: component == "station",
                 component_translation_key={
                     "station": "stick_cleaner_status",
                 },
-                is_on_key="attached",
             )
         ]
     },
@@ -290,6 +290,20 @@ CAPABILITY_TO_SENSORS: dict[
                 device_class=BinarySensorDeviceClass.BATTERY_CHARGING,
                 entity_category=EntityCategory.DIAGNOSTIC,
             )
+        ]
+    },
+    Capability.SAMSUNG_CE_CONNECTION_STATE: {
+        Attribute.CONNECTION_STATE: [
+            SmartThingsBinarySensorEntityDescription(
+                key=Attribute.CONNECTION_STATE,
+                is_on_key="connected",
+                device_class=BinarySensorDeviceClass.CONNECTIVITY,
+                entity_category=EntityCategory.DIAGNOSTIC,
+                component_fn=lambda component: component == "hood",
+                component_translation_key={
+                    "hood": "connection_state_hood",
+                },
+              )
         ]
     },
 }
