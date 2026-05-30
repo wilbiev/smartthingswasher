@@ -599,13 +599,17 @@ async def async_setup_entry(
         source_device_id = source_ent.device.device.device_id
 
         if isinstance(source_ent, SmartThingsProgramSelect):
-            source_ent.device.selected_course = translate_program_course(new_state.state)
+            source_ent.device.selected_course = translate_program_course(
+                new_state.state
+            )
             for select_entity in select_entities:
                 if (
                     select_entity.device.device.device_id == source_device_id
                     and select_entity.entity_description.supported_option
                 ):
-                    select_entity.update_default_values(source_ent.device.selected_course)
+                    select_entity.update_default_values(
+                        source_ent.device.selected_course
+                    )
 
         if isinstance(source_ent, SmartThingsOvenModeSelect):
             for select_entity in oven_select_entities:
@@ -644,7 +648,7 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         self.command = self.entity_description.command
         if self.entity_description.component_translation_key and component != MAIN:
             self._attr_translation_key = (
-                self.entity_description.component_translation_key[component]
+                self.entity_description.component_translation_key.get(component, None)
             )
         self._attr_current_option = None
 
@@ -654,21 +658,29 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         options = []
         if self.entity_description.supported_option and self.device.programs:
             if active_course := self.device.selected_course:
-                options = get_program_options(
-                    self.device.programs,
-                    active_course,
-                    self.entity_description.supported_option,
-                ) or []
+                options = (
+                    get_program_options(
+                        self.device.programs,
+                        active_course,
+                        self.entity_description.supported_option,
+                    )
+                    or []
+                )
         if not options and self.entity_description.options_attribute:
-            options = self.get_attribute_value(
-                self.capability, self.entity_description.options_attribute
-            ) or []
+            options = (
+                self.get_attribute_value(
+                    self.capability, self.entity_description.options_attribute
+                )
+                or []
+            )
         if self.entity_description.options_map:
             options = [
                 self.entity_description.options_map.get(option, option)
                 for option in options
             ]
-        if self.entity_description.value_is_integer or any(isinstance(o, int) for o in options):
+        if self.entity_description.value_is_integer or any(
+            isinstance(o, int) for o in options
+        ):
             options = [str(option) for option in options]
 
         return options
@@ -778,11 +790,14 @@ class SmartThingsDishwasherOptionSelect(SmartThingsEntity, SelectEntity):
         options = []
         if self.entity_description.supported_option and self.device.programs:
             if active_course := self.device.selected_course:
-                options = get_program_options(
-                    self.device.programs,
-                    active_course,
-                    self.entity_description.supported_option,
-                ) or []
+                options = (
+                    get_program_options(
+                        self.device.programs,
+                        active_course,
+                        self.entity_description.supported_option,
+                    )
+                    or []
+                )
         if not options and self.entity_description.options_attribute:
             options = (
                 self.get_attribute_value(
@@ -900,6 +915,7 @@ class SmartThingsDishwasherOptionSelect(SmartThingsEntity, SelectEntity):
                 self._attr_current_option = None
         super()._handle_update()
 
+
 class SmartThingsProgramSelect(SmartThingsEntity, SelectEntity):
     """Define a SmartThings select."""
 
@@ -990,7 +1006,7 @@ class SmartThingsOvenModeSelect(SmartThingsEntity, SelectEntity):
         self.command = self.entity_description.command
         if self.entity_description.component_translation_key and component != MAIN:
             self._attr_translation_key = (
-                self.entity_description.component_translation_key[component]
+                self.entity_description.component_translation_key.get(component, None)
             )
 
     @property

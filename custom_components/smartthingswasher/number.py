@@ -313,7 +313,11 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
     ) -> None:
         """Init the class."""
         capabilities = {capability}
-        if component == HOOD and Capability.SAMSUNG_CE_CONNECTION_STATE in device.status.get(component, {}):
+        if (
+            component == HOOD
+            and Capability.SAMSUNG_CE_CONNECTION_STATE
+            in device.status.get(component, {})
+        ):
             capabilities.add(Capability.SAMSUNG_CE_CONNECTION_STATE)
         super().__init__(client, device, capabilities, component=component)
         self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
@@ -328,7 +332,7 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
             )
         if self.entity_description.component_translation_key and component != MAIN:
             self._attr_translation_key = (
-                self.entity_description.component_translation_key[component]
+                self.entity_description.component_translation_key.get(component, None)
             )
 
     @property
@@ -500,12 +504,9 @@ class SmartThingsOvenOptionNumber(SmartThingsEntity, NumberEntity):
         self.capability = capability
         self.entity_description = entity_description
         self.command = self.entity_description.command
-        if (
-            self.entity_description.component_translation_key
-            and component in self.entity_description.component_translation_key
-        ):
+        if self.entity_description.component_translation_key and component != MAIN:
             self._attr_translation_key = (
-                self.entity_description.component_translation_key[component]
+                self.entity_description.component_translation_key.get(component, None)
             )
         if entity_description.key == SupportedOption.OPERATION_TIME:
             self._attr_mode = NumberMode.BOX

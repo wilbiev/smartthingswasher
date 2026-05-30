@@ -365,7 +365,11 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
         """Init the class."""
         capabilities = {capability}
         capabilities.add(Capability.REMOTE_CONTROL_STATUS)
-        if component == HOOD and Capability.SAMSUNG_CE_CONNECTION_STATE in device.status.get(component, {}):
+        if (
+            component == HOOD
+            and Capability.SAMSUNG_CE_CONNECTION_STATE
+            in device.status.get(component, {})
+        ):
             capabilities.add(Capability.SAMSUNG_CE_CONNECTION_STATE)
         if entity_description.extra_capabilities:
             capabilities.update(entity_description.extra_capabilities)
@@ -380,7 +384,7 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
             )
         if self.entity_description.component_translation_key and component != MAIN:
             self._attr_translation_key = (
-                self.entity_description.component_translation_key[component]
+                self.entity_description.component_translation_key.get(component, None)
             )
 
     @property
