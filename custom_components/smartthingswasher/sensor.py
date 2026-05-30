@@ -1498,7 +1498,9 @@ class SmartThingsSensor(SmartThingsEntity, SensorEntity):
             )
         if self.entity_description.component_translation_key and component != MAIN:
             self._attr_translation_key = (
-                self.entity_description.component_translation_key.get(component, None)
+                self.entity_description.component_translation_key.get(
+                    component, self.entity_description.translation_key
+                )
             )
 
     @property
