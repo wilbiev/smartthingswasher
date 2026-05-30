@@ -303,7 +303,7 @@ CAPABILITY_TO_SENSORS: dict[
                 component_translation_key={
                     "hood": "connection_state_hood",
                 },
-              )
+            )
         ]
     },
 }
@@ -590,7 +590,7 @@ class SmartThingsBinarySensor(SmartThingsEntity, BinarySensorEntity):
             self._attr_name = None
         if self.entity_description.component_translation_key and component != MAIN:
             self._attr_translation_key = (
-                self.entity_description.component_translation_key[component]
+                self.entity_description.component_translation_key.get(component, None)
             )
 
     @property
