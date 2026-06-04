@@ -24,7 +24,7 @@
     },
     "step": {
       "oauth_discovery": {
-        "description": "O Home Assistant encontrou um dispositivo SmartThings na sua rede. Clique em **Submeter** para continuar a configuration."
+        "description": "O Home Assistant encontrou um dispositivo SmartThings na sua rede. Clique em **Submeter** para continuar a configuração."
       },
       "pick_implementation": {
         "data": {
