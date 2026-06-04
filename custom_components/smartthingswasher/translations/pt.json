@@ -24,7 +24,7 @@
     },
     "step": {
       "oauth_discovery": {
-        "description": "O Home Assistant encontrou um dispositivo SmartThings na sua rede. Clique em **Submeter** para continuar a configuração."
+        "description": "O Home Assistant encontrou um dispositivo SmartThings na sua rede. Clique em **Submeter** para continuar a configuration."
       },
       "pick_implementation": {
         "data": {
@@ -55,6 +55,9 @@
       "child_lock": {
         "name": "Bloqueio infantil"
       },
+      "connection_state_hood": {
+        "name": "Estado da ligação do exaustor"
+      },
       "cool_select_plus_door": {
         "name": "Porta CoolSelect+"
       },
@@ -63,6 +66,9 @@
       },
       "door": {
         "name": "Porta"
+      },
+      "door_cavity_02": {
+        "name": "Segunda porta"
       },
       "dry_plus_support": {
         "name": "Suporte de secagem extra"
@@ -132,9 +138,30 @@
       },
       "storm_wash_support": {
         "name": "Suporte Storm Wash"
+      },
+      "water_reservoir": {
+        "name": "Depósito de água"
       }
     },
     "button": {
+      "cook_cancel": {
+        "name": "Cancelar bico {burner_id}"
+      },
+      "cook_cancel_hood": {
+        "name": "Cancelar exaustor"
+      },
+      "cook_pause_resume": {
+        "name": "Pausar/Retomar bico {burner_id}"
+      },
+      "cook_pause_resume_hood": {
+        "name": "Pausar/Retomar exaustor"
+      },
+      "cook_start": {
+        "name": "Iniciar bico {burner_id}"
+      },
+      "cook_start_hood": {
+        "name": "Iniciar exaustor"
+      },
       "estimate_operation_time": {
         "name": "Estimar tempo de operação"
       },
@@ -150,6 +177,9 @@
       "state_pause_cavity_01": {
         "name": "Pausar inferior"
       },
+      "state_pause_cavity_02": {
+        "name": "Pausar segunda cavidade"
+      },
       "state_pause_resume": {
         "name": "Pausar/Retomar"
       },
@@ -159,6 +189,9 @@
       "state_start_cavity_01": {
         "name": "Iniciar inferior"
       },
+      "state_start_cavity_02": {
+        "name": "Iniciar segunda cavidade"
+      },
       "state_start_later": {
         "name": "Iniciar mais tarde"
       },
@@ -167,6 +200,9 @@
       },
       "state_stop_cavity_01": {
         "name": "Parar inferior"
+      },
+      "state_stop_cavity_02": {
+        "name": "Parar segunda cavidade"
       },
       "time_sync": {
         "name": "Sincronizar hora"
@@ -249,6 +285,12 @@
       "cooler_temperature": {
         "name": "Temperatura do frigorífico"
       },
+      "countdown_timer": {
+        "name": "Temporizador do bico {burner_id}"
+      },
+      "countdown_timer_hood": {
+        "name": "Temporizador do exaustor"
+      },
       "delay_time": {
         "name": "Tempo de atraso"
       },
@@ -264,11 +306,17 @@
       "oven_operation_time_cavity_01": {
         "name": "Definir tempo inferior"
       },
+      "oven_operation_time_cavity_02": {
+        "name": "Definir tempo segunda cavidade"
+      },
       "oven_temperature": {
         "name": "Definir temperatura superior"
       },
       "oven_temperature_cavity_01": {
         "name": "Definir temperatura inferior"
+      },
+      "oven_temperature_cavity_02": {
+        "name": "Definir temperatura segunda cavidade"
       },
       "target_temperature": {
         "name": "Temperatura pretendida"
@@ -314,6 +362,16 @@
       "course": {
         "name": "Programa",
         "state": {
+          "course_02": "Powerbubble+",
+          "course_0f": "Lavagem limpa (Clean Wash)",
+          "course_10": "Centrifugar para secar",
+          "course_11": "Roupa de cama fina",
+          "course_14": "Roupa interior",
+          "course_16": "Blusas",
+          "course_17": "Nuvem",
+          "course_18": "Banho de espuma suave",
+          "course_19": "Lavagem AI ideal",
+          "course_1a": "Camisas",
           "course_1b": "Algodão",
           "course_1c": "Eco 40-60",
           "course_1d": "Super rápido",
@@ -331,10 +389,12 @@
           "course_29": "Limpeza do tambor",
           "course_2a": "Denim",
           "course_2b": "Lavagem AI",
+          "course_2c": "Remoção de nódoas",
           "course_2d": "Lavagem silenciosa",
           "course_2e": "Cuidado bebé",
           "course_2f": "Roupa desportiva",
           "course_30": "Dia nublado",
+          "course_31": "Roupa desportiva",
           "course_32": "Camisas",
           "course_33": "Toalhas",
           "course_34": "Lavagem diária",
@@ -344,9 +404,63 @@
           "course_38": "Secagem algodão",
           "course_39": "Secagem sintéticos",
           "course_3a": "Limpeza do tambor",
+          "course_3e": "Lavagem com espuma+",
+          "course_3f": "Amaciador profundo",
+          "course_50": "Carga pesada+",
+          "course_52": "Eco frio",
+          "course_53": "Carga pesada",
+          "course_59": "Engomar fácil",
+          "course_5a": "Higienização a vapor",
+          "course_5b": "Carga pequena",
+          "course_5d": "Enxaguamento forte",
+          "course_5f": "Apenas centrifugação",
+          "course_60": "Auto-limpeza+",
+          "course_61": "Algodão com vapor",
+          "course_62": "OptiWash",
+          "course_63": "Vapor forte",
+          "course_64": "Roupas brancas com vapor",
           "course_66": "Denim",
+          "course_67": "Vapor alérgenos",
+          "course_68": "Roupas volumosas com vapor",
+          "course_71": "Lavagem rápida",
+          "course_73": "Higienizar",
+          "course_7c": "Roupas brancas",
+          "course_7d": "Roupa de cama/Impermeável",
+          "course_7e": "Auto-limpeza",
+          "course_7f": "Lã/Delicados",
+          "course_80": "Poupança de água",
+          "course_82": "Limpeza da cuba",
+          "course_84": "Lavagem de nódoas",
+          "course_85": "Normal com vapor",
+          "course_86": "Lavagem profunda",
+          "course_88": "Cuidado pet",
+          "course_89": "Arejar (Air Refresh)",
+          "course_8c": "AI OptiWash",
+          "course_8d": "Roupa de cama com vapor",
+          "course_8e": "Lavagem Super Eco",
           "course_8f": "Frio intenso",
-          "course_96": "Menos microfibras"
+          "course_96": "Menos microfibras",
+          "course_a0": "Lavagem rápida 15m",
+          "course_a1": "Normal",
+          "course_a2": "Lavar e Secar AI",
+          "course_a3": "Lavar e Secar rápido",
+          "course_a4": "Menos microfibras",
+          "course_a6": "Cuidado pet",
+          "course_a7": "Cuidado do produto",
+          "course_a8": "Secagem temporizada",
+          "course_a9": "Tide POD Frio",
+          "course_aa": "Arejar a frio",
+          "course_ab": "Limpeza profunda",
+          "course_ac": "Higienização a ar",
+          "course_ad": "Lavar e Secar AI Opti",
+          "course_ae": "Ar frio",
+          "course_af": "Cuidado casacos de penas",
+          "course_b2": "Lavar e Secar AI +",
+          "course_b3": "Peça única",
+          "course_b4": "Lavagem manual",
+          "course_b5": "Lavagem AI+",
+          "course_b6": "AI OptiWash+",
+          "course_fb": "Ciclo de etiqueta de cuidado"
         }
       },
       "cycle_table_00": {
@@ -383,6 +497,16 @@
       "cycle_table_02": {
         "name": "Ciclo",
         "state": {
+          "course_02": "Powerbubble+",
+          "course_0f": "Lavagem limpa (Clean Wash)",
+          "course_10": "Centrifugar para secar",
+          "course_11": "Roupa de cama fina",
+          "course_14": "Roupa interior",
+          "course_16": "Blusas",
+          "course_17": "Nuvem",
+          "course_18": "Banho de espuma suave",
+          "course_19": "Lavagem AI ideal",
+          "course_1a": "Camisas",
           "course_1b": "Algodão",
           "course_1c": "Eco 40-60",
           "course_1d": "Super rápido",
@@ -400,10 +524,12 @@
           "course_29": "Limpeza do tambor",
           "course_2a": "Denim",
           "course_2b": "Lavagem AI",
+          "course_2c": "Remoção de nódoas",
           "course_2d": "Lavagem silenciosa",
           "course_2e": "Cuidado bebé",
           "course_2f": "Roupa desportiva",
           "course_30": "Dia nublado",
+          "course_31": "Roupa desportiva",
           "course_32": "Camisas",
           "course_33": "Toalhas",
           "course_34": "Lavagem diária",
@@ -413,9 +539,63 @@
           "course_38": "Secagem algodão",
           "course_39": "Secagem sintéticos",
           "course_3a": "Limpeza do tambor",
+          "course_3e": "Lavagem com espuma+",
+          "course_3f": "Amaciador profundo",
+          "course_50": "Carga pesada+",
+          "course_52": "Eco frio",
+          "course_53": "Carga pesada",
+          "course_59": "Engomar fácil",
+          "course_5a": "Higienização a vapor",
+          "course_5b": "Carga pequena",
+          "course_5d": "Enxaguamento forte",
+          "course_5f": "Apenas centrifugação",
+          "course_60": "Auto-limpeza+",
+          "course_61": "Algodão com vapor",
+          "course_62": "OptiWash",
+          "course_63": "Vapor forte",
+          "course_64": "Roupas brancas com vapor",
           "course_66": "Denim",
+          "course_67": "Vapor alérgenos",
+          "course_68": "Roupas volumosas com vapor",
+          "course_71": "Lavagem rápida",
+          "course_73": "Higienizar",
+          "course_7c": "Roupas brancas",
+          "course_7d": "Roupa de cama/Impermeável",
+          "course_7e": "Auto-limpeza",
+          "course_7f": "Lã/Delicados",
+          "course_80": "Poupança de água",
+          "course_82": "Limpeza da cuba",
+          "course_84": "Lavagem de nódoas",
+          "course_85": "Normal com vapor",
+          "course_86": "Lavagem profunda",
+          "course_88": "Cuidado pet",
+          "course_89": "Arejar (Air Refresh)",
+          "course_8c": "AI OptiWash",
+          "course_8d": "Roupa de cama com vapor",
+          "course_8e": "Lavagem Super Eco",
           "course_8f": "Frio intenso",
-          "course_96": "Menos microfibras"
+          "course_96": "Menos microfibras",
+          "course_a0": "Lavagem rápida 15m",
+          "course_a1": "Normal",
+          "course_a2": "Lavar e Secar AI",
+          "course_a3": "Lavar e Secar rápido",
+          "course_a4": "Menos microfibras",
+          "course_a6": "Cuidado pet",
+          "course_a7": "Cuidado do produto",
+          "course_a8": "Secagem temporizada",
+          "course_a9": "Tide POD Frio",
+          "course_aa": "Arejar a frio",
+          "course_ab": "Limpeza profunda",
+          "course_ac": "Higienização a ar",
+          "course_ad": "Lavar e Secar AI Opti",
+          "course_ae": "Ar frio",
+          "course_af": "Cuidado casacos de penas",
+          "course_b2": "Lavar e Secar AI +",
+          "course_b3": "Peça única",
+          "course_b4": "Lavagem manual",
+          "course_b5": "Lavagem AI+",
+          "course_b6": "AI OptiWash+",
+          "course_fb": "Ciclo de etiqueta de cuidado"
         }
       },
       "cycle_table_03": {
@@ -566,104 +746,516 @@
       "oven_mode": {
         "name": "Modo superior",
         "state": {
+          "ai_defrost": "Descongelação AI",
+          "ai_reheat": "Reaquecimento AI",
+          "ai_sousvide": "Air Sous Vide AI",
+          "air_fry": "Fritar com ar (Air Fry)",
+          "air_fry_max": "Air Fry Max",
+          "air_fryer": "Fritadeira a ar",
           "air_sousvide": "Air Sous Vide",
           "autocook": "Cozedura automática",
+          "autocook_custom": "Cozedura automática personalizada",
           "bake": "Cozedura (Bake)",
           "bottom": "Inferior",
           "bottom_convection": "Convecção inferior",
           "bottom_heat": "Calor inferior",
           "bottom_heat_plus_convection": "Calor inferior + Convecção",
+          "bottom_heat_plus_econvection": "Calor inferior + Convecção Eco",
+          "bread_proof": "Fermentação de pão",
           "broil": "Grelhar (Broil)",
+          "broil_combi": "Grelhar combinado",
+          "broil_convection": "Grelhar por convecção",
+          "broil_s": "Grelhar S",
+          "brownie": "Brownie",
+          "catalytic_clean": "Limpeza catalítica",
+          "chef_bake": "Cozedura Chef",
+          "chef_broil": "Grelhar Chef",
+          "chef_proof": "Fermentação Chef",
           "clean_air_pyro": "Limpeza pirolítica",
           "convection": "Convecção",
           "convection_bake": "Cozedura por convecção",
           "convection_broil": "Grelhar por convecção",
+          "convection_combi": "Convecção combinada",
           "convection_roast": "Assar por convecção",
+          "convection_sear": "Selagem por convecção",
+          "convection_vegetable": "Legumes por convecção",
           "conventional": "Convencional",
+          "cookie": "Bolachas",
           "defrost": "Descongelar",
+          "defrost_a": "Descongelar A",
           "defrosting": "Descongelação",
+          "defrosting_2": "Descongelação",
           "dehydrate": "Desidratar",
+          "deodorization": "Desodorização",
           "descale": "Descalcificar",
+          "drain": "Drenagem",
+          "drying": "Secagem",
+          "easycook1": "Cozedura fácil 1",
+          "easycook2": "Cozedura fácil 2",
+          "easycook3": "Cozedura fácil 3",
           "eco_convection": "Convecção Eco",
+          "eco_grill": "Grelhador Eco",
+          "fan_conventional": "Convencional com ventilador",
           "fan_grill": "Grelhador com ventilador",
+          "favorite_cook": "Cozedura favorita",
+          "favorite_recipes": "Receitas favoritas",
+          "fermentation": "Fermentação",
+          "fine_steam": "Vapor fino",
+          "four_part_pure_convection": "Convecção pura de quatro zonas",
+          "four_part_pure_convection_single": "Convecção pura de quatro zonas única",
+          "frozen_food": "Alimentos congelados",
+          "frozen_mode": "Modo congelados",
+          "green_clean": "Limpeza ecológica",
+          "green_clean_real": "Limpeza ecológica real",
           "grill": "Grill",
+          "grill_2": "Grill",
+          "grill_convection": "Grelhador por convecção",
+          "guided_cook": "Cozedura guiada",
+          "healthycook1": "Cozedura saudável 1",
+          "healthycook2": "Cozedura saudável 2",
+          "healthycook3": "Cozedura saudável 3",
+          "healthycook4": "Cozedura saudável 4",
+          "healthycook5": "Cozedura saudável 5",
+          "healthycook6": "Cozedura saudável 6",
           "heating": "Aquecimento",
+          "homecare_wizard_v2": "Homecare Wizard v2",
+          "hot_blast": "Hot Blast",
+          "intensive_cook": "Cozedura intensiva",
+          "internal_clean": "Limpeza interna",
           "keep_warm": "Manter quente",
           "large_grill": "Grelhador grande",
-          "microwave": "Micro-ondas",
+          "memory_cook": "Cozedura por memória",
+          "micro_wave": "Micro-ondas",
+          "micro_wave_2": "Micro-ondas",
+          "micro_wave_convection": "Micro-ondas com convecção",
+          "micro_wave_fan_grill": "Micro-ondas com grelhador ventilado",
+          "micro_wave_grill": "Micro-ondas com grelhador",
+          "micro_wave_hot_blast": "Micro-ondas Hot Blast",
+          "micro_wave_roast": "Assar com micro-ondas",
           "microwave_plus_convection": "Micro-ondas + Convecção",
           "microwave_plus_grill": "Micro-ondas + Grill",
           "microwave_plus_hot_blast": "Micro-ondas + Hot Blast",
           "microwave_plus_hot_blast_2": "Micro-ondas + Hot Blast 2",
+          "moist_steam": "Vapor húmido",
+          "multi_grill": "Multi Grill",
+          "multi_level_cook": "Cozedura em múltiplos níveis",
+          "natural_steam": "Vapor natural",
           "no_operation": "Sem operação",
           "others": "Outros",
+          "pizza": "Pizza",
+          "pizza_cook": "Cozinhar pizza",
+          "pizza_naan": "Pizza / Pão Naan",
           "plate_warm": "Aquecimento de pratos",
+          "power_bake": "Cozedura forte (Power Bake)",
+          "power_convection": "Convecção forte",
+          "power_convection_combi": "Convecção forte combinada",
+          "preheat": "Pré-aquecimento",
+          "pro_convection": "Convecção Pro",
+          "pro_roasting": "Assar Pro",
           "proof": "Fermentação",
+          "prove_dough": "Levedar massa",
+          "pure_convection": "Convecção pura",
+          "pure_convection_sear": "Selagem por convecção pura",
+          "pure_steam": "Vapor puro",
+          "pyro_free": "Sem pirólise",
           "rinse": "Enxaguamento",
+          "roast": "Assar",
+          "roasting": "Assar",
+          "seafood": "Marisco",
+          "self_clean": "Auto-limpeza",
+          "sensor_self_diagnosis": "Autodiagnóstico do sensor",
           "slim_middle": "Slim médio",
           "slim_strong": "Slim forte",
+          "slimfry_middle": "Slim Fry médio",
+          "slimfry_strong": "Slim Fry forte",
           "slow_cook": "Cozedura lenta",
+          "slow_cook_beef": "Cozedura lenta de carne de vaca",
+          "slow_cook_poultry": "Cozedura lenta de aves",
+          "slow_cook_stew": "Cozedura lenta de guisados",
           "small_grill": "Grelhador pequeno",
+          "spare_rib": "Costelinhas (Spare Rib)",
+          "speed_bake": "Cozedura rápida",
+          "speed_broil": "Grelhar rápido",
+          "speed_brown": "Dourar rápido",
+          "speed_conv_sear": "Selagem rápida por convecção",
+          "speed_convection": "Convecção rápida",
+          "speed_grill": "Grelhador rápido",
+          "speed_power_convection": "Convecção forte rápida",
+          "speed_roast": "Assar rápido",
+          "steam_assist": "Assistência a vapor",
+          "steam_autocook": "Cozedura automática a vapor",
           "steam_bake": "Cozedura a vapor",
+          "steam_bottom_convection": "Convecção inferior a vapor",
           "steam_bottom_heat_plus_convection": "Calor inf. a vapor + Convecção",
+          "steam_bread_proof": "Fermentação de pão a vapor",
           "steam_clean": "Limpeza a vapor",
+          "steam_clean_real": "Limpeza a vapor real",
+          "steam_convection": "Convecção a vapor",
           "steam_cook": "Cozinhar a vapor",
+          "steam_proof": "Fermentação a vapor",
+          "steam_reheat": "Reaquecimento a vapor",
           "steam_roast": "Assar a vapor",
+          "steam_top_convection": "Convecção superior a vapor",
+          "stone_mode": "Modo pedra (Stone Mode)",
           "strong_steam": "Vapor forte",
+          "three_part_pure_convection": "Convecção pura de três zonas",
+          "toast_bagle": "Torrar Bagel",
+          "toast_croissant": "Torrar Croissant",
+          "toast_sliced_bread": "Torrar pão de forma",
           "top_convection": "Convecção superior",
-          "top_heat_plus_convection": "Calor superior + Convecção",
+          "top_heat_plus_econvection": "Calor superior + Convecção Eco",
+          "turkey": "Perú",
+          "vapor_bottom_heat_pluse_convection": "Calor inf. por vapor + Convecção",
+          "vapor_cleaning": "Limpeza por vapor",
+          "vapor_convection": "Convecção por vapor",
+          "vapor_grill": "Grelhador por vapor",
+          "vapor_mwo": "Micro-ondas por vapor",
+          "vapor_top_heat_pluse_convection": "Calor sup. por vapor + Convecção"
+          "warm_hold": "Manter quente (Warm Hold)",
           "warming": "Aquecimento"
         }
       },
       "oven_mode_cavity_01": {
         "name": "Modo inferior",
         "state": {
+          "ai_defrost": "Descongelação AI",
+          "ai_reheat": "Reaquecimento AI",
+          "ai_sousvide": "Air Sous Vide AI",
+          "air_fry": "Fritar com ar (Air Fry)",
+          "air_fry_max": "Air Fry Max",
+          "air_fryer": "Fritadeira a ar",
           "air_sousvide": "Air Sous Vide",
           "autocook": "Cozedura automática",
+          "autocook_custom": "Cozedura automática personalizada",
           "bake": "Cozedura (Bake)",
           "bottom": "Inferior",
           "bottom_convection": "Convecção inferior",
           "bottom_heat": "Calor inferior",
           "bottom_heat_plus_convection": "Calor inferior + Convecção",
+          "bottom_heat_plus_econvection": "Calor inferior + Convecção Eco",
+          "bread_proof": "Fermentação de pão",
           "broil": "Grelhar (Broil)",
+          "broil_combi": "Grelhar combinado",
+          "broil_convection": "Grelhar por convecção",
+          "broil_s": "Grelhar S",
+          "brownie": "Brownie",
+          "catalytic_clean": "Limpeza catalítica",
+          "chef_bake": "Cozedura Chef",
+          "chef_broil": "Grelhar Chef",
+          "chef_proof": "Fermentação Chef",
           "clean_air_pyro": "Limpeza pirolítica",
           "convection": "Convecção",
           "convection_bake": "Cozedura por convecção",
           "convection_broil": "Grelhar por convecção",
+          "convection_combi": "Convecção combinada",
           "convection_roast": "Assar por convecção",
+          "convection_sear": "Selagem por convecção",
+          "convection_vegetable": "Legumes por convecção",
           "conventional": "Convencional",
+          "cookie": "Bolachas",
           "defrost": "Descongelar",
+          "defrost_a": "Descongelar A",
           "defrosting": "Descongelação",
+          "defrosting_2": "Descongelação",
           "dehydrate": "Desidratar",
+          "deodorization": "Desodorização",
           "descale": "Descalcificar",
+          "drain": "Drenagem",
+          "drying": "Secagem",
+          "easycook1": "Cozedura fácil 1",
+          "easycook2": "Cozedura fácil 2",
+          "easycook3": "Cozedura fácil 3",
           "eco_convection": "Convecção Eco",
+          "eco_grill": "Grelhador Eco",
+          "fan_conventional": "Convencional com ventilador",
           "fan_grill": "Grelhador com ventilador",
+          "favorite_cook": "Cozedura favorita",
+          "favorite_recipes": "Receitas favoritas",
+          "fermentation": "Fermentação",
+          "fine_steam": "Vapor fino",
+          "four_part_pure_convection": "Convecção pura de quatro zonas",
+          "four_part_pure_convection_single": "Convecção pura de quatro zonas única",
+          "frozen_food": "Alimentos congelados",
+          "frozen_mode": "Modo congelados",
+          "green_clean": "Limpeza ecológica",
+          "green_clean_real": "Limpeza ecológica real",
           "grill": "Grill",
+          "grill_2": "Grill",
+          "grill_convection": "Grelhador por convecção",
+          "guided_cook": "Cozedura guiada",
+          "healthycook1": "Cozedura saudável 1",
+          "healthycook2": "Cozedura saudável 2",
+          "healthycook3": "Cozedura saudável 3",
+          "healthycook4": "Cozedura saudável 4",
+          "healthycook5": "Cozedura saudável 5",
+          "healthycook6": "Cozedura saudável 6",
           "heating": "Aquecimento",
+          "homecare_wizard_v2": "Homecare Wizard v2",
+          "hot_blast": "Hot Blast",
+          "intensive_cook": "Cozedura intensiva",
+          "internal_clean": "Limpeza interna",
           "keep_warm": "Manter quente",
           "large_grill": "Grelhador grande",
-          "microwave": "Micro-ondas",
+          "memory_cook": "Cozedura por memória",
+          "micro_wave": "Micro-ondas",
+          "micro_wave_2": "Micro-ondas",
+          "micro_wave_convection": "Micro-ondas com convecção",
+          "micro_wave_fan_grill": "Micro-ondas com grelhador ventilado",
+          "micro_wave_grill": "Micro-ondas com grelhador",
+          "micro_wave_hot_blast": "Micro-ondas Hot Blast",
+          "micro_wave_roast": "Assar com micro-ondas",
           "microwave_plus_convection": "Micro-ondas + Convecção",
           "microwave_plus_grill": "Micro-ondas + Grill",
           "microwave_plus_hot_blast": "Micro-ondas + Hot Blast",
           "microwave_plus_hot_blast_2": "Micro-ondas + Hot Blast 2",
+          "moist_steam": "Vapor húmido",
+          "multi_grill": "Multi Grill",
+          "multi_level_cook": "Cozedura em múltiplos níveis",
+          "natural_steam": "Vapor natural",
           "no_operation": "Sem operação",
           "others": "Outros",
+          "pizza": "Pizza",
+          "pizza_cook": "Cozinhar pizza",
+          "pizza_naan": "Pizza / Pão Naan",
           "plate_warm": "Aquecimento de pratos",
+          "power_bake": "Cozedura forte (Power Bake)",
+          "power_convection": "Convecção forte",
+          "power_convection_combi": "Convecção forte combinada",
+          "preheat": "Pré-aquecimento",
+          "pro_convection": "Convecção Pro",
+          "pro_roasting": "Assar Pro",
           "proof": "Fermentação",
+          "prove_dough": "Levedar massa",
+          "pure_convection": "Convecção pura",
+          "pure_convection_sear": "Selagem por convecção pura",
+          "pure_steam": "Vapor puro",
+          "pyro_free": "Sem pirólise",
           "rinse": "Enxaguamento",
+          "roast": "Assar",
+          "roasting": "Assar",
+          "seafood": "Marisco",
+          "self_clean": "Auto-limpeza",
+          "sensor_self_diagnosis": "Autodiagnóstico do sensor",
           "slim_middle": "Slim médio",
           "slim_strong": "Slim forte",
+          "slimfry_middle": "Slim Fry médio",
+          "slimfry_strong": "Slim Fry forte",
           "slow_cook": "Cozedura lenta",
+          "slow_cook_beef": "Cozedura lenta de carne de vaca",
+          "slow_cook_poultry": "Cozedura lenta de aves",
+          "slow_cook_stew": "Cozedura lenta de guisados",
           "small_grill": "Grelhador pequeno",
+          "spare_rib": "Costelinhas (Spare Rib)",
+          "speed_bake": "Cozedura rápida",
+          "speed_broil": "Grelhar rápido",
+          "speed_brown": "Dourar rápido",
+          "speed_conv_sear": "Selagem rápida por convecção",
+          "speed_convection": "Convecção rápida",
+          "speed_grill": "Grelhador rápido",
+          "speed_power_convection": "Convecção forte rápida",
+          "speed_roast": "Assar rápido",
+          "steam_assist": "Assistência a vapor",
+          "steam_autocook": "Cozedura automática a vapor",
           "steam_bake": "Cozedura a vapor",
+          "steam_bottom_convection": "Convecção inferior a vapor",
           "steam_bottom_heat_plus_convection": "Calor inf. a vapor + Convecção",
+          "steam_bread_proof": "Fermentação de pão a vapor",
           "steam_clean": "Limpeza a vapor",
+          "steam_clean_real": "Limpeza a vapor real",
+          "steam_convection": "Convecção a vapor",
           "steam_cook": "Cozinhar a vapor",
+          "steam_proof": "Fermentação a vapor",
+          "steam_reheat": "Reaquecimento a vapor",
           "steam_roast": "Assar a vapor",
+          "steam_top_convection": "Convecção superior a vapor",
+          "stone_mode": "Modo pedra (Stone Mode)",
           "strong_steam": "Vapor forte",
+          "three_part_pure_convection": "Convecção pura de três zonas",
+          "toast_bagle": "Torrar Bagel",
+          "toast_croissant": "Torrar Croissant",
+          "toast_sliced_bread": "Torrar pão de forma",
           "top_convection": "Convecção superior",
-          "top_heat_plus_convection": "Calor superior + Convecção",
+          "top_heat_plus_econvection": "Calor superior + Convecção Eco",
+          "turkey": "Perú",
+          "vapor_bottom_heat_pluse_convection": "Calor inf. por vapor + Convecção",
+          "vapor_cleaning": "Limpeza por vapor",
+          "vapor_convection": "Convecção por vapor",
+          "vapor_grill": "Grelhador por vapor",
+          "vapor_mwo": "Micro-ondas por vapor",
+          "vapor_top_heat_pluse_convection": "Calor sup. por vapor + Convecção",
+          "warm_hold": "Manter quente (Warm Hold)",
+          "warming": "Aquecimento"
+        }
+      },
+      "oven_mode_cavity_02": {
+        "name": "Modo segunda cavidade",
+        "state": {
+          "ai_defrost": "Descongelação AI",
+          "ai_reheat": "Reaquecimento AI",
+          "ai_sousvide": "Air Sous Vide AI",
+          "air_fry": "Fritar com ar (Air Fry)",
+          "air_fry_max": "Air Fry Max",
+          "air_fryer": "Fritadeira a ar",
+          "air_sousvide": "Air Sous Vide",
+          "autocook": "Cozedura automática",
+          "autocook_custom": "Cozedura automática personalizada",
+          "bake": "Cozedura (Bake)",
+          "bottom": "Inferior",
+          "bottom_convection": "Convecção inferior",
+          "bottom_heat": "Calor inferior",
+          "bottom_heat_plus_convection": "Calor inferior + Convecção",
+          "bottom_heat_plus_econvection": "Calor inferior + Convecção Eco",
+          "bread_proof": "Fermentação de pão",
+          "broil": "Grelhar (Broil)",
+          "broil_combi": "Grelhar combinado",
+          "broil_convection": "Grelhar por convecção",
+          "broil_s": "Grelhar S",
+          "brownie": "Brownie",
+          "catalytic_clean": "Limpeza catalítica",
+          "chef_bake": "Cozedura Chef",
+          "chef_broil": "Grelhar Chef",
+          "chef_proof": "Fermentação Chef",
+          "clean_air_pyro": "Limpeza pirolítica",
+          "convection": "Convecção",
+          "convection_bake": "Cozedura por convecção",
+          "convection_broil": "Grelhar por convecção",
+          "convection_combi": "Convecção combinada",
+          "convection_roast": "Assar por convecção",
+          "convection_sear": "Selagem por convecção",
+          "convection_vegetable": "Legumes por convecção",
+          "conventional": "Convencional",
+          "cookie": "Bolachas",
+          "defrost": "Descongelar",
+          "defrost_a": "Descongelar A",
+          "defrosting": "Descongelação",
+          "defrosting_2": "Descongelação",
+          "dehydrate": "Desidratar",
+          "deodorization": "Desodorização",
+          "descale": "Descalcificar",
+          "drain": "Drenagem",
+          "drying": "Secagem",
+          "easycook1": "Cozedura fácil 1",
+          "easycook2": "Cozedura fácil 2",
+          "easycook3": "Cozedura fácil 3",
+          "eco_convection": "Convecção Eco",
+          "eco_grill": "Grelhador Eco",
+          "fan_conventional": "Convencional com ventilador",
+          "fan_grill": "Grelhador com ventilador",
+          "favorite_cook": "Cozedura favorita",
+          "favorite_recipes": "Receitas favoritas",
+          "fermentation": "Fermentação",
+          "fine_steam": "Vapor fino",
+          "four_part_pure_convection": "Convecção pura de quatro zonas",
+          "four_part_pure_convection_single": "Convecção pura de quatro zonas única",
+          "frozen_food": "Alimentos congelados",
+          "frozen_mode": "Modo congelados",
+          "green_clean": "Limpeza ecológica",
+          "green_clean_real": "Limpeza ecológica real",
+          "grill": "Grill",
+          "grill_2": "Grill",
+          "grill_convection": "Grelhador por convecção",
+          "guided_cook": "Cozedura guiada",
+          "healthycook1": "Cozedura saudável 1",
+          "healthycook2": "Cozedura saudável 2",
+          "healthycook3": "Cozedura saudável 3",
+          "healthycook4": "Cozedura saudável 4",
+          "healthycook5": "Cozedura saudável 5",
+          "healthycook6": "Cozedura saudável 6",
+          "heating": "Aquecimento",
+          "homecare_wizard_v2": "Homecare Wizard v2",
+          "hot_blast": "Hot Blast",
+          "intensive_cook": "Cozedura intensiva",
+          "internal_clean": "Limpeza interna",
+          "keep_warm": "Manter quente",
+          "large_grill": "Grelhador grande",
+          "memory_cook": "Cozedura por memória",
+          "micro_wave": "Micro-ondas",
+          "micro_wave_2": "Micro-ondas",
+          "micro_wave_convection": "Micro-ondas com convecção",
+          "micro_wave_fan_grill": "Micro-ondas com grelhador ventilado",
+          "micro_wave_grill": "Micro-ondas com grelhador",
+          "micro_wave_hot_blast": "Micro-ondas Hot Blast",
+          "micro_wave_roast": "Assar com micro-ondas",
+          "microwave_plus_convection": "Micro-ondas + Convecção",
+          "microwave_plus_grill": "Micro-ondas + Grill",
+          "microwave_plus_hot_blast": "Micro-ondas + Hot Blast",
+          "microwave_plus_hot_blast_2": "Micro-ondas + Hot Blast 2",
+          "moist_steam": "Vapor húmido",
+          "multi_grill": "Multi Grill",
+          "multi_level_cook": "Cozedura em múltiplos níveis",
+          "natural_steam": "Vapor natural",
+          "no_operation": "Sem operação",
+          "others": "Outros",
+          "pizza": "Pizza",
+          "pizza_cook": "Cozinhar pizza",
+          "pizza_naan": "Pizza / Pão Naan",
+          "plate_warm": "Aquecimento de pratos",
+          "power_bake": "Cozedura forte (Power Bake)",
+          "power_convection": "Convecção forte",
+          "power_convection_combi": "Convecção forte combinada",
+          "preheat": "Pré-aquecimento",
+          "pro_convection": "Convecção Pro",
+          "pro_roasting": "Assar Pro",
+          "proof": "Fermentação",
+          "prove_dough": "Levedar massa",
+          "pure_convection": "Convecção pura",
+          "pure_convection_sear": "Selagem por convecção pura",
+          "pure_steam": "Vapor puro",
+          "pyro_free": "Sem pirólise",
+          "rinse": "Enxaguamento",
+          "roast": "Assar",
+          "roasting": "Assar",
+          "seafood": "Marisco",
+          "self_clean": "Auto-limpeza",
+          "sensor_self_diagnosis": "Autodiagnóstico do sensor",
+          "slim_middle": "Slim médio",
+          "slim_strong": "Slim forte",
+          "slimfry_middle": "Slim Fry médio",
+          "slimfry_strong": "Slim Fry forte",
+          "slow_cook": "Cozedura lenta",
+          "slow_cook_beef": "Cozedura lenta de carne de vaca",
+          "slow_cook_poultry": "Cozedura lenta de aves",
+          "slow_cook_stew": "Cozedura lenta de guisados",
+          "small_grill": "Grelhador pequeno",
+          "spare_rib": "Costelinhas (Spare Rib)",
+          "speed_bake": "Cozedura rápida",
+          "speed_broil": "Grelhar rápido",
+          "speed_brown": "Dourar rápido",
+          "speed_conv_sear": "Selagem rápida por convecção",
+          "speed_convection": "Convecção rápida",
+          "speed_grill": "Grelhador rápido",
+          "speed_power_convection": "Convecção forte rápida",
+          "speed_roast": "Assar rápido",
+          "steam_assist": "Assistência a vapor",
+          "steam_autocook": "Cozedura automática a vapor",
+          "steam_bake": "Cozedura a vapor",
+          "steam_bottom_convection": "Convecção inferior a vapor",
+          "steam_bottom_heat_plus_convection": "Calor inf. a vapor + Convecção",
+          "steam_bread_proof": "Fermentação de pão a vapor",
+          "steam_clean": "Limpeza a vapor",
+          "steam_clean_real": "Limpeza a vapor real",
+          "steam_convection": "Convecção a vapor",
+          "steam_cook": "Cozinhar a vapor",
+          "steam_proof": "Fermentação a vapor",
+          "steam_reheat": "Reaquecimento a vapor",
+          "steam_roast": "Assar a vapor",
+          "steam_top_convection": "Convecção superior a vapor",
+          "stone_mode": "Modo pedra (Stone Mode)",
+          "strong_steam": "Vapor forte",
+          "three_part_pure_convection": "Convecção pura de três zonas",
+          "toast_bagle": "Torrar Bagel",
+          "toast_croissant": "Torrar Croissant",
+          "toast_sliced_bread": "Torrar pão de forma",
+          "top_convection": "Convecção superior",
+          "top_heat_plus_econvection": "Calor superior + Convecção Eco",
+          "turkey": "Perú",
+          "vapor_bottom_heat_pluse_convection": "Calor inf. por vapor + Convecção",
+          "vapor_cleaning": "Limpeza por vapor",
+          "vapor_convection": "Convecção por vapor",
+          "vapor_grill": "Grelhador por vapor",
+          "vapor_mwo": "Micro-ondas por vapor",
+          "vapor_top_heat_pluse_convection": "Calor sup. por vapor + Convecção",
+          "warm_hold": "Manter quente (Warm Hold)",
           "warming": "Aquecimento"
         }
       },
@@ -848,6 +1440,18 @@
       "cooler_temperature": {
         "name": "Temperatura do frigorífico"
       },
+      "countdown_status": {
+        "name": "Estado da contagem decrescente do bico {burner_id}"
+      },
+      "countdown_status_hood": {
+        "name": "Estado da contagem decrescente do exaustor"
+      },
+      "countdown_time": {
+        "name": "Tempo da contagem decrescente do bico {burner_id}"
+      },
+      "countdown_time_hood": {
+        "name": "Tempo da contagem decrescente do exaustor"
+      },
       "diverter_valve_position": {
         "name": "Posição da válvula",
         "state": {
@@ -1021,6 +1625,9 @@
       "oven_completion_time_cavity_01": {
         "name": "Tempo de conclusão inferior"
       },
+      "oven_completion_time_cavity_02": {
+        "name": "Tempo de conclusão segunda cavidade"
+      },
       "oven_job_state": {
         "name": "Estado da tarefa superior",
         "state": {
@@ -1065,6 +1672,28 @@
           "warming": "Aquecimento"
         }
       },
+      "oven_job_state_cavity_02": {
+        "name": "Estado da tarefa segunda cavidade",
+        "state": {
+          "cleaning": "Limpeza",
+          "cooking": "Cozedura",
+          "cooling": "Arrefecimento",
+          "defrosting": "Descongelação",
+          "draining": "Drenagem",
+          "fast_preheat": "Pré-aquecimento rápido",
+          "finished": "Concluído",
+          "preheat": "Pré-aquecimento",
+          "ready": "Pronto",
+          "rinsing": "Enxaguamento",
+          "scheduled_end": "Fim agendado",
+          "scheduled_start": "Início agendado",
+          "searing": "Selagem",
+          "sensing": "Deteção",
+          "stone_heating": "Aquecimento da pedra",
+          "time_hold_preheat": "Manutenção de pré-aquecimento",
+          "warming": "Aquecimento"
+        }
+      },
       "oven_machine_state": {
         "name": "Estado do forno superior",
         "state": {
@@ -1075,6 +1704,14 @@
       },
       "oven_machine_state_cavity_01": {
         "name": "Estado do forno inferior",
+        "state": {
+          "paused": "Pausado",
+          "ready": "Pronto",
+          "running": "Em execução"
+        }
+      },
+      "oven_machine_state_cavity_02": {
+        "name": "Estado do forno segunda cavidade",
         "state": {
           "paused": "Pausado",
           "ready": "Pronto",
@@ -1097,11 +1734,25 @@
           "running": "Em execução"
         }
       },
+      "oven_operating_state_cavity_02": {
+        "name": "Estado de funcionamento segunda cavidade",
+        "state": {
+          "paused": "Pausado",
+          "ready": "Pronto",
+          "running": "Em execução"
+        }
+      },
       "oven_operation_progress_cavity_01": {
         "name": "Progresso inferior"
       },
+      "oven_operation_progress_cavity_02": {
+        "name": "Progresso segunda cavidade"
+      },
       "oven_operation_time_cavity_01": {
         "name": "Tempo de funcionamento inferior"
+      },
+      "oven_operation_time_cavity_02": {
+        "name": "Tempo de funcionamento segunda cavidade"
       },
       "oven_setpoint": {
         "name": "Ponto de ajuste superior"
@@ -1109,8 +1760,14 @@
       "oven_setpoint_cavity_01": {
         "name": "Ponto de ajuste inferior"
       },
+      "oven_setpoint_cavity_02": {
+        "name": "Ponto de ajuste segunda cavidade"
+      },
       "oven_temperature_cavity_01": {
         "name": "Temperatura inferior"
+      },
+      "oven_temperature_cavity_02": {
+        "name": "Temperatura segunda cavidade"
       },
       "pm10_health_concern": {
         "name": "Preocupação de saúde PM10",
@@ -1221,6 +1878,9 @@
           "tested": "Testado"
         }
       },
+      "surface_residual_heat": {
+        "name": "Calor residual da superfície"
+      },
       "target_temperature": {
         "name": "Temperatura pretendida"
       },
@@ -1306,6 +1966,9 @@
       },
       "chef": {
         "name": "Chef"
+      },
+      "child_lock_control": {
+        "name": "Controlo de bloqueio infantil"
       },
       "cold_rinse": {
         "name": "Enxaguamento frio"
@@ -1460,6 +2123,9 @@
       "switch": {
         "name": "Interruptor"
       },
+      "switch_hood": {
+        "name": "Interruptor do exaustor"
+      },
       "table_00_course_5b": {
         "name": "Algodão"
       },
@@ -1526,6 +2192,36 @@
       "table_00_course_dc": {
         "name": "Lavagem rápida 15m"
       },
+      "table_02_course_02": {
+        "name": "Powerbubble+"
+      },
+      "table_02_course_0f": {
+        "name": "Lavagem limpa (Clean Wash)"
+      },
+      "table_02_course_10": {
+        "name": "Centrifugar para secar"
+      },
+      "table_02_course_11": {
+        "name": "Roupa de cama fina"
+      },
+      "table_02_course_14": {
+        "name": "Roupa interior"
+      },
+      "table_02_course_16": {
+        "name": "Blusas"
+      },
+      "table_02_course_17": {
+        "name": "Nuvem"
+      },
+      "table_02_course_18": {
+        "name": "Banho de espuma suave"
+      },
+      "table_02_course_19": {
+        "name": "Lavagem AI ideal"
+      },
+      "table_02_course_1a": {
+        "name": "Camisas"
+      },
       "table_02_course_1b": {
         "name": "Algodão"
       },
@@ -1577,6 +2273,9 @@
       "table_02_course_2b": {
         "name": "Lavagem AI"
       },
+      "table_02_course_2c": {
+        "name": "Remoção de nódoas"
+      },
       "table_02_course_2d": {
         "name": "Lavagem silenciosa"
       },
@@ -1588,6 +2287,9 @@
       },
       "table_02_course_30": {
         "name": "Dia nublado"
+      },
+      "table_02_course_31": {
+        "name": "Roupa desportiva"
       },
       "table_02_course_32": {
         "name": "Camisas"
@@ -1616,14 +2318,176 @@
       "table_02_course_3a": {
         "name": "Limpeza do tambor"
       },
+      "table_02_course_3e": {
+        "name": "Lavagem com espuma+"
+      },
+      "table_02_course_3f": {
+        "name": "Amaciador profundo"
+      },
+      "table_02_course_50": {
+        "name": "Carga pesada+"
+      },
+      "table_02_course_52": {
+        "name": "Eco frio"
+      },
+      "table_02_course_53": {
+        "name": "Carga pesada"
+      },
+      "table_02_course_59": {
+        "name": "Engomar fácil"
+      },
+      "table_02_course_5a": {
+        "name": "Higienização a vapor"
+      },
+      "table_02_course_5b": {
+        "name": "Carga pequena"
+      },
+      "table_02_course_5d": {
+        "name": "Enxaguamento forte"
+      },
+      "table_02_course_5f": {
+        "name": "Apenas centrifugação"
+      },
+      "table_02_course_60": {
+        "name": "Auto-limpeza+"
+      },
+      "table_02_course_61": {
+        "name": "Algodão com vapor"
+      },
+      "table_02_course_62": {
+        "name": "OptiWash"
+      },
+      "table_02_course_63": {
+        "name": "Vapor forte"
+      },
+      "table_02_course_64": {
+        "name": "Roupas brancas com vapor"
+      },
       "table_02_course_66": {
         "name": "Denim"
+      },
+      "table_02_course_67": {
+        "name": "Vapor alérgenos"
+      },
+      "table_02_course_68": {
+        "name": "Roupas volumosas com vapor"
+      },
+      "table_02_course_71": {
+        "name": "Lavagem rápida"
+      },
+      "table_02_course_73": {
+        "name": "Higienizar"
+      },
+      "table_02_course_7c": {
+        "name": "Roupas brancas"
+      },
+      "table_02_course_7d": {
+        "name": "Roupa de cama/Impermeável"
+      },
+      "table_02_course_7e": {
+        "name": "Auto-limpeza"
+      },
+      "table_02_course_7f": {
+        "name": "Lã/Delicados"
+      },
+      "table_02_course_80": {
+        "name": "Poupança de água"
+      },
+      "table_02_course_82": {
+        "name": "Limpeza da cuba"
+      },
+      "table_02_course_84": {
+        "name": "Lavagem de nódoas"
+      },
+      "table_02_course_85": {
+        "name": "Normal com vapor"
+      },
+      "table_02_course_86": {
+        "name": "Lavagem profunda"
+      },
+      "table_02_course_88": {
+        "name": "Cuidado pet"
+      },
+      "table_02_course_89": {
+        "name": "Arejar (Air Refresh)"
+      },
+      "table_02_course_8c": {
+        "name": "AI OptiWash"
+      },
+      "table_02_course_8d": {
+        "name": "Roupa de cama com vapor"
+      },
+      "table_02_course_8e": {
+        "name": "Lavagem Super Eco"
       },
       "table_02_course_8f": {
         "name": "Frio intenso"
       },
       "table_02_course_96": {
         "name": "Menos microfibras"
+      },
+      "table_02_course_a0": {
+        "name": "Lavagem rápida 15m"
+      },
+      "table_02_course_a1": {
+        "name": "Normal"
+      },
+      "table_02_course_a2": {
+        "name": "Lavar e Secar AI"
+      },
+      "table_02_course_a3": {
+        "name": "Lavar e Secar rápido"
+      },
+      "table_02_course_a4": {
+        "name": "Menos microfibras"
+      },
+      "table_02_course_a6": {
+        "name": "Cuidado pet"
+      },
+      "table_02_course_a7": {
+        "name": "Cuidado do produto"
+      },
+      "table_02_course_a8": {
+        "name": "Secagem temporizada"
+      },
+      "table_02_course_a9": {
+        "name": "Tide POD Frio"
+      },
+      "table_02_course_aa": {
+        "name": "Arejar a frio"
+      },
+      "table_02_course_ab": {
+        "name": "Limpeza profunda"
+      },
+      "table_02_course_ac": {
+        "name": "Higienização a ar"
+      },
+      "table_02_course_ad": {
+        "name": "Lavar e Secar AI Opti"
+      },
+      "table_02_course_ae": {
+        "name": "Ar frio"
+      },
+      "table_02_course_af": {
+        "name": "Cuidado casacos de penas"
+      },
+      "table_02_course_b2": {
+        "name": "Lavar e Secar AI +"
+      },
+      "table_02_course_b3": {
+        "name": "Peça única"
+      },
+      "table_02_course_b4": {
+        "name": "Lavagem manual"
+      },
+      "table_02_course_b5": {
+        "name": "Lavagem AI+"
+      },
+      "table_02_course_b6": {
+        "name": "AI OptiWash+"
+      },
+      "table_02_course_fb": {
+        "name": "Ciclo de etiqueta de cuidado"
       },
       "table_03_course_16": {
         "name": "Algodão"
@@ -1700,7 +2564,7 @@
       }
     }
   },
-  "exceptions": {
+"exceptions": {
     "oauth2_implementation_unavailable": {
       "message": "Implementação OAuth2 indisponível, será feita uma nova tentativa"
     }
@@ -1719,7 +2583,7 @@
       "title": "Sensor binário de válvula descontinuado"
     },
     "deprecated_binary_valve_scripts": {
-      "description": "O sensor binário de válvula {entity_name} (`{entity_id}`) foi descontinuado e será removido no futuro. A entidade é utilizada nas seguintes automações ou scripts:\n{items}\n\nUma entidade de válvula com controlos está disponível. Utilize a nova entidade de válvula nas automações ou scripts acima e desative a entidade para corrigir este problema.",
+      "description": "O sensor binário de válvula {entity_name} (`{entity_id}`) foi descontinuado e será removido no futuro. A entidade é utilizada nas seguintes automações ou scripts:\n{items}\n\ Uma entidade de válvula com controlos está disponível. Utilize a nova entidade de válvula nas automações ou scripts acima e desative a entidade para corrigir este problema.",
       "title": "Sensor binário de válvula descontinuado"
     },
     "deprecated_dhw": {
