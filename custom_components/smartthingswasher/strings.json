@@ -1453,7 +1453,7 @@
         "name": "Hood countdown status"
       },
       "surface_residual_heat": {
-        "name": "Surface residual heat"
+        "name": "Burner {burner_id} surface residual heat"
       },
       "diverter_valve_position": {
         "name": "Valve position",

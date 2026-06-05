@@ -36,6 +36,7 @@ from . import FullDevice, SmartThingsConfigEntry
 from .const import (
     COOKTOP_HEATING_MODES,
     HEALTH_CONCERN,
+    HOOD,
     JOB_STATE_MAP,
     MAIN,
     MEDIA_PLAYBACK_STATE_MAP,
@@ -1486,8 +1487,14 @@ class SmartThingsSensor(SmartThingsEntity, SensorEntity):
         component: str = MAIN,
     ) -> None:
         """Init the class."""
-        capabilities_to_subscribe = {capability}
-        super().__init__(client, device, capabilities_to_subscribe, component=component)
+        capabilities = {capability}
+        if (
+            component == HOOD
+            and Capability.SAMSUNG_CE_CONNECTION_STATE
+            in device.status.get(component, {})
+        ):
+            capabilities.add(Capability.SAMSUNG_CE_CONNECTION_STATE)
+        super().__init__(client, device, capabilities, component=component)
         self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
@@ -1551,3 +1558,18 @@ class SmartThingsSensor(SmartThingsEntity, SensorEntity):
                 ]
             return [option.lower() for option in options]
         return super().options
+
+    @property
+    def available(self) -> bool:
+        """Return True if entity is available."""
+        if not super().available:
+            return False
+
+        if Capability.SAMSUNG_CE_CONNECTION_STATE in self.capabilities:
+            connection_state = self.get_attribute_value(
+                Capability.SAMSUNG_CE_CONNECTION_STATE, Attribute.CONNECTION_STATE
+            )
+            if connection_state == "disconnected":
+                return False
+
+        return True

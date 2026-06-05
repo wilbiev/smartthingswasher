@@ -466,6 +466,9 @@
       "remaining_time": {
         "default": "mdi:timelapse"
       },
+      "surface_residual_heat": {
+        "default": "mdi:heat-wave"
+      },
       "target_temperature": {
         "default": "mdi:thermometer"
       }

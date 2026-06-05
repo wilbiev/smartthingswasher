@@ -247,7 +247,7 @@ CAPABILITY_TO_BUTTONS: dict[
         ],
         Command.CANCEL: [
             SmartThingsButtonEntityDescription(
-                key=Command.START,
+                key=Command.CANCEL,
                 translation_key="cook_cancel",
                 translation_placeholders_fn=lambda component: (
                     {"burner_id": component.split("-0")[-1]}
@@ -263,7 +263,7 @@ CAPABILITY_TO_BUTTONS: dict[
         ],
         Command.RESUME: [
             SmartThingsButtonEntityDescription(
-                key=Command.START,
+                key="pause_resume",
                 translation_key="cook_pause_resume",
                 translation_placeholders_fn=lambda component: (
                     {"burner_id": component.split("-0")[-1]}
