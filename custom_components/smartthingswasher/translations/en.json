@@ -1879,7 +1879,7 @@
         }
       },
       "surface_residual_heat": {
-        "name": "Surface residual heat"
+        "name": "Burner {burner_id} surface residual heat"
       },
       "target_temperature": {
         "name": "Target temperature"

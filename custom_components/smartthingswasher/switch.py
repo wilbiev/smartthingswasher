@@ -15,7 +15,7 @@ from homeassistant.exceptions import ServiceValidationError
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FullDevice, Program, SmartThingsConfigEntry
-from .const import CAPABILITY_COMMANDS, CAPABILITY_COURSES, MAIN
+from .const import CAPABILITY_COMMANDS, CAPABILITY_COURSES, HOOD, MAIN
 from .entity import SmartThingsEntity
 from .models import SupportedOption
 from .util import command_program_course, get_program_table_id, translate_program_course
@@ -33,6 +33,7 @@ AC_CAPABILITIES = (
     Capability.TEMPERATURE_MEASUREMENT,
     Capability.THERMOSTAT_COOLING_SETPOINT,
 )
+
 
 @dataclass(frozen=True, kw_only=True)
 class SmartThingsSwitchEntityDescription(SwitchEntityDescription):
@@ -261,7 +262,7 @@ DISHWASHER_WASHING_OPTIONS_TO_SWITCHES: dict[
         ],
         Attribute.DRY_PLUS: [
             SmartThingsSwitchEntityDescription(
-            key=Attribute.DRY_PLUS,
+                key=Attribute.DRY_PLUS,
                 translation_key="dry_plus",
                 command=Command.SET_DRY_PLUS,
                 on_key=True,
@@ -441,7 +442,9 @@ async def async_setup_entry(
         for capability, attributes in DISHWASHER_WASHING_OPTIONS_TO_SWITCHES.items()
         for component in device.status
         if capability in device.status[component]
-        for supported_attr in [device.status[component][capability].get(Attribute.SUPPORTED_LIST)]
+        for supported_attr in [
+            device.status[component][capability].get(Attribute.SUPPORTED_LIST)
+        ]
         if supported_attr and supported_attr.value
         for attribute, descriptions in attributes.items()
         if attribute in cast(list[str], supported_attr.value)
@@ -461,7 +464,8 @@ async def async_setup_entry(
         for program in device.programs.values()
         for component, capabilities in device.status.items()
         for capability, attribute in CAPABILITY_COURSES.items()
-        if capability in capabilities and capabilities[capability].get(attribute) is not None
+        if capability in capabilities
+        and capabilities[capability].get(attribute) is not None
     )
 
 
@@ -484,6 +488,12 @@ class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
         if entity_description.check_capability is not None:
             capabilities.add(entity_description.check_capability)
         capabilities.add(Capability.REMOTE_CONTROL_STATUS)
+        if (
+            component == HOOD
+            and Capability.SAMSUNG_CE_CONNECTION_STATE
+            in device.status.get(component, {})
+        ):
+            capabilities.add(Capability.SAMSUNG_CE_CONNECTION_STATE)
         super().__init__(client, device, capabilities, component=component)
         self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
         self._attribute = attribute
@@ -492,26 +502,55 @@ class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
             self._attr_name = None
         self.entity_description = entity_description
         self.command = self.entity_description.command
+        if self.entity_description.component_translation_key and component != MAIN:
+            self._attr_translation_key = (
+                self.entity_description.component_translation_key.get(
+                    component, self.entity_description.translation_key
+                )
+            )
 
     def _validate_before_execute(self) -> None:
         """Validate that the switch command can be executed."""
-        if self.entity_description.check_capability and self.entity_description.supported_option:
-            if (attribute_course := CAPABILITY_COURSES.get(self.entity_description.check_capability)) is None:
-                raise ServiceValidationError("Option is not supported by selected course/cycle")
+        if (
+            self.entity_description.check_capability
+            and self.entity_description.supported_option
+        ):
+            if (
+                attribute_course := CAPABILITY_COURSES.get(
+                    self.entity_description.check_capability
+                )
+            ) is None:
+                raise ServiceValidationError(
+                    "Option is not supported by selected course/cycle"
+                )
 
-            if (current_course_raw := self.get_attribute_value(self.entity_description.check_capability, attribute_course)) is None:
-                raise ServiceValidationError("Option is not supported by selected course/cycle")
+            if (
+                current_course_raw := self.get_attribute_value(
+                    self.entity_description.check_capability, attribute_course
+                )
+            ) is None:
+                raise ServiceValidationError(
+                    "Option is not supported by selected course/cycle"
+                )
 
             current_course = translate_program_course(current_course_raw)
             if not self.device.programs or current_course not in self.device.programs:
-                raise ServiceValidationError("Option is not supported by selected course/cycle")
+                raise ServiceValidationError(
+                    "Option is not supported by selected course/cycle"
+                )
 
             program = self.device.programs[current_course]
-            if (opt := program.supportedoptions.get(self.entity_description.supported_option)) is not None:
+            if (
+                opt := program.supportedoptions.get(
+                    self.entity_description.supported_option
+                )
+            ) is not None:
                 if len(opt.options) > 1:
                     return
 
-            raise ServiceValidationError("Option is not supported by selected course/cycle")
+            raise ServiceValidationError(
+                "Option is not supported by selected course/cycle"
+            )
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Turn the switch off."""
@@ -544,14 +583,30 @@ class SmartThingsSwitch(SmartThingsEntity, SwitchEntity):
             )
 
     def _current_state(self) -> Any:
-        return self.get_attribute_value(
-            self.capability, self._attribute
-        )
+        return self.get_attribute_value(self.capability, self._attribute)
 
     @property
     def is_on(self) -> bool:
         """Return true if switch is on."""
-        return self.get_attribute_value(self.capability, self._attribute) == self.entity_description.on_key
+        return (
+            self.get_attribute_value(self.capability, self._attribute)
+            == self.entity_description.on_key
+        )
+
+    @property
+    def available(self) -> bool:
+        """Return True if entity is available."""
+        if not super().available:
+            return False
+
+        if Capability.SAMSUNG_CE_CONNECTION_STATE in self.capabilities:
+            connection_state = self.get_attribute_value(
+                Capability.SAMSUNG_CE_CONNECTION_STATE, Attribute.CONNECTION_STATE
+            )
+            if connection_state == "disconnected":
+                return False
+
+        return True
 
 
 class SmartThingsProgramSwitch(SmartThingsEntity, SwitchEntity):
@@ -592,7 +647,9 @@ class SmartThingsProgramSwitch(SmartThingsEntity, SwitchEntity):
         """Turn the switch on."""
         if self.command is not None and self.program is not None:
             await self.execute_device_command(
-                self.capability, self.command, command_program_course(self.program.program_id)
+                self.capability,
+                self.command,
+                command_program_course(self.program.program_id),
             )
 
     @property
