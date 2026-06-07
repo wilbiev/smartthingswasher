@@ -910,8 +910,8 @@
           "vapor_convection": "Convecção por vapor",
           "vapor_grill": "Grelhador por vapor",
           "vapor_mwo": "Micro-ondas por vapor",
-          "vapor_top_heat_pluse_convection": "Calor sup. por vapor + Convecção"
-          "warm_hold": "Manter quente (Warm Hold)",
+          "vapor_top_heat_pluse_convection": "Calor sup. por vapor + Convecção",
+          "warm_hold": "Manter quente",
           "warming": "Aquecimento"
         }
       },
@@ -2583,7 +2583,7 @@
       "title": "Sensor binário de válvula descontinuado"
     },
     "deprecated_binary_valve_scripts": {
-      "description": "O sensor binário de válvula {entity_name} (`{entity_id}`) foi descontinuado e será removido no futuro. A entidade é utilizada nas seguintes automações ou scripts:\n{items}\n\ Uma entidade de válvula com controlos está disponível. Utilize a nova entidade de válvula nas automações ou scripts acima e desative a entidade para corrigir este problema.",
+      "description": "O sensor binário de válvula {entity_name} (`{entity_id}`) foi descontinuado e será removido no futuro. A entidade é utilizada nas seguintes automações ou scripts:\n{items}\n\nUma entidade de válvula com controlos está disponível. Utilize a nova entidade de válvula nas automações ou scripts acima e desative a entidade para corrigir este problema.",
       "title": "Sensor binário de válvula descontinuado"
     },
     "deprecated_dhw": {
