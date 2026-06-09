@@ -34,6 +34,7 @@ class SmartThingsButtonEntityDescription(ButtonEntityDescription):
     capability_ignore_list: list[set[Capability]] | None = None
     capability_include_list: list[set[Capability]] | None = None
     requires_remote_control_status: bool = False
+    supported_fn: Callable[[FullDevice, str], bool] | None = None
 
 
 CAPABILITY_TO_BUTTONS: dict[
@@ -243,6 +244,15 @@ CAPABILITY_TO_BUTTONS: dict[
                 component_translation_key={
                     "hood": "cook_start_hood",
                 },
+                supported_fn=lambda device, component: (
+                    (
+                        status_obj := device.status.get(component, {})
+                        .get(Capability.SAMSUNG_CE_COUNT_DOWN_TIMER, {})
+                        .get(Attribute.STATUS)
+                    )
+                    is not None
+                    and status_obj.value is not None
+                ),
             ),
         ],
         Command.CANCEL: [
@@ -259,6 +269,15 @@ CAPABILITY_TO_BUTTONS: dict[
                 component_translation_key={
                     "hood": "cook_cancel_hood",
                 },
+                supported_fn=lambda device, component: (
+                    (
+                        status_obj := device.status.get(component, {})
+                        .get(Capability.SAMSUNG_CE_COUNT_DOWN_TIMER, {})
+                        .get(Attribute.STATUS)
+                    )
+                    is not None
+                    and status_obj.value is not None
+                ),
             ),
         ],
         Command.RESUME: [
@@ -276,6 +295,15 @@ CAPABILITY_TO_BUTTONS: dict[
                 component_translation_key={
                     "hood": "cook_pause_resume_hood",
                 },
+                supported_fn=lambda device, component: (
+                    (
+                        status_obj := device.status.get(component, {})
+                        .get(Capability.SAMSUNG_CE_COUNT_DOWN_TIMER, {})
+                        .get(Attribute.STATUS)
+                    )
+                    is not None
+                    and status_obj.value is not None
+                ),
             ),
         ],
     },
@@ -345,6 +373,10 @@ async def async_setup_entry(
                 for include_cap_list in description.capability_include_list
             )
         )
+        and (
+            description.supported_fn is None
+            or description.supported_fn(device, component)
+        )
     )
 
 
@@ -365,12 +397,6 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
         """Init the class."""
         capabilities = {capability}
         capabilities.add(Capability.REMOTE_CONTROL_STATUS)
-        if (
-            component == HOOD
-            and Capability.SAMSUNG_CE_CONNECTION_STATE
-            in device.status.get(component, {})
-        ):
-            capabilities.add(Capability.SAMSUNG_CE_CONNECTION_STATE)
         if entity_description.extra_capabilities:
             capabilities.update(entity_description.extra_capabilities)
         super().__init__(client, device, capabilities, component=component)
@@ -388,21 +414,6 @@ class SmartThingsButton(SmartThingsEntity, ButtonEntity):
                     component, self.entity_description.translation_key
                 )
             )
-
-    @property
-    def available(self) -> bool:
-        """Return True if entity is available."""
-        if not super().available:
-            return False
-
-        if Capability.SAMSUNG_CE_CONNECTION_STATE in self.capabilities:
-            connection_state = self.get_attribute_value(
-                Capability.SAMSUNG_CE_CONNECTION_STATE, Attribute.CONNECTION_STATE
-            )
-            if connection_state == "disconnected":
-                return False
-
-        return True
 
     async def async_press(self) -> None:
         """Collect the values from the model and start the oven."""

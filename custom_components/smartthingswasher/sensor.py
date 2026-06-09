@@ -79,6 +79,7 @@ class SmartThingsSensorEntityDescription(SensorEntityDescription):
     use_temperature_unit: bool = False
     component_translation_key: dict[str, str] | None = None
     options_map: dict[str, str] | None = None
+    supported_fn: Callable[[FullDevice, str], bool] | None = None
 
 
 CAPABILITY_TO_SENSORS: dict[
@@ -570,6 +571,15 @@ CAPABILITY_TO_SENSORS: dict[
                 component_translation_key={
                     "hood": "countdown_time_hood",
                 },
+                supported_fn=lambda device, component: (
+                    (
+                        status_obj := device.status.get(component, {})
+                        .get(Capability.SAMSUNG_CE_COUNT_DOWN_TIMER, {})
+                        .get(Attribute.STATUS)
+                    )
+                    is not None
+                    and status_obj.value is not None
+                ),
             )
         ],
         Attribute.STATUS: [
@@ -586,6 +596,7 @@ CAPABILITY_TO_SENSORS: dict[
                 component_translation_key={
                     "hood": "countdown_status_hood",
                 },
+                exists_fn=lambda status: status.value is not None,
             )
         ],
     },
@@ -1466,6 +1477,10 @@ async def async_setup_entry(
                     all(ignore_cap in capabilities for ignore_cap in ignore_cap_list)
                     for ignore_cap_list in description.capability_ignore_list
                 )
+            )
+            and (
+                description.supported_fn is None
+                or description.supported_fn(device, component)
             )
         )
 

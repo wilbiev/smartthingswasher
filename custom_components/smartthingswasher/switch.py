@@ -230,14 +230,38 @@ CAPABILITY_TO_SWITCHES: dict[
             )
         ]
     },
+    Capability.CUSTOM_SPI_MODE: {
+        Attribute.SPI_MODE: [
+            SmartThingsSwitchEntityDescription(
+                key=Capability.CUSTOM_SPI_MODE,
+                translation_key="purify",
+                command=Command.SET_SPI_MODE,
+                entity_category=EntityCategory.CONFIG,
+            )
+        ]
+    },
+    Capability.SAMSUNG_CE_STICK_CLEANER_DUSTBIN_STATUS: {
+        Attribute.OPERATING_STATE: [
+            SmartThingsSwitchEntityDescription(
+                key=Capability.SAMSUNG_CE_STICK_CLEANER_DUSTBIN_STATUS,
+                translation_key="empty_dustbin",
+                on_key="emptying",
+                on_command=Command.START_EMPTYING,
+                off_command=Command.STOP_EMPTYING,
+            )
+        ]
+    },
     Capability.SWITCH: {
         Attribute.SWITCH: [
             SmartThingsSwitchEntityDescription(
                 key=Capability.SWITCH,
                 translation_key="switch",
-                component_fn=lambda component: component in ["hood"],
+                component_fn=lambda component: component
+                in ["hood", "icemaker", "icemaker-02"],
                 component_translation_key={
                     "hood": "switch_hood",
+                    "icemaker": "ice_maker",
+                    "icemaker-02": "ice_maker_2",
                 },
             )
         ]

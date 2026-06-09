@@ -51,6 +51,7 @@ class SmartThingsNumberEntityDescription(NumberEntityDescription):
     value_fn: Callable[[Any], float | int | None] | None = None
     action_fn: Callable[[float], Any] | None = None
     supported_option: SupportedOption | None = None
+    supported_fn: Callable[[FullDevice, str], bool] | None = None
 
 
 CAPABILITY_TO_NUMBERS: dict[
@@ -178,6 +179,15 @@ CAPABILITY_TO_NUMBERS: dict[
                 component_translation_key={
                     "hood": "countdown_timer_hood",
                 },
+                supported_fn=lambda device, component: (
+                    (
+                        status_obj := device.status.get(component, {})
+                        .get(Capability.SAMSUNG_CE_COUNT_DOWN_TIMER, {})
+                        .get(Attribute.STATUS)
+                    )
+                    is not None
+                    and status_obj.value is not None
+                ),
             )
         ]
     },
@@ -259,10 +269,28 @@ async def async_setup_entry(
         )
         for device in entry_data.devices.values()
         for capability, attributes in CAPABILITY_TO_NUMBERS.items()
-        for component in device.status
-        if capability in device.status[component]
+        for component, capabilities in device.status.items()
+        if capability in capabilities
         for attribute, descriptions in attributes.items()
         for description in descriptions
+        if (
+            component == MAIN
+            or (
+                description.component_fn is not None
+                and description.component_fn(component)
+            )
+        )
+        and not (
+            description.capability_ignore_list
+            and any(
+                all(ignore_cap in capabilities for ignore_cap in ignore_cap_list)
+                for ignore_cap_list in description.capability_ignore_list
+            )
+        )
+        and (
+            description.supported_fn is None
+            or description.supported_fn(device, component)
+        )
     )
     async_add_entities(
         SmartThingsOvenOptionNumber(
@@ -294,6 +322,10 @@ async def async_setup_entry(
                 for ignore_cap_list in description.capability_ignore_list
             )
         )
+        and (
+            description.supported_fn is None
+            or description.supported_fn(device, component)
+        )
     )
 
 
@@ -313,12 +345,6 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
     ) -> None:
         """Init the class."""
         capabilities = {capability}
-        if (
-            component == HOOD
-            and Capability.SAMSUNG_CE_CONNECTION_STATE
-            in device.status.get(component, {})
-        ):
-            capabilities.add(Capability.SAMSUNG_CE_CONNECTION_STATE)
         super().__init__(client, device, capabilities, component=component)
         self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
         self._attribute = attribute
@@ -445,21 +471,6 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
             return self.entity_description.value_fn(raw_val)
 
         return raw_val
-
-    @property
-    def available(self) -> bool:
-        """Return True if entity is available."""
-        if not super().available:
-            return False
-
-        if Capability.SAMSUNG_CE_CONNECTION_STATE in self.capabilities:
-            connection_state = self.get_attribute_value(
-                Capability.SAMSUNG_CE_CONNECTION_STATE, Attribute.CONNECTION_STATE
-            )
-            if connection_state == "disconnected":
-                return False
-
-        return True
 
     async def async_set_native_value(self, value: float) -> None:
         """Set new value."""

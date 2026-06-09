@@ -2069,6 +2069,9 @@
       "dry_plus": {
         "name": "Dry plus"
       },
+      "empty_dustbin": {
+        "name": "Empty dustbin"
+      },
       "heated_dry": {
         "name": "Heated dry"
       },
@@ -2077,6 +2080,12 @@
       },
       "hot_air_dry": {
         "name": "Hot air dry"
+      },
+      "ice_maker": {
+        "name": "Cubed ice"
+      },
+      "ice_maker_2": {
+        "name": "Ice Bites"
       },
       "keep_fresh_mode": {
         "name": "Keep fresh mode"
@@ -2092,6 +2101,9 @@
       },
       "power_freeze": {
         "name": "Power freeze"
+      },
+      "purify": {
+        "name": "Purify"
       },
       "rinse_plus": {
         "name": "Rinse plus"
