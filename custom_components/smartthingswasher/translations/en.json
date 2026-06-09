@@ -2006,6 +2006,9 @@
       "eco_10": {
         "name": "Eco 10"
       },
+      "empty_dustbin": {
+        "name": "Empty dustbin"
+      },
       "express": {
         "name": "Express"
       },
@@ -2029,6 +2032,12 @@
       },
       "hot_air_dry": {
         "name": "Hot air dry"
+      },
+      "ice_maker": {
+        "name": "Cubed ice"
+      },
+      "ice_maker_2": {
+        "name": "Ice Bites"
       },
       "intensive": {
         "name": "Intensive"
@@ -2068,6 +2077,9 @@
       },
       "pre_wash": {
         "name": "Pre Wash"
+      },
+      "purify": {
+        "name": "Purify"
       },
       "quick": {
         "name": "Quick"
