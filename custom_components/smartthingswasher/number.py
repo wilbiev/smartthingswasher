@@ -345,6 +345,12 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
     ) -> None:
         """Init the class."""
         capabilities = {capability}
+        if (
+            component == HOOD
+            and Capability.SAMSUNG_CE_CONNECTION_STATE
+            in device.status.get(component, {})
+        ):
+            capabilities.add(Capability.SAMSUNG_CE_CONNECTION_STATE)
         super().__init__(client, device, capabilities, component=component)
         self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
         self._attribute = attribute
@@ -471,6 +477,21 @@ class SmartThingsNumber(SmartThingsEntity, NumberEntity):
             return self.entity_description.value_fn(raw_val)
 
         return raw_val
+
+    @property
+    def available(self) -> bool:
+        """Return True if entity is available."""
+        if not super().available:
+            return False
+
+        if Capability.SAMSUNG_CE_CONNECTION_STATE in self.capabilities:
+            connection_state = self.get_attribute_value(
+                Capability.SAMSUNG_CE_CONNECTION_STATE, Attribute.CONNECTION_STATE
+            )
+            if connection_state == "disconnected":
+                return False
+
+        return True
 
     async def async_set_native_value(self, value: float) -> None:
         """Set new value."""
