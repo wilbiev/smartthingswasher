@@ -26,6 +26,7 @@ from .const import (
     COURSE_TO_HA,
     DISPENSE_DENSITY_TO_HA,
     DRIVING_MODE_TO_HA,
+    HOOD,
     LAMP_TO_HA,
     MAIN,
     OVEN_MODE_TO_HA,
@@ -270,7 +271,6 @@ CAPABILITY_TO_SELECTS: dict[
                 options_map=LAMP_TO_HA,
                 entity_category=EntityCategory.CONFIG,
                 component_fn=lambda component: component == "hood",
-                capability_ignore_list=[{Capability.SAMSUNG_CE_CONNECTION_STATE}],
             )
         ]
     },
@@ -640,7 +640,14 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
         component: str = MAIN,
     ) -> None:
         """Init the class."""
-        super().__init__(client, device, {capability}, component=component)
+        capabilities = {capability}
+        if (
+            component == HOOD
+            and Capability.SAMSUNG_CE_CONNECTION_STATE
+            in device.status.get(component, {})
+        ):
+            capabilities.add(Capability.SAMSUNG_CE_CONNECTION_STATE)
+        super().__init__(client, device, capabilities, component=component)
         self._attr_unique_id = f"{device.device.device_id}_{component}_{capability}_{attribute}_{entity_description.key}"
         self._attribute = attribute
         self.capability = capability
@@ -720,6 +727,21 @@ class SmartThingsSelect(SmartThingsEntity, SelectEntity):
                 self.command,
                 new_option,
             )
+
+    @property
+    def available(self) -> bool:
+        """Return True if entity is available."""
+        if not super().available:
+            return False
+
+        if Capability.SAMSUNG_CE_CONNECTION_STATE in self.capabilities:
+            connection_state = self.get_attribute_value(
+                Capability.SAMSUNG_CE_CONNECTION_STATE, Attribute.CONNECTION_STATE
+            )
+            if connection_state == "disconnected":
+                return False
+
+        return True
 
     def update_default_values(self, program_id: str | None) -> None:
         """Enforce setting default values when cycle courses changes."""
