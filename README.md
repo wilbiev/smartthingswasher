@@ -387,3 +387,40 @@ Please share the information when your dryer/steam closet/washer courses are not
 | Four part pure convection | Rinse                            |                                |
 
 Please share the information when your oven modes are not supported!
+
+## SmartThings induction hob support
+
+### Button entities
+
+- Cancel (available burners & hood)
+- Pause / Resume (available burners & hood)
+- Start (available burners & hood)
+
+### Binary sensor entities
+
+- Hood connection state
+
+### Number entities
+
+- Countdown start value (available burners & hood)
+- Fan speed (available hood)
+
+### Select entities
+
+- Lamp (available hood)
+
+### Sensor entities
+
+- Countdown status (available burners & hood)
+- Countdown current value (available burners & hood)
+- Countdown timer status (available burners & hood)
+- Heating mode (available burners)
+- Heating power level (available burners)
+- Operating state
+- Surface residual heat (available burners)
+
+### Switch entities
+
+- Child lock control
+- Hood (available hood)
+- Induction hob
