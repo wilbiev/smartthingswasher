@@ -602,6 +602,7 @@
         "name": "Cycle",
         "state": {
           "course_16": "Cotton",
+          "course_17": "Super Speed",
           "course_18": "Synthetics",
           "course_19": "Delicates",
           "course_1a": "Wool",
@@ -609,10 +610,13 @@
           "course_1c": "Shirts",
           "course_1d": "Towels",
           "course_1e": "Outdoor",
+          "course_1f": "Mixed Load",
           "course_20": "Iron Dry",
+          "course_21": "Hygiene Care",
           "course_23": "Quick Dry 35m",
           "course_24": "Cool Air",
           "course_25": "Warm Air",
+          "course_26": "Air Wash",
           "course_27": "Time Dry",
           "course_29": "AI Dry",
           "course_2b": "Self Tub Dry"
@@ -2504,6 +2508,9 @@
       "table_03_course_16": {
         "name": "Cotton"
       },
+      "table_03_course_17": {
+        "name": "Super Speed"
+      },
       "table_03_course_18": {
         "name": "Synthetics"
       },
@@ -2525,8 +2532,14 @@
       "table_03_course_1e": {
         "name": "Outdoor"
       },
+      "table_03_course_1f": {
+        "name": "Mixed Load"
+      },
       "table_03_course_20": {
         "name": "Iron Dry"
+      },
+      "table_03_course_21": {
+        "name": "Hygiene Care"
       },
       "table_03_course_23": {
         "name": "Quick Dry 35m"
@@ -2536,6 +2549,9 @@
       },
       "table_03_course_25": {
         "name": "Warm Air"
+      },
+      "table_03_course_26": {
+        "name": "Air Wash"
       },
       "table_03_course_27": {
         "name": "Time Dry"
