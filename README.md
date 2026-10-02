@@ -1,3 +1,9 @@
+# Important message
+
+FURTHER DEVELOPMENT ON THIS REPO WILL BE STOPPED DUE TO THE [ANNOUNCEMENT OF SAMSUNG](https://blog.smartthings.com/smartthings-updates/a-new-enhanced-smartthings-api-experience/) TO CHANGE THE SMARTTHINGS API INTO A PAID SERVICE.
+This conflicts with our open source community principles.
+Further developments will move to [LocalThings](https://github.com/mbillow/localthings/tree/main).
+
 # Bring your HA SmartThings integration to the next level!
 
 This custom integration provides some amazing features for Dishwashers, Dryers, Ovens, Steam Closets and Washers
