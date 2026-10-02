@@ -338,6 +338,7 @@ JOB_STATE_MAP = {
     "thawingFrozenInside": "thawing_frozen_inside",
     "delayWash": "delay_wash",
     "delayWashing": "delay_washing",
+    "drumCleaning": "drum_cleaning",
     "weightSensing": "weight_sensing",
     "freezeProtection": "freeze_protection",
     "preDrain": "pre_drain",

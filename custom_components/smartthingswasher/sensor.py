@@ -452,6 +452,7 @@ CAPABILITY_TO_SENSORS: dict[
                     "weight_sensing",
                     "wrinkle_prevent",
                     "freeze_protection",
+                    "drum_cleaning",
                 ],
                 device_class=SensorDeviceClass.ENUM,
                 value_fn=lambda value: JOB_STATE_MAP.get(value, value),
